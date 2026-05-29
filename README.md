@@ -1,102 +1,73 @@
-# Figma 学习 003 - 参考 GODY
+# React + TypeScript + Vite
 
-<div align="center">
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-### 🔗 **GitHub 仓库**  
-**[https://github.com/xiaoqianran/figma-003](https://github.com/xiaoqianran/figma-003)**
+Currently, two official plugins are available:
 
-</div>
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
----
+## React Compiler
 
-> 一个采用「工业档案美学」语言构建的专业级移动应用原型集成平台。
-> 将原本分散的 44 个 GODY 移动端 Figma 复刻页面，整合进具有真实硬件感的设备模拟控制台，用于严肃的设计评审与完整用户旅程验证。
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-**在线预览**： [https://xiaoqianran.github.io/figma-003/](https://xiaoqianran.github.io/figma-003/)（推荐） / [原型控制台](https://xiaoqianran.github.io/figma-003/gody-app/console.html)
+## Expanding the ESLint configuration
 
-将原本分散在 20+ 个文件夹中的 44 个 GODY 移动端页面，整合进一个具有真实硬件感的设备模拟控制台，用于严肃的设计评审与交互体验验证。
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
----
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-## 在线访问
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-- **项目主页**（推荐）：[https://xiaoqianran.github.io/figma-003](https://xiaoqianran.github.io/figma-003)
-- **原型控制台**（核心体验）：[https://xiaoqianran.github.io/figma-003/gody-app/console.html](https://xiaoqianran.github.io/figma-003/gody-app/console.html)
-
----
-
-## 项目特色
-
-- **工业档案美学**：基于 80 年代中国交通调度控制台与现代极简设计的混合语言，极致克制且具有力量感。
-- **真实硬件模拟**：设备边框带有物理倒角、高光、电源指示灯与机械式切换反馈。
-- **完整流程覆盖**：登录、主页、搜索、预订、支付、我的行程、账户等全链路页面均可直接交互。
-- **专业评审工具**：左侧档案式导航 + 右侧元数据卡片，适合团队设计走查使用。
-
----
-
-## 本地运行
-
-```bash
-# 推荐使用任意静态服务器
-python -m http.server 5173
-# 或
-npx serve
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
-然后访问 `http://localhost:5173` 即可。
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-> 注意：由于页面使用相对路径，建议使用本地服务器而非直接双击打开 HTML 文件。
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
----
-
-## 项目结构
-
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-.
-├── .github/workflows/deploy.yml   # GitHub Pages 自动部署
-├── gody-app/
-│   ├── console.html               # 核心原型控制台（推荐入口）
-│   └── README.md                  # 旧版预览器说明
-├── account-pages/                 # 账户相关页面
-├── home-page/                     # 主页
-├── login-page/                    # 登录注册
-├── trips-pages/                   # 我的行程
-├── payment-pages/                 # 支付流程
-├── ...                            # 其他 30+ 个页面目录
-├── index.html                     # 项目落地页（当前美学版本）
-└── README.md                      # 本文件
-```
-
----
-
-## 技术说明
-
-- 纯静态实现，无需构建工具
-- 采用自研「黄控台」设计系统（深黑 + 签名黄 + 冷钢灰）
-- 设备模拟器支持 iframe 加载任意原有原型
-- 已配置 GitHub Actions 自动部署至 GitHub Pages
-
----
-
-## 学习目的
-
-本项目为 Figma 设计复刻系列学习第 003 期。
-
-通过完整复刻一个真实移动应用的全部核心页面，练习：
-- 信息架构与交互流程梳理
-- 设计语言的系统性落地
-- 高品质前端界面实现（避开通用 AI 审美）
-- 专业原型管理与呈现方式
-
----
-
-## 致谢
-
-- 原始设计参考：GODY 移动应用
-- 所有页面均为手动复刻学习用途
-
----
-
-如有任何问题或建议，欢迎通过 GitHub Issues 交流。
-
-**仓库地址**：https://github.com/xiaoqianran/figma-003

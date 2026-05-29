@@ -1,178 +1,310 @@
 [
   {
-    "path": "account-pages/edit-account-1.html",
-    "display": "Edit Account 1"
-  },
-  {
-    "path": "account-pages/edit-account-2.html",
-    "display": "Edit Account 2"
-  },
-  {
-    "path": "account-pages/index.html",
-    "display": "account / index"
-  },
-  {
-    "path": "account-pages/profile.html",
-    "display": "Profile"
-  },
-  {
-    "path": "account-pages/test-pages.html",
-    "display": "account / test pages"
-  },
-  {
-    "path": "choose-car-page/index.html",
-    "display": "Choose Car"
-  },
-  {
-    "path": "choose-trip1-page/index.html",
-    "display": "Choose Trip 1"
-  },
-  {
-    "path": "choose-trip2-page/index.html",
-    "display": "Choose Trip 2"
-  },
-  {
-    "path": "confirm-godyx-page/index.html",
-    "display": "Confirm GODYX"
-  },
-  {
-    "path": "confirm-pickup1-page/index.html",
-    "display": "Confirm Pickup 1"
-  },
-  {
-    "path": "confirm-pickup2-page/index.html",
-    "display": "Confirm Pickup 2"
-  },
-  {
-    "path": "confirm-pickup3-page/index.html",
-    "display": "Confirm Pickup 3"
-  },
-  {
-    "path": "confirm-pickup4-page/index.html",
-    "display": "Confirm Pickup 4"
-  },
-  {
-    "path": "confirm-pickup5-page/index.html",
-    "display": "Confirm Pickup 5"
-  },
-  {
-    "path": "confirm-pickup6-page/index.html",
-    "display": "Confirm Pickup 6"
-  },
-  {
-    "path": "confirm-pickup7-page/index.html",
-    "display": "Confirm Pickup 7"
-  },
-  {
-    "path": "evaluate1-page/index.html",
-    "display": "Evaluate 1 (Rate)"
-  },
-  {
-    "path": "evaluate2-page/index.html",
-    "display": "Evaluate 2"
-  },
-  {
-    "path": "home-page/index.html",
-    "display": "Home (Map)"
-  },
-  {
+    "id": "auth-login",
     "path": "login-page/index.html",
-    "display": "Login"
+    "displayName": "登录",
+    "category": "Auth",
+    "description": "GODY 应用登录入口，支持手机号与社交账号快速登录。"
   },
   {
-    "path": "map-pages/help-map.html",
-    "display": "Help Map"
-  },
-  {
-    "path": "map-pages/index.html",
-    "display": "map / index"
-  },
-  {
-    "path": "map-pages/map-home.html",
-    "display": "Map Home"
-  },
-  {
-    "path": "map-pages/rental-cost.html",
-    "display": "Rental Cost"
-  },
-  {
-    "path": "map-pages/route-map.html",
-    "display": "Route Map"
-  },
-  {
-    "path": "notification-page/index.html",
-    "display": "Notifications"
-  },
-  {
-    "path": "payment-pages/confirm-payment.html",
-    "display": "Confirm Payment"
-  },
-  {
-    "path": "payment-pages/select-payment.html",
-    "display": "Select Payment"
-  },
-  {
-    "path": "requesting-page/index.html",
-    "display": "Requesting Driver"
-  },
-  {
-    "path": "schedule-page/index.html",
-    "display": "Schedule"
-  },
-  {
-    "path": "search1-page/index.html",
-    "display": "Search 1"
-  },
-  {
-    "path": "search2-page/index.html",
-    "display": "Search 2"
-  },
-  {
+    "id": "auth-signup",
     "path": "signup-page/index.html",
-    "display": "Sign Up"
+    "displayName": "注册",
+    "category": "Auth",
+    "description": "新用户注册页面，通过手机号完成账号创建流程。"
   },
   {
-    "path": "trip-pages/index.html",
-    "display": "Trip Pages Hub"
+    "id": "core-home",
+    "path": "home-page/index.html",
+    "displayName": "首页（地图）",
+    "category": "Core",
+    "description": "应用主屏幕，实时地图展示附近可用车辆与快捷操作。"
   },
   {
-    "path": "trip-pages/pickup-countdown.html",
-    "display": "Pickup Countdown"
+    "id": "core-notification",
+    "path": "notification-page/index.html",
+    "displayName": "通知中心",
+    "category": "Core",
+    "description": "系统推送通知、订单状态更新与消息列表页面。"
   },
   {
-    "path": "trip-pages/scheduling-trip.html",
-    "display": "Scheduling Trip"
+    "id": "core-search1",
+    "path": "search1-page/index.html",
+    "displayName": "搜索 1",
+    "category": "Core",
+    "description": "位置与目的地搜索界面，展示推荐结果列表。"
   },
   {
-    "path": "trip-pages/upcoming-trip.html",
-    "display": "Upcoming Trip"
+    "id": "core-search2",
+    "path": "search2-page/index.html",
+    "displayName": "搜索 2",
+    "category": "Core",
+    "description": "进阶搜索与筛选条件页面变体。"
   },
   {
+    "id": "booking-choose-car",
+    "path": "choose-car-page/index.html",
+    "displayName": "选择车辆",
+    "category": "Booking",
+    "description": "浏览附近可选车辆，查看车型详情并挑选。"
+  },
+  {
+    "id": "booking-choose-trip1",
+    "path": "choose-trip1-page/index.html",
+    "displayName": "选择行程 1",
+    "category": "Booking",
+    "description": "推荐行程选项卡片，包含时间与价格信息。"
+  },
+  {
+    "id": "booking-choose-trip2",
+    "path": "choose-trip2-page/index.html",
+    "displayName": "选择行程 2",
+    "category": "Booking",
+    "description": "行程列表展示与对比页面变体。"
+  },
+  {
+    "id": "booking-confirm-godyx",
+    "path": "confirm-godyx-page/index.html",
+    "displayName": "确认 GODYX",
+    "category": "Booking",
+    "description": "确认启用 GODYX 高级服务的专属流程。"
+  },
+  {
+    "id": "booking-confirm-pickup1",
+    "path": "confirm-pickup1-page/index.html",
+    "displayName": "确认上车点 1",
+    "category": "Booking",
+    "description": "确认乘车上车地点与司机信息匹配界面。"
+  },
+  {
+    "id": "booking-confirm-pickup2",
+    "path": "confirm-pickup2-page/index.html",
+    "displayName": "确认上车点 2",
+    "category": "Booking",
+    "description": "确认上车流程的交互变体，用于不同场景测试。"
+  },
+  {
+    "id": "booking-confirm-pickup3",
+    "path": "confirm-pickup3-page/index.html",
+    "displayName": "确认上车点 3",
+    "category": "Booking",
+    "description": "确认上车流程的交互变体，用于不同场景测试。"
+  },
+  {
+    "id": "booking-confirm-pickup4",
+    "path": "confirm-pickup4-page/index.html",
+    "displayName": "确认上车点 4",
+    "category": "Booking",
+    "description": "确认上车流程的交互变体，用于不同场景测试。"
+  },
+  {
+    "id": "booking-confirm-pickup5",
+    "path": "confirm-pickup5-page/index.html",
+    "displayName": "确认上车点 5",
+    "category": "Booking",
+    "description": "确认上车流程的交互变体，用于不同场景测试。"
+  },
+  {
+    "id": "booking-confirm-pickup6",
+    "path": "confirm-pickup6-page/index.html",
+    "displayName": "确认上车点 6",
+    "category": "Booking",
+    "description": "确认上车流程的交互变体，用于不同场景测试。"
+  },
+  {
+    "id": "booking-confirm-pickup7",
+    "path": "confirm-pickup7-page/index.html",
+    "displayName": "确认上车点 7",
+    "category": "Booking",
+    "description": "确认上车流程的交互变体，用于不同场景测试。"
+  },
+  {
+    "id": "booking-requesting",
+    "path": "requesting-page/index.html",
+    "displayName": "请求司机中",
+    "category": "Booking",
+    "description": "叫车成功后等待司机接单的实时加载状态。"
+  },
+  {
+    "id": "booking-schedule",
+    "path": "schedule-page/index.html",
+    "displayName": "预约行程",
+    "category": "Booking",
+    "description": "使用日历提前预约未来行程的时间与地点。"
+  },
+  {
+    "id": "payment-select",
+    "path": "payment-pages/select-payment.html",
+    "displayName": "选择支付方式",
+    "category": "Payment",
+    "description": "支持微信、支付宝、银行卡等多种支付渠道选择。"
+  },
+  {
+    "id": "payment-confirm",
+    "path": "payment-pages/confirm-payment.html",
+    "displayName": "确认支付",
+    "category": "Payment",
+    "description": "订单金额确认与支付完成流程界面。"
+  },
+  {
+    "id": "trips-hub",
     "path": "trips-pages/index.html",
-    "display": "Trips Hub"
+    "displayName": "我的行程总览",
+    "category": "Trips",
+    "description": "用户全部行程管理的主入口页面。"
   },
   {
+    "id": "trips-test",
     "path": "trips-pages/test-trips.html",
-    "display": "trips / test trips"
+    "displayName": "行程测试页",
+    "category": "Trips",
+    "description": "开发测试用的行程功能集合与链接页。"
   },
   {
+    "id": "trips-detail-cancelled",
     "path": "trips-pages/trips-detail-1.html",
-    "display": "Trip Detail (Cancelled)"
+    "displayName": "行程详情（已取消）",
+    "category": "Trips",
+    "description": "展示已取消订单的详情、原因与相关操作。"
   },
   {
+    "id": "trips-detail-completed",
     "path": "trips-pages/trips-detail-2.html",
-    "display": "Trip Detail (Completed)"
+    "displayName": "行程详情（已完成）",
+    "category": "Trips",
+    "description": "历史完成订单详情，包含费用与评价入口。"
   },
   {
+    "id": "trips-detail-help",
     "path": "trips-pages/trips-detail-3.html",
-    "display": "Trip Detail (Help)"
+    "displayName": "行程详情（帮助）",
+    "category": "Trips",
+    "description": "需要客服帮助的行程详情与问题上报页。"
   },
   {
+    "id": "trips-past",
     "path": "trips-pages/your-trips-past.html",
-    "display": "Your Trips • Past"
+    "displayName": "历史行程",
+    "category": "Trips",
+    "description": "用户过去所有已完成行程的列表记录。"
   },
   {
+    "id": "trips-upcoming",
     "path": "trips-pages/your-trips-upcoming.html",
-    "display": "Your Trips • Upcoming"
+    "displayName": "进行中行程",
+    "category": "Trips",
+    "description": "当前进行中与即将开始的行程卡片列表。"
+  },
+  {
+    "id": "trip-index",
+    "path": "trip-pages/index.html",
+    "displayName": "行程模块入口",
+    "category": "Trips",
+    "description": "行程相关子功能导航集合页面。"
+  },
+  {
+    "id": "trip-pickup-countdown",
+    "path": "trip-pages/pickup-countdown.html",
+    "displayName": "上车倒计时",
+    "category": "Trips",
+    "description": "司机即将到达的实时倒计时与状态跟踪。"
+  },
+  {
+    "id": "trip-scheduling",
+    "path": "trip-pages/scheduling-trip.html",
+    "displayName": "行程调度中",
+    "category": "Trips",
+    "description": "进行中的行程规划与安排详情页面。"
+  },
+  {
+    "id": "trip-upcoming",
+    "path": "trip-pages/upcoming-trip.html",
+    "displayName": "即将开始行程",
+    "category": "Trips",
+    "description": "已确认的下一趟行程的卡片与详情视图。"
+  },
+  {
+    "id": "account-profile",
+    "path": "account-pages/profile.html",
+    "displayName": "个人资料",
+    "category": "Account",
+    "description": "用户头像、昵称与基本账户信息展示页。"
+  },
+  {
+    "id": "account-edit1",
+    "path": "account-pages/edit-account-1.html",
+    "displayName": "编辑账户 1",
+    "category": "Account",
+    "description": "账户信息编辑表单的第一种界面变体。"
+  },
+  {
+    "id": "account-edit2",
+    "path": "account-pages/edit-account-2.html",
+    "displayName": "编辑账户 2",
+    "category": "Account",
+    "description": "账户信息编辑表单的第二种界面变体。"
+  },
+  {
+    "id": "account-index",
+    "path": "account-pages/index.html",
+    "displayName": "账户模块入口",
+    "category": "Account",
+    "description": "账户设置与个人中心功能导航集合页。"
+  },
+  {
+    "id": "account-test",
+    "path": "account-pages/test-pages.html",
+    "displayName": "账户测试页",
+    "category": "Account",
+    "description": "账户页面功能测试与链接集合。"
+  },
+  {
+    "id": "map-index",
+    "path": "map-pages/index.html",
+    "displayName": "地图模块入口",
+    "category": "Map",
+    "description": "地图相关功能导航集合页面。"
+  },
+  {
+    "id": "map-home",
+    "path": "map-pages/map-home.html",
+    "displayName": "地图主页",
+    "category": "Map",
+    "description": "核心地图浏览界面，支持定位与保存地点。"
+  },
+  {
+    "id": "map-route",
+    "path": "map-pages/route-map.html",
+    "displayName": "路线地图",
+    "category": "Map",
+    "description": "显示规划行驶路线的地图可视化页面。"
+  },
+  {
+    "id": "map-help",
+    "path": "map-pages/help-map.html",
+    "displayName": "帮助地图",
+    "category": "Map",
+    "description": "地图使用帮助与功能指引叠加界面。"
+  },
+  {
+    "id": "map-rental-cost",
+    "path": "map-pages/rental-cost.html",
+    "displayName": "租车费用",
+    "category": "Map",
+    "description": "根据距离、车型实时计算租车价格的工具页。"
+  },
+  {
+    "id": "other-evaluate1",
+    "path": "evaluate1-page/index.html",
+    "displayName": "评价 1（打分）",
+    "category": "Other",
+    "description": "订单完成后评分与文字反馈的第一版界面。"
+  },
+  {
+    "id": "other-evaluate2",
+    "path": "evaluate2-page/index.html",
+    "displayName": "评价 2",
+    "category": "Other",
+    "description": "评价与反馈流程的进阶交互变体。"
   }
 ]
