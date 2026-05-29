@@ -1,23 +1,36 @@
-# React + TypeScript + Vite
+# Figma 学习 003 - 参考 GODY
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**React + Vite + TypeScript 重构版**
 
-Currently, two official plugins are available:
+本项目已完成从纯静态 HTML 原型集合向现代前端技术栈的全面迁移。
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 技术栈
 
-## React Compiler
+- Vite + React 19 + TypeScript
+- Tailwind CSS
+- 保留「黄控台」工业档案美学设计系统
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 核心特性（正在重建中）
 
-## Expanding the ESLint configuration
+- 专业设备模拟器（缩放、旋转、弹出）
+- 44 个原型的动态注册表 + 搜索筛选
+- 用户旅程自动播放器
+- 由 React 完全主导的架构
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 开发
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
+```bash
+npm install
+npm run dev
+```
+
+## 在线预览
+
+https://xiaoqianran.github.io/figma-003/
+
+## 原项目
+
+旧版纯 HTML 版本的代码已迁移至 `public/prototypes/` 目录，当前作为 React 应用内的预览资源使用。
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
