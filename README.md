@@ -1,8 +1,18 @@
-# GODY · 原型控制台
+# Figma 学习 003 - 参考 GODY
 
-**Figma 学习 003 - 参考 GODY**
+<div align="center">
 
-一个采用「工业档案美学」语言构建的专业级移动应用原型集成平台。
+### 🔗 **GitHub 仓库**  
+**[https://github.com/xiaoqianran/figma-003](https://github.com/xiaoqianran/figma-003)**
+
+</div>
+
+---
+
+> 一个采用「工业档案美学」语言构建的专业级移动应用原型集成平台。
+> 将原本分散的 44 个 GODY 移动端 Figma 复刻页面，整合进具有真实硬件感的设备模拟控制台，用于严肃的设计评审与完整用户旅程验证。
+
+**在线预览**： [https://xiaoqianran.github.io/figma-003/](https://xiaoqianran.github.io/figma-003/)（推荐） / [原型控制台](https://xiaoqianran.github.io/figma-003/gody-app/console.html)
 
 将原本分散在 20+ 个文件夹中的 44 个 GODY 移动端页面，整合进一个具有真实硬件感的设备模拟控制台，用于严肃的设计评审与交互体验验证。
 
