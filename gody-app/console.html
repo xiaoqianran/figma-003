@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GODY · 原型控制台</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Playfair+Display:wght@700&amp;display=swap');
+
+    :root {
+      --yellow: #fecc2a;
+      --ink: #0A0908;
+      --paper: #F5F3ED;
+      --steel: #B8B5B0;
+      --alert: #C53D3D;
+    }
+
+    body {
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+      background-color: #0A0908;
+      color: #EDEBE5;
+    }
+
+    .console-font {
+      font-family: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
+      font-feature-settings: "tnum";
+    }
+
+    .display-font {
+      font-family: "Playfair Display", Georgia, "Songti SC", serif;
+      font-feature-settings: "palt";
+    }
+
+    .lab-grid {
+      background-image: 
+        linear-gradient(rgba(184, 181, 176, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(184, 181, 176, 0.035) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    .archive-paper {
+      background-color: #F5F3ED;
+      color: #0A0908;
+      box-shadow: 
+        0 1px 0 #D9D4C8,
+        0 2px 4px rgba(0,0,0,0.08);
+    }
+
+    .hardware-frame {
+      width: 380px;
+      height: 818px;
+      background: #11110F;
+      border-radius: 68px;
+      padding: 14px;
+      box-shadow: 
+        0 0 0 1px #22221F,
+        0 40px 80px -20px rgba(0, 0, 0, 0.6),
+        0 20px 30px -10px rgba(0, 0, 0, 0.5),
+        inset 0 0 0 1px #2A2926;
+      position: relative;
+      transition: transform 0.4s cubic-bezier(0.23, 1.0, 0.32, 1),
+                  box-shadow 0.4s cubic-bezier(0.23, 1.0, 0.32, 1);
+    }
+
+    .hardware-frame::before {
+      content: '';
+      position: absolute;
+      inset: 14px;
+      border-radius: 54px;
+      box-shadow: inset 0 0 0 1px #1F1F1C;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hardware-frame.active {
+      box-shadow: 
+        0 0 0 1px #22221F,
+        0 40px 80px -20px rgba(0, 0, 0, 0.6),
+        0 20px 30px -10px rgba(0, 0, 0, 0.5),
+        0 0 0 3px rgba(254, 204, 42, 0.15);
+    }
+
+    .device-bevel {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #0C0C0A;
+      border-radius: 54px;
+      overflow: hidden;
+      box-shadow: 
+        inset 0 2px 4px rgba(255,255,255,0.06),
+        inset 0 -4px 8px rgba(0,0,0,0.5);
+    }
+
+    .status-light {
+      width: 9px;
+      height: 9px;
+      background: #3A3A36;
+      border-radius: 50%;
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .status-light.on {
+      background: #fecc2a;
+      box-shadow: 
+        0 0 6px #fecc2a,
+        0 0 12px rgba(254, 204, 42, 0.5);
+    }
+
+    .prototype-screen {
+      position: absolute;
+      inset: 0;
+      background: #F5F3ED;
+      border-radius: 46px;
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px #2A2926;
+    }
+
+    .prototype-screen iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+      color: #B8B5B0;
+    }
+
+    .nav-item {
+      font-size: 13px;
+      transition: all 0.1s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .nav-item:hover {
+      background-color: #1A1916;
+      color: #fecc2a;
+    }
+
+    .nav-item.active {
+      background-color: #1F1E1B;
+      color: #fecc2a;
+      border-left: 3px solid #fecc2a;
+      padding-left: 11px;
+    }
+
+    .archive-card {
+      background: #F5F3ED;
+      color: #0A0908;
+      border: 1px solid #D9D4C8;
+    }
+
+    .metal-text {
+      font-family: "IBM Plex Mono", monospace;
+      letter-spacing: 2px;
+    }
+
+    .scanline {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        transparent 50%,
+        rgba(0,0,0,0.015) 51%
+      );
+      background-size: 100% 4px;
+      pointer-events: none;
+      z-index: 10;
+      mix-blend-mode: multiply;
+      opacity: 0.4;
+    }
+
+    .power-on {
+      animation: powerOn 420ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    @keyframes powerOn {
+      from { opacity: 0; transform: scale(0.985); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .subtle-grain {
+      background-image: url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27100%27 height=%27100%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.8%27 numOctaves=%273%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%27 height=%27100%27 filter=%27url(%23n)%27 opacity=%270.06%27/%3E%3C/svg%27');
+      background-size: 140px;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen lab-grid">
+  <div class="max-w-[1280px] mx-auto px-8 pt-9 pb-12">
+    <!-- Header -->
+    <div class="flex items-end justify-between mb-8">
+      <div>
+        <div class="flex items-center gap-x-3">
+          <div class="w-7 h-7 bg-[#fecc2a] flex items-center justify-center">
+            <div class="w-3.5 h-3.5 bg-[#0A0908]"></div>
+          </div>
+          <div>
+            <span class="display-font text-5xl font-bold tracking-[-1.5px] text-[#EDEBE5]">GODY</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-x-2 mt-1">
+          <div class="section-label tracking-[2px]">PROTOTYPE CONSOLE</div>
+          <div class="h-px w-8 bg-[#B8B5B0]/30"></div>
+          <div class="text-[10px] text-[#B8B5B0] console-font">V 0.2 — SHANGHAI 2025</div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-x-8 text-sm">
+        <div class="flex items-center gap-x-2 text-[#B8B5B0]">
+          <i class="fa-solid fa-folder-open text-xs"></i>
+          <span class="console-font">44 FILES</span>
+        </div>
+        <div onclick="powerCycle()" 
+             class="flex items-center gap-x-2.5 px-5 py-2 bg-[#1A1916] hover:bg-[#22211D] border border-[#2A2926] rounded-full cursor-pointer transition-colors">
+          <div id="power-indicator" 
+               class="status-light w-2.5 h-2.5 rounded-full"></div>
+          <span class="console-font text-xs tracking-widest font-medium text-[#B8B5B0]">POWER</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex gap-8">
+      <!-- Left: Navigation -->
+      <div class="w-72 flex-shrink-0">
+        <div class="mb-3 px-1 flex items-center justify-between">
+          <div class="section-label">ARCHIVE</div>
+          <div class="text-[10px] text-[#B8B5B0] console-font">44 / 44</div>
+        </div>
+
+        <div class="bg-[#11110F] border border-[#22221F] rounded-2xl overflow-hidden">
+          <div class="p-2">
+            <!-- Auth -->
+            <div class="px-3 pt-3 pb-1">
+              <div class="section-label mb-2 px-1">AUTHENTICATION</div>
+              <div onclick="loadPrototype('login-page/index.html', this)" class="nav-item flex items-center gap-x-3 px-3 py-[7px] rounded-xl cursor-pointer text-[#EDEBE5]">
+                <i class="fa-solid fa-key w-4"></i>
+                <span>登录 / 注册</span>
+              </div>
+            </div>
+
+            <!-- Core -->
+            <div class="px-3 pt-2 pb-1">
+              <div class="section-label mb-2 px-1">CORE</div>
+              <div onclick="loadPrototype('home-page/index.html', this)" class="nav-item flex items-center gap-x-3 px-3 py-[7px] rounded-xl cursor-pointer text-[#EDEBE5]">
+                <i class="fa-solid fa-home w-4"></i>
+                <span>主页（地图）</span>
+              </div>
+              <div onclick="loadPrototype('search1-page/index.html', this)" class="nav-item flex items-center gap-x-3 px-3 py-[7px] rounded-xl cursor-pointer text-[#EDEBE5]">
+                <i class="fa-solid fa-search w-4"></i>
+                <span>搜索与发现</span>
+              </div>
+            </div>
+
+            <!-- Booking -->
+            <div class="px-3 pt-2 pb-1">
+              <div class="section-label mb-2 px-1">BOOKING FLOW</div>
+              <div onclick="loadPrototype('choose-trip1-page/index.html', this)" class="nav-item flex items-center gap-x-3 px-3 py-[7px] rounded-xl cursor-pointer text-[#EDEBE5]">
+                <span>选择行程</span>
+              </div>
+              <div onclick="loadPrototype('confirm-pickup1-page/index.html', this)" class="nav-item flex items-center gap-x-3 px-3 py-[7px] rounded-xl cursor-pointer text-[#EDEBE5]">
+                <span>确认上车</span>
+              </div>
+              <div onclick="loadPrototype('payment-pages/select-payment.html', this)" class="nav-item flex items-center gap-x-3 px-3 py-[7px] rounded-xl cursor-pointer text-[#EDEBE5]">
+                <span>支付</span>
+              </div>
+            </div>
+
+            <!-- Trips -->
+            <div class="px-3 pt-2 pb-1">
+              <div class="section-label mb-2 px-1">TRIPS</div>
+              <div onclick="loadPrototype('trips-pages/your-trips-upcoming.html', this)" class="nav-item flex items-center gap-x-3 px-3 py-[7px] rounded-xl cursor-pointer text-[#EDEBE5]">
+                <span>我的行程（进行中）</span>
+              </div>
+              <div onclick="loadPrototype('trips-pages/your-trips-past.html', this)" class="nav-item flex items-center gap-x-3 px-3 py-[7px] rounded-xl cursor-pointer text-[#EDEBE5]">
+                <span>历史行程</span>
+              </div>
+            </div>
+
+            <!-- Account -->
+            <div class="px-3 pt-2 pb-3">
+              <div class="section-label mb-2 px-1">ACCOUNT</div>
+              <div onclick="loadPrototype('account-pages/profile.html', this)" class="nav-item flex items-center gap-x-3 px-3 py-[7px] rounded-xl cursor-pointer text-[#EDEBE5]">
+                <i class="fa-solid fa-user w-4"></i>
+                <span>个人资料</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 px-3">
+          <div class="text-[10px] text-[#B8B5B0] leading-tight console-font">
+            所有原型均为静态复刻。<br>
+            相对路径跳转已适配。
+          </div>
+        </div>
+      </div>
+
+      <!-- Center: The Device -->
+      <div class="flex-1 flex flex-col items-center pt-3">
+        <div class="mb-4 flex items-center gap-x-4">
+          <div class="flex items-center gap-x-2">
+            <div class="w-2 h-px bg-[#B8B5B0]/40"></div>
+            <div class="section-label">DEVICE LAB</div>
+            <div class="w-2 h-px bg-[#B8B5B0]/40"></div>
+          </div>
+          <div id="current-label" 
+               class="px-4 py-1 bg-[#1A1916] border border-[#22221F] text-[#fecc2a] text-xs console-font tracking-widest rounded-full">
+            NO PROTOTYPE LOADED
+          </div>
+        </div>
+
+        <!-- The Hardware -->
+        <div id="device-shell" 
+             onclick="if(!document.getElementById('preview-frame').src.includes('about:blank')) return; powerOnDevice()"
+             class="hardware-frame mx-auto cursor-pointer">
+          
+          <div class="device-bevel relative">
+            <!-- Top metal bar -->
+            <div class="absolute top-0 left-0 right-0 h-9 bg-gradient-to-b from-[#1F1F1C] to-transparent z-20 flex items-center justify-center">
+              <div class="flex items-center gap-x-[6px]">
+                <div class="w-1.5 h-1.5 rounded-full bg-[#3A3A36]"></div>
+                <div class="text-[9px] text-[#B8B5B0] console-font tracking-[1.5px]">GODY LAB</div>
+              </div>
+            </div>
+
+            <div id="screen-container" class="prototype-screen mt-9 mx-2 mb-2 relative">
+              <iframe id="preview-frame" src="about:blank" class="w-full h-full"></iframe>
+              <div class="scanline"></div>
+              <div class="subtle-grain absolute inset-0 rounded-[46px]"></div>
+            </div>
+
+            <!-- Home indicator area -->
+            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 w-[108px] h-[5px] bg-[#2A2926] rounded-full z-30"></div>
+          </div>
+        </div>
+
+        <div class="mt-4 text-[10px] text-[#B8B5B0] flex items-center gap-x-2 console-font">
+          <span>375 × 812</span>
+          <span class="text-[#B8B5B0]/40">•</span>
+          <span>iPhone 13 物理模拟</span>
+        </div>
+      </div>
+
+      <!-- Right: Metadata -->
+      <div class="w-80 flex-shrink-0">
+        <div class="archive-card rounded-3xl p-6 text-sm leading-relaxed">
+          <div class="section-label text-[#0A0908] mb-3 tracking-widest">CURRENT PROTOTYPE</div>
+          
+          <div id="meta-title" class="display-font text-3xl leading-none text-[#0A0908] mb-4">
+            ——
+          </div>
+
+          <div class="space-y-4 text-[#3F3D37]">
+            <div>
+              <div class="text-[10px] console-font text-[#6E6A61] mb-px">MODULE</div>
+              <div id="meta-module" class="font-medium">—</div>
+            </div>
+            
+            <div>
+              <div class="text-[10px] console-font text-[#6E6A61] mb-px">STATUS</div>
+              <div class="inline-flex items-center gap-x-1.5">
+                <div id="meta-status-dot" class="w-1.5 h-1.5 rounded-full bg-[#B8B5B0]"></div>
+                <span id="meta-status" class="font-medium">STANDBY</span>
+              </div>
+            </div>
+
+            <div class="pt-2 border-t border-[#D9D4C8]">
+              <div class="text-[10px] console-font text-[#6E6A61] mb-1">NOTES</div>
+              <div id="meta-notes" class="text-sm leading-snug text-[#3F3D37]">
+                选择左侧原型以加载至设备。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 px-1 text-[11px] text-[#B8B5B0] leading-tight">
+          此控制台为内部设计评审工具。<br>
+          所有交互均为真实可点击原型。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentItem = null;
+    let isPowered = false;
+
+    function setActiveNav(element) {
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      if (element) element.classList.add('active');
+    }
+
+    function updateMetadata(title, module, status, notes) {
+      document.getElementById('meta-title').innerHTML = title || '——';
+      document.getElementById('meta-module').innerHTML = module || '—';
+      document.getElementById('meta-status').innerHTML = status || 'STANDBY';
+      document.getElementById('meta-notes').innerHTML = notes || '—';
+      
+      const dot = document.getElementById('meta-status-dot');
+      dot.className = 'w-1.5 h-1.5 rounded-full ' + 
+        (status === 'LOADED' ? 'bg-[#fecc2a]' : 'bg-[#B8B5B0]');
+    }
+
+    function updateCurrentLabel(text) {
+      document.getElementById('current-label').innerHTML = text;
+    }
+
+    function powerOnDevice() {
+      const shell = document.getElementById('device-shell');
+      const light = document.getElementById('power-indicator');
+      
+      shell.classList.add('active');
+      light.classList.add('on');
+      isPowered = true;
+      
+      // Subtle boot animation
+      const screen = document.getElementById('screen-container');
+      screen.style.transition = 'none';
+      screen.style.opacity = '0.2';
+      
+      setTimeout(() => {
+        screen.style.transition = 'opacity 280ms cubic-bezier(0.23, 1, 0.32, 1)';
+        screen.style.opacity = '1';
+      }, 40);
+    }
+
+    function powerOffDevice() {
+      const shell = document.getElementById('device-shell');
+      const light = document.getElementById('power-indicator');
+      
+      shell.classList.remove('active');
+      light.classList.remove('on');
+      isPowered = false;
+      
+      const screen = document.getElementById('screen-container');
+      screen.style.opacity = '0.15';
+    }
+
+    function powerCycle() {
+      const light = document.getElementById('power-indicator');
+      if (isPowered) {
+        powerOffDevice();
+      } else {
+        powerOnDevice();
+      }
+    }
+
+    function loadPrototype(path, element) {
+      const iframe = document.getElementById('preview-frame');
+      const shell = document.getElementById('device-shell');
+
+      // Power on if not already
+      if (!isPowered) {
+        powerOnDevice();
+      }
+
+      // Resolve path relative to project root
+      iframe.src = '../' + path;
+
+      setActiveNav(element);
+      currentItem = { path, element };
+
+      // Update UI
+      const niceName = path.split('/')[1] || path;
+      updateCurrentLabel(niceName.toUpperCase());
+
+      // Metadata
+      let module = 'GENERAL';
+      let notes = '静态复刻原型，可直接交互。';
+
+      if (path.includes('login')) {
+        module = 'AUTH';
+        notes = '手机号 + 社交登录入口。';
+      } else if (path.includes('home')) {
+        module = 'CORE';
+        notes = '地图主屏，包含快速操作。';
+      } else if (path.includes('search')) {
+        module = 'DISCOVERY';
+        notes = '位置搜索与推荐流程。';
+      } else if (path.includes('choose') || path.includes('confirm') || path.includes('payment')) {
+        module = 'BOOKING';
+        notes = '完整预订链路。';
+      } else if (path.includes('trip') || path.includes('trips')) {
+        module = 'TRIPS';
+        notes = '用户行程管理视图。';
+      } else if (path.includes('account')) {
+        module = 'ACCOUNT';
+        notes = '个人资料与设置。';
+      }
+
+      updateMetadata(
+        niceName.replace(/-/g, ' ').toUpperCase(),
+        module,
+        'LOADED',
+        notes
+      );
+
+      // Gentle device feedback
+      shell.style.transform = 'scale(0.985)';
+      setTimeout(() => {
+        shell.style.transform = 'scale(1)';
+      }, 180);
+    }
+
+    // Keyboard support
+    document.addEventListener('keydown', function(e) {
+      if (e.key === '/' && document.activeElement.tagName === 'BODY') {
+        e.preventDefault();
+        const first = document.querySelector('.nav-item');
+        if (first) first.click();
+      }
+      if (e.key.toLowerCase() === 'p') {
+        powerCycle();
+      }
+    });
+
+    // Boot sequence
+    window.onload = function() {
+      const light = document.getElementById('power-indicator');
+      
+      // Initial subtle state
+      setTimeout(() => {
+        light.style.background = '#3A3A36';
+      }, 600);
+
+      // Auto-load first prototype after a moment (optional dramatic effect)
+      setTimeout(() => {
+        const firstNav = document.querySelector('.nav-item');
+        if (firstNav && !currentItem) {
+          // Uncomment the next line if you want auto-load on visit
+          // loadPrototype('login-page/index.html', firstNav);
+        }
+      }, 1200);
+    };
+
+    // Expose for debugging
+    window.GODY_CONSOLE = { loadPrototype, powerCycle };
+  </script>
+</body>
+</html>

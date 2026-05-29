@@ -3,223 +3,111 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GODY • 设计原型集合</title>
+  <title>GODY · 原型控制台</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Roboto:wght@400;500;700&amp;display=swap');
-    
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Playfair+Display:wght@700&amp;display=swap');
+
     body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+      background-color: #0A0908;
+      color: #EDEBE5;
     }
     
-    .hero-gradient {
-      background: linear-gradient(135deg, #1e2937 0%, #0f172a 100%);
+    .display-font {
+      font-family: "Playfair Display", Georgia, "Songti SC", serif;
     }
     
-    .gody-yellow {
-      color: #fecc2a;
+    .console-font {
+      font-family: "IBM Plex Mono", "SF Mono", monospace;
     }
 
-    .card {
-      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
-                  box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    .lab-grid {
+      background-image: 
+        linear-gradient(rgba(184, 181, 176, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(184, 181, 176, 0.03) 1px, transparent 1px);
+      background-size: 22px 22px;
     }
 
-    .nav-link {
-      transition: all 0.1s ease;
+    .metal {
+      background: linear-gradient(#1F1F1C, #11110F);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
     }
-    
-    .nav-link:hover {
-      color: #fecc2a;
+
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: #B8B5B0;
     }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-200">
-  <!-- Navbar -->
-  <nav class="border-b border-slate-800 bg-slate-900">
-    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-x-3">
-        <div class="w-9 h-9 bg-[#fecc2a] rounded-2xl flex items-center justify-center">
-          <i class="fa-solid fa-car text-slate-900 text-3xl"></i>
+<body class="lab-grid">
+  <div class="max-w-5xl mx-auto px-8 pt-14">
+    <!-- Top -->
+    <div class="flex justify-between items-end mb-10">
+      <div>
+        <div class="flex items-center gap-x-3">
+          <div class="w-8 h-8 bg-[#fecc2a] flex items-center justify-center">
+            <div class="w-4 h-4 bg-[#0A0908]"></div>
+          </div>
+          <span class="display-font text-6xl font-bold tracking-[-2.5px]">GODY</span>
         </div>
-        <div>
-          <span class="font-bold text-2xl tracking-tighter">GODY</span>
-          <span class="ml-2 text-xs px-2 py-0.5 bg-slate-800 rounded-full text-slate-400">Design Prototypes</span>
+        <div class="ml-11 -mt-2">
+          <span class="section-label tracking-[3.5px]">PROTOTYPE ARCHIVE · 2025</span>
         </div>
       </div>
       
-      <div class="flex items-center gap-x-6 text-sm">
-        <a href="gody-app/" class="nav-link font-medium flex items-center gap-x-2">
-          <i class="fa-solid fa-play"></i>
-          <span>打开预览器</span>
-        </a>
-        <a href="https://github.com/xiaoqianran/figma-003" target="_blank" 
-           class="nav-link flex items-center gap-x-2 text-slate-400 hover:text-white">
-          <i class="fa-brands fa-github"></i>
-          <span>GitHub</span>
-        </a>
-      </div>
+      <a href="gody-app/console.html" 
+         class="group inline-flex items-center gap-x-3 px-7 py-3.5 bg-[#fecc2a] text-[#0A0908] rounded-2xl font-semibold hover:bg-[#f2c21f] transition-all active:scale-[0.985]">
+        <span>进入控制台</span>
+        <i class="fa-solid fa-arrow-right group-active:translate-x-0.5 transition"></i>
+      </a>
     </div>
-  </nav>
 
-  <!-- Hero -->
-  <div class="hero-gradient border-b border-slate-800">
-    <div class="max-w-5xl mx-auto px-6 pt-16 pb-20 text-center">
-      <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-slate-800 text-xs font-medium mb-6">
-        <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-        44 个移动端页面原型
-      </div>
-      
-      <h1 class="text-6xl font-bold tracking-tighter mb-4">
-        GODY 设计原型<br>
-        <span class="text-[#fecc2a]">统一预览平台</span>
+    <div class="max-w-2xl">
+      <h1 class="text-[72px] leading-[1.02] tracking-[-3.2px] font-semibold display-font">
+        所有原型，<br>一个专业控制台。
       </h1>
-      
-      <p class="text-xl text-slate-400 max-w-2xl mx-auto mb-10">
-        将原来分散的 40+ 个 Figma 复刻 HTML 页面集成在一个设备模拟器中，<br>
-        支持完整用户旅程浏览与快速导航。
+      <p class="mt-6 text-xl text-[#B8B5B0] max-w-md">
+        将 44 个分散的移动端页面集成于工业级设备模拟器中。<br>
+        用于严肃的设计评审与交互验证。
       </p>
+    </div>
 
-      <div class="flex justify-center gap-4">
-        <a href="gody-app/" 
-           class="inline-flex items-center justify-center gap-3 bg-[#fecc2a] hover:bg-yellow-400 transition-all text-slate-900 font-semibold px-8 py-4 rounded-3xl text-lg shadow-lg shadow-yellow-500/20">
-          <i class="fa-solid fa-mobile-screen-button"></i>
-          <span>立即打开集成预览器</span>
-        </a>
-        
-        <a href="#flows" 
-           class="inline-flex items-center justify-center gap-3 border border-slate-700 hover:bg-slate-900 transition-all px-8 py-4 rounded-3xl text-lg">
-          <span>查看核心流程</span>
-        </a>
+    <div class="mt-14 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="metal border border-[#22221F] rounded-3xl p-6">
+        <div class="text-[#fecc2a] text-xs console-font tracking-widest mb-2">44 PROTOTYPES</div>
+        <div class="text-2xl font-medium">完整覆盖</div>
+        <div class="text-[#B8B5B0] mt-2 text-sm leading-snug">登录、地图、预订、支付、行程、账户等全部核心路径。</div>
       </div>
       
-      <div class="mt-8 text-xs text-slate-500 flex justify-center gap-6">
-        <div class="flex items-center gap-1.5">
-          <i class="fa-solid fa-check"></i>
-          <span>支持相对路径跳转</span>
-        </div>
-        <div class="flex items-center gap-1.5">
-          <i class="fa-solid fa-check"></i>
-          <span>iPhone 13 模拟器</span>
-        </div>
-        <div class="flex items-center gap-1.5">
-          <i class="fa-solid fa-check"></i>
-          <span>实时预览</span>
-        </div>
+      <div class="metal border border-[#22221F] rounded-3xl p-6">
+        <div class="text-[#fecc2a] text-xs console-font tracking-widest mb-2">HARDWARE SIMULATION</div>
+        <div class="text-2xl font-medium">真实设备感</div>
+        <div class="text-[#B8B5B0] mt-2 text-sm leading-snug">物理边框、高光、电源指示灯与机械切换反馈。</div>
+      </div>
+      
+      <div class="metal border border-[#22221F] rounded-3xl p-6">
+        <div class="text-[#fecc2a] text-xs console-font tracking-widest mb-2">DESIGN SYSTEM</div>
+        <div class="text-2xl font-medium">工业档案美学</div>
+        <div class="text-[#B8B5B0] mt-2 text-sm leading-snug">基于 80 年代中国交通调度与现代极简的混合语言。</div>
       </div>
     </div>
-  </div>
 
-  <!-- Quick Stats -->
-  <div class="max-w-5xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-      <div class="text-4xl font-bold text-[#fecc2a]">44</div>
-      <div class="text-sm text-slate-400 mt-1">个独立页面</div>
-    </div>
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-      <div class="text-4xl font-bold">8</div>
-      <div class="text-sm text-slate-400 mt-1">大核心功能模块</div>
-    </div>
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-      <div class="text-4xl font-bold">1</div>
-      <div class="text-sm text-slate-400 mt-1">统一预览入口</div>
-    </div>
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-      <div class="text-4xl font-bold">100%</div>
-      <div class="text-sm text-slate-400 mt-1">静态可部署</div>
-    </div>
-  </div>
-
-  <!-- Core Flows -->
-  <div id="flows" class="max-w-5xl mx-auto px-6 pb-16">
-    <div class="mb-8">
-      <h2 class="text-3xl font-semibold tracking-tight">核心用户流程</h2>
-      <p class="text-slate-400 mt-2">点击即可在集成预览器中直接体验完整流程</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <!-- Flow Cards -->
-      <a href="gody-app/" class="card group block bg-slate-900 border border-slate-800 hover:border-[#fecc2a]/30 rounded-3xl p-6">
-        <div class="flex items-start justify-between">
-          <div>
-            <div class="font-semibold text-lg group-hover:text-[#fecc2a] transition-colors">登录与注册</div>
-            <div class="text-sm text-slate-400 mt-1">手机号 + 社交登录</div>
-          </div>
-          <i class="fa-solid fa-sign-in-alt text-2xl text-slate-600 group-hover:text-[#fecc2a]"></i>
-        </div>
-      </a>
-
-      <a href="gody-app/" class="card group block bg-slate-900 border border-slate-800 hover:border-[#fecc2a]/30 rounded-3xl p-6">
-        <div class="flex items-start justify-between">
-          <div>
-            <div class="font-semibold text-lg group-hover:text-[#fecc2a] transition-colors">主页与叫车</div>
-            <div class="text-sm text-slate-400 mt-1">地图 + 快速搜索</div>
-          </div>
-          <i class="fa-solid fa-home text-2xl text-slate-600 group-hover:text-[#fecc2a]"></i>
-        </div>
-      </a>
-
-      <a href="gody-app/" class="card group block bg-slate-900 border border-slate-800 hover:border-[#fecc2a]/30 rounded-3xl p-6">
-        <div class="flex items-start justify-between">
-          <div>
-            <div class="font-semibold text-lg group-hover:text-[#fecc2a] transition-colors">搜索与发现</div>
-            <div class="text-sm text-slate-400 mt-1">目的地与行程推荐</div>
-          </div>
-          <i class="fa-solid fa-search text-2xl text-slate-600 group-hover:text-[#fecc2a]"></i>
-        </div>
-      </a>
-
-      <a href="gody-app/" class="card group block bg-slate-900 border border-slate-800 hover:border-[#fecc2a]/30 rounded-3xl p-6">
-        <div class="flex items-start justify-between">
-          <div>
-            <div class="font-semibold text-lg group-hover:text-[#fecc2a] transition-colors">预订流程</div>
-            <div class="text-sm text-slate-400 mt-1">选车 → 选行程 → 确认</div>
-          </div>
-          <i class="fa-solid fa-car text-2xl text-slate-600 group-hover:text-[#fecc2a]"></i>
-        </div>
-      </a>
-
-      <a href="gody-app/" class="card group block bg-slate-900 border border-slate-800 hover:border-[#fecc2a]/30 rounded-3xl p-6">
-        <div class="flex items-start justify-between">
-          <div>
-            <div class="font-semibold text-lg group-hover:text-[#fecc2a] transition-colors">支付流程</div>
-            <div class="text-sm text-slate-400 mt-1">选择支付方式 → 确认支付</div>
-          </div>
-          <i class="fa-solid fa-credit-card text-2xl text-slate-600 group-hover:text-[#fecc2a]"></i>
-        </div>
-      </a>
-
-      <a href="gody-app/" class="card group block bg-slate-900 border border-slate-800 hover:border-[#fecc2a]/30 rounded-3xl p-6">
-        <div class="flex items-start justify-between">
-          <div>
-            <div class="font-semibold text-lg group-hover:text-[#fecc2a] transition-colors">我的行程</div>
-            <div class="text-sm text-slate-400 mt-1">Upcoming / Past / 详情</div>
-          </div>
-          <i class="fa-solid fa-route text-2xl text-slate-600 group-hover:text-[#fecc2a]"></i>
-        </div>
+    <div class="mt-16 flex justify-center">
+      <a href="gody-app/console.html" 
+         class="inline-flex items-center gap-x-2 text-sm border-b border-[#fecc2a] pb-1 text-[#fecc2a] hover:border-[#f2c21f] transition-colors">
+        <span class="console-font tracking-widest">OPEN THE CONSOLE</span>
+        <i class="fa-solid fa-arrow-right-long"></i>
       </a>
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="border-t border-slate-800 bg-slate-900 py-10">
-    <div class="max-w-5xl mx-auto px-6 text-center text-sm text-slate-500">
-      <p>
-        本项目为 GODY 移动应用 UI 复刻与集成演示。<br>
-        所有页面均为静态 HTML 原型，用于设计评审与交互体验验证。
-      </p>
-      <div class="mt-4 text-xs">
-        集成预览器：<a href="gody-app/" class="text-[#fecc2a] hover:underline">/gody-app/</a>
-        &nbsp;•&nbsp; 
-        GitHub：<a href="https://github.com/xiaoqianran/figma-003" class="hover:underline">xiaoqianran/figma-003</a>
-      </div>
+  <div class="mt-24 border-t border-[#22221F] py-8 text-center">
+    <div class="text-[10px] text-[#B8B5B0] console-font tracking-[1px]">
+      XIAOQIANRAN / FIGMA-003 &nbsp;·&nbsp; FOR INTERNAL REVIEW ONLY
     </div>
-  </footer>
+  </div>
 </body>
 </html>
