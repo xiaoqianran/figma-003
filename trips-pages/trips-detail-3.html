@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trips detail #3 - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .trips-detail-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background: #ffffff;
+            width: 375px;
+            height: 947px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        /* 状态栏 */
+        .system-status-bar {
+            width: 375px;
+            height: 40px;
+            background: #ffffff;
+        }
+
+        /* 顶部标题区域 */
+        .group-548 {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            justify-content: space-between;
+            padding: 24px 219px 32px 24px;
+            min-width: 375px;
+        }
+
+        .icons-delete {
+            width: 16px;
+            height: 16px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .ui-text-heading-h3b {
+            line-height: 16px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        /* 位置信息区域 */
+        .location-section {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            justify-content: space-between;
+            padding-right: 24px;
+            padding-left: 24px;
+        }
+
+        .location-icons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 14px;
+        }
+
+        .here-icon {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            margin-right: 2px;
+            margin-left: 2px;
+            border-radius: 50%;
+            background: var(--primary-1, #fecc2a);
+            padding: 4px;
+        }
+
+        .ellipse-53 {
+            border-radius: 50%;
+            background: var(--Neutral-5, #ffffff);
+            width: 4px;
+            height: 4px;
+        }
+
+        .location-line {
+            margin-top: 1px;
+            width: 0;
+            height: 46px;
+        }
+
+        .location-pin {
+            margin-top: 2px;
+            width: 16px;
+            height: 16px;
+            overflow: hidden;
+        }
+
+        /* 输入框区域 */
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            align-self: stretch;
+        }
+
+        .location-input {
+            position: relative;
+            border-radius: 12px;
+            box-shadow: 0px 0px 75px 0px #43496a00;
+            background: var(--Neutral-4, #f3f3f3);
+            width: 303px;
+            height: 48px;
+        }
+
+        .location-text {
+            position: absolute;
+            top: 14px;
+            left: 16px;
+            width: 123px;
+            height: 20px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-size: 14px;
+        }
+
+        .location-input2 {
+            position: relative;
+            margin-top: 12px;
+            border-radius: 12px;
+            box-shadow: 0px 0px 75px 0px #43496a00;
+            background: var(--Neutral-4, #f3f3f3);
+            width: 303px;
+            height: 48px;
+        }
+
+        .location-text2 {
+            position: absolute;
+            top: 14px;
+            left: 16px;
+            width: 212px;
+            height: 20px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-size: 14px;
+        }
+
+        /* 评分区域 */
+        .rating-section {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin-top: 20px;
+            padding-right: 24px;
+            padding-left: 24px;
+        }
+
+        .user-avatar {
+            display: flex;
+            align-items: center;
+            border-radius: 50%;
+            background: var(--background-1, #ffffff);
+        }
+
+        .avatar-image {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+        }
+
+        .rating-text {
+            margin: 11px 0px 0px 12px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-size: 14px;
+        }
+
+        .rating-stars {
+            display: flex;
+            align-items: center;
+            margin-top: 12px;
+            margin-left: 68px;
+            padding-right: 1px;
+        }
+
+        .rating-star {
+            margin-left: 8px;
+            width: 16px;
+            height: 16px;
+            overflow: hidden;
+        }
+
+        /* 帮助链接 */
+        .help-link {
+            margin: 24px 0px 0px 24px;
+            line-height: 14px;
+            letter-spacing: 0;
+            color: var(--Neutral-2, #959595);
+            font-size: 12px;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .help-link:hover {
+            color: var(--Neutral-1, #49493d);
+        }
+
+        /* 操作按钮区域 */
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-right: -217px;
+            padding-left: 24px;
+        }
+
+        .action-card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            border-radius: 12px;
+            box-shadow: var(--card-2, 0px 4px 40px 0px #9f9f9f1a);
+            background: var(--Neutral-5, #ffffff);
+            padding: 16px 78px 16px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .action-card:hover {
+            box-shadow: var(--card-2, 0px 6px 50px 0px #9f9f9f25);
+            transform: translateY(-2px);
+        }
+
+        .action-title {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .action-description {
+            margin: 12px 0px 0px;
+            width: 182px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: var(--Neutral-2, #959595);
+            font-size: 14px;
+        }
+
+        .action-link {
+            margin: 8px 0px 0px;
+            line-height: 14px;
+            letter-spacing: 0;
+            color: var(--primary-1, #fecc2a);
+            font-size: 12px;
+            text-decoration: underline;
+        }
+
+        /* 帮助和收据按钮 */
+        .help-receipt-buttons {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            justify-content: space-between;
+            margin-top: 32px;
+            padding-right: 169px;
+            padding-left: 24px;
+        }
+
+        .help-button {
+            display: flex;
+            align-items: center;
+            border-radius: 12px;
+            background: var(--primary-1, #fecc2a);
+            padding: 10px 25px 10px 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .help-button:hover {
+            background: #e6b824;
+        }
+
+        .help-text {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .receipt-button {
+            display: flex;
+            align-items: center;
+            border-radius: 12px;
+            background: #ececec;
+            padding: 10px 15px 10px 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .receipt-button:hover {
+            background: #d0d0d0;
+        }
+
+        .receipt-text {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: var(--Neutral-5, #ffffff);
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* 帮助选项 */
+        .help-options {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            justify-content: space-between;
+            margin: 16px 24px 0px;
+            border-radius: 12px;
+            box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+            background: var(--Neutral-5, #ffffff);
+            padding: 18px 16px 12px;
+            min-width: 327px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .help-options:hover {
+            box-shadow: var(--Card-1, 0px 6px 50px 0px #00000015);
+        }
+
+        .help-option-text {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-size: 14px;
+        }
+
+        .help-option-arrow {
+            margin-top: 2px;
+            width: 12px;
+            height: 12px;
+            overflow: hidden;
+        }
+
+        /* 其他帮助选项 */
+        .help-option-simple {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin: 16px 24px 0px;
+            border-radius: 12px;
+            box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+            background: var(--Neutral-5, #ffffff);
+            padding: 16px 170px 14px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .help-option-simple:hover {
+            box-shadow: var(--Card-1, 0px 6px 50px 0px #00000015);
+        }
+
+        .help-option-simple2 {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin: 16px 24px 0px;
+            border-radius: 12px;
+            box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+            background: var(--Neutral-5, #ffffff);
+            padding: 16px 230px 14px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .help-option-simple2:hover {
+            box-shadow: var(--Card-1, 0px 6px 50px 0px #00000015);
+        }
+
+        .help-option-simple3 {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin: 16px 24px 0px;
+            border-radius: 12px;
+            box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+            background: var(--Neutral-5, #ffffff);
+            padding: 16px 128px 14px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .help-option-simple3:hover {
+            box-shadow: var(--Card-1, 0px 6px 50px 0px #00000015);
+        }
+
+        .help-option-simple4 {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin: 16px 24px 0px;
+            border-radius: 12px;
+            box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+            background: var(--Neutral-5, #ffffff);
+            padding: 16px 100px 14px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .help-option-simple4:hover {
+            box-shadow: var(--Card-1, 0px 6px 50px 0px #00000015);
+        }
+
+        /* 底部指示器 */
+        .bars-home-indicator-iph {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin-top: 47px;
+            padding: 21px 121px 8px 120px;
+        }
+
+        .home-indicator {
+            border-radius: 100px;
+            background: var(--Neutral-1, #49493d);
+            width: 134px;
+            height: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="trips-detail-container">
+        <!-- 状态栏 -->
+        <img src="../.figma/image/mpqqes4f-kuslv6o.svg" class="system-status-bar" alt="状态栏" />
+        
+        <!-- 顶部标题区域 -->
+        <div class="group-548">
+            <img src="../.figma/image/mpqqes4f-pykc27p.svg" class="icons-delete" alt="返回" onclick="goBack()" />
+            <p class="ui-text-heading-h3b">Trips detail</p>
+        </div>
+
+        <!-- 位置信息区域 -->
+        <div class="location-section">
+            <div class="location-icons">
+                <div class="here-icon">
+                    <div class="ellipse-53"></div>
+                </div>
+                <img src="https://via.placeholder.com/1x46" class="location-line" alt="连接线" />
+                <img src="../.figma/image/mpqqes4f-j87xlvf.svg" class="location-pin" alt="定位" />
+            </div>
+            
+            <div class="input-section">
+                <div class="location-input">
+                    <p class="location-text">Apple Union Square</p>
+                </div>
+                <div class="location-input2">
+                    <p class="location-text2">San Fancisco International Airport</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 评分区域 -->
+        <div class="rating-section">
+            <div class="user-avatar">
+                <img src="../.figma/image/mpqqes4i-0wdmj3t.png" class="avatar-image" alt="用户头像" />
+            </div>
+            <p class="rating-text">You rated Push</p>
+            <div class="rating-stars">
+                <img src="../.figma/image/mpqqes4f-dawpzad.svg" class="rating-star" alt="星级" />
+                <img src="../.figma/image/mpqqes4f-odm62c0.svg" class="rating-star" alt="星级" />
+                <img src="../.figma/image/mpqqes4f-5sqcn92.svg" class="rating-star" alt="星级" />
+                <img src="../.figma/image/mpqqes4f-ya31hz0.svg" class="rating-star" alt="星级" />
+                <img src="../.figma/image/mpqqes4f-wt1hps0.svg" class="rating-star" alt="星级" />
+            </div>
+        </div>
+
+        <!-- 帮助链接 -->
+        <p class="help-link" onclick="showHelp()">Needd help with this trip?</p>
+
+        <!-- 操作按钮区域 -->
+        <div class="action-buttons">
+            <div class="action-card" onclick="switchPayment()">
+                <p class="action-title">Switch paymend method</p>
+                <p class="action-description">I want to switch my payment <br />method for this trip.</p>
+                <p class="action-link">Edit payment</p>
+            </div>
+            <div class="action-card" onclick="switchPayment()">
+                <p class="action-title">Switch paymend method</p>
+                <p class="action-description">I want to switch my payment <br />method for this trip.</p>
+                <p class="action-link">Edit payment</p>
+            </div>
+        </div>
+
+        <!-- 帮助和收据按钮 -->
+        <div class="help-receipt-buttons">
+            <div class="help-button" onclick="showHelp()">
+                <p class="help-text">Help</p>
+            </div>
+            <div class="receipt-button" onclick="showReceipt()">
+                <p class="receipt-text">Receipt</p>
+            </div>
+        </div>
+
+        <!-- 帮助选项 -->
+        <div class="help-options" onclick="selectHelpOption(1)">
+            <p class="help-option-text">I was inclelved in accident</p>
+            <img src="../.figma/image/mpqqes4f-gqz5om3.svg" class="help-option-arrow" alt="箭头" />
+        </div>
+
+        <div class="help-option-simple" onclick="selectHelpOption(2)">
+            <p class="help-option-text">Review my fare or fees</p>
+        </div>
+
+        <div class="help-option-simple2" onclick="selectHelpOption(3)">
+            <p class="help-option-text">I lost an item</p>
+        </div>
+
+        <div class="help-option-simple3" onclick="selectHelpOption(4)">
+            <p class="help-option-text">My driver was unprofessional</p>
+        </div>
+
+        <div class="help-option-simple4" onclick="selectHelpOption(5)">
+            <p class="help-option-text">My vehicle wasn't what I expected</p>
+        </div>
+
+        <!-- 底部指示器 -->
+        <div class="bars-home-indicator-iph">
+            <div class="home-indicator"></div>
+        </div>
+    </div>
+
+    <script>
+        // 返回上一页
+        function goBack() {
+            window.location.href = 'your-trips-past.html';
+        }
+
+        // 切换支付方式
+        function switchPayment() {
+            alert('打开支付方式编辑页面');
+        }
+
+        // 显示帮助
+        function showHelp() {
+            alert('打开帮助中心');
+        }
+
+        // 显示收据
+        function showReceipt() {
+            alert('打开收据页面');
+        }
+
+        // 选择帮助选项
+        function selectHelpOption(optionIndex) {
+            const helpOptions = [
+                '事故报告',
+                '费用审核',
+                '物品丢失',
+                '司机投诉',
+                '车辆问题'
+            ];
+            
+            const optionName = helpOptions[optionIndex - 1] || '帮助选项';
+            alert(`已选择: ${optionName}`);
+        }
+
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Trips detail #3 页面初始化完成');
+        });
+    </script>
+</body>
+</html>

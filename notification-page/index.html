@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .notification-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background: #ffffff;
+            width: 375px;
+            height: 812px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            width: 375px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .status-bar-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .time {
+            font-size: 14px;
+            font-weight: 600;
+            color: #000000;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        /* 返回按钮 */
+        .back-button {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            padding: 24px 335px 32px 24px;
+        }
+
+        .back-icon {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #49493d;
+            transition: all 0.2s ease;
+        }
+
+        .back-icon:hover {
+            color: #fecc2a;
+            transform: scale(1.2);
+        }
+
+        /* 插画区域 */
+        .illustration {
+            position: relative;
+            margin-top: 16px;
+            margin-left: 24px;
+            width: 327px;
+            height: 175px;
+        }
+
+        /* 主插画背景 */
+        .illustration-bg {
+            display: flex;
+            position: absolute;
+            top: 0;
+            left: 10px;
+            align-items: flex-start;
+            padding: 23px 37px 4px 48px;
+            width: 313px;
+            height: 175px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 手机模拟器 */
+        .phone-mockup {
+            position: relative;
+            margin-left: 20px;
+            width: 74px;
+            height: 148px;
+            background: #333;
+            border-radius: 12px;
+            padding: 4px;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 地图界面 */
+        .map-interface {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #e8f4f8 0%, #d4edda 50%, #fff3cd 100%);
+            position: relative;
+        }
+
+        .map-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
+            background-size: 12px 12px;
+        }
+
+        /* 定位标记 */
+        .location-marker {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            width: 8px;
+            height: 8px;
+            background: #fecc2a;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+
+        .location-marker::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            width: 12px;
+            height: 12px;
+            background: rgba(254, 204, 42, 0.3);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        /* 摩托车 */
+        .scooter {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            font-size: 24px;
+            transform: rotate(-15deg);
+        }
+
+        /* 卡车 */
+        .truck {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-size: 28px;
+        }
+
+        /* 时钟图标 */
+        .clock-icon {
+            position: absolute;
+            top: 30px;
+            right: 25px;
+            width: 30px;
+            height: 30px;
+            background: #fecc2a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        /* 装饰元素 */
+        .decoration {
+            position: absolute;
+        }
+
+        .decoration1 {
+            top: 40px;
+            left: 50px;
+            width: 20px;
+            height: 20px;
+            background: #6c5ce7;
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+
+        .decoration2 {
+            top: 60px;
+            left: 80px;
+            width: 15px;
+            height: 15px;
+            background: #00b894;
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+
+        .decoration3 {
+            top: 80px;
+            left: 60px;
+            width: 12px;
+            height: 12px;
+            background: #e17055;
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+
+        /* 路径线条 */
+        .path-line {
+            position: absolute;
+            top: 172px;
+            left: 0;
+            width: 327px;
+            height: 3px;
+            background: linear-gradient(90deg, #dfe6e9, #b2bec3, #dfe6e9);
+        }
+
+        /* 文本内容 */
+        .content {
+            margin: 40px 0px 0px 24px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .sub-content {
+            margin: 4px 0px 0px 24px;
+            width: 327px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #959595;
+            font-size: 14px;
+        }
+
+        /* 底部指示器 */
+        .home-indicator {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin-top: auto;
+            padding: 21px 121px 8px 120px;
+            width: 100%;
+        }
+
+        .indicator {
+            border-radius: 100px;
+            background: #49493d;
+            width: 134px;
+            height: 5px;
+        }
+
+        /* 启用通知按钮 */
+        .enable-button {
+            margin: 20px 24px 0px 24px;
+            padding: 12px 24px;
+            background: #fecc2a;
+            border: none;
+            border-radius: 12px;
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .enable-button:hover {
+            background: #e6b824;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="notification-container">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <div class="status-bar-content">
+                <span class="time">9:09</span>
+                <div class="status-icons">
+                    <span>📶</span>
+                    <span>📶</span>
+                    <span>🔋</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 返回按钮 -->
+        <div class="back-button">
+            <div class="back-icon" onclick="goBack()">←</div>
+        </div>
+
+        <!-- 插画区域 -->
+        <div class="illustration">
+            <div class="illustration-bg">
+                <!-- 摩托车 -->
+                <div class="scooter">🛵</div>
+                
+                <!-- 手机模拟器 -->
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <div class="map-interface">
+                            <div class="map-grid"></div>
+                            <div class="location-marker"></div>
+                            
+                            <!-- 装饰元素 -->
+                            <div class="decoration decoration1"></div>
+                            <div class="decoration decoration2"></div>
+                            <div class="decoration decoration3"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 时钟图标 -->
+                <div class="clock-icon">🕐</div>
+                
+                <!-- 卡车 -->
+                <div class="truck">🚚</div>
+            </div>
+            
+            <!-- 路径线条 -->
+            <div class="path-line"></div>
+        </div>
+
+        <!-- 主要文本 -->
+        <p class="content">Relax with real- time&nbsp;&nbsp;trip updates</p>
+        
+        <!-- 副文本 -->
+        <p class="sub-content">Please enable push notifications from Gody when prompted</p>
+
+        <!-- 启用通知按钮 -->
+        <button class="enable-button" onclick="enableNotifications()">
+            启用推送通知
+        </button>
+
+        <!-- 底部指示器 -->
+        <div class="home-indicator">
+            <div class="indicator"></div>
+        </div>
+    </div>
+
+    <script>
+        // 返回上一页
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '../home-page/index.html';
+            }
+        }
+
+        // 启用通知
+        function enableNotifications() {
+            const button = document.querySelector('.enable-button');
+            const originalText = button.textContent;
+            
+            button.textContent = '请求权限中...';
+            button.disabled = true;
+            
+            // 模拟通知权限请求
+            if ('Notification' in window) {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        button.textContent = '通知已启用 ✓';
+                        button.style.background = '#00b894';
+                        button.style.color = '#fff';
+                        
+                        // 显示示例通知
+                        setTimeout(() => {
+                            new Notification('GODY', {
+                                body: '欢迎使用GODY！您将收到实时行程更新。',
+                                icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23fecc2a"/><text x="50" y="60" text-anchor="middle" fill="%2349493d" font-size="30">G</text></svg>'
+                            });
+                        }, 1000);
+                    } else {
+                        button.textContent = '权限被拒绝';
+                        button.style.background = '#e74c3c';
+                        button.style.color = '#fff';
+                    }
+                });
+            } else {
+                // 不支持Notification API时的备用方案
+                setTimeout(() => {
+                    alert('通知权限已授予！您将收到实时行程更新。');
+                    button.textContent = '通知已启用 ✓';
+                    button.style.background = '#00b894';
+                    button.style.color = '#fff';
+                }, 1500);
+            }
+        }
+
+        // 添加动画效果
+        function addAnimations() {
+            // 为摩托车添加移动动画
+            const scooter = document.querySelector('.scooter');
+            if (scooter) {
+                scooter.style.transition = 'transform 3s ease-in-out';
+                
+                setInterval(() => {
+                    scooter.style.transform = 'rotate(-15deg) translateX(10px)';
+                    setTimeout(() => {
+                        if (scooter) {
+                            scooter.style.transform = 'rotate(-15deg) translateX(0px)';
+                        }
+                    }, 1500);
+                }, 4000);
+            }
+
+            // 为卡车添加移动动画
+            const truck = document.querySelector('.truck');
+            if (truck) {
+                truck.style.transition = 'transform 4s ease-in-out';
+                
+                setInterval(() => {
+                    truck.style.transform = 'translateX(-10px)';
+                    setTimeout(() => {
+                        if (truck) {
+                            truck.style.transform = 'translateX(0px)';
+                        }
+                    }, 2000);
+                }, 5000);
+            }
+
+            // 为定位标记添加脉冲效果
+            const marker = document.querySelector('.location-marker');
+            if (marker) {
+                marker.style.animation = 'pulse 2s infinite';
+            }
+        }
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            addAnimations();
+            
+            // 添加插画区域的点击效果
+            const illustration = document.querySelector('.illustration');
+            if (illustration) {
+                illustration.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 150);
+                });
+            }
+
+            console.log('Notification页面初始化完成');
+        });
+    </script>
+</body>
+</html>

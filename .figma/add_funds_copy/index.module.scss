@@ -1,0 +1,229 @@
+* {
+  box-sizing: border-box;
+}
+
+.addFunds {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  width: 375px;
+  height: 812px;
+  overflow: hidden;
+
+  .iconsCoupon1 {
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+  }
+
+  .currentBalance {
+    line-height: 24px;
+    letter-spacing: 0;
+    color: var(--Neutral-1, #49493d);
+    font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+    font-size: 16px;
+  }
+
+  .autoWrapper3 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    margin-left: 31px;
+
+    .a2800 {
+      margin: 9px 0px 0px;
+      line-height: 19px;
+      letter-spacing: 0;
+      color: var(--Neutral-2, #959595);
+      font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      text-decoration: line-through;
+    }
+
+    .a2300 {
+      margin: 4px 0px 0px;
+      width: 50px;
+      height: 21px;
+      line-height: 20px;
+      letter-spacing: 0;
+      color: var(--primary-1, #fecc2a);
+      font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
+
+  .ellipse51 {
+    display: flex;
+    align-items: center;
+    border-radius: 50%;
+    background: var(--Neutral-4, #f3f3f3);
+    padding: 13px;
+  }
+
+  .systemStatusBarsBlac {
+    width: 375px;
+    height: 40px;
+  }
+
+  .group548 {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    justify-content: space-between;
+    padding: 24px 227px 32px 24px;
+    min-width: 375px;
+
+    .iconsDelete {
+      width: 16px;
+      height: 16px;
+      overflow: hidden;
+    }
+
+    .uITextHeadingH3B {
+      line-height: 16px;
+      letter-spacing: 0;
+      color: var(--Neutral-1, #49493d);
+      font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+
+  .autoWrapper {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    justify-content: space-between;
+    padding-right: 47px;
+    padding-left: 0;
+
+    .a000 {
+      line-height: 16px;
+      letter-spacing: 0;
+      color: var(--Neutral-1, #49493d);
+      font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+      font-size: 28px;
+      font-weight: 500;
+    }
+  }
+
+  .subtract {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    margin: 40px 24px 0px;
+    padding: 34px 16px 33px;
+    background-image: url(../image/mpqqmf5w-wbftwls.svg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    .ellipse50 {
+      display: flex;
+      align-items: center;
+      margin-top: 12px;
+      border-radius: 50%;
+      background: var(--Neutral-4, #f3f3f3);
+      padding: 13px;
+    }
+
+    .autoWrapper2 {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      align-self: stretch;
+      margin-left: 31px;
+
+      .youLlPay {
+        line-height: 20px;
+        letter-spacing: 0;
+        color: var(--Neutral-1, #49493d);
+        font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+        font-size: 14px;
+      }
+
+      .a2500 {
+        margin: 11px 0px 0px;
+        line-height: 19px;
+        letter-spacing: 0;
+        color: var(--Neutral-5, #ffffff);
+        font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+        font-size: 16px;
+        text-decoration: line-through;
+      }
+
+      .a1500 {
+        margin: 4px 0px 0px;
+        width: 50px;
+        height: 21px;
+        line-height: 20px;
+        letter-spacing: 0;
+        color: var(--Neutral-1, #49493d);
+        font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+      }
+    }
+
+    .car11 {
+      margin-top: 5px;
+      margin-left: 25px;
+      width: 130px;
+      height: 66px;
+    }
+  }
+
+  .subtract2 {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    margin: 8px 24px 0px;
+    padding: 24px 16px;
+    background-image: url(../image/mpqqmf5w-42hfx0n.svg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    .car31 {
+      margin-left: 21px;
+      width: 125px;
+      height: 94px;
+    }
+  }
+
+  .subtract3 {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    margin: 8px 24px 0px;
+    padding: 26px 16px;
+    background-image: url(../image/mpqqmf5w-xriqhe4.svg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    .a1234561 {
+      margin-left: 26px;
+      width: 120px;
+      height: 90px;
+    }
+  }
+
+  .barsHomeIndicatorIPh {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    margin-top: 160px;
+    padding: 21px 121px 8px 120px;
+
+    .homeIndicator {
+      border-radius: 100px;
+      background: var(--Neutral-1, #49493d);
+      width: 134px;
+      height: 5px;
+    }
+  }
+}

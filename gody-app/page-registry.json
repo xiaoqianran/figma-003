@@ -1,0 +1,178 @@
+[
+  {
+    "path": "account-pages/edit-account-1.html",
+    "display": "Edit Account 1"
+  },
+  {
+    "path": "account-pages/edit-account-2.html",
+    "display": "Edit Account 2"
+  },
+  {
+    "path": "account-pages/index.html",
+    "display": "account / index"
+  },
+  {
+    "path": "account-pages/profile.html",
+    "display": "Profile"
+  },
+  {
+    "path": "account-pages/test-pages.html",
+    "display": "account / test pages"
+  },
+  {
+    "path": "choose-car-page/index.html",
+    "display": "Choose Car"
+  },
+  {
+    "path": "choose-trip1-page/index.html",
+    "display": "Choose Trip 1"
+  },
+  {
+    "path": "choose-trip2-page/index.html",
+    "display": "Choose Trip 2"
+  },
+  {
+    "path": "confirm-godyx-page/index.html",
+    "display": "Confirm GODYX"
+  },
+  {
+    "path": "confirm-pickup1-page/index.html",
+    "display": "Confirm Pickup 1"
+  },
+  {
+    "path": "confirm-pickup2-page/index.html",
+    "display": "Confirm Pickup 2"
+  },
+  {
+    "path": "confirm-pickup3-page/index.html",
+    "display": "Confirm Pickup 3"
+  },
+  {
+    "path": "confirm-pickup4-page/index.html",
+    "display": "Confirm Pickup 4"
+  },
+  {
+    "path": "confirm-pickup5-page/index.html",
+    "display": "Confirm Pickup 5"
+  },
+  {
+    "path": "confirm-pickup6-page/index.html",
+    "display": "Confirm Pickup 6"
+  },
+  {
+    "path": "confirm-pickup7-page/index.html",
+    "display": "Confirm Pickup 7"
+  },
+  {
+    "path": "evaluate1-page/index.html",
+    "display": "Evaluate 1 (Rate)"
+  },
+  {
+    "path": "evaluate2-page/index.html",
+    "display": "Evaluate 2"
+  },
+  {
+    "path": "home-page/index.html",
+    "display": "Home (Map)"
+  },
+  {
+    "path": "login-page/index.html",
+    "display": "Login"
+  },
+  {
+    "path": "map-pages/help-map.html",
+    "display": "Help Map"
+  },
+  {
+    "path": "map-pages/index.html",
+    "display": "map / index"
+  },
+  {
+    "path": "map-pages/map-home.html",
+    "display": "Map Home"
+  },
+  {
+    "path": "map-pages/rental-cost.html",
+    "display": "Rental Cost"
+  },
+  {
+    "path": "map-pages/route-map.html",
+    "display": "Route Map"
+  },
+  {
+    "path": "notification-page/index.html",
+    "display": "Notifications"
+  },
+  {
+    "path": "payment-pages/confirm-payment.html",
+    "display": "Confirm Payment"
+  },
+  {
+    "path": "payment-pages/select-payment.html",
+    "display": "Select Payment"
+  },
+  {
+    "path": "requesting-page/index.html",
+    "display": "Requesting Driver"
+  },
+  {
+    "path": "schedule-page/index.html",
+    "display": "Schedule"
+  },
+  {
+    "path": "search1-page/index.html",
+    "display": "Search 1"
+  },
+  {
+    "path": "search2-page/index.html",
+    "display": "Search 2"
+  },
+  {
+    "path": "signup-page/index.html",
+    "display": "Sign Up"
+  },
+  {
+    "path": "trip-pages/index.html",
+    "display": "Trip Pages Hub"
+  },
+  {
+    "path": "trip-pages/pickup-countdown.html",
+    "display": "Pickup Countdown"
+  },
+  {
+    "path": "trip-pages/scheduling-trip.html",
+    "display": "Scheduling Trip"
+  },
+  {
+    "path": "trip-pages/upcoming-trip.html",
+    "display": "Upcoming Trip"
+  },
+  {
+    "path": "trips-pages/index.html",
+    "display": "Trips Hub"
+  },
+  {
+    "path": "trips-pages/test-trips.html",
+    "display": "trips / test trips"
+  },
+  {
+    "path": "trips-pages/trips-detail-1.html",
+    "display": "Trip Detail (Cancelled)"
+  },
+  {
+    "path": "trips-pages/trips-detail-2.html",
+    "display": "Trip Detail (Completed)"
+  },
+  {
+    "path": "trips-pages/trips-detail-3.html",
+    "display": "Trip Detail (Help)"
+  },
+  {
+    "path": "trips-pages/your-trips-past.html",
+    "display": "Your Trips • Past"
+  },
+  {
+    "path": "trips-pages/your-trips-upcoming.html",
+    "display": "Your Trips • Upcoming"
+  }
+]

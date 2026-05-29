@@ -1,0 +1,60 @@
+* {
+  box-sizing: border-box;
+}
+
+.rectangle411 {
+  position: relative;
+  width: 375px;
+  height: 812px;
+  background-image: url(../image/mpqobmf4-clbvq4q.png);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  .systemStatusBarsBlac {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 375px;
+    height: 40px;
+  }
+
+  .barsHomeIndicatorIPh {
+    display: flex;
+    position: absolute;
+    top: 778px;
+    left: 0;
+    align-items: flex-start;
+    padding: 21px 121px 8px 120px;
+    width: 375px;
+    height: 34px;
+
+    .homeIndicator {
+      border-radius: 100px;
+      background: var(--Neutral-1, #49493d);
+      width: 134px;
+      height: 5px;
+    }
+  }
+
+  .rectangle410 {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    align-items: center;
+    background: #00000099;
+    padding: 398px 98px;
+    width: 375px;
+    height: 812px;
+
+    .schedulingYourTrip {
+      line-height: 16px;
+      letter-spacing: 0;
+      color: var(--Neutral-5, #ffffff);
+      font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+}

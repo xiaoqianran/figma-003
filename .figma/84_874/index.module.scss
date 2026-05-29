@@ -1,0 +1,359 @@
+* {
+  box-sizing: border-box;
+}
+
+.home {
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  background: #ffffff;
+  padding: 135px 29px 457px 54px;
+  width: 375px;
+  height: 812px;
+  overflow: hidden;
+
+  .rectangle410 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 375px;
+    height: 812px;
+
+    .iconsCarFront1 {
+      width: 20px;
+      height: 20px;
+      overflow: hidden;
+    }
+
+    .screenShot20200107At {
+      display: flex;
+      position: absolute;
+      top: 0;
+      left: 0;
+      flex-direction: column;
+      align-items: flex-start;
+      padding-bottom: 143px;
+      width: 375px;
+      height: 496px;
+      background-image: url(../image/mpqpfhcj-0u47otb.png);
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+
+      .rectangle463 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-self: stretch;
+        background: #ffffff;
+        padding-bottom: 32px;
+
+        .systemStatusBarsBlac {
+          width: 375px;
+          height: 40px;
+        }
+
+        .autoWrapper {
+          display: flex;
+          align-items: flex-start;
+          align-self: stretch;
+          margin-top: 16px;
+          padding-right: 48px;
+          padding-left: 0;
+
+          .ellipse35 {
+            display: flex;
+            align-items: center;
+            border-radius: 50%;
+            background: var(--background-1, #ffffff);
+
+            .ellipse15 {
+              border-radius: 50%;
+              width: 50px;
+              height: 50px;
+            }
+          }
+
+          .goodAfternoonJohn {
+            margin: 16px 0px 0px 12px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+          }
+
+          .iconsMenu81 {
+            margin-top: 15px;
+            margin-left: 89px;
+            width: 20px;
+            height: 20px;
+            overflow: hidden;
+          }
+        }
+      }
+
+      .ellipse6 {
+        display: flex;
+        align-items: center;
+        align-self: stretch;
+        margin: 167px 24px 0px 303px;
+        border-radius: 50%;
+        box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+        background: var(--Neutral-5, #ffffff);
+        padding: 14px;
+      }
+    }
+
+    .rectangle406 {
+      display: flex;
+      position: absolute;
+      top: 395px;
+      left: 0;
+      flex-direction: column;
+      align-items: flex-start;
+      border-radius: 24px 24px 0px 0px;
+      background: var(--Neutral-5, #ffffff);
+      padding-top: 32px;
+      width: 375px;
+      height: 417px;
+
+      .diviver {
+        margin-top: 12px;
+        margin-left: 3px;
+        background: #f3f3f3;
+        width: 327px;
+        height: 1px;
+      }
+
+      .addHome {
+        line-height: 24px;
+        letter-spacing: 0;
+        color: var(--Neutral-1, #49493d);
+        font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+        font-size: 16px;
+      }
+
+      .rectangle407 {
+        display: flex;
+        align-items: center;
+        align-self: stretch;
+        margin-right: 24px;
+        margin-left: 24px;
+        border-radius: 12px;
+        background: var(--Neutral-4, #f3f3f3);
+        padding: 14px 16px;
+
+        .searchYourLocation {
+          margin: 0px 0px 0px 8px;
+          line-height: 20px;
+          letter-spacing: 0;
+          color: var(--Neutral-3, #bdbdbd);
+          font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+          font-size: 14px;
+        }
+
+        .schedule {
+          margin: 0px 0px 0px 90px;
+          line-height: 14px;
+          letter-spacing: 0;
+          color: var(--Neutral-1, #49493d);
+          font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+          font-size: 12px;
+          font-weight: 500;
+          text-decoration: underline;
+        }
+      }
+
+      .texfielIconsRigntTex {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        align-self: stretch;
+        margin-top: 24px;
+        padding: 8px 21px 19px 24px;
+
+        .group593 {
+          display: flex;
+          align-items: center;
+          align-self: stretch;
+          justify-content: space-between;
+          margin-right: 225px;
+          min-width: 105px;
+          height: 24px;
+        }
+      }
+
+      .texfielIconsRigntTex2 {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        align-self: stretch;
+        padding: 8px 21px 19px 24px;
+
+        .group5932 {
+          display: flex;
+          align-items: center;
+          align-self: stretch;
+          justify-content: space-between;
+          margin-right: 156px;
+          min-width: 174px;
+          height: 24px;
+        }
+      }
+
+      .autoWrapper2 {
+        display: flex;
+        align-items: center;
+        align-self: stretch;
+        justify-content: space-between;
+        margin-top: 32px;
+        padding-right: 103px;
+        padding-left: 24px;
+
+        .rectangle408 {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border-radius: 12px;
+          background: var(--primary-1, #fecc2a);
+          padding: 12px 24px;
+          width: 117px;
+          min-width: 117px;
+          height: 44px;
+
+          .trips {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+          }
+        }
+
+        .rectangle409 {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border-radius: 12px;
+          background: var(--Neutral-4, #f3f3f3);
+          padding: 12px 24px;
+          width: 112px;
+          min-width: 112px;
+          height: 44px;
+
+          .eats {
+            display: flex;
+            align-items: center;
+            width: 32px;
+            height: 18px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+          }
+        }
+      }
+
+      .barsHomeIndicatorIPh {
+        display: flex;
+        align-items: flex-start;
+        align-self: stretch;
+        margin-top: 75px;
+        padding: 21px 121px 8px 120px;
+
+        .homeIndicator {
+          border-radius: 100px;
+          background: var(--Neutral-1, #49493d);
+          width: 134px;
+          height: 5px;
+        }
+      }
+    }
+  }
+
+  .autoWrapper5 {
+    display: flex;
+    position: relative;
+    align-items: flex-start;
+    align-self: stretch;
+
+    .autoWrapper3 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      align-self: stretch;
+
+      .car {
+        width: 16px;
+        height: 32px;
+        overflow: hidden;
+        rotate: 90deg;
+      }
+
+      .car2 {
+        margin-top: 139px;
+        width: 16px;
+        height: 32px;
+        overflow: hidden;
+        rotate: -47deg;
+      }
+    }
+
+    .car3 {
+      margin-top: 88px;
+      margin-left: 23px;
+      width: 16px;
+      height: 32px;
+      overflow: hidden;
+      rotate: 90deg;
+    }
+
+    .car4 {
+      margin-top: 65px;
+      margin-left: 60px;
+      width: 16px;
+      height: 32px;
+      overflow: hidden;
+      rotate: 23deg;
+    }
+
+    .autoWrapper4 {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      align-self: stretch;
+      margin-top: 120px;
+      margin-left: 30px;
+
+      .car5 {
+        width: 16px;
+        height: 32px;
+        overflow: hidden;
+        rotate: 77deg;
+      }
+
+      .car6 {
+        margin-top: 35px;
+        margin-left: 24px;
+        width: 16px;
+        height: 32px;
+        overflow: hidden;
+        rotate: -47deg;
+      }
+    }
+
+    .car7 {
+      margin-top: 114px;
+      margin-left: 74px;
+      width: 16px;
+      height: 32px;
+      overflow: hidden;
+      rotate: -47deg;
+    }
+  }
+}

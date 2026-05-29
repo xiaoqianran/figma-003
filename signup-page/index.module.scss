@@ -1,0 +1,325 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.signUp2 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #ffffff;
+  width: 375px;
+  height: 812px;
+  overflow: hidden;
+  font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+  position: relative;
+
+  // 状态栏
+  .systemStatusBarsBlac {
+    width: 375px;
+    height: 40px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .statusBarContent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  .time {
+    font-size: 14px;
+    font-weight: 600;
+    color: #000000;
+  }
+
+  .statusIcons {
+    display: flex;
+    gap: 4px;
+    font-size: 12px;
+  }
+
+  // 头部导航
+  .group548 {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    justify-content: space-between;
+    padding: 24px 24px 32px 24px;
+    min-width: 375px;
+    width: 100%;
+
+    .backButton {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #49493d;
+      transition: all 0.2s ease;
+
+      &:hover {
+        color: #fecc2a;
+        transform: scale(1.1);
+      }
+    }
+
+    .uITextHeadingH3B {
+      line-height: 16px;
+      letter-spacing: 0;
+      color: #49493d;
+      font-size: 20px;
+      font-weight: 500;
+      flex: 1;
+      text-align: left;
+      margin-left: 16px;
+    }
+  }
+
+  // 提示文字
+  .enterYourMobileNumbe {
+    margin: 0px 0px 0px 24px;
+    line-height: 20px;
+    letter-spacing: 0;
+    color: #959595;
+    font-size: 14px;
+  }
+
+  // 手机号输入区域
+  .search {
+    position: relative;
+    margin-top: 12px;
+    margin-left: 24px;
+    width: 327px;
+    height: 44px;
+
+    .rectangle159 {
+      display: flex;
+      position: absolute;
+      top: 0;
+      left: 0;
+      align-items: center;
+      border: 1px solid #bdbdbd;
+      border-radius: 12px;
+      padding: 9px 16px;
+      width: 327px;
+      height: 44px;
+      background: #ffffff;
+
+      .iconsGb {
+        width: 24px;
+        height: 18px;
+      }
+
+      .iconsDownArrow1 {
+        margin-left: 8px;
+        width: 12px;
+        height: 12px;
+        overflow: hidden;
+      }
+
+      .a44 {
+        margin: 0px 0px 0px 12px;
+        line-height: 20px;
+        letter-spacing: 0;
+        color: #fecc2a;
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .a12345678 {
+        margin: 0px 0px 0px 16px;
+        line-height: 24px;
+        letter-spacing: 0;
+        color: #49493d;
+        font-size: 16px;
+        font-weight: 500;
+        border: none;
+        outline: none;
+        flex: 1;
+        font-family: inherit;
+        background: transparent;
+
+        &::placeholder {
+          color: #959595;
+        }
+      }
+    }
+
+    .line1 {
+      position: absolute;
+      top: 22px;
+      left: 92px;
+      background: #bdbdbd;
+      width: 24px;
+      height: 1px;
+      rotate: 90deg;
+    }
+  }
+
+  // 发送按钮
+  .rectangle1 {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    margin: 40px 24px 0px;
+    border-radius: 12px;
+    background: #fecc2a;
+    padding: 12px 145px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+
+    &:hover {
+      background: #e6b824;
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      background: #d4a91f;
+      transform: translateY(0);
+    }
+
+    .send {
+      line-height: 20px;
+      letter-spacing: 0;
+      color: #49493d;
+      font-size: 16px;
+      font-weight: 500;
+      text-align: center;
+      width: 100%;
+    }
+  }
+
+  // 提示信息
+  .buyCotinuingYouMayRe {
+    margin: 12px 0px 0px 24px;
+    width: 327px;
+    line-height: 18px;
+    letter-spacing: 0;
+    color: #959595;
+    font-size: 12px;
+  }
+
+  // 数字键盘区域
+  .background {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    margin-top: auto;
+    background: #dfe0e5;
+    padding-top: 6px;
+    backdrop-filter: blur(27px);
+    width: 100%;
+
+    .autoWrapper {
+      display: flex;
+      align-items: center;
+      align-self: stretch;
+      justify-content: space-between;
+      padding-right: 5px;
+      padding-left: 5px;
+      width: 100%;
+      margin-bottom: 5px;
+
+      .key {
+        position: relative;
+        width: 118px;
+        height: 53px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        box-shadow: 0px 1px 0px 0px #898a8d;
+        background: #fcfcfe;
+        cursor: pointer;
+        transition: all 0.1s ease;
+        user-select: none;
+
+        &:active {
+          background: #e8e8ea;
+          transform: scale(0.98);
+        }
+
+        .keyContent {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .keyNumber {
+          line-height: 34px;
+          letter-spacing: 0;
+          color: #49493d;
+          font-family: Lato, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+          font-size: 28px;
+          font-weight: 400;
+        }
+
+        .keyLetters {
+          line-height: 13px;
+          letter-spacing: 1px;
+          color: #49493d;
+          font-family: Lato, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+          font-size: 11px;
+          text-align: center;
+        }
+      }
+
+      .keyWide {
+        width: 118px;
+      }
+
+      .key10 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        box-shadow: 0px 1px 0px 0px #898a8d;
+        background: #fcfcfe;
+        width: 118px;
+        height: 52px;
+        cursor: pointer;
+        transition: all 0.1s ease;
+
+        &:active {
+          background: #e8e8ea;
+          transform: scale(0.98);
+        }
+
+        .deleteIcon {
+          font-size: 16px;
+          color: #49493d;
+        }
+      }
+    }
+
+    // 底部指示器
+    .barsHomeIndicatorIPh {
+      display: flex;
+      align-items: flex-start;
+      align-self: stretch;
+      margin-top: 28px;
+      padding: 21px 121px 8px 120px;
+      width: 100%;
+
+      .homeIndicator {
+        border-radius: 100px;
+        background: #49493d;
+        width: 134px;
+        height: 5px;
+      }
+    }
+  }
+}

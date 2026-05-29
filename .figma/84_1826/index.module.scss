@@ -1,0 +1,113 @@
+* {
+  box-sizing: border-box;
+}
+
+.rectangle410 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #00000099;
+  width: 375px;
+  height: 812px;
+  background-image: url(../image/mpqq5axk-t5qj2ac.png);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  .systemStatusBarsWhit {
+    width: 375px;
+    height: 40px;
+  }
+
+  .group548 {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    padding: 24px 335px 32px 24px;
+
+    .iconsLeftArrow1 {
+      width: 16px;
+      height: 16px;
+      overflow: hidden;
+    }
+  }
+
+  .rectangle454 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: stretch;
+    margin: 131px 24px 0px;
+    border-radius: 12px;
+    background: var(--Neutral-5, #ffffff);
+    padding: 32px 27px 34px;
+
+    .ellipse35 {
+      display: flex;
+      align-items: center;
+      align-self: stretch;
+      margin-right: 102px;
+      margin-left: 102px;
+      border-radius: 50%;
+      background: var(--background-1, #ffffff);
+
+      .ellipse15 {
+        border-radius: 50%;
+        width: 70px;
+        height: 70px;
+      }
+    }
+
+    .howWasYourTripWithPu {
+      margin: 19px 0px 0px;
+      width: 163px;
+      text-align: center;
+      line-height: 20px;
+      letter-spacing: 0;
+      color: var(--primary-1, #fecc2a);
+      font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .tusdayToAppleUnionSq {
+      margin: 9px 0px 0px;
+      line-height: 18px;
+      letter-spacing: 0;
+      color: var(--Neutral-2, #959595);
+      font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+      font-size: 12px;
+    }
+
+    .group573 {
+      display: flex;
+      align-items: center;
+      align-self: stretch;
+      justify-content: space-between;
+      margin-top: 20px;
+      min-width: 273px;
+      height: 45px;
+
+      .iconsStar1 {
+        width: 45px;
+        height: 45px;
+        overflow: hidden;
+      }
+    }
+  }
+
+  .barsHomeIndicatorIPh {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    margin-top: 248px;
+    padding: 21px 121px 8px 120px;
+
+    .homeIndicator {
+      border-radius: 100px;
+      background: var(--Neutral-1, #49493d);
+      width: 134px;
+      height: 5px;
+    }
+  }
+}

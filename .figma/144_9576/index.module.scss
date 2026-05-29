@@ -1,0 +1,241 @@
+* {
+  box-sizing: border-box;
+}
+
+.yourTrips {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  width: 375px;
+  height: 812px;
+  overflow: hidden;
+
+  .systemStatusBarsBlac {
+    width: 375px;
+    height: 40px;
+  }
+
+  .titleBlack {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    justify-content: space-between;
+    padding: 19px 25px 13px 24px;
+    min-width: 375px;
+
+    .group548 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 5px;
+      width: 119px;
+      min-width: 119px;
+      height: 16px;
+
+      .iconsDelete {
+        width: 16px;
+        height: 16px;
+        overflow: hidden;
+      }
+
+      .uITextHeadingH3B {
+        line-height: 16px;
+        letter-spacing: 0;
+        color: var(--Neutral-1, #49493d);
+        font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+        font-size: 20px;
+        font-weight: 500;
+      }
+    }
+
+    .rectangle462 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 20px;
+      box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+      background: var(--Neutral-5, #ffffff);
+      padding: 11px 16px;
+      width: 111px;
+      min-width: 111px;
+      height: 40px;
+
+      .upcoming {
+        width: 55px;
+        line-height: 18px;
+        letter-spacing: 0;
+        color: var(--Neutral-1, #49493d);
+        font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .iconsDownArrow1 {
+        width: 12px;
+        height: 12px;
+        overflow: hidden;
+      }
+    }
+  }
+
+  .group551 {
+    position: relative;
+    margin-top: 24px;
+    width: 327px;
+    height: 175px;
+
+    .group2 {
+      display: flex;
+      position: absolute;
+      top: 0;
+      left: 10px;
+      align-items: flex-start;
+      padding: 23px 37px 4px 48px;
+      width: 313px;
+      height: 175px;
+      background-image: url(../image/mpqqes4z-ixh2a7s.svg);
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+
+      .group {
+        margin-top: 123px;
+        width: 21px;
+        height: 21px;
+      }
+
+      .phoneLocation {
+        position: relative;
+        margin-left: 20px;
+        width: 74px;
+        height: 148px;
+        background-image: url(../image/mpqqes4z-wpfmq0l.svg);
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+
+        .vector8 {
+          position: absolute;
+          top: 12px;
+          left: 4px;
+          width: 67px;
+          height: 29px;
+        }
+
+        .vector9 {
+          position: absolute;
+          top: 4px;
+          left: 24px;
+          background: #ffffff;
+          width: 1px;
+          height: 138px;
+        }
+      }
+
+      .vector {
+        opacity: 0.58;
+        margin-top: 123px;
+        margin-left: 107px;
+        border-radius: 50%;
+        background: #3e479b;
+        width: 5px;
+        height: 5px;
+      }
+    }
+
+    .vector2 {
+      position: absolute;
+      top: 172px;
+      left: 0;
+      width: 327px;
+      height: 3px;
+    }
+
+    .group3 {
+      position: absolute;
+      top: 91px;
+      left: 157px;
+      width: 155px;
+      height: 82px;
+    }
+
+    .group4 {
+      position: absolute;
+      top: 60px;
+      left: 199px;
+      width: 61px;
+      height: 61px;
+    }
+
+    .vector10 {
+      position: absolute;
+      top: 65px;
+      left: 103px;
+      width: 54px;
+      height: 72px;
+    }
+
+    .vector11 {
+      position: absolute;
+      top: 65px;
+      left: 133px;
+      width: 37px;
+      height: 93px;
+    }
+
+    .group5 {
+      position: absolute;
+      top: 100px;
+      left: 16px;
+      width: 111px;
+      height: 74px;
+    }
+
+    .group6 {
+      display: flex;
+      position: absolute;
+      top: 2px;
+      left: 1px;
+      align-items: flex-start;
+      padding: 75px 178px 40px 125px;
+      width: 324px;
+      height: 137px;
+      background-image: url(../image/mpqqes50-azwqhbl.svg);
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+
+      .iconsPin31 {
+        width: 22px;
+        height: 22px;
+        overflow: hidden;
+      }
+    }
+  }
+
+  .youHaveNoUpcomingTri {
+    margin: 83px 0px 0px;
+    line-height: 16px;
+    letter-spacing: 0;
+    color: var(--Neutral-1, #49493d);
+    font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  .barsHomeIndicatorIPh {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    margin-top: 368px;
+    padding: 21px 121px 8px 120px;
+
+    .homeIndicator {
+      border-radius: 100px;
+      background: var(--Neutral-1, #49493d);
+      width: 134px;
+      height: 5px;
+    }
+  }
+}

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluate #2 - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .evaluate-container {
+            position: relative;
+            background: #ffffff;
+            width: 375px;
+            height: 812px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            width: 375px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            color: #49493d;
+        }
+
+        .time {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        /* 顶部导航 */
+        .nav-area {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            justify-content: space-between;
+            padding: 24px 335px 32px 24px;
+        }
+
+        .back-arrow {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #49493d;
+        }
+
+        /* 评价卡片 */
+        .rating-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            align-self: stretch;
+            margin: 131px 24px 0px;
+            border-radius: 12px;
+            background: #ffffff;
+            padding: 32px 27px 34px;
+        }
+
+        /* 司机头像 */
+        .driver-avatar {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            margin-right: 102px;
+            margin-left: 102px;
+            border-radius: 50%;
+            background: #ffffff;
+        }
+
+        .avatar-image {
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+        }
+
+        /* 评价标题 */
+        .rating-title {
+            margin: 19px 0px 0px;
+            width: 163px;
+            text-align: center;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #fecc2a;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* 行程信息 */
+        .trip-info {
+            margin: 9px 0px 0px;
+            line-height: 18px;
+            letter-spacing: 0;
+            color: #959595;
+            font-size: 12px;
+        }
+
+        /* 星级评分 */
+        .star-rating {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            justify-content: space-between;
+            margin-top: 20px;
+            min-width: 273px;
+            height: 45px;
+        }
+
+        .star {
+            width: 45px;
+            height: 45px;
+            font-size: 32px;
+            color: #fecc2a;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .star:hover {
+            transform: scale(1.1);
+        }
+
+        .star.empty {
+            color: #e0e0e0;
+        }
+
+        /* 底部指示器 */
+        .home-indicator {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin-top: 248px;
+            padding: 21px 121px 8px 120px;
+        }
+
+        .indicator {
+            border-radius: 100px;
+            background: #49493d;
+            width: 134px;
+            height: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="evaluate-container">
+        <!-- 地图背景 -->
+        <div style="position: absolute; top: 0; left: 0; width: 375px; height: 812px; background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%); background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 375 812%22><defs><pattern id=%22grid%22 width=%2220%22 height=%2220%22 patternUnits=%22userSpaceOnUse%22><path d=%22M 20 0 L 0 0 0 20%22 fill=%22none%22 stroke=%22%23e0e0e0%22 stroke-width=%221%22/></pattern></defs><rect width=%22375%22 height=%22812%22 fill=%22url(%23grid)%22/></svg>'); background-size: cover; z-index: -1;"></div>
+
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <span class="time">9:09</span>
+            <div class="status-icons">
+                <span>📶</span>
+                <span>📶</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <!-- 顶部导航 -->
+        <div class="nav-area">
+            <span class="back-arrow" onclick="goBack()">←</span>
+        </div>
+
+        <!-- 评价卡片 -->
+        <div class="rating-card">
+            <!-- 司机头像 -->
+            <div class="driver-avatar">
+                <div class="avatar-image">👩‍💼</div>
+            </div>
+
+            <!-- 评价标题 -->
+            <p class="rating-title">How was your trip with Push Puttichai?</p>
+            
+            <!-- 行程信息 -->
+            <p class="trip-info">Tusday to Apple Union Square</p>
+
+            <!-- 星级评分 -->
+            <div class="star-rating">
+                <span class="star empty" data-rating="1" onclick="rateStar(1)">☆</span>
+                <span class="star empty" data-rating="2" onclick="rateStar(2)">☆</span>
+                <span class="star empty" data-rating="3" onclick="rateStar(3)">☆</span>
+                <span class="star empty" data-rating="4" onclick="rateStar(4)">☆</span>
+                <span class="star empty" data-rating="5" onclick="rateStar(5)">☆</span>
+            </div>
+        </div>
+
+        <!-- 底部指示器 -->
+        <div class="home-indicator">
+            <div class="indicator"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentRating = 0;
+
+        // 返回上一页
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                alert('返回上一页');
+                // window.location.href = '../evaluate1-page/index.html';
+            }
+        }
+
+        // 星级评分
+        function rateStar(rating) {
+            currentRating = rating;
+            updateStarDisplay();
+            
+            // 显示评分提示并可能跳转
+            setTimeout(() => {
+                if (rating >= 4) {
+                    alert(`感谢您的 ${rating} 星好评！`);
+                    // 可以跳转到下一个评价页面
+                    // window.location.href = '../evaluate1-page/index.html';
+                } else {
+                    alert(`您给出了 ${rating} 星评价，感谢您的反馈！`);
+                }
+            }, 300);
+        }
+
+        // 更新星级显示
+        function updateStarDisplay() {
+            const stars = document.querySelectorAll('.star');
+            stars.forEach((star, index) => {
+                if (index < currentRating) {
+                    star.classList.remove('empty');
+                    star.textContent = '★';
+                    star.style.color = '#fecc2a';
+                } else {
+                    star.classList.add('empty');
+                    star.textContent = '☆';
+                    star.style.color = '#e0e0e0';
+                }
+            });
+        }
+
+        // 初始化功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为星级添加悬停效果
+            const stars = document.querySelectorAll('.star');
+            stars.forEach((star, index) => {
+                star.addEventListener('mouseenter', function() {
+                    // 临时显示悬停效果
+                    for (let i = 0; i <= index; i++) {
+                        stars[i].style.color = '#fed16c';
+                    }
+                });
+                
+                star.addEventListener('mouseleave', function() {
+                    // 恢复到当前评分状态
+                    updateStarDisplay();
+                });
+            });
+
+            // 为评价卡片添加悬停效果
+            const ratingCard = document.querySelector('.rating-card');
+            ratingCard.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0px 6px 50px 0px rgba(0, 0, 0, 0.1)';
+            });
+            
+            ratingCard.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = 'none';
+            });
+
+            console.log('Evaluate #2页面初始化完成');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .profile-container {
+            position: relative;
+            background: #ffffff;
+            width: 375px;
+            height: 812px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* 顶部区域 */
+        .top-section {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 375px;
+            height: 812px;
+        }
+
+        /* 地图背景区域 */
+        .map-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 375px;
+            height: 496px;
+            background-image: url(../.figma/image/mpqq76gy-2i1qoav.png);
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        /* 状态栏和菜单区域 */
+        .header-section {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            align-self: stretch;
+            background: #ffffff;
+            padding-bottom: 47px;
+        }
+
+        .status-bar {
+            width: 375px;
+            height: 40px;
+        }
+
+        .menu-icon {
+            margin-top: 31px;
+            margin-left: 331px;
+            width: 20px;
+            height: 20px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        /* 定位按钮 */
+        .location-btn {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            margin: 167px 24px 0px 303px;
+            border-radius: 50%;
+            box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+            background: var(--Neutral-5, #ffffff);
+            padding: 14px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .location-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .location-icon {
+            width: 20px;
+            height: 20px;
+            overflow: hidden;
+        }
+
+        /* 底部白色面板 */
+        .bottom-panel {
+            display: flex;
+            position: absolute;
+            top: 395px;
+            left: 0;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 24px 24px 0px 0px;
+            background: var(--Neutral-5, #ffffff);
+            padding-top: 32px;
+            padding-bottom: 185px;
+            width: 375px;
+            height: 417px;
+        }
+
+        /* 预约按钮 */
+        .schedule-btn {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            margin-right: 24px;
+            margin-left: 24px;
+            border-radius: 12px;
+            background: var(--Neutral-4, #f3f3f3);
+            padding: 17px 16px 17px 261px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .schedule-btn:hover {
+            background: #e8e8e8;
+        }
+
+        .schedule-text {
+            line-height: 14px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-size: 12px;
+            font-weight: 500;
+            text-decoration: underline;
+        }
+
+        /* 分割线 */
+        .divider {
+            background: #f3f3f3;
+            width: 327px;
+            height: 1px;
+        }
+
+        /* 菜单项 */
+        .menu-item {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            justify-content: space-between;
+            padding: 44px 21px 19px 27px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .menu-item:hover {
+            background: rgba(0,0,0,0.02);
+        }
+
+        .menu-icon-item {
+            width: 20px;
+            height: 20px;
+            overflow: hidden;
+        }
+
+        .menu-text {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* 车辆图标 */
+        .car-icon {
+            position: absolute;
+            top: 249px;
+            left: 330px;
+            width: 16px;
+            height: 32px;
+            overflow: hidden;
+            transform: rotate(-47deg);
+        }
+
+        /* 侧边菜单覆盖层 */
+        .side-menu-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #00000099;
+            width: 375px;
+            height: 812px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .side-menu-overlay.show {
+            display: block;
+        }
+
+        /* 侧边菜单 */
+        .side-menu {
+            display: flex;
+            position: absolute;
+            top: 0;
+            left: 0;
+            flex-direction: column;
+            align-items: flex-start;
+            background: var(--Neutral-5, #ffffff);
+            padding-bottom: 244px;
+            width: 315px;
+            height: 812px;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .side-menu.show {
+            transform: translateX(0);
+        }
+
+        /* 用户信息头部 */
+        .user-header {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            justify-content: space-between;
+            background: var(--primary-1, #fecc2a);
+            padding: 64px 114px 64px 24px;
+            min-width: 315px;
+            height: 188px;
+        }
+
+        .user-avatar {
+            display: flex;
+            align-items: center;
+            border-radius: 50%;
+            background: var(--background-1, #ffffff);
+        }
+
+        .avatar-image {
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+        }
+
+        .user-name {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* 侧边菜单项 */
+        .side-menu-item {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            justify-content: space-between;
+            padding-right: 198px;
+            padding-left: 21px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .side-menu-item:hover {
+            background: rgba(0,0,0,0.02);
+        }
+
+        .side-menu-item + .side-menu-item {
+            margin-top: 32px;
+        }
+
+        .side-menu-item:first-of-type {
+            margin-top: 48px;
+        }
+
+        .side-menu-icon {
+            width: 20px;
+            height: 20px;
+            overflow: hidden;
+        }
+
+        .side-menu-text {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* 底部指示器 */
+        .bars-home-indicator-iph {
+            display: flex;
+            position: absolute;
+            top: 778px;
+            left: 0;
+            align-items: flex-start;
+            padding: 21px 121px 8px 120px;
+            width: 375px;
+            height: 34px;
+        }
+
+        .home-indicator {
+            border-radius: 100px;
+            background: var(--Neutral-1, #49493d);
+            width: 134px;
+            height: 5px;
+        }
+
+        /* 状态栏覆盖 */
+        .status-bar-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 375px;
+            height: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <!-- 顶部区域 -->
+        <div class="top-section">
+            <!-- 地图背景 -->
+            <div class="map-background">
+                <!-- 状态栏和菜单 -->
+                <div class="header-section">
+                    <img src="../.figma/image/mpqq76gs-rno4aua.svg" class="status-bar" alt="状态栏" />
+                    <img src="../.figma/image/mpqq76gs-lz46luy.svg" class="menu-icon" alt="菜单" onclick="showSideMenu()" />
+                </div>
+
+                <!-- 定位按钮 -->
+                <div class="location-btn" onclick="centerLocation()">
+                    <img src="../.figma/image/mpqq76gs-yx7xwmt.svg" class="location-icon" alt="定位" />
+                </div>
+            </div>
+
+            <!-- 车辆图标 -->
+            <img src="../.figma/image/mpqq76gs-i0c8pm0.png" class="car-icon" alt="车辆" />
+
+            <!-- 底部面板 -->
+            <div class="bottom-panel">
+                <!-- 预约按钮 -->
+                <div class="schedule-btn" onclick="openSchedule()">
+                    <div class="rectangle-407">
+                        <p class="schedule-text">Schedule</p>
+                    </div>
+                </div>
+
+                <!-- 分割线 -->
+                <div class="divider" style="margin-top: 24px;"></div>
+
+                <!-- 菜单项 -->
+                <div class="menu-item" onclick="openMenuItem('trip')">
+                    <img src="../.figma/image/mpqq76gs-x2nqxgy.svg" class="menu-icon-item" alt="行程" />
+                    <p class="menu-text">Your trip</p>
+                </div>
+
+                <div class="menu-item" onclick="openMenuItem('payment')">
+                    <img src="../.figma/image/mpqq76gs-8reh249.svg" class="menu-icon-item" alt="支付" />
+                    <p class="menu-text">Payment</p>
+                </div>
+
+                <div class="menu-item" onclick="openMenuItem('help')">
+                    <img src="../.figma/image/mpqq76gs-g7ptsmr.svg" class="menu-icon-item" alt="帮助" />
+                    <p class="menu-text">Help</p>
+                </div>
+
+                <div class="menu-item" onclick="openMenuItem('gody-pass')">
+                    <img src="../.figma/image/mpqq76gs-124sb53.svg" class="menu-icon-item" alt="Gody pass" />
+                    <p class="menu-text">Gody pass</p>
+                </div>
+
+                <div class="menu-item" onclick="openMenuItem('gift')">
+                    <img src="../.figma/image/mpqq76gt-d9309hu.svg" class="menu-icon-item" alt="礼物" />
+                    <p class="menu-text">Send a gift</p>
+                </div>
+
+                <div class="menu-item" onclick="openMenuItem('free-trips')">
+                    <img src="../.figma/image/mpqq76gt-9dezx93.svg" class="menu-icon-item" alt="免费行程" />
+                    <p class="menu-text">Free trips</p>
+                </div>
+
+                <div class="menu-item" onclick="openMenuItem('settings')">
+                    <img src="../.figma/image/mpqq76gt-plbuwwy.svg" class="menu-icon-item" alt="设置" />
+                    <p class="menu-text">Settings</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 侧边菜单覆盖层 -->
+        <div class="side-menu-overlay" id="sideMenuOverlay" onclick="hideSideMenu()">
+            <div class="side-menu" id="sideMenu" onclick="event.stopImmediatePropagation()">
+                <!-- 用户信息头部 -->
+                <div class="user-header">
+                    <div class="user-avatar">
+                        <img src="../.figma/image/mpqq76gz-544m243.png" class="avatar-image" alt="用户头像" />
+                    </div>
+                    <p class="user-name">Push Puttichai</p>
+                </div>
+
+                <!-- 侧边菜单项 -->
+                <div class="side-menu-item" onclick="openMenuItem('trip')">
+                    <img src="../.figma/image/mpqq76gs-x2nqxgy.svg" class="side-menu-icon" alt="行程" />
+                    <p class="side-menu-text">Your trip</p>
+                </div>
+
+                <div class="side-menu-item" onclick="openMenuItem('payment')">
+                    <img src="../.figma/image/mpqq76gs-8reh249.svg" class="side-menu-icon" alt="支付" />
+                    <p class="side-menu-text">Payment</p>
+                </div>
+
+                <div class="side-menu-item" onclick="openMenuItem('help')">
+                    <img src="../.figma/image/mpqq76gs-g7ptsmr.svg" class="side-menu-icon" alt="帮助" />
+                    <p class="side-menu-text">Help</p>
+                </div>
+
+                <div class="side-menu-item" onclick="openMenuItem('gody-pass')">
+                    <img src="../.figma/image/mpqq76gs-124sb53.svg" class="side-menu-icon" alt="Gody pass" />
+                    <p class="side-menu-text">Gody pass</p>
+                </div>
+
+                <div class="side-menu-item" onclick="openMenuItem('gift')">
+                    <img src="../.figma/image/mpqq76gt-d9309hu.svg" class="side-menu-icon" alt="礼物" />
+                    <p class="side-menu-text">Send a gift</p>
+                </div>
+
+                <div class="side-menu-item" onclick="openMenuItem('free-trips')">
+                    <img src="../.figma/image/mpqq76gt-9dezx93.svg" class="side-menu-icon" alt="免费行程" />
+                    <p class="side-menu-text">Free trips</p>
+                </div>
+
+                <div class="side-menu-item" onclick="openMenuItem('settings')">
+                    <img src="../.figma/image/mpqq76gt-plbuwwy.svg" class="side-menu-icon" alt="设置" />
+                    <p class="side-menu-text">Settings</p>
+                </div>
+
+                <!-- 底部指示器 -->
+                <div class="bars-home-indicator-iph">
+                    <div class="home-indicator"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 状态栏覆盖 -->
+        <img src="../.figma/image/mpqq76gs-rno4aua.svg" class="status-bar-overlay" alt="状态栏" />
+    </div>
+
+    <script>
+        // 显示侧边菜单
+        function showSideMenu() {
+            const overlay = document.getElementById('sideMenuOverlay');
+            const menu = document.getElementById('sideMenu');
+            
+            overlay.style.display = 'block';
+            setTimeout(() => {
+                menu.classList.add('show');
+            }, 10);
+        }
+
+        // 隐藏侧边菜单
+        function hideSideMenu() {
+            const overlay = document.getElementById('sideMenuOverlay');
+            const menu = document.getElementById('sideMenu');
+            
+            menu.classList.remove('show');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 300);
+        }
+
+        // 定位到当前位置
+        function centerLocation() {
+            const btn = document.querySelector('.location-btn');
+            btn.style.transform = 'scale(0.8)';
+            
+            setTimeout(() => {
+                btn.style.transform = 'scale(1)';
+                alert('已定位到当前位置');
+            }, 200);
+        }
+
+        // 打开预约页面
+        function openSchedule() {
+            const btn = document.querySelector('.schedule-btn');
+            btn.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                btn.style.transform = 'scale(1)';
+                alert('打开预约页面');
+            }, 150);
+        }
+
+        // 打开菜单项
+        function openMenuItem(itemType) {
+            const itemNames = {
+                'trip': '行程',
+                'payment': '支付',
+                'help': '帮助',
+                'gody-pass': 'Gody Pass',
+                'gift': '发送礼物',
+                'free-trips': '免费行程',
+                'settings': '设置'
+            };
+            
+            const itemName = itemNames[itemType] || itemType;
+            
+            // 特殊处理：设置跳转到Edit Account #1
+            if (itemType === 'settings') {
+                window.location.href = 'edit-account-1.html';
+            } else {
+                alert(`打开${itemName}页面`);
+            }
+        }
+
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为菜单项添加悬停效果
+            const menuItems = document.querySelectorAll('.menu-item, .side-menu-item');
+            menuItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(4px)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateX(0)';
+                });
+            });
+
+            // 为用户头部添加点击事件，跳转到编辑账户
+            const userHeader = document.querySelector('.user-header');
+            if (userHeader) {
+                userHeader.addEventListener('click', function() {
+                    window.location.href = 'edit-account-1.html';
+                });
+            }
+
+            console.log('Profile 页面初始化完成');
+        });
+
+        // ESC键关闭侧边菜单
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const overlay = document.getElementById('sideMenuOverlay');
+                if (overlay.style.display === 'block') {
+                    hideSideMenu();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

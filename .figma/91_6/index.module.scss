@@ -1,0 +1,222 @@
+* {
+  box-sizing: border-box;
+}
+
+.aEvaluate2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  width: 375px;
+  height: 812px;
+  overflow: hidden;
+
+  .systemStatusBarsBlac {
+    width: 375px;
+    height: 40px;
+  }
+
+  .group548 {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    justify-content: space-between;
+    padding: 24px 50px 32px 24px;
+    min-width: 375px;
+
+    .iconsLeftArrow1 {
+      width: 16px;
+      height: 16px;
+      overflow: hidden;
+    }
+
+    .uITextHeadingH3B {
+      line-height: 16px;
+      letter-spacing: 0;
+      color: var(--Neutral-1, #49493d);
+      font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+
+  .rectangle456 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: stretch;
+    margin-right: 24px;
+    margin-left: 24px;
+    border-radius: 12px;
+    box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+    background: var(--Neutral-5, #ffffff);
+    padding: 32px 27px;
+
+    .ellipse35 {
+      display: flex;
+      align-items: center;
+      align-self: stretch;
+      margin-right: 97px;
+      margin-left: 97px;
+      border-radius: 50%;
+      background: var(--background-1, #ffffff);
+
+      .ellipse15 {
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+      }
+    }
+
+    .group573 {
+      display: flex;
+      align-items: center;
+      align-self: stretch;
+      justify-content: space-between;
+      margin-top: 45px;
+      min-width: 273px;
+      height: 45px;
+
+      .iconsStar1 {
+        width: 45px;
+        height: 45px;
+        overflow: hidden;
+      }
+    }
+
+    .rectangle408 {
+      display: flex;
+      align-items: center;
+      align-self: stretch;
+      justify-content: space-between;
+      margin: 24px 45px 0px;
+      border-radius: 12px;
+      background: var(--Neutral-4, #f3f3f3);
+      padding: 12px 16px;
+      min-width: 184px;
+      height: 48px;
+
+      .aHeart1 {
+        width: 24px;
+        height: 24px;
+        overflow: hidden;
+      }
+
+      .giveACompliment {
+        line-height: 20px;
+        letter-spacing: 0;
+        color: var(--Neutral-1, #49493d);
+        font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .rectangle455 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    margin: 16px 24px 0px;
+    border-radius: 12px;
+    box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+    background: var(--Neutral-5, #ffffff);
+    padding: 32px 39px 32px 38px;
+
+    .addATipsForBattuvshi {
+      margin: 0px 0px 0px 15px;
+      line-height: 16px;
+      letter-spacing: 0;
+      color: var(--Neutral-1, #49493d);
+      font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+    }
+
+    .yourTripWas1400 {
+      margin: 15px 0px 0px 71px;
+      line-height: 18px;
+      letter-spacing: 0;
+      color: var(--Neutral-2, #959595);
+      font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+      font-size: 12px;
+    }
+
+    .autoWrapper {
+      display: flex;
+      align-items: center;
+      align-self: stretch;
+      justify-content: space-between;
+      margin-top: 22px;
+      padding-right: 0;
+      padding-left: 0;
+
+      .a500 {
+        line-height: 24px;
+        letter-spacing: 0;
+        color: var(--Neutral-2, #959595);
+        font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+        font-size: 16px;
+      }
+
+      .ellipse41 {
+        display: flex;
+        align-items: center;
+        border-radius: 50%;
+        background: var(--Neutral-4, #f3f3f3);
+        padding: 23px 14px 23px 15px;
+      }
+
+      .ellipse42 {
+        display: flex;
+        align-items: center;
+        border-radius: 50%;
+        background: var(--Neutral-4, #f3f3f3);
+        padding: 23px 10px;
+      }
+    }
+
+    .enterCustomAmount {
+      margin: 21px 0px 0px 66px;
+      line-height: 18px;
+      letter-spacing: 0;
+      color: var(--Neutral-2, #959595);
+      font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+      font-size: 12px;
+    }
+  }
+
+  .rectangle1 {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    margin: 32px 24px 0px;
+    border-radius: 12px;
+    background: var(--primary-1, #fecc2a);
+    padding: 12px 145px 12px 144px;
+
+    .done {
+      line-height: 20px;
+      letter-spacing: 0;
+      color: var(--Neutral-1, #49493d);
+      font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
+
+  .barsHomeIndicatorIPh {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    margin-top: 24px;
+    padding: 21px 121px 8px 120px;
+
+    .homeIndicator {
+      border-radius: 100px;
+      background: var(--Neutral-1, #49493d);
+      width: 134px;
+      height: 5px;
+    }
+  }
+}

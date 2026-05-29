@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule a trip - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .schedule-container {
+            position: relative;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375 812"><rect fill="%23333" width="375" height="812"/><circle fill="%23444" cx="50" cy="100" r="30"/><circle fill="%23444" cx="150" cy="80" r="20"/><circle fill="%23444" cx="250" cy="120" r="25"/><circle fill="%23444" cx="320" cy="90" r="15"/><path fill="%23555" d="M0 200 Q100 180 200 200 Q300 220 375 200 L375 400 Q300 380 200 400 Q100 420 0 400 Z"/></svg>');
+            background-position: center;
+            background-size: cover;
+            width: 375px;
+            height: 812px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            color: #fff;
+        }
+
+        .time {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        /* 用户信息区域 */
+        .user-info {
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            margin-top: 24px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .greeting {
+            margin: 0px 0px 0px 22px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .menu-icon {
+            margin-left: auto;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            font-size: 18px;
+            color: #fff;
+        }
+
+        /* 地图区域 */
+        .map-area {
+            position: relative;
+            height: 300px;
+            margin-top: 20px;
+        }
+
+        .map-background {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* 地图上的车辆 */
+        .map-car {
+            position: absolute;
+            width: 16px;
+            height: 32px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .map-car1 { top: 80px; right: 30px; transform: rotate(30deg); }
+        .map-car2 { top: 120px; right: 60px; transform: rotate(45deg); }
+        .map-car3 { top: 160px; right: 40px; transform: rotate(20deg); }
+
+        /* 定位标记 */
+        .location-pin {
+            position: absolute;
+            bottom: 60px;
+            right: 80px;
+            width: 20px;
+            height: 20px;
+            background: #fecc2a;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .location-pin::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 6px;
+            height: 6px;
+            background: #fff;
+            border-radius: 50%;
+        }
+
+        /* 弹窗 */
+        .schedule-modal {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-radius: 20px 20px 0 0;
+            padding: 24px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+        }
+
+        /* 拖拽指示器 */
+        .drag-handle {
+            width: 40px;
+            height: 4px;
+            background: #ddd;
+            border-radius: 2px;
+            margin: 0 auto 20px;
+        }
+
+        /* 弹窗标题 */
+        .modal-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+            color: #49493d;
+            margin-bottom: 8px;
+        }
+
+        .modal-subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #959595;
+            margin-bottom: 4px;
+        }
+
+        .modal-time {
+            text-align: center;
+            font-size: 16px;
+            color: #49493d;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        /* 日期时间选择器 */
+        .datetime-picker {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .time-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 60px;
+        }
+
+        .time-item {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #959595;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border-radius: 8px;
+            padding: 0 12px;
+            margin: 2px 0;
+        }
+
+        .time-item.active {
+            color: #49493d;
+            font-weight: 600;
+            background: #f8f9fa;
+        }
+
+        .time-item.selected {
+            color: #fecc2a;
+            font-weight: 700;
+            background: #fff9e6;
+        }
+
+        .time-item:hover {
+            background: #f0f0f0;
+        }
+
+        /* 分隔符 */
+        .separator {
+            width: 1px;
+            height: 120px;
+            background: #e0e0e0;
+            margin: 0 16px;
+        }
+
+        /* AM/PM 选择 */
+        .ampm-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 50px;
+        }
+
+        .ampm-item {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #959595;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border-radius: 8px;
+            padding: 0 16px;
+            margin: 2px 0;
+        }
+
+        .ampm-item.active {
+            color: #49493d;
+            font-weight: 600;
+            background: #f8f9fa;
+        }
+
+        .ampm-item.selected {
+            color: #fecc2a;
+            font-weight: 700;
+            background: #fff9e6;
+        }
+
+        /* 底部按钮 */
+        .modal-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .btn-cancel {
+            background: #f8f9fa;
+            color: #959595;
+        }
+
+        .btn-cancel:hover {
+            background: #e9ecef;
+        }
+
+        .btn-continue {
+            background: #fecc2a;
+            color: #49493d;
+        }
+
+        .btn-continue:hover {
+            background: #e6b824;
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* 底部指示器 */
+        .home-indicator {
+            display: flex;
+            justify-content: center;
+            padding: 21px 0 8px;
+            margin-top: 20px;
+        }
+
+        .indicator {
+            width: 134px;
+            height: 5px;
+            background: #49493d;
+            border-radius: 100px;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 400px) {
+            .time-column {
+                width: 50px;
+            }
+            
+            .time-item {
+                font-size: 14px;
+                padding: 0 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="schedule-container">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <span class="time">9:09</span>
+            <div class="status-icons">
+                <span>📶</span>
+                <span>📶</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <!-- 用户信息 -->
+        <div class="user-info">
+            <div class="avatar">👨‍💼</div>
+            <p class="greeting">Good morning, John</p>
+            <div class="menu-icon" onclick="showMenu()">☰</div>
+        </div>
+
+        <!-- 地图区域 -->
+        <div class="map-area">
+            <div class="map-background">
+                <div class="map-grid"></div>
+                
+                <!-- 地图上的车辆 -->
+                <div class="map-car map-car1">🚕</div>
+                <div class="map-car map-car2">🚕</div>
+                <div class="map-car map-car3">🚕</div>
+                
+                <!-- 定位标记 -->
+                <div class="location-pin"></div>
+            </div>
+        </div>
+
+        <!-- 行程安排弹窗 -->
+        <div class="schedule-modal">
+            <!-- 拖拽指示器 -->
+            <div class="drag-handle"></div>
+            
+            <!-- 弹窗标题 -->
+            <h2 class="modal-title">Schedule a trip</h2>
+            <p class="modal-subtitle">Tue, 24 Sep</p>
+            <p class="modal-time">3:50 PM - 4:00 PM</p>
+
+            <!-- 日期时间选择器 -->
+            <div class="datetime-picker">
+                <!-- 日期列 -->
+                <div class="time-column">
+                    <div class="time-item" onclick="selectDate(this, 'Sun 22 Sep')">Sun 22 Sep</div>
+                    <div class="time-item" onclick="selectDate(this, 'Mon 23 Sep')">Mon 23 Sep</div>
+                    <div class="time-item active selected" onclick="selectDate(this, 'Today')">Today</div>
+                    <div class="time-item" onclick="selectDate(this, 'Wed 25 Sep')">Wed 25 Sep</div>
+                    <div class="time-item" onclick="selectDate(this, 'Thu 26 Sep')">Thu 26 Sep</div>
+                </div>
+
+                <!-- 分隔符 -->
+                <div class="separator"></div>
+
+                <!-- 日期数字列 -->
+                <div class="time-column">
+                    <div class="time-item" onclick="selectDay(this, '1')">1</div>
+                    <div class="time-item" onclick="selectDay(this, '2')">2</div>
+                    <div class="time-item active selected" onclick="selectDay(this, '3')">3</div>
+                    <div class="time-item" onclick="selectDay(this, '4')">4</div>
+                    <div class="time-item" onclick="selectDay(this, '5')">5</div>
+                </div>
+
+                <!-- 分隔符 -->
+                <div class="separator"></div>
+
+                <!-- 时间列 -->
+                <div class="time-column">
+                    <div class="time-item" onclick="selectTime(this, '40')">40</div>
+                    <div class="time-item" onclick="selectTime(this, '45')">45</div>
+                    <div class="time-item active selected" onclick="selectTime(this, '50')">50</div>
+                    <div class="time-item" onclick="selectTime(this, '55')">55</div>
+                    <div class="time-item" onclick="selectTime(this, '60')">60</div>
+                </div>
+
+                <!-- AM/PM列 -->
+                <div class="ampm-column">
+                    <div class="ampm-item" onclick="selectAmPm(this, 'AM')">AM</div>
+                    <div class="ampm-item active selected" onclick="selectAmPm(this, 'PM')">PM</div>
+                </div>
+            </div>
+
+            <!-- 底部按钮 -->
+            <div class="modal-buttons">
+                <button class="btn btn-cancel" onclick="cancelSchedule()">Cancel</button>
+                <button class="btn btn-continue" onclick="continueSchedule()">Continue</button>
+            </div>
+
+            <!-- 底部指示器 -->
+            <div class="home-indicator">
+                <div class="indicator"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 当前选中的值
+        let selectedDate = 'Today';
+        let selectedDay = '3';
+        let selectedTime = '50';
+        let selectedAmPm = 'PM';
+
+        // 选择日期
+        function selectDate(element, date) {
+            // 清除其他选中状态
+            document.querySelectorAll('.time-column:first-child .time-item').forEach(item => {
+                item.classList.remove('selected', 'active');
+            });
+            
+            // 选中当前项
+            element.classList.add('selected', 'active');
+            selectedDate = date;
+            
+            updateScheduleTime();
+        }
+
+        // 选择日期数字
+        function selectDay(element, day) {
+            // 清除其他选中状态
+            document.querySelectorAll('.time-column:nth-child(3) .time-item').forEach(item => {
+                item.classList.remove('selected', 'active');
+            });
+            
+            // 选中当前项
+            element.classList.add('selected', 'active');
+            selectedDay = day;
+            
+            updateScheduleTime();
+        }
+
+        // 选择时间
+        function selectTime(element, time) {
+            // 清除其他选中状态
+            document.querySelectorAll('.time-column:nth-child(5) .time-item').forEach(item => {
+                item.classList.remove('selected', 'active');
+            });
+            
+            // 选中当前项
+            element.classList.add('selected', 'active');
+            selectedTime = time;
+            
+            updateScheduleTime();
+        }
+
+        // 选择AM/PM
+        function selectAmPm(element, ampm) {
+            // 清除其他选中状态
+            document.querySelectorAll('.ampm-item').forEach(item => {
+                item.classList.remove('selected', 'active');
+            });
+            
+            // 选中当前项
+            element.classList.add('selected', 'active');
+            selectedAmPm = ampm;
+            
+            updateScheduleTime();
+        }
+
+        // 更新行程时间显示
+        function updateScheduleTime() {
+            const timeDisplay = document.querySelector('.modal-time');
+            const dateDisplay = document.querySelector('.modal-subtitle');
+            
+            // 更新日期显示
+            dateDisplay.textContent = `${selectedDate}, ${selectedDay} Sep`;
+            
+            // 更新时间显示
+            const startMinute = parseInt(selectedTime) - 10;
+            const endMinute = parseInt(selectedTime);
+            timeDisplay.textContent = `${startMinute}:00 ${selectedAmPm} - ${endMinute}:00 ${selectedAmPm}`;
+        }
+
+        // 取消行程安排
+        function cancelSchedule() {
+            const button = document.querySelector('.btn-cancel');
+            button.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+                if (confirm('确定要取消行程安排吗？')) {
+                    alert('已取消行程安排');
+                    // 可以返回上一页
+                    if (window.history.length > 1) {
+                        window.history.back();
+                    }
+                }
+            }, 150);
+        }
+
+        // 继续行程安排
+        function continueSchedule() {
+            const button = document.querySelector('.btn-continue');
+            button.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+                
+                const scheduleInfo = {
+                    date: selectedDate,
+                    day: selectedDay,
+                    time: selectedTime,
+                    ampm: selectedAmPm,
+                    fullTime: `${selectedTime}:00 ${selectedAmPm}`
+                };
+                
+                alert(`行程已安排！\n日期: ${selectedDate} ${selectedDay} Sep\n时间: ${selectedTime}:00 ${selectedAmPm}`);
+                console.log('行程安排信息:', scheduleInfo);
+                
+                // 这里可以跳转到确认页面或执行其他操作
+                // window.location.href = '../confirmation-page/index.html';
+            }, 150);
+        }
+
+        // 显示菜单
+        function showMenu() {
+            alert('菜单功能');
+            console.log('打开菜单');
+        }
+
+        // 初始化功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为时间选择器添加触摸反馈
+            const timeItems = document.querySelectorAll('.time-item, .ampm-item');
+            timeItems.forEach(item => {
+                item.addEventListener('touchstart', function() {
+                    this.style.background = '#e8e8ea';
+                });
+                
+                item.addEventListener('touchend', function() {
+                    this.style.background = this.classList.contains('selected') ? '#fff9e6' : '#f8f9fa';
+                });
+            });
+
+            // 为地图上的车辆添加点击效果
+            const mapCars = document.querySelectorAll('.map-car');
+            mapCars.forEach((car, index) => {
+                car.addEventListener('click', function() {
+                    this.style.transform = this.style.transform + ' scale(1.5)';
+                    setTimeout(() => {
+                        this.style.transform = this.style.transform.replace(' scale(1.5)', '');
+                    }, 300);
+                    
+                    alert(`已选择车辆 ${index + 1}`);
+                });
+            });
+
+            // 添加弹窗拖拽手势提示
+            const dragHandle = document.querySelector('.drag-handle');
+            if (dragHandle) {
+                dragHandle.addEventListener('click', function() {
+                    const modal = document.querySelector('.schedule-modal');
+                    modal.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        modal.style.transform = 'translateY(0)';
+                    }, 200);
+                });
+            }
+
+            // 初始化当前选中状态
+            console.log('Schedule页面初始化完成');
+            console.log('当前选中:', {
+                date: selectedDate,
+                day: selectedDay,
+                time: selectedTime,
+                ampm: selectedAmPm
+            });
+        });
+
+        // 添加键盘支持
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                cancelSchedule();
+            } else if (e.key === 'Enter') {
+                continueSchedule();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+* {
+  box-sizing: border-box;
+}
+
+.notification {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #ffffff;
+  width: 375px;
+  height: 812px;
+  overflow: hidden;
+
+  .systemStatusBarsBlac {
+    width: 375px;
+    height: 40px;
+  }
+
+  .group548 {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    padding: 24px 335px 32px 24px;
+
+    .iconsLeftArrow1 {
+      width: 16px;
+      height: 16px;
+      overflow: hidden;
+    }
+  }
+
+  .group551 {
+    position: relative;
+    margin-top: 16px;
+    margin-left: 24px;
+    width: 327px;
+    height: 175px;
+
+    .group2 {
+      display: flex;
+      position: absolute;
+      top: 0;
+      left: 10px;
+      align-items: flex-start;
+      padding: 23px 37px 4px 48px;
+      width: 313px;
+      height: 175px;
+      background-image: url(../image/mpqo03a9-jqgt9r4.svg);
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+
+      .group {
+        margin-top: 123px;
+        width: 21px;
+        height: 21px;
+      }
+
+      .phoneLocation {
+        position: relative;
+        margin-left: 20px;
+        width: 74px;
+        height: 148px;
+        background-image: url(../image/mpqo03a9-16wu9nz.svg);
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+
+        .vector8 {
+          position: absolute;
+          top: 12px;
+          left: 4px;
+          width: 67px;
+          height: 29px;
+        }
+
+        .vector9 {
+          position: absolute;
+          top: 4px;
+          left: 24px;
+          background: #ffffff;
+          width: 1px;
+          height: 138px;
+        }
+      }
+
+      .vector {
+        opacity: 0.58;
+        margin-top: 123px;
+        margin-left: 107px;
+        border-radius: 50%;
+        background: #3e479b;
+        width: 5px;
+        height: 5px;
+      }
+    }
+
+    .vector2 {
+      position: absolute;
+      top: 172px;
+      left: 0;
+      width: 327px;
+      height: 3px;
+    }
+
+    .group3 {
+      position: absolute;
+      top: 91px;
+      left: 157px;
+      width: 155px;
+      height: 82px;
+    }
+
+    .group4 {
+      position: absolute;
+      top: 60px;
+      left: 199px;
+      width: 61px;
+      height: 61px;
+    }
+
+    .vector10 {
+      position: absolute;
+      top: 65px;
+      left: 103px;
+      width: 54px;
+      height: 72px;
+    }
+
+    .vector11 {
+      position: absolute;
+      top: 65px;
+      left: 133px;
+      width: 37px;
+      height: 93px;
+    }
+
+    .group5 {
+      position: absolute;
+      top: 100px;
+      left: 16px;
+      width: 111px;
+      height: 74px;
+    }
+
+    .group6 {
+      display: flex;
+      position: absolute;
+      top: 2px;
+      left: 1px;
+      align-items: flex-start;
+      padding: 75px 178px 40px 125px;
+      width: 324px;
+      height: 137px;
+      background-image: url(../image/mpqo03aa-qrnd4kv.svg);
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+
+      .iconsPin31 {
+        width: 22px;
+        height: 22px;
+        overflow: hidden;
+      }
+    }
+  }
+
+  .relaxWithRealTimeTri {
+    margin: 40px 0px 0px 24px;
+    line-height: 20px;
+    letter-spacing: 0;
+    color: var(--Neutral-1, #49493d);
+    font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .pleaseEnablePushNoti {
+    margin: 4px 0px 0px 24px;
+    width: 327px;
+    line-height: 20px;
+    letter-spacing: 0;
+    color: var(--Neutral-2, #959595);
+    font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+  }
+
+  .barsHomeIndicatorIPh {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    margin-top: 371px;
+    padding: 21px 121px 8px 120px;
+
+    .homeIndicator {
+      border-radius: 100px;
+      background: var(--Neutral-1, #49493d);
+      width: 134px;
+      height: 5px;
+    }
+  }
+}

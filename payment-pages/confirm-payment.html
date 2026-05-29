@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .confirm-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #ffffff;
+            width: 375px;
+            height: 846px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            width: 375px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .time {
+            font-size: 14px;
+            font-weight: 600;
+            color: #000000;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        /* 地图区域 */
+        .map-area {
+            position: relative;
+            width: 497px;
+            height: 496px;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 497 496"><rect fill="%23f0f0f0" width="497" height="496"/><path fill="%23e0e0e0" d="M0 100 Q100 80 200 100 Q300 120 400 100 Q497 80 497 100 L497 200 Q400 180 300 200 Q200 220 100 200 Q0 180 0 200 Z"/><circle fill="%23d0d0d0" cx="80" cy="120" r="20"/><circle fill="%23d0d0d0" cx="200" cy="100" r="15"/><circle fill="%23d0d0d0" cx="350" cy="140" r="25"/><path fill="%23d0d0d0" d="M50 300 Q150 280 250 300 Q350 320 450 300"/></svg>');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .map-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* 头部导航 */
+        .header {
+            position: relative;
+            margin-top: 50px;
+            width: 375px;
+            height: 72px;
+        }
+
+        .help-button {
+            display: flex;
+            position: absolute;
+            top: -34px;
+            left: 251px;
+            align-items: center;
+            box-shadow: 0px 4px 40px 0px rgba(0,0,0,0.1);
+            width: 100px;
+            height: 40px;
+        }
+
+        .help-content {
+            display: flex;
+            flex-grow: 1;
+            align-items: center;
+            border-radius: 12px;
+            background: #ffffff;
+            padding: 10px 34px 10px 32px;
+        }
+
+        .help-text {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .back-button {
+            display: flex;
+            position: absolute;
+            top: 0;
+            left: 0;
+            align-items: flex-start;
+            padding: 24px 335px 32px 24px;
+            width: 375px;
+            height: 72px;
+        }
+
+        .back-icon {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #49493d;
+            transition: all 0.2s ease;
+        }
+
+        .back-icon:hover {
+            color: #fecc2a;
+            transform: scale(1.2);
+        }
+
+        /* 确认卡片 */
+        .confirm-card {
+            display: flex;
+            position: absolute;
+            bottom: -316px;
+            left: 61px;
+            flex-direction: column;
+            align-items: flex-start;
+            border-radius: 24px 24px 0px 0px;
+            box-shadow: 0px 4px 40px 0px rgba(0,0,0,0.1);
+            background: #ffffff;
+            padding: 32px 24px 36px;
+            width: 375px;
+            height: 334px;
+        }
+
+        .confirm-title {
+            line-height: 24px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+        }
+
+        .price-amount {
+            margin: 16px 0px 0px;
+            line-height: 16px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 28px;
+            font-weight: 500;
+        }
+
+        .discount-info {
+            margin: 12px 0px 0px;
+            width: 327px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 14px;
+        }
+
+        /* 支付方式卡片 */
+        .payment-card {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin-top: 18px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 40px 0px rgba(0,0,0,0.1);
+            background: #ffffff;
+            padding: 12px 16px 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .payment-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .visa-logo {
+            width: 40px;
+            height: 25px;
+            background: linear-gradient(45deg, #1a1f71, #0066cc);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .card-info {
+            margin: 0px 0px 0px 12px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .card-last-digits {
+            display: flex;
+            align-items: center;
+            margin: 6px 0px 0px 4px;
+            width: 37px;
+            height: 16px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .change-link {
+            margin: 4px 0px 0px 135px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #fecc2a;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .change-link:hover {
+            color: #e6b824;
+            text-decoration: underline;
+        }
+
+        /* 确认按钮 */
+        .confirm-button {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            margin-top: 24px;
+            border-radius: 12px;
+            background: #fecc2a;
+            padding: 12px 135px 12px 134px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .confirm-button:hover {
+            background: #e6b824;
+            transform: translateY(-2px);
+        }
+
+        .confirm-text {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 500;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* 底部指示器 */
+        .home-indicator {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin-top: 316px;
+            padding: 21px 121px 8px 120px;
+            width: 100%;
+        }
+
+        .indicator {
+            border-radius: 100px;
+            background: #49493d;
+            width: 134px;
+            height: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="confirm-container">
+        <!-- 地图区域 -->
+        <div class="autoWrapper2">
+            <div class="screenShot20200107At">
+                <!-- 状态栏 -->
+                <div class="status-bar">
+                    <span class="time">9:09</span>
+                    <div class="status-icons">
+                        <span>📶</span>
+                        <span>📶</span>
+                        <span>🔋</span>
+                    </div>
+                </div>
+
+                <!-- 头部导航 -->
+                <div class="header">
+                    <div class="help-button">
+                        <div class="help-content">
+                            <span class="help-text">Help</span>
+                        </div>
+                    </div>
+                    <div class="back-button">
+                        <div class="back-icon" onclick="goBack()">←</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 确认卡片 -->
+            <div class="confirm-card">
+                <p class="confirm-title">Confirm price</p>
+                <p class="price-amount">$3.00 to rerseve</p>
+                <p class="discount-info">
+                    Save up to 15% on all routes when you ride with Gody and Pool in the San Francisco metropolitan area.
+                </p>
+
+                <!-- 支付方式卡片 -->
+                <div class="payment-card" onclick="changePaymentMethod()">
+                    <div class="visa-logo">VISA</div>
+                    <p class="card-info">....</p>
+                    <p class="card-last-digits">6789</p>
+                    <p class="change-link">Change</p>
+                </div>
+
+                <!-- 确认按钮 -->
+                <div class="confirm-button" onclick="confirmPayment()">
+                    <p class="confirm-text">Confirm</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部指示器 -->
+        <div class="barsHomeIndicatorIPh">
+            <div class="homeIndicator" />
+        </div>
+    </div>
+
+    <script>
+        // 返回上一页
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'select-payment.html';
+            }
+        }
+
+        // 更改支付方式
+        function changePaymentMethod() {
+            const card = document.querySelector('.payment-card');
+            card.style.transform = 'scale(0.95)';
+            card.style.border = '2px solid #fecc2a';
+            
+            setTimeout(() => {
+                card.style.transform = 'scale(1)';
+                card.style.border = 'none';
+                alert('跳转到选择支付方式页面');
+                window.location.href = 'select-payment.html';
+            }, 200);
+        }
+
+        // 确认支付
+        function confirmPayment() {
+            const button = document.querySelector('.confirm-button');
+            button.style.transform = 'scale(0.95)';
+            button.style.background = '#00b894';
+            
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+                button.style.background = '#fecc2a';
+                
+                // 显示成功消息
+                const originalText = button.querySelector('.confirm-text').textContent;
+                button.querySelector('.confirm-text').textContent = 'Processing...';
+                
+                setTimeout(() => {
+                    button.querySelector('.confirm-text').textContent = 'Success!';
+                    alert('支付确认成功！行程已预订');
+                    
+                    // 可以跳转到成功页面或首页
+                    setTimeout(() => {
+                        window.location.href = '../trip-pages/index.html';
+                    }, 1000);
+                }, 1500);
+            }, 200);
+        }
+
+        // 初始化功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为所有可点击元素添加触摸反馈
+            const clickableElements = document.querySelectorAll('.payment-card, .confirm-button, .back-icon, .help-button');
+            
+            clickableElements.forEach(element => {
+                element.addEventListener('touchstart', function() {
+                    this.style.opacity = '0.8';
+                });
+                
+                element.addEventListener('touchend', function() {
+                    this.style.opacity = '1';
+                });
+            });
+
+            console.log('Confirm payment 页面初始化完成');
+        });
+    </script>
+</body>
+</html>

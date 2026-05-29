@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheduling your trip - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .scheduling-container {
+            position: relative;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375 812"><rect fill="%23333" width="375" height="812"/><circle fill="%23444" cx="80" cy="120" r="25"/><circle fill="%23444" cx="180" cy="80" r="30"/><circle fill="%23444" cx="280" cy="150" r="20"/><path fill="%23555" d="M0 200 Q100 180 200 200 Q300 220 375 200 L375 400 Q300 380 200 400 Q100 420 0 400 Z"/></svg>');
+            background-position: center;
+            background-size: cover;
+            width: 375px;
+            height: 812px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 加载状态 */
+        .loading-state {
+            text-align: center;
+            color: #fff;
+        }
+
+        /* 加载动画 */
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid #fecc2a;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 40px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 状态文本 */
+        .status-text {
+            font-size: 20px;
+            font-weight: 500;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+
+        /* 进度点 */
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 40px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: #fecc2a;
+            transform: scale(1.2);
+        }
+
+        .dot.completed {
+            background: #00b894;
+        }
+
+        /* 底部指示器 */
+        .home-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+        }
+
+        .indicator {
+            width: 134px;
+            height: 5px;
+            background: #49493d;
+            border-radius: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="scheduling-container">
+        <!-- 加载状态 -->
+        <div class="loading-state">
+            <!-- 加载动画 -->
+            <div class="loading-spinner"></div>
+            
+            <!-- 状态文本 -->
+            <div class="status-text">Scheduling your trip</div>
+            
+            <!-- 进度点 -->
+            <div class="progress-dots">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+
+        <!-- 底部指示器 -->
+        <div class="home-indicator">
+            <div class="indicator"></div>
+        </div>
+    </div>
+
+    <script>
+        // 模拟行程安排过程
+        function simulateScheduling() {
+            const dots = document.querySelectorAll('.dot');
+            const statusText = document.querySelector('.status-text');
+            const spinner = document.querySelector('.loading-spinner');
+            
+            let currentStep = 0;
+            const steps = [
+                'Connecting to drivers...',
+                'Finding best route...',
+                'Confirming availability...',
+                'Trip scheduled successfully!'
+            ];
+            
+            const interval = setInterval(() => {
+                // 更新进度点
+                if (currentStep > 0 && currentStep <= dots.length) {
+                    dots[currentStep - 1].classList.remove('active');
+                    dots[currentStep - 1].classList.add('completed');
+                }
+                
+                if (currentStep < dots.length) {
+                    dots[currentStep].classList.add('active');
+                }
+                
+                // 更新状态文本
+                if (currentStep < steps.length) {
+                    statusText.textContent = steps[currentStep];
+                }
+                
+                currentStep++;
+                
+                // 完成所有步骤
+                if (currentStep > steps.length) {
+                    clearInterval(interval);
+                    
+                    // 完成动画
+                    setTimeout(() => {
+                        spinner.style.borderTop = '3px solid #00b894';
+                        statusText.style.color = '#00b894';
+                        
+                        setTimeout(() => {
+                            if (confirm('行程安排成功！是否查看行程详情？')) {
+                                // 可以跳转到行程详情页面
+                                window.location.href = 'upcoming-trip.html';
+                            } else {
+                                // 返回首页
+                                window.location.href = '../home-page/index.html';
+                            }
+                        }, 1000);
+                    }, 1000);
+                }
+            }, 1500);
+        }
+
+        // 初始化功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 启动行程安排模拟
+            setTimeout(() => {
+                simulateScheduling();
+            }, 1000);
+
+            // 为容器添加点击效果
+            const container = document.querySelector('.scheduling-container');
+            if (container) {
+                container.addEventListener('click', function() {
+                    const spinner = document.querySelector('.loading-spinner');
+                    if (spinner) {
+                        spinner.style.animation = 'none';
+                        setTimeout(() => {
+                            spinner.style.animation = 'spin 1s linear infinite';
+                        }, 100);
+                    }
+                });
+            }
+
+            console.log('Scheduling your trip 页面初始化完成');
+        });
+
+        // 添加键盘支持
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (confirm('确定要取消行程安排吗？')) {
+                    window.history.back();
+                }
+            } else if (e.key === 'Enter') {
+                // 快速完成
+                const statusText = document.querySelector('.status-text');
+                const spinner = document.querySelector('.loading-spinner');
+                const dots = document.querySelectorAll('.dot');
+                
+                if (statusText && spinner) {
+                    statusText.textContent = 'Trip scheduled successfully!';
+                    statusText.style.color = '#00b894';
+                    spinner.style.borderTop = '3px solid #00b894';
+                    
+                    dots.forEach(dot => {
+                        dot.classList.remove('active');
+                        dot.classList.add('completed');
+                    });
+                    
+                    setTimeout(() => {
+                        window.location.href = 'upcoming-trip.html';
+                    }, 1500);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

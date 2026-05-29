@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluate #1 - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .evaluate-container {
+            position: relative;
+            background: #ffffff;
+            width: 375px;
+            height: 812px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            width: 375px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            color: #49493d;
+        }
+
+        .time {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        /* 顶部导航 */
+        .nav-area {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            justify-content: space-between;
+            padding: 24px 50px 32px 24px;
+            min-width: 375px;
+        }
+
+        .back-arrow {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #49493d;
+        }
+
+        .trip-title {
+            line-height: 16px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        /* 评价卡片 */
+        .rating-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            align-self: stretch;
+            margin-right: 24px;
+            margin-left: 24px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.05);
+            background: #ffffff;
+            padding: 32px 27px;
+        }
+
+        /* 司机头像 */
+        .driver-avatar {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            margin-right: 97px;
+            margin-left: 97px;
+            border-radius: 50%;
+            background: #ffffff;
+        }
+
+        .avatar-image {
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+        }
+
+        /* 星级评分 */
+        .star-rating {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            justify-content: space-between;
+            margin-top: 45px;
+            min-width: 273px;
+            height: 45px;
+        }
+
+        .star {
+            width: 45px;
+            height: 45px;
+            font-size: 32px;
+            color: #fecc2a;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .star:hover {
+            transform: scale(1.1);
+        }
+
+        .star.empty {
+            color: #e0e0e0;
+        }
+
+        /* 赞美按钮 */
+        .compliment-button {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            justify-content: space-between;
+            margin: 24px 45px 0px;
+            border-radius: 12px;
+            background: #f3f3f3;
+            padding: 12px 16px;
+            min-width: 184px;
+            height: 48px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .compliment-button:hover {
+            background: #e8e8e8;
+        }
+
+        .compliment-icon {
+            width: 24px;
+            height: 24px;
+            font-size: 18px;
+            color: #49493d;
+        }
+
+        .compliment-text {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 14px;
+        }
+
+        /* 底部指示器 */
+        .home-indicator {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin-top: 24px;
+            padding: 21px 121px 8px 120px;
+        }
+
+        .indicator {
+            border-radius: 100px;
+            background: #49493d;
+            width: 134px;
+            height: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="evaluate-container">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <span class="time">9:09</span>
+            <div class="status-icons">
+                <span>📶</span>
+                <span>📶</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <!-- 顶部导航 -->
+        <div class="nav-area">
+            <span class="back-arrow" onclick="goBack()">←</span>
+            <p class="trip-title">Tusday to Apple Union Square</p>
+        </div>
+
+        <!-- 评价卡片 -->
+        <div class="rating-card">
+            <!-- 司机头像 -->
+            <div class="driver-avatar">
+                <div class="avatar-image">👩‍💼</div>
+            </div>
+
+            <!-- 星级评分 -->
+            <div class="star-rating">
+                <span class="star empty" data-rating="1" onclick="rateStar(1)">☆</span>
+                <span class="star empty" data-rating="2" onclick="rateStar(2)">☆</span>
+                <span class="star empty" data-rating="3" onclick="rateStar(3)">☆</span>
+                <span class="star empty" data-rating="4" onclick="rateStar(4)">☆</span>
+                <span class="star empty" data-rating="5" onclick="rateStar(5)">☆</span>
+            </div>
+
+            <!-- 赞美按钮 -->
+            <div class="compliment-button" onclick="giveCompliment()">
+                <span class="compliment-icon">👥</span>
+                <p class="compliment-text">Give a compliment</p>
+            </div>
+        </div>
+
+        <!-- 底部指示器 -->
+        <div class="home-indicator">
+            <div class="indicator"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentRating = 0;
+
+        // 返回上一页
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                alert('返回上一页');
+                // window.location.href = '../confirm-pickup7-page/index.html';
+            }
+        }
+
+        // 星级评分
+        function rateStar(rating) {
+            currentRating = rating;
+            updateStarDisplay();
+            
+            // 显示评分提示
+            setTimeout(() => {
+                alert(`您给出了 ${rating} 星评价`);
+            }, 300);
+        }
+
+        // 更新星级显示
+        function updateStarDisplay() {
+            const stars = document.querySelectorAll('.star');
+            stars.forEach((star, index) => {
+                if (index < currentRating) {
+                    star.classList.remove('empty');
+                    star.textContent = '★';
+                    star.style.color = '#fecc2a';
+                } else {
+                    star.classList.add('empty');
+                    star.textContent = '☆';
+                    star.style.color = '#e0e0e0';
+                }
+            });
+        }
+
+        // 给赞美
+        function giveCompliment() {
+            const button = document.querySelector('.compliment-button');
+            button.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+                alert('打开赞美选项');
+                // 可以跳转到赞美页面
+                // window.location.href = '../compliment-page/index.html';
+            }, 150);
+        }
+
+        // 初始化功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为赞美按钮添加悬停效果
+            const complimentButton = document.querySelector('.compliment-button');
+            complimentButton.addEventListener('mouseenter', function() {
+                this.style.background = '#e8e8e8';
+            });
+            
+            complimentButton.addEventListener('mouseleave', function() {
+                this.style.background = '#f3f3f3';
+            });
+
+            // 为星级添加悬停效果
+            const stars = document.querySelectorAll('.star');
+            stars.forEach((star, index) => {
+                star.addEventListener('mouseenter', function() {
+                    // 临时显示悬停效果
+                    for (let i = 0; i <= index; i++) {
+                        stars[i].style.color = '#fed16c';
+                    }
+                });
+                
+                star.addEventListener('mouseleave', function() {
+                    // 恢复到当前评分状态
+                    updateStarDisplay();
+                });
+            });
+
+            console.log('Evaluate #1页面初始化完成');
+        });
+    </script>
+</body>
+</html>

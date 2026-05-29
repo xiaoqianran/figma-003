@@ -1,0 +1,306 @@
+* {
+  box-sizing: border-box;
+}
+
+.requesting {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #ffffff;
+  width: 375px;
+  height: 812px;
+  overflow: hidden;
+
+  .systemStatusBarsBlac {
+    width: 375px;
+    height: 40px;
+  }
+
+  .group548 {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    justify-content: space-between;
+    padding: 24px 217px 32px 24px;
+    min-width: 375px;
+
+    .iconsUpArrow1 {
+      width: 16px;
+      height: 16px;
+      overflow: hidden;
+    }
+
+    .uITextHeadingH3B {
+      line-height: 16px;
+      letter-spacing: 0;
+      color: var(--Neutral-1, #49493d);
+      font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+
+  .rectangle406 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    margin-right: 24px;
+    margin-left: 24px;
+    border-radius: 12px;
+    box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+    background: var(--Neutral-5, #ffffff);
+    padding: 20px 108px 19px 16px;
+
+    .pickUpIn8M39S3 {
+      line-height: 20px;
+      letter-spacing: 0;
+      color: #000000;
+      font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+
+      .pickUpIn8M39S {
+        line-height: 20px;
+        letter-spacing: 0;
+        color: var(--Neutral-1, #49493d);
+        font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .pickUpIn8M39S2 {
+        line-height: 20px;
+        letter-spacing: 0;
+        color: var(--primary-1, #fecc2a);
+        font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+      }
+    }
+
+    .toAppleUnionSquare {
+      margin: 19px 0px 0px;
+      line-height: 16px;
+      letter-spacing: 0;
+      color: var(--Neutral-1, #49493d);
+      font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+    }
+
+    .at350PmFrom51SharonS {
+      margin: 8px 0px 0px;
+      line-height: 18px;
+      letter-spacing: 0;
+      color: var(--Neutral-2, #959595);
+      font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+      font-size: 12px;
+    }
+
+    .a1316 {
+      margin: 16px 0px 0px;
+      line-height: 20px;
+      letter-spacing: 0;
+      color: var(--Neutral-1, #49493d);
+      font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
+
+  .rectangle4062 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    margin: 20px 24px 0px;
+    border-radius: 12px;
+    box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+    background: var(--Neutral-5, #ffffff);
+    padding: 24px 14px 28px 16px;
+
+    .diviver {
+      margin-top: 10px;
+      background: #f3f3f3;
+      width: 295px;
+      height: 1px;
+    }
+
+    .appleUnionSquare {
+      margin: 0px 0px 0px 12px;
+      line-height: 20px;
+      letter-spacing: 0;
+      color: var(--Neutral-1, #49493d);
+      font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+      font-size: 14px;
+    }
+
+    .iconsPin31 {
+      width: 20px;
+      height: 20px;
+      overflow: hidden;
+    }
+
+    .appleUnionSquare2 {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      align-self: stretch;
+      margin-right: 2px;
+      height: 32px;
+
+      .autoWrapper {
+        display: flex;
+        align-items: flex-start;
+        align-self: stretch;
+        padding-right: 0;
+        padding-left: 2px;
+
+        .addOrChange {
+          margin: 4px 0px 0px 60px;
+          line-height: 18px;
+          letter-spacing: 0;
+          color: var(--primary-1, #fecc2a);
+          font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+          font-size: 12px;
+        }
+      }
+    }
+
+    .visa {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      align-self: stretch;
+      margin-top: 24px;
+      margin-left: 2px;
+      height: 32px;
+
+      .autoWrapper2 {
+        display: flex;
+        align-items: flex-start;
+        align-self: stretch;
+        padding-right: 2px;
+        padding-left: 0;
+
+        .change {
+          margin: 4px 0px 0px 157px;
+          line-height: 18px;
+          letter-spacing: 0;
+          color: var(--primary-1, #fecc2a);
+          font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+          font-size: 12px;
+        }
+      }
+    }
+
+    .ridingWithSomeone {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      align-self: stretch;
+      margin-top: 24px;
+      margin-left: 2px;
+      height: 32px;
+
+      .autoWrapper3 {
+        display: flex;
+        align-items: flex-start;
+        align-self: stretch;
+        padding-right: 2px;
+        padding-left: 0;
+
+        .splitFare {
+          margin: 4px 0px 0px 76px;
+          line-height: 18px;
+          letter-spacing: 0;
+          color: var(--primary-1, #fecc2a);
+          font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+          font-size: 12px;
+        }
+      }
+    }
+
+    .shareTripsStatus {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      align-self: stretch;
+      margin-top: 24px;
+      margin-left: 2px;
+      height: 32px;
+
+      .autoWrapper4 {
+        display: flex;
+        align-items: flex-start;
+        align-self: stretch;
+        padding-right: 2px;
+        padding-left: 0;
+
+        .share {
+          margin: 4px 0px 0px 120px;
+          line-height: 18px;
+          letter-spacing: 0;
+          color: var(--primary-1, #fecc2a);
+          font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+          font-size: 12px;
+        }
+      }
+    }
+
+    .rectangle1 {
+      display: flex;
+      align-items: center;
+      align-self: stretch;
+      margin-top: 20px;
+      margin-right: 2px;
+      border-radius: 12px;
+      background: var(--Neutral-4, #f3f3f3);
+      padding: 12px 123px;
+
+      .cancel {
+        line-height: 20px;
+        letter-spacing: 0;
+        color: var(--Semantic-1, #ff3838);
+        font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .visaLocalOffersForSe {
+    margin: 11px 0px 0px 24px;
+    line-height: 18px;
+    letter-spacing: 0;
+    color: var(--Neutral-2, #959595);
+    font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+  }
+
+  .getGodyCashBuyUsingY {
+    margin: 10px 0px 0px 24px;
+    width: 327px;
+    line-height: 20px;
+    letter-spacing: 0;
+    color: var(--Neutral-1, #49493d);
+    font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+  }
+
+  .homeIndicator2 {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    margin-top: 95px;
+    padding: 21px 121px 8px 120px;
+
+    .homeIndicator {
+      border-radius: 100px;
+      background: var(--Neutral-1, #49493d);
+      width: 134px;
+      height: 5px;
+    }
+  }
+}

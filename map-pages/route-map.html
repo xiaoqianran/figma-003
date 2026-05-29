@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Map - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .route-container {
+            position: relative;
+            background: #ffffff;
+            width: 375px;
+            height: 812px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .time {
+            font-size: 14px;
+            font-weight: 600;
+            color: #000000;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        /* 标题栏 */
+        .title-bar {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            justify-content: space-between;
+            padding: 12px 24px 20px;
+            min-width: 375px;
+        }
+
+        .back-button {
+            margin-top: 12px;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #49493d;
+            transition: all 0.2s ease;
+        }
+
+        .back-button:hover {
+            color: #fecc2a;
+            transform: scale(1.2);
+        }
+
+        .help-button {
+            display: flex;
+            align-items: center;
+            box-shadow: 0px 4px 40px 0px rgba(0,0,0,0.1);
+        }
+
+        .help-content {
+            display: flex;
+            flex-grow: 1;
+            align-items: center;
+            border-radius: 12px;
+            box-shadow: 0px 4px 40px 0px rgba(0,0,0,0.1);
+            background: #ffffff;
+            padding: 10px 34px 10px 32px;
+        }
+
+        .help-text {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* 地图区域 */
+        .map-area {
+            position: relative;
+            height: 812px;
+            background: linear-gradient(135deg, #e8f4f8 0%, #d4edda 50%, #fff3cd 100%);
+        }
+
+        .map-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* 路径线条 */
+        .route-path {
+            position: absolute;
+            top: 255px;
+            left: 30px;
+            width: 268px;
+            height: 246px;
+            background: linear-gradient(45deg, transparent, #fecc2a, transparent);
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+
+        /* 车辆和标记 */
+        .map-vehicle {
+            position: absolute;
+            width: 16px;
+            height: 32px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .vehicle1 { top: 176px; left: 116px; transform: rotate(-65deg); }
+        .vehicle2 { top: 352px; left: 153px; transform: rotate(148deg); }
+        .vehicle3 { top: 291px; left: 8px; transform: rotate(90deg); }
+        .vehicle4 { top: 204px; left: 153px; transform: rotate(-90deg); }
+        .vehicle5 { top: 205px; left: 248px; transform: rotate(-19deg); }
+        .vehicle6 { top: 218px; left: 33px; transform: rotate(90deg); }
+
+        .location-pin {
+            position: absolute;
+            top: 340px;
+            left: 69px;
+            width: 32px;
+            height: 32px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* GodyX信息卡片 */
+        .godyx-card {
+            display: flex;
+            position: absolute;
+            top: 154px;
+            left: 76px;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 12px;
+            background: #fecc2a;
+            padding-right: 12px;
+            width: 111px;
+            height: 48px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .godyx-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .godyx-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            border-radius: 12px 0px 0px 12px;
+            background: #ffffff;
+            padding: 6px 15px 6px 17px;
+        }
+
+        .godyx-icon {
+            margin-left: 10px;
+            width: 16px;
+            height: 16px;
+            font-size: 14px;
+        }
+
+        .godyx-text {
+            margin: 2px 0px 0px;
+            line-height: 18px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .time-info {
+            width: 21px;
+            text-align: center;
+            line-height: 18px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* 底部指示器 */
+        .home-indicator {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin-top: 24px;
+            padding: 21px 121px 8px 120px;
+            width: 100%;
+        }
+
+        .indicator {
+            border-radius: 100px;
+            background: #49493d;
+            width: 134px;
+            height: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="route-container">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <span class="time">9:09</span>
+            <div class="status-icons">
+                <span>📶</span>
+                <span>📶</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <!-- 标题栏 -->
+        <div class="title-bar">
+            <div class="back-button" onclick="goBack()">←</div>
+            <div class="help-button">
+                <div class="help-content">
+                    <span class="help-text">Help</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 地图区域 -->
+        <div class="map-area">
+            <div class="map-grid"></div>
+            <div class="route-path"></div>
+            
+            <!-- 车辆和标记 -->
+            <div class="map-vehicle vehicle1" onclick="selectVehicle(this)">🚕</div>
+            <div class="map-vehicle vehicle2" onclick="selectVehicle(this)">🚕</div>
+            <div class="map-vehicle vehicle3" onclick="selectVehicle(this)">🚕</div>
+            <div class="map-vehicle vehicle4" onclick="selectVehicle(this)">🚕</div>
+            <div class="map-vehicle vehicle5" onclick="selectVehicle(this)">🚕</div>
+            <div class="map-vehicle vehicle6" onclick="selectVehicle(this)">🚕</div>
+            
+            <div class="location-pin" onclick="selectDestination()">📍</div>
+
+            <!-- GodyX信息卡片 -->
+            <div class="godyx-card" onclick="selectGodyX()">
+                <div class="godyx-info">
+                    <span class="godyx-icon">🚗</span>
+                    <span class="godyx-text">GodyX</span>
+                </div>
+                <span class="time-info">10<br>min</span>
+            </div>
+
+            <!-- 底部指示器 -->
+            <div class="home-indicator">
+                <div class="indicator"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 返回上一页
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'map-home.html';
+            }
+        }
+
+        // 选择车辆
+        function selectVehicle(vehicleElement) {
+            document.querySelectorAll('.map-vehicle').forEach(vehicle => {
+                vehicle.style.transform = vehicle.style.transform.replace(' scale(1.5)', '');
+                vehicle.style.zIndex = '1';
+            });
+            
+            const currentTransform = vehicleElement.style.transform || '';
+            vehicleElement.style.transform = currentTransform + ' scale(1.5)';
+            vehicleElement.style.zIndex = '10';
+            
+            setTimeout(() => {
+                alert('已选择车辆');
+            }, 300);
+        }
+
+        // 选择目的地
+        function selectDestination() {
+            const pin = document.querySelector('.location-pin');
+            pin.style.transform = 'scale(1.3)';
+            
+            setTimeout(() => {
+                pin.style.transform = 'scale(1)';
+                alert('已选择目的地');
+            }, 200);
+        }
+
+        // 选择GodyX服务
+        function selectGodyX() {
+            const card = document.querySelector('.godyx-card');
+            card.style.transform = 'scale(0.95)';
+            card.style.background = '#00b894';
+            
+            setTimeout(() => {
+                card.style.transform = 'scale(1)';
+                card.style.background = '#fecc2a';
+                alert('已选择GodyX服务，预计10分钟到达');
+                // 可以跳转到下一页面
+                // window.location.href = 'trip-detail.html';
+            }, 300);
+        }
+
+        // 初始化功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.map-vehicle, .location-pin, .godyx-card');
+            buttons.forEach(button => {
+                button.addEventListener('touchstart', function() {
+                    this.style.opacity = '0.7';
+                });
+                
+                button.addEventListener('touchend', function() {
+                    this.style.opacity = '1';
+                });
+            });
+
+            console.log('#2 路线地图页面初始化完成');
+        });
+    </script>
+</body>
+</html>

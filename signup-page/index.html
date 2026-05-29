@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .signup-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background: #ffffff;
+            width: 375px;
+            height: 812px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            width: 100%;
+            height: 40px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .status-bar-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .time {
+            font-size: 14px;
+            font-weight: 600;
+            color: #000000;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        /* 头部导航 */
+        .header {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            justify-content: space-between;
+            padding: 24px 24px 32px 24px;
+            min-width: 375px;
+            width: 100%;
+        }
+
+        .back-button {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #49493d;
+        }
+
+        .header-title {
+            line-height: 16px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 20px;
+            font-weight: 500;
+            flex: 1;
+            text-align: left;
+            margin-left: 16px;
+        }
+
+        /* 提示文字 */
+        .instruction-text {
+            margin: 0px 0px 0px 24px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #959595;
+            font-size: 14px;
+        }
+
+        /* 手机号输入区域 */
+        .phone-input-section {
+            position: relative;
+            margin-top: 12px;
+            margin-left: 24px;
+            width: 327px;
+            height: 44px;
+        }
+
+        .phone-input {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 44px;
+            border: 1px solid #bdbdbd;
+            border-radius: 12px;
+            padding: 9px 16px;
+            background: #ffffff;
+        }
+
+        .country-selector {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            min-width: 80px;
+        }
+
+        .flag {
+            font-size: 18px;
+        }
+
+        .arrow {
+            font-size: 10px;
+            color: #666;
+        }
+
+        .country-code {
+            color: #fecc2a;
+            font-size: 16px;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+
+        .divider {
+            width: 1px;
+            height: 20px;
+            background: #bdbdbd;
+            margin: 0 12px;
+        }
+
+        .phone-input-field {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            color: #49493d;
+            font-family: inherit;
+            font-weight: 500;
+        }
+
+        /* 发送按钮 */
+        .send-button {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            margin: 40px 24px 0px;
+            border-radius: 12px;
+            background: #fecc2a;
+            padding: 12px 145px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .send-button:hover {
+            background: #e6b824;
+            transform: translateY(-1px);
+        }
+
+        .send-button:active {
+            background: #d4a91f;
+            transform: translateY(0);
+        }
+
+        .send-text {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 500;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* 提示信息 */
+        .verification-notice {
+            margin: 12px 0px 0px 24px;
+            width: 327px;
+            line-height: 18px;
+            letter-spacing: 0;
+            color: #959595;
+            font-size: 12px;
+        }
+
+        /* 数字键盘区域 */
+        .keyboard {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            align-self: stretch;
+            margin-top: auto;
+            background: #dfe0e5;
+            padding-top: 6px;
+            backdrop-filter: blur(27px);
+            width: 100%;
+        }
+
+        .keyboard-row {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            justify-content: space-between;
+            padding-right: 5px;
+            padding-left: 5px;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+
+        .key {
+            position: relative;
+            width: 118px;
+            height: 53px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            box-shadow: 0px 1px 0px 0px #898a8d;
+            background: #fcfcfe;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            user-select: none;
+        }
+
+        .key:active {
+            background: #f0f0f2;
+            transform: scale(0.98);
+        }
+
+        .key-number {
+            line-height: 34px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-family: Lato, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            font-size: 28px;
+            font-weight: 400;
+        }
+
+        .key-letters {
+            line-height: 13px;
+            letter-spacing: 1px;
+            color: #49493d;
+            font-family: Lato, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        .key-wide {
+            width: 118px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .key-delete {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 23px;
+            height: 17px;
+            font-size: 16px;
+            color: #49493d;
+        }
+
+        /* 底部指示器 */
+        .home-indicator {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin-top: 28px;
+            padding: 21px 121px 8px 120px;
+            width: 100%;
+        }
+
+        .indicator {
+            border-radius: 100px;
+            background: #49493d;
+            width: 134px;
+            height: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <div class="status-bar-content">
+                <span class="time">9:09</span>
+                <div class="status-icons">
+                    <span>📶</span>
+                    <span>📶</span>
+                    <span>🔋</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 头部导航 -->
+        <div class="header">
+            <div class="back-button" onclick="goBack()">←</div>
+            <div class="header-title">Sign up</div>
+        </div>
+
+        <!-- 提示文字 -->
+        <p class="instruction-text">Enter your mobile number</p>
+
+        <!-- 手机号输入区域 -->
+        <div class="phone-input-section">
+            <div class="phone-input">
+                <!-- 国家选择器 -->
+                <div class="country-selector">
+                    <span class="flag">🇬🇧</span>
+                    <span class="arrow">▼</span>
+                    <span class="country-code">+44</span>
+                </div>
+
+                <!-- 分隔线 -->
+                <div class="divider"></div>
+
+                <!-- 手机号输入框 -->
+                <input
+                    type="tel"
+                    class="phone-input-field"
+                    id="phoneInput"
+                    value="1234 5678"
+                    oninput="updatePhoneNumber()"
+                />
+            </div>
+        </div>
+
+        <!-- 发送按钮 -->
+        <button class="send-button" onclick="sendVerification()">
+            <span class="send-text">Send</span>
+        </button>
+
+        <!-- 提示信息 -->
+        <p class="verification-notice">
+            Buy cotinuing you may receive an SMS for verification. Message and data rates may apply.
+        </p>
+
+        <!-- 数字键盘 -->
+        <div class="keyboard">
+            <!-- 第一行: 1, 2, 3 -->
+            <div class="keyboard-row">
+                <div class="key" onclick="inputNumber('1')">
+                    <div class="key-number">1</div>
+                </div>
+                <div class="key" onclick="inputNumber('2')">
+                    <div class="key-number">2</div>
+                    <div class="key-letters">ABC</div>
+                </div>
+                <div class="key" onclick="inputNumber('3')">
+                    <div class="key-number">3</div>
+                    <div class="key-letters">DEF</div>
+                </div>
+            </div>
+
+            <!-- 第二行: 4, 5, 6 -->
+            <div class="keyboard-row">
+                <div class="key" onclick="inputNumber('4')">
+                    <div class="key-number">4</div>
+                    <div class="key-letters">GHI</div>
+                </div>
+                <div class="key" onclick="inputNumber('5')">
+                    <div class="key-number">5</div>
+                    <div class="key-letters">JKL</div>
+                </div>
+                <div class="key" onclick="inputNumber('6')">
+                    <div class="key-number">6</div>
+                    <div class="key-letters">MNO</div>
+                </div>
+            </div>
+
+            <!-- 第三行: 7, 8, 9 -->
+            <div class="keyboard-row">
+                <div class="key" onclick="inputNumber('7')">
+                    <div class="key-number">7</div>
+                    <div class="key-letters">PQRS</div>
+                </div>
+                <div class="key" onclick="inputNumber('8')">
+                    <div class="key-number">8</div>
+                    <div class="key-letters">TUV</div>
+                </div>
+                <div class="key" onclick="inputNumber('9')">
+                    <div class="key-number">9</div>
+                    <div class="key-letters">WXYZ</div>
+                </div>
+            </div>
+
+            <!-- 第四行: 0, 删除 -->
+            <div class="keyboard-row">
+                <div class="key key-wide" onclick="inputNumber('0')">
+                    <div class="key-number">0</div>
+                </div>
+                <div class="key key-wide" onclick="deleteNumber()">
+                    <div class="key-delete">⌫</div>
+                </div>
+            </div>
+
+            <!-- 底部指示器 -->
+            <div class="home-indicator">
+                <div class="indicator"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 返回上一页
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '../login-page/index.html';
+            }
+        }
+
+        // 更新手机号显示
+        function updatePhoneNumber() {
+            const input = document.getElementById('phoneInput');
+            // 格式化手机号显示
+            let value = input.value.replace(/\s/g, '');
+            if (value.length > 4) {
+                value = value.substring(0, 4) + ' ' + value.substring(4);
+            }
+            input.value = value;
+        }
+
+        // 输入数字
+        function inputNumber(number) {
+            const input = document.getElementById('phoneInput');
+            let currentValue = input.value.replace(/\s/g, '');
+            
+            // 限制最大长度为8位数字
+            if (currentValue.length >= 8) {
+                return;
+            }
+            
+            currentValue += number;
+            
+            // 格式化显示
+            if (currentValue.length > 4) {
+                input.value = currentValue.substring(0, 4) + ' ' + currentValue.substring(4);
+            } else {
+                input.value = currentValue;
+            }
+            
+            // 添加按键动画效果
+            addKeyPressEffect(event.currentTarget);
+        }
+
+        // 删除数字
+        function deleteNumber() {
+            const input = document.getElementById('phoneInput');
+            let currentValue = input.value.replace(/\s/g, '');
+            
+            if (currentValue.length > 0) {
+                currentValue = currentValue.substring(0, currentValue.length - 1);
+                
+                // 重新格式化
+                if (currentValue.length > 4) {
+                    input.value = currentValue.substring(0, 4) + ' ' + currentValue.substring(4);
+                } else {
+                    input.value = currentValue;
+                }
+            }
+        }
+
+        // 发送验证码
+        function sendVerification() {
+            const input = document.getElementById('phoneInput');
+            const phoneNumber = input.value;
+            
+            if (!phoneNumber || phoneNumber.replace(/\s/g, '').length < 8) {
+                alert('请输入完整的手机号码');
+                return;
+            }
+            
+            // 按钮动画效果
+            const button = document.querySelector('.send-button');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<span class="send-text">Sending...</span>';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                alert(`验证码已发送到 +44 ${phoneNumber}`);
+                button.innerHTML = originalText;
+                button.disabled = false;
+                
+                // 这里可以跳转到验证码输入页面
+                console.log('跳转到验证码页面');
+            }, 1500);
+        }
+
+        // 添加按键效果
+        function addKeyPressEffect(keyElement) {
+            if (keyElement) {
+                keyElement.style.background = '#e8e8ea';
+                setTimeout(() => {
+                    keyElement.style.background = '#fcfcfe';
+                }, 100);
+            }
+        }
+
+        // 键盘事件支持
+        document.addEventListener('keydown', function(e) {
+            if (e.key >= '0' && e.key <= '9') {
+                inputNumber(e.key);
+            } else if (e.key === 'Backspace') {
+                deleteNumber();
+            } else if (e.key === 'Enter') {
+                sendVerification();
+            }
+        });
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为所有按键添加触摸反馈
+            const keys = document.querySelectorAll('.key');
+            keys.forEach(key => {
+                key.addEventListener('touchstart', function() {
+                    this.style.background = '#e8e8ea';
+                });
+                
+                key.addEventListener('touchend', function() {
+                    this.style.background = '#fcfcfe';
+                });
+            });
+            
+            // 自动聚焦到输入框
+            const phoneInput = document.getElementById('phoneInput');
+            phoneInput.focus();
+            phoneInput.select();
+        });
+    </script>
+</body>
+</html>

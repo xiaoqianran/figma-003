@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Account #2 - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .edit-account-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #ffffff;
+            width: 375px;
+            height: 812px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        /* 状态栏 */
+        .system-status-bar {
+            width: 375px;
+            height: 40px;
+            background: #ffffff;
+        }
+
+        /* 顶部导航 */
+        .group-548 {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            justify-content: space-between;
+            padding: 24px 207px 32px 24px;
+            min-width: 375px;
+        }
+
+        .icons-delete {
+            width: 16px;
+            height: 16px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .ui-text-heading-h3b {
+            line-height: 16px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        /* 名字输入区域 */
+        .text-field-first-name-ed {
+            display: flex;
+            position: relative;
+            flex-direction: column;
+            align-items: flex-start;
+            align-self: stretch;
+            margin: 24px 24px 0px;
+        }
+
+        .field-label {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: var(--Neutral-2, #959595);
+            font-size: 14px;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            justify-content: space-between;
+            margin-top: 12px;
+            border-radius: 12px;
+            background: var(--Neutral-4, #f3f3f3);
+            padding: 14px 16px;
+            min-width: 327px;
+        }
+
+        .input-value {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-size: 14px;
+            font-weight: 500;
+            background: transparent;
+            border: none;
+            outline: none;
+            flex: 1;
+        }
+
+        .input-value:focus {
+            outline: none;
+        }
+
+        .icons-delete-2 {
+            margin-top: 3px;
+            width: 12px;
+            height: 12px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        /* 黄色分隔线 */
+        .line-19 {
+            position: absolute;
+            top: 56px;
+            left: 42px;
+            background: #fecc2a;
+            width: 16px;
+            height: 1px;
+            transform: rotate(90deg);
+        }
+
+        /* 更新按钮 */
+        .update-button {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            margin: 233px 24px 0px;
+            border-radius: 12px;
+            background: var(--primary-1, #fecc2a);
+            padding: 12px 100px 12px 99px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .update-button:hover {
+            background: #e6b824;
+            transform: translateY(-1px);
+        }
+
+        .update-button:active {
+            transform: scale(0.98);
+        }
+
+        .update-text {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* 键盘区域 */
+        .keyboard-background {
+            position: relative;
+            margin-top: 28px;
+            background: #dfe0e5;
+            width: 375px;
+            height: 291px;
+            backdrop-filter: blur(54px);
+        }
+
+        .keys-container {
+            display: flex;
+            position: absolute;
+            top: 8px;
+            left: 3px;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 369px;
+            height: 259px;
+        }
+
+        .key-row {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            justify-content: space-between;
+        }
+
+        .key {
+            display: flex;
+            align-items: center;
+            border-radius: 5px;
+            box-shadow: 0px 1px 0px 0px #898a8d;
+            background: #fcfcfe;
+            padding: 8px 7px 7px 8px;
+            font-family: Lato, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            font-size: 23px;
+            line-height: 27px;
+            letter-spacing: -0.55px;
+            color: #000000;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            user-select: none;
+        }
+
+        .key:active {
+            background: #e8e9ed;
+            transform: translateY(1px);
+            box-shadow: 0px 0px 0px 0px #898a8d;
+        }
+
+        .key.wide {
+            padding: 8px 9px 7px;
+        }
+
+        .key.extra-wide {
+            padding: 8px 12px 7px 13px;
+        }
+
+        .key.small {
+            padding: 8px 4px 7px 5px;
+        }
+
+        .shift-key {
+            position: relative;
+            border-radius: 5px;
+            box-shadow: 0px 1px 0px 0px #898a8d;
+            background: #fcfcfe;
+            width: 42px;
+            height: 42px;
+            cursor: pointer;
+        }
+
+        .shift-key:active {
+            background: #e8e9ed;
+        }
+
+        .shift-symbol {
+            position: absolute;
+            top: 8px;
+            left: 21px;
+            width: 0;
+            height: 27px;
+            line-height: 27px;
+            letter-spacing: -0.55px;
+            color: #000000;
+            font-family: Lato, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            font-size: 23px;
+        }
+
+        .shift-icon {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 19px;
+            height: 16px;
+        }
+
+        .delete-key {
+            position: relative;
+            margin-left: 13px;
+            width: 42px;
+            height: 42px;
+        }
+
+        .delete-key-bg {
+            display: flex;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            align-items: center;
+            padding-top: 11px;
+            padding-bottom: 10px;
+            width: 42px;
+            height: 42px;
+            background-image: url(../.figma/image/mpqq76d0-dl7zslk.svg);
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            filter: drop-shadow(0px 1px 0px #898a8d);
+        }
+
+        .delete-key:active .delete-key-bg {
+            opacity: 0.8;
+        }
+
+        .delete-label {
+            width: 42px;
+            text-align: center;
+            line-height: 21px;
+            letter-spacing: -0.32px;
+            color: #000000;
+            font-family: Lato, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            font-size: 16px;
+        }
+
+        .delete-icon {
+            position: absolute;
+            top: 13px;
+            left: 10px;
+            width: 23px;
+            height: 17px;
+        }
+
+        .special-key {
+            display: flex;
+            align-items: center;
+            padding-top: 11px;
+            padding-bottom: 10px;
+            background-image: url(../.figma/image/mpqq76d0-2a95g48.svg);
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            filter: drop-shadow(0px 1px 0px #898a8d);
+            cursor: pointer;
+        }
+
+        .special-key.space {
+            background-image: url(../.figma/image/mpqq76d0-xfjwyrc.svg);
+        }
+
+        .special-key.return {
+            background-image: url(../.figma/image/mpqq76d0-fcztuki.svg);
+        }
+
+        .special-key:active {
+            opacity: 0.8;
+        }
+
+        .special-label {
+            width: 87px;
+            text-align: center;
+            line-height: 21px;
+            letter-spacing: -0.32px;
+            color: #000000;
+            font-family: Lato, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            font-size: 16px;
+        }
+
+        .special-label.space {
+            width: 182px;
+        }
+
+        .special-label.return {
+            width: 88px;
+            color: var(--Neutral-1, #49493d);
+        }
+
+        .keyboard-footer {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            justify-content: space-between;
+            margin-top: 28px;
+            padding-right: 27px;
+            padding-left: 22px;
+        }
+
+        .emoji-key {
+            width: 27px;
+            height: 27px;
+            cursor: pointer;
+        }
+
+        .dictation-key {
+            width: 15px;
+            height: 25px;
+            cursor: pointer;
+        }
+
+        /* 底部指示器 */
+        .bars-home-indicator-iph {
+            display: flex;
+            position: absolute;
+            top: 257px;
+            left: 0;
+            align-items: flex-start;
+            padding: 21px 121px 8px 120px;
+            width: 375px;
+            height: 34px;
+        }
+
+        .home-indicator {
+            border-radius: 100px;
+            background: #646464;
+            width: 134px;
+            height: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="edit-account-container">
+        <!-- 状态栏 -->
+        <img src="../.figma/image/mpqq76d0-nu0j4ek.svg" class="system-status-bar" alt="状态栏" />
+        
+        <!-- 顶部导航 -->
+        <div class="group-548">
+            <img src="../.figma/image/mpqq76d0-ef95u2r.svg" class="icons-delete" alt="关闭" onclick="goBack()" />
+            <p class="ui-text-heading-h3b">Edit account</p>
+        </div>
+
+        <!-- 名字输入区域 -->
+        <div class="text-field-first-name-ed">
+            <p class="field-label">First name</p>
+            <div class="input-container">
+                <input type="text" class="input-value" value="Push" id="firstNameInput" />
+                <img src="../.figma/image/mpqq76d1-5xvr9cr.svg" class="icons-delete-2" alt="删除" onclick="clearInput()" />
+            </div>
+            <div class="line-19"></div>
+        </div>
+
+        <!-- 更新按钮 -->
+        <div class="update-button" onclick="updateFirstName()">
+            <p class="update-text">Update first name</p>
+        </div>
+
+        <!-- 键盘区域 -->
+        <div class="keyboard-background">
+            <div class="keys-container">
+                <!-- 第一行字母 -->
+                <div class="key-row" style="padding-right: 0; padding-left: 0;">
+                    <div class="key" onclick="addToInput('Q')">Q</div>
+                    <div class="key" onclick="addToInput('W')">W</div>
+                    <div class="key" onclick="addToInput('E')">E</div>
+                    <div class="key small" onclick="addToInput('R')">R</div>
+                    <div class="key" onclick="addToInput('T')">T</div>
+                    <div class="key" onclick="addToInput('Y')">Y</div>
+                    <div class="key" onclick="addToInput('U')">U</div>
+                    <div class="key extra-wide" onclick="addToInput('I')">I</div>
+                    <div class="key" onclick="addToInput('O')">O</div>
+                    <div class="key wide" onclick="addToInput('P')">P</div>
+                </div>
+
+                <!-- 第二行字母 -->
+                <div class="key-row" style="margin-top: 12px; padding-right: 18px; padding-left: 19px;">
+                    <div class="key" onclick="addToInput('A')">A</div>
+                    <div class="key" onclick="addToInput('S')">S</div>
+                    <div class="key" onclick="addToInput('D')">D</div>
+                    <div class="key" onclick="addToInput('F')">F</div>
+                    <div class="key" onclick="addToInput('G')">G</div>
+                    <div class="key" onclick="addToInput('H')">H</div>
+                    <div class="key" onclick="addToInput('J')">J</div>
+                    <div class="key" onclick="addToInput('K')">K</div>
+                    <div class="key" onclick="addToInput('L')">L</div>
+                </div>
+
+                <!-- 第三行字母 -->
+                <div class="key-row" style="margin-top: 12px; padding-right: 0; padding-left: 0;">
+                    <div class="shift-key" onclick="toggleShift()">
+                        <p class="shift-symbol">&nbsp;</p>
+                        <img src="../.figma/image/mpqq76d0-xnhdy1d.svg" class="shift-icon" alt="Shift" />
+                    </div>
+                    <div class="key" onclick="addToInput('Z')">Z</div>
+                    <div class="key" onclick="addToInput('X')">X</div>
+                    <div class="key" onclick="addToInput('C')">C</div>
+                    <div class="key" onclick="addToInput('V')">V</div>
+                    <div class="key" onclick="addToInput('B')">B</div>
+                    <div class="key" onclick="addToInput('N')">N</div>
+                    <div class="key" onclick="addToInput('M')">M</div>
+                    <div class="delete-key" onclick="deleteChar()">
+                        <div class="delete-key-bg">
+                            <p class="delete-label">&nbsp;</p>
+                        </div>
+                        <img src="../.figma/image/mpqq76d0-68pqhgo.svg" class="delete-icon" alt="删除" />
+                    </div>
+                </div>
+
+                <!-- 特殊按键行 -->
+                <div class="key-row" style="margin-top: 12px; padding-right: 0; padding-left: 0;">
+                    <div class="special-key" onclick="switchToNumbers()">
+                        <p class="special-label">123</p>
+                    </div>
+                    <div class="special-key space" onclick="addToInput(' ')">
+                        <p class="special-label space">space</p>
+                    </div>
+                    <div class="special-key return" onclick="updateFirstName()">
+                        <p class="special-label return">return</p>
+                    </div>
+                </div>
+
+                <!-- 底部功能键 -->
+                <div class="keyboard-footer">
+                    <img src="../.figma/image/mpqq76d0-e5e62cr.svg" class="emoji-key" alt="表情" onclick="showEmoji()" />
+                    <img src="../.figma/image/mpqq76d0-jo1z2mr.svg" class="dictation-key" alt="语音" onclick="startDictation()" />
+                </div>
+            </div>
+
+            <!-- 底部指示器 -->
+            <div class="bars-home-indicator-iph">
+                <div class="home-indicator"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isShiftActive = false;
+
+        // 返回上一页
+        function goBack() {
+            window.location.href = 'edit-account-1.html';
+        }
+
+        // 清空输入框
+        function clearInput() {
+            const input = document.getElementById('firstNameInput');
+            input.value = '';
+            input.focus();
+        }
+
+        // 向输入框添加字符
+        function addToInput(char) {
+            const input = document.getElementById('firstNameInput');
+            if (isShiftActive) {
+                char = char.toUpperCase();
+                isShiftActive = false;
+            } else {
+                char = char.toLowerCase();
+            }
+            input.value += char;
+            input.focus();
+        }
+
+        // 删除字符
+        function deleteChar() {
+            const input = document.getElementById('firstNameInput');
+            input.value = input.value.slice(0, -1);
+            input.focus();
+        }
+
+        // 切换大小写
+        function toggleShift() {
+            isShiftActive = !isShiftActive;
+            const shiftKey = document.querySelector('.shift-key');
+            if (isShiftActive) {
+                shiftKey.style.background = '#e8e9ed';
+            } else {
+                shiftKey.style.background = '#fcfcfe';
+            }
+        }
+
+        // 切换到数字键盘
+        function switchToNumbers() {
+            alert('切换到数字键盘');
+        }
+
+        // 更新名字
+        function updateFirstName() {
+            const input = document.getElementById('firstNameInput');
+            const newName = input.value.trim();
+            
+            if (newName) {
+                // 添加按钮点击效果
+                const button = document.querySelector('.update-button');
+                button.style.transform = 'scale(0.95)';
+                
+                setTimeout(() => {
+                    button.style.transform = 'scale(1)';
+                    alert(`名字已更新为: ${newName}`);
+                    // 返回到Edit Account #1页面
+                    window.location.href = 'edit-account-1.html';
+                }, 150);
+            } else {
+                alert('请输入名字');
+            }
+        }
+
+        // 显示表情符号
+        function showEmoji() {
+            alert('打开表情符号选择器');
+        }
+
+        // 开始语音输入
+        function startDictation() {
+            alert('开始语音输入');
+        }
+
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('firstNameInput');
+            
+            // 自动聚焦到输入框
+            setTimeout(() => {
+                input.focus();
+                input.select();
+            }, 500);
+
+            // 监听键盘事件
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    updateFirstName();
+                } else if (e.key === 'Backspace') {
+                    // 允许正常的删除操作
+                } else if (e.key.length === 1 && /[a-zA-Z]/.test(e.key)) {
+                    // 允许字母输入
+                }
+            });
+
+            console.log('Edit Account #2 页面初始化完成');
+        });
+    </script>
+</body>
+</html>

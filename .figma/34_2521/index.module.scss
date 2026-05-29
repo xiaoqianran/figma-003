@@ -1,0 +1,138 @@
+* {
+  box-sizing: border-box;
+}
+
+.addPayment2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  width: 375px;
+  height: 812px;
+  overflow: hidden;
+
+  .iconsRightArrow1 {
+    margin-left: 123px;
+    width: 12px;
+    height: 12px;
+    overflow: hidden;
+  }
+
+  .commuterBenefitds {
+    margin: 0px 0px 0px 12px;
+    line-height: 20px;
+    letter-spacing: 0;
+    color: var(--Neutral-1, #49493d);
+    font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+  }
+
+  .iconsCreditCard2 {
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+  }
+
+  .systemStatusBarsBlac {
+    width: 375px;
+    height: 40px;
+  }
+
+  .addPayment {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    justify-content: space-between;
+    padding: 24px 200px 32px 24px;
+    min-width: 375px;
+
+    .iconsLeftArrow1 {
+      width: 16px;
+      height: 16px;
+      overflow: hidden;
+    }
+
+    .uITextHeadingH3B {
+      line-height: 16px;
+      letter-spacing: 0;
+      color: var(--Neutral-1, #49493d);
+      font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+
+  .rectangle416 {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    margin-right: 24px;
+    margin-left: 24px;
+    border-radius: 12px;
+    box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+    background: var(--Neutral-5, #ffffff);
+    padding: 16px;
+  }
+
+  .rectangle4162 {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    margin: 20px 24px 0px;
+    border-radius: 12px;
+    box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+    background: var(--Neutral-5, #ffffff);
+    padding: 16px;
+  }
+
+  .rectangle4163 {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    margin: 20px 24px 0px;
+    border-radius: 12px;
+    box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+    background: var(--Neutral-5, #ffffff);
+    padding: 16px;
+
+    .iconsRightArrow12 {
+      margin-left: 209px;
+      width: 12px;
+      height: 12px;
+      overflow: hidden;
+    }
+  }
+
+  .rectangle4164 {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    margin: 20px 24px 0px;
+    border-radius: 12px;
+    box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+    background: var(--Neutral-5, #ffffff);
+    padding: 16px;
+
+    .iconsRightArrow13 {
+      margin-left: 197px;
+      width: 12px;
+      height: 12px;
+      overflow: hidden;
+    }
+  }
+
+  .barsHomeIndicatorIPh {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    margin-top: 398px;
+    padding: 21px 121px 8px 120px;
+
+    .homeIndicator {
+      border-radius: 100px;
+      background: var(--Neutral-1, #49493d);
+      width: 134px;
+      height: 5px;
+    }
+  }
+}

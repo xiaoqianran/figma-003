@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GODY • Integrated Prototype</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Roboto:wght@400;500;700&amp;display=swap');
+    
+    :root {
+      --primary: #fecc2a;
+    }
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    
+    .phone-frame {
+      width: 375px;
+      height: 812px;
+      background: #000;
+      border-radius: 60px;
+      padding: 12px;
+      box-shadow: 
+        0 0 0 1px #333,
+        0 25px 60px -12px rgb(0 0 0 / 0.4),
+        0 10px 20px -4px rgb(0 0 0 / 0.3);
+      position: relative;
+    }
+    
+    .phone-frame::before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 140px;
+      height: 28px;
+      background: #000;
+      border-radius: 0 0 20px 20px;
+      z-index: 10;
+    }
+    
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      border-radius: 48px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: inset 0 0 0 1px #222;
+    }
+    
+    .phone-screen iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #f5f5f5;
+    }
+    
+    .nav-item {
+      transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .nav-item:hover {
+      background-color: #f1f5f9;
+      transform: translateX(2px);
+    }
+    
+    .nav-item.active {
+      background-color: #fefce8;
+      color: #713f12;
+      font-weight: 600;
+      border-left: 3px solid #fecc2a;
+    }
+    
+    .section-header {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #64748b;
+      padding: 0 12px;
+      margin-top: 16px;
+      margin-bottom: 4px;
+    }
+    
+    .status-pill {
+      background: #111;
+      color: #fff;
+      font-size: 10px;
+      padding: 1px 8px;
+      border-radius: 999px;
+    }
+
+    .gody-yellow {
+      color: #fecc2a;
+    }
+
+    .preview-container {
+      scrollbar-width: thin;
+    }
+
+    .flow-step {
+      font-size: 12px;
+      padding: 4px 10px;
+      background: #fefce8;
+      border: 1px solid #fde047;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .flow-step:hover {
+      background: #fde047;
+    }
+
+    .page-list {
+      max-height: calc(100vh - 220px);
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #cbd5e1 #f8fafc;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-200">
+  <div class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <div class="w-72 bg-slate-900 border-r border-slate-800 flex flex-col">
+      <!-- Header -->
+      <div class="p-5 border-b border-slate-800">
+        <div class="flex items-center gap-x-3">
+          <div class="w-9 h-9 bg-[#fecc2a] rounded-2xl flex items-center justify-center shadow-inner">
+            <i class="fa-solid fa-car text-slate-900 text-3xl"></i>
+          </div>
+          <div>
+            <div class="font-bold text-2xl tracking-tighter">GODY</div>
+            <div class="text-[10px] text-slate-400 -mt-1">INTEGRATED PROTOTYPE</div>
+          </div>
+        </div>
+        <div class="mt-3 flex items-center gap-2">
+          <div class="status-pill flex items-center gap-1.5 px-2.5 py-px">
+            <div class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
+            <span class="text-[10px] font-medium">44 screens</span>
+          </div>
+          <div class="text-[10px] text-slate-500">v0.1 • gradual integration</div>
+        </div>
+      </div>
+
+      <!-- Quick Flow -->
+      <div class="px-4 pt-4">
+        <div class="text-xs font-semibold text-slate-400 mb-2 px-1">CORE USER FLOW</div>
+        <div class="flex flex-wrap gap-1.5" id="quick-flow">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Search -->
+      <div class="px-4 pt-3 pb-2">
+        <div class="relative">
+          <input 
+            id="search-input"
+            type="text" 
+            placeholder="Search screens (e.g. payment, trip)..." 
+            class="w-full bg-slate-950 border border-slate-700 focus:border-[#fecc2a]/60 text-sm rounded-2xl pl-9 py-2 outline-none placeholder:text-slate-500"
+          >
+          <i class="fa-solid fa-search absolute left-3.5 top-2.5 text-slate-500 text-sm"></i>
+        </div>
+      </div>
+
+      <!-- Page Navigation -->
+      <div class="flex-1 overflow-hidden px-2">
+        <div class="page-list pr-1" id="page-list">
+          <!-- Populated dynamically by JS -->
+        </div>
+      </div>
+
+      <!-- Footer actions -->
+      <div class="p-4 border-t border-slate-800 bg-slate-950">
+        <div class="flex gap-2">
+          <button onclick="resetToHome()" 
+                  class="flex-1 text-xs py-2 bg-slate-800 hover:bg-slate-700 rounded-2xl flex items-center justify-center gap-2 transition-colors">
+            <i class="fa-solid fa-home"></i>
+            <span class="font-medium">Home</span>
+          </button>
+          <button onclick="openOriginalCurrent()" 
+                  class="flex-1 text-xs py-2 bg-slate-800 hover:bg-slate-700 rounded-2xl flex items-center justify-center gap-2 transition-colors">
+            <i class="fa-solid fa-external-link-alt"></i>
+            <span class="font-medium">Open Original</span>
+          </button>
+        </div>
+        <div class="text-[10px] text-center text-slate-500 mt-2.5">
+          All pages now live in one place
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Preview Area -->
+    <div class="flex-1 flex flex-col">
+      <!-- Top Toolbar -->
+      <div class="h-14 border-b border-slate-800 bg-slate-900 px-6 flex items-center justify-between">
+        <div class="flex items-center gap-x-4">
+          <div>
+            <span class="font-semibold text-lg" id="current-page-name">Select a screen</span>
+            <span class="ml-3 text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono" id="current-page-path"></span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-x-2 text-sm">
+          <!-- Device info -->
+          <div class="flex items-center bg-slate-800 rounded-3xl px-3 py-1 text-xs">
+            <i class="fa-solid fa-mobile-screen mr-2 text-emerald-400"></i>
+            <span class="font-medium">iPhone 13 • 375×812</span>
+          </div>
+
+          <button onclick="reloadIframe()" 
+                  class="px-3 py-1.5 hover:bg-slate-800 rounded-2xl flex items-center gap-x-2 text-xs transition-colors border border-slate-700">
+            <i class="fa-solid fa-sync-alt"></i>
+            <span>Reload</span>
+          </button>
+
+          <button onclick="toggleAppChrome()" 
+                  class="px-3 py-1.5 hover:bg-slate-800 rounded-2xl flex items-center gap-x-2 text-xs transition-colors border border-slate-700">
+            <i class="fa-solid fa-layer-group"></i>
+            <span>Toggle Chrome</span>
+          </button>
+
+          <div class="w-px h-5 bg-slate-700 mx-1"></div>
+
+          <button onclick="showIntegrationHelp()"
+                  class="text-xs flex items-center gap-x-1.5 px-3 py-1.5 bg-[#fecc2a] hover:bg-yellow-400 transition-colors text-slate-900 font-semibold rounded-2xl">
+            <i class="fa-solid fa-info-circle"></i>
+            <span>How to integrate more</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Preview Workspace -->
+      <div class="flex-1 flex items-center justify-center bg-slate-900 p-8 overflow-auto preview-container">
+        <div class="relative">
+          <!-- Phone Frame -->
+          <div id="phone-frame" class="phone-frame mx-auto">
+            <div class="phone-screen" id="phone-screen">
+              <iframe id="preview-iframe" src="about:blank" title="GODY App Preview"></iframe>
+            </div>
+          </div>
+
+          <!-- App-level Bottom Tab Bar (overlay) -->
+          <div id="app-chrome-tabs" 
+               class="hidden absolute bottom-[18px] left-1/2 -translate-x-1/2 w-[295px] bg-white/95 backdrop-blur-md border border-slate-200 shadow rounded-[22px] flex items-center justify-around py-1 px-1 text-[#49493d]"
+               style="box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);">
+            <button onclick="navigateViaChrome('home-page/index.html')" class="flex flex-col items-center justify-center w-14 py-0.5 text-[10px] hover:text-[#fecc2a] tab-btn" data-tab="home">
+              <i class="fa-solid fa-home text-lg mb-px"></i>
+              <span class="font-medium">Home</span>
+            </button>
+            <button onclick="navigateViaChrome('search1-page/index.html')" class="flex flex-col items-center justify-center w-14 py-0.5 text-[10px] hover:text-[#fecc2a] tab-btn" data-tab="search">
+              <i class="fa-solid fa-search text-lg mb-px"></i>
+              <span class="font-medium">Search</span>
+            </button>
+            <button onclick="navigateViaChrome('trips-pages/your-trips-upcoming.html')" class="flex flex-col items-center justify-center w-14 py-0.5 text-[10px] hover:text-[#fecc2a] tab-btn" data-tab="trips">
+              <i class="fa-solid fa-route text-lg mb-px"></i>
+              <span class="font-medium">Trips</span>
+            </button>
+            <button onclick="navigateViaChrome('account-pages/profile.html')" class="flex flex-col items-center justify-center w-14 py-0.5 text-[10px] hover:text-[#fecc2a] tab-btn" data-tab="account">
+              <i class="fa-solid fa-user text-lg mb-px"></i>
+              <span class="font-medium">Account</span>
+            </button>
+          </div>
+
+          <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-center">
+            <div class="inline-flex items-center gap-2 text-[10px] bg-slate-800 text-slate-400 px-3 py-px rounded-full">
+              <span>Drag to resize (future)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom status bar -->
+      <div class="h-10 border-t border-slate-800 bg-slate-950 px-6 flex items-center text-xs text-slate-400 justify-between font-mono">
+        <div class="flex items-center gap-4">
+          <span id="iframe-status">Ready</span>
+          <span class="text-slate-600">•</span>
+          <span>Relative links inside pages will now work correctly</span>
+        </div>
+        <div>
+          <span class="text-emerald-400">✓</span> All 44 pages unified in one experience
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Info Panel -->
+    <div class="w-80 border-l border-slate-800 bg-slate-900 p-5 flex flex-col">
+      <div class="font-semibold text-sm mb-3 flex items-center justify-between">
+        <span>Current View</span>
+        <span class="text-emerald-400"><i class="fa-solid fa-check-circle"></i></span>
+      </div>
+
+      <div id="info-panel" class="text-sm space-y-3 flex-1">
+        <div class="text-slate-400 text-xs">No screen selected yet.</div>
+        <div class="text-[13px] leading-snug text-slate-300">
+          Use the left sidebar to explore every screen that belongs to this application.
+        </div>
+      </div>
+
+      <div class="pt-4 border-t border-slate-800">
+        <div class="text-xs uppercase font-bold tracking-wider text-slate-400 mb-2">Next Steps (Gradual Integration)</div>
+        <ul class="text-xs space-y-1.5 text-slate-400">
+          <li class="flex gap-2"><span class="text-[#fecc2a]">1.</span> <span>Pick a flow and test it end-to-end</span></li>
+          <li class="flex gap-2"><span class="text-[#fecc2a]">2.</span> <span>Extract shared header / bottom nav</span></li>
+          <li class="flex gap-2"><span class="text-[#fecc2a]">3.</span> <span>Convert key screens to React components</span></li>
+          <li class="flex gap-2"><span class="text-[#fecc2a]">4.</span> <span>Add real state + backend later</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script src="scripts/preview.js"></script>
+</body>
+</html>

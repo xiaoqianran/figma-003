@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requesting - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .requesting-container {
+            position: relative;
+            background: #ffffff;
+            width: 375px;
+            height: 812px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            width: 375px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            color: #49493d;
+        }
+
+        .time {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        /* 顶部导航 */
+        .top-nav {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            justify-content: space-between;
+            padding: 24px 217px 32px 24px;
+            min-width: 375px;
+        }
+
+        .back-arrow {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #49493d;
+        }
+
+        .nav-title {
+            line-height: 16px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        /* 行程信息卡片 */
+        .trip-info-card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            align-self: stretch;
+            margin-right: 24px;
+            margin-left: 24px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 40px 0px rgba(0,0,0,0.1);
+            background: #ffffff;
+            padding: 20px 108px 19px 16px;
+        }
+
+        .pickup-time {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #000000;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .pickup-time .time-value {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #fecc2a;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .destination {
+            margin: 19px 0px 0px;
+            line-height: 16px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .departure-info {
+            margin: 8px 0px 0px;
+            line-height: 18px;
+            letter-spacing: 0;
+            color: #959595;
+            font-size: 12px;
+        }
+
+        .price-range {
+            margin: 16px 0px 0px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* 操作选项卡片 */
+        .action-card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            align-self: stretch;
+            margin: 20px 24px 0px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 40px 0px rgba(0,0,0,0.1);
+            background: #ffffff;
+            padding: 24px 14px 28px 16px;
+        }
+
+        .action-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            align-self: stretch;
+            height: 32px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .action-item:hover {
+            opacity: 0.8;
+        }
+
+        .action-item + .action-item {
+            margin-top: 24px;
+        }
+
+        .action-content {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            padding-right: 0;
+            padding-left: 2px;
+        }
+
+        .action-icon {
+            width: 20px;
+            height: 20px;
+            font-size: 16px;
+            margin-right: 12px;
+        }
+
+        .action-text {
+            margin: 0px 0px 0px 12px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 14px;
+        }
+
+        .action-link {
+            margin: 4px 0px 0px 60px;
+            line-height: 18px;
+            letter-spacing: 0;
+            color: #fecc2a;
+            font-size: 12px;
+        }
+
+        .action-link.change {
+            margin: 4px 0px 0px 157px;
+        }
+
+        .action-link.split {
+            margin: 4px 0px 0px 76px;
+        }
+
+        .action-link.share {
+            margin: 4px 0px 0px 120px;
+        }
+
+        .divider {
+            margin-top: 10px;
+            background: #f3f3f3;
+            width: 295px;
+            height: 1px;
+        }
+
+        /* 取消按钮 */
+        .cancel-button {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            margin-top: 20px;
+            margin-right: 2px;
+            border-radius: 12px;
+            background: #f3f3f3;
+            padding: 12px 123px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .cancel-button:hover {
+            background: #e8e8e8;
+            transform: translateY(-1px);
+        }
+
+        .cancel-text {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #ff3838;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* 广告信息 */
+        .promo-info {
+            margin: 11px 0px 0px 24px;
+            line-height: 18px;
+            letter-spacing: 0;
+            color: #959595;
+            font-size: 12px;
+        }
+
+        .promo-detail {
+            margin: 10px 0px 0px 24px;
+            width: 327px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 14px;
+        }
+
+        /* 底部指示器 */
+        .home-indicator {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin-top: 95px;
+            padding: 21px 121px 8px 120px;
+        }
+
+        .indicator {
+            border-radius: 100px;
+            background: #49493d;
+            width: 134px;
+            height: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="requesting-container">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <span class="time">9:09</span>
+            <div class="status-icons">
+                <span>📶</span>
+                <span>📶</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <!-- 顶部导航 -->
+        <div class="top-nav">
+            <span class="back-arrow" onclick="goBack()">↑</span>
+            <span class="nav-title">Requesting</span>
+        </div>
+
+        <!-- 行程信息卡片 -->
+        <div class="trip-info-card">
+            <p class="pickup-time">
+                <span>Pick up in&nbsp;</span>
+                <span class="time-value">8m 39s</span>
+            </p>
+            <p class="destination">To Apple Union Square</p>
+            <p class="departure-info">At 3:50 PM from 51 Sharon St</p>
+            <p class="price-range">$13-16</p>
+        </div>
+
+        <!-- 操作选项卡片 -->
+        <div class="action-card">
+            <!-- 目的地选项 -->
+            <div class="action-item" onclick="changeDestination()">
+                <div class="action-content">
+                    <span class="action-icon">📍</span>
+                    <span class="action-text">Apple Union Square</span>
+                    <span class="action-link">Add or change</span>
+                </div>
+                <div class="divider"></div>
+            </div>
+
+            <!-- 支付方式选项 -->
+            <div class="action-item" onclick="changePayment()">
+                <div class="action-content">
+                    <span class="action-icon">👤</span>
+                    <span class="action-text">Visa 6789</span>
+                    <span class="action-link change">Change</span>
+                </div>
+                <div class="divider"></div>
+            </div>
+
+            <!-- 拼车选项 -->
+            <div class="action-item" onclick="splitFare()">
+                <div class="action-content">
+                    <span class="action-icon">📶</span>
+                    <span class="action-text">Riding with someone?</span>
+                    <span class="action-link split">Split fare</span>
+                </div>
+                <div class="divider"></div>
+            </div>
+
+            <!-- 分享状态选项 -->
+            <div class="action-item" onclick="shareTrip()">
+                <div class="action-content">
+                    <span class="action-icon">👤</span>
+                    <span class="action-text">Share trips status</span>
+                    <span class="action-link share">Share</span>
+                </div>
+                <div class="divider"></div>
+            </div>
+
+            <!-- 取消按钮 -->
+            <button class="cancel-button" onclick="cancelRequest()">
+                <span class="cancel-text">Cancel</span>
+            </button>
+        </div>
+
+        <!-- 广告信息 -->
+        <p class="promo-info">Visa local offers for Sep 19 - 25</p>
+        <p class="promo-detail">Get Gody Cash buy using your Visa card around town</p>
+
+        <!-- 底部指示器 -->
+        <div class="home-indicator">
+            <div class="indicator"></div>
+        </div>
+    </div>
+
+    <script>
+        // 返回上一页
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                alert('返回上一页');
+                // window.location.href = '../choose-trip1-page/index.html';
+            }
+        }
+
+        // 更改目的地
+        function changeDestination() {
+            const actionItem = document.querySelector('.action-item');
+            actionItem.style.transform = 'scale(0.98)';
+            
+            setTimeout(() => {
+                actionItem.style.transform = 'scale(1)';
+                alert('打开目的地选择页面');
+                // 可以跳转到目的地选择页面
+                // window.location.href = '../destination-select/index.html';
+            }, 150);
+        }
+
+        // 更改支付方式
+        function changePayment() {
+            const actionItem = document.querySelectorAll('.action-item')[1];
+            actionItem.style.transform = 'scale(0.98)';
+            
+            setTimeout(() => {
+                actionItem.style.transform = 'scale(1)';
+                alert('打开支付方式选择页面');
+                // 可以跳转到支付方式选择页面
+                // window.location.href = '../payment-select/index.html';
+            }, 150);
+        }
+
+        // 拼车功能
+        function splitFare() {
+            const actionItem = document.querySelectorAll('.action-item')[2];
+            actionItem.style.transform = 'scale(0.98)';
+            
+            setTimeout(() => {
+                actionItem.style.transform = 'scale(1)';
+                alert('打开拼车功能');
+                // 可以跳转到拼车页面
+                // window.location.href = '../split-fare/index.html';
+            }, 150);
+        }
+
+        // 分享行程状态
+        function shareTrip() {
+            const actionItem = document.querySelectorAll('.action-item')[3];
+            actionItem.style.transform = 'scale(0.98)';
+            
+            setTimeout(() => {
+                actionItem.style.transform = 'scale(1)';
+                alert('分享行程状态');
+                // 可以调用分享API
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'GODY 行程分享',
+                        text: '我在使用GODY打车，行程状态已分享',
+                        url: window.location.href
+                    });
+                } else {
+                    // 复制链接到剪贴板
+                    navigator.clipboard.writeText(window.location.href).then(() => {
+                        alert('链接已复制到剪贴板');
+                    });
+                }
+            }, 150);
+        }
+
+        // 取消请求
+        function cancelRequest() {
+            const cancelBtn = document.querySelector('.cancel-button');
+            cancelBtn.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                cancelBtn.style.transform = 'scale(1)';
+                
+                if (confirm('确定要取消当前行程请求吗？')) {
+                    alert('行程请求已取消');
+                    // 可以跳转到首页或选择页面
+                    // window.location.href = '../home-page/index.html';
+                }
+            }, 150);
+        }
+
+        // 初始化功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为所有操作项添加悬停效果
+            const actionItems = document.querySelectorAll('.action-item');
+            actionItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#f8f8f8';
+                });
+
+                item.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = 'transparent';
+                });
+            });
+
+            // 为取消按钮添加悬停效果
+            const cancelBtn = document.querySelector('.cancel-button');
+            cancelBtn.addEventListener('mouseenter', function() {
+                this.style.backgroundColor = '#e8e8e8';
+            });
+
+            cancelBtn.addEventListener('mouseleave', function() {
+                this.style.backgroundColor = '#f3f3f3';
+            });
+
+            // 模拟倒计时效果
+            simulateCountdown();
+
+            console.log('Requesting页面初始化完成');
+        });
+
+        // 模拟倒计时效果
+        function simulateCountdown() {
+            const timeElement = document.querySelector('.time-value');
+            if (!timeElement) return;
+
+            let timeText = timeElement.textContent;
+            let minutes = parseInt(timeText.split('m')[0]);
+            let seconds = parseInt(timeText.split('m')[1].replace('s', ''));
+
+            const countdown = setInterval(() => {
+                seconds--;
+                if (seconds < 0) {
+                    seconds = 59;
+                    minutes--;
+                }
+
+                if (minutes < 0) {
+                    clearInterval(countdown);
+                    timeElement.textContent = '已超时';
+                    return;
+                }
+
+                timeElement.textContent = `${minutes}m ${seconds}s`;
+            }, 1000);
+
+            // 5秒后停止模拟（实际应用中会根据真实数据更新）
+            setTimeout(() => {
+                clearInterval(countdown);
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

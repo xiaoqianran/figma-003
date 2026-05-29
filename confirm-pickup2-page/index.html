@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Pick-up #2 - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .confirm-pickup-container {
+            position: relative;
+            background: #ffffff;
+            width: 375px;
+            height: 812px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* 地图背景区域 */
+        .map-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 375px;
+            height: 596px;
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* 地图上的路径线 */
+        .map-path {
+            position: absolute;
+            top: 80px;
+            left: 40px;
+            width: 300px;
+            height: 420px;
+            border: 2px solid #49493d;
+            border-radius: 40% 60% 30% 70%;
+            opacity: 0.3;
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 375px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            color: #49493d;
+            z-index: 10;
+        }
+
+        .time {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        /* 遮罩层 */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 375px;
+            height: 812px;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 5;
+        }
+
+        /* 底部确认卡片 */
+        .confirm-card {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 375px;
+            height: 400px;
+            background: #ffffff;
+            border-radius: 24px 24px 0 0;
+            box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.05);
+            z-index: 20;
+            padding-top: 32px;
+        }
+
+        /* 返回按钮区域 */
+        .nav-area {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 375px;
+            height: 72px;
+            padding: 24px 335px 32px 24px;
+            z-index: 15;
+        }
+
+        .back-arrow {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #ffffff;
+        }
+
+        /* 标题区域 */
+        .title-section {
+            margin: 0 0 0 24px;
+        }
+
+        .trip-price {
+            line-height: 32px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .trip-subtitle {
+            margin: 12px 0px 0px 24px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #959595;
+            font-size: 14px;
+        }
+
+        /* 第一个选项按钮 - 无边框样式 */
+        .option-button {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            margin: 30px 24px 0px;
+            border: 1px solid #fecc2a;
+            border-radius: 12px;
+            background: #ffffff;
+            padding: 11px 109px 11px 108px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-button:hover {
+            background: #fffbf0;
+            transform: translateY(-1px);
+        }
+
+        .option-button:active {
+            transform: scale(0.98);
+        }
+
+        .option-text {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #fecc2a;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* 第二个选项按钮 - 黄色背景样式 */
+        .primary-button {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            margin: 16px 24px 0px;
+            border-radius: 12px;
+            background: #fecc2a;
+            padding: 12px 110px 12px 109px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .primary-button:hover {
+            background: #fed16c;
+            transform: translateY(-1px);
+        }
+
+        .primary-button:active {
+            transform: scale(0.98);
+        }
+
+        .primary-text {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* 底部指示器 */
+        .home-indicator {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin-top: 24px;
+            padding: 21px 121px 8px 120px;
+        }
+
+        .indicator {
+            border-radius: 100px;
+            background: #49493d;
+            width: 134px;
+            height: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="confirm-pickup-container">
+        <!-- 地图背景 -->
+        <div class="map-background">
+            <!-- 地图路径装饰 -->
+            <div class="map-path"></div>
+        </div>
+
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <span class="time">9:09</span>
+            <div class="status-icons">
+                <span>📶</span>
+                <span>📶</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <!-- 返回按钮 -->
+        <div class="nav-area">
+            <span class="back-arrow" onclick="goBack()">←</span>
+        </div>
+
+        <!-- 遮罩层 -->
+        <div class="overlay"></div>
+
+        <!-- 底部确认卡片 -->
+        <div class="confirm-card">
+            <!-- 标题区域 -->
+            <div class="title-section">
+                <p class="trip-price">Get this trip for $13.00</p>
+                <p class="trip-subtitle">Buy a ride pack and save on this trip</p>
+            </div>
+            
+            <!-- 第一个选项按钮 -->
+            <div class="option-button" onclick="selectOption('no-ride')">
+                <p class="option-text">No ride for $14</p>
+            </div>
+            
+            <!-- 第二个选项按钮 -->
+            <div class="primary-button" onclick="selectOption('ride-pack')">
+                <p class="primary-text">Get a ride pack</p>
+            </div>
+            
+            <!-- 底部指示器 -->
+            <div class="home-indicator">
+                <div class="indicator"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 返回上一页
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                alert('返回上一页');
+                // window.location.href = '../confirm-pickup1-page/index.html';
+            }
+        }
+
+        // 选择选项
+        function selectOption(optionType) {
+            const buttons = document.querySelectorAll('.option-button, .primary-button');
+            
+            // 重置所有按钮状态
+            buttons.forEach(btn => {
+                btn.style.transform = 'scale(0.95)';
+            });
+            
+            setTimeout(() => {
+                buttons.forEach(btn => {
+                    btn.style.transform = 'scale(1)';
+                });
+                
+                if (optionType === 'no-ride') {
+                    alert('已选择：不乘车，价格 $14');
+                    // 可以跳转到其他页面
+                    // window.location.href = '../no-ride-page/index.html';
+                } else if (optionType === 'ride-pack') {
+                    alert('已选择：购买乘车套餐');
+                    // 可以跳转到套餐选择页面
+                    // window.location.href = '../ride-pack-page/index.html';
+                }
+            }, 150);
+        }
+
+        // 初始化功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为选项按钮添加悬停效果
+            const optionButton = document.querySelector('.option-button');
+            const primaryButton = document.querySelector('.primary-button');
+            
+            optionButton.addEventListener('mouseenter', function() {
+                this.style.background = '#fffbf0';
+            });
+            
+            optionButton.addEventListener('mouseleave', function() {
+                this.style.background = '#ffffff';
+            });
+            
+            primaryButton.addEventListener('mouseenter', function() {
+                this.style.background = '#fed16c';
+            });
+            
+            primaryButton.addEventListener('mouseleave', function() {
+                this.style.background = '#fecc2a';
+            });
+
+            console.log('Confirm Pick-up #2页面初始化完成');
+        });
+    </script>
+</body>
+</html>

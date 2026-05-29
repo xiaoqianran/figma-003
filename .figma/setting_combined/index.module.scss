@@ -1,0 +1,474 @@
+* {
+  box-sizing: border-box;
+}
+
+.setting {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #ffffff;
+  width: 375px;
+  height: 860px;
+  overflow: hidden;
+
+  .addHome {
+    margin: 0px 0px 0px 12px;
+    line-height: 20px;
+    letter-spacing: 0;
+    color: var(--Neutral-1, #49493d);
+    font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+  }
+
+  .iconsHome1 {
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+  }
+
+  .favourites {
+    line-height: 20px;
+    letter-spacing: 0;
+    color: var(--Neutral-2, #959595);
+    font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .systemStatusBarsBlac {
+    width: 375px;
+    height: 40px;
+  }
+
+  .group548 {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    justify-content: space-between;
+    padding: 24px 255px 32px 24px;
+    min-width: 375px;
+
+    .iconsDelete {
+      width: 16px;
+      height: 16px;
+      overflow: hidden;
+    }
+
+    .uITextHeadingH3B {
+      line-height: 16px;
+      letter-spacing: 0;
+      color: var(--Neutral-1, #49493d);
+      font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+
+  .profile3 {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    margin-right: 24px;
+    margin-left: 24px;
+    border-radius: 12px;
+    box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+    background: var(--Neutral-5, #ffffff);
+    padding: 12px 16px 16px;
+
+    .ellipse35 {
+      display: flex;
+      align-items: center;
+      margin-top: 4px;
+      border-radius: 50%;
+      background: var(--background-1, #ffffff);
+
+      .ellipse15 {
+        border-radius: 50%;
+        width: 56px;
+        height: 56px;
+      }
+    }
+
+    .profile {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-left: 12px;
+
+      .pushPuttichai {
+        line-height: 20px;
+        letter-spacing: 0;
+        color: var(--Neutral-1, #49493d);
+        font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .a97266789 {
+        line-height: 20px;
+        letter-spacing: 0;
+        color: var(--Neutral-2, #959595);
+        font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+        font-size: 14px;
+      }
+    }
+
+    .profile2 {
+      margin-top: 24px;
+      margin-left: 74px;
+      width: 12px;
+      height: 12px;
+      overflow: hidden;
+    }
+  }
+
+  .forAddedSecurityPlea {
+    margin: 8px 0px 0px 24px;
+    line-height: 20px;
+    letter-spacing: 0;
+    color: var(--Neutral-2, #959595);
+    font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+  }
+
+  .favourites2 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    margin: 20px 24px 0px;
+
+    .rectangle416 {
+      display: flex;
+      align-items: center;
+      align-self: stretch;
+      margin-top: 12px;
+      border-radius: 12px;
+      box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+      background: var(--Neutral-5, #ffffff);
+      padding: 16px;
+
+      .iconsRightArrow1 {
+        margin-left: 187px;
+        width: 12px;
+        height: 12px;
+        overflow: hidden;
+      }
+    }
+
+    .rectangle4162 {
+      display: flex;
+      align-items: center;
+      align-self: stretch;
+      margin-top: 20px;
+      border-radius: 12px;
+      box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+      background: var(--Neutral-5, #ffffff);
+      padding: 16px;
+
+      .iconsRightArrow12 {
+        margin-left: 192px;
+        width: 12px;
+        height: 12px;
+        overflow: hidden;
+      }
+    }
+  }
+
+  .moreSavedPlaces {
+    margin: 16px 0px 0px 24px;
+    line-height: 14px;
+    letter-spacing: 0;
+    color: var(--primary-1, #fecc2a);
+    font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    text-decoration: underline;
+  }
+
+  .truestedContacts {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    margin: 24px 24px 0px;
+
+    .rectangle4163 {
+      display: flex;
+      align-items: center;
+      align-self: stretch;
+      margin-top: 12px;
+      border-radius: 12px;
+      box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+      background: var(--Neutral-5, #ffffff);
+      padding: 16px;
+
+      .iconsRightArrow13 {
+        margin-left: 95px;
+        width: 12px;
+        height: 12px;
+        overflow: hidden;
+      }
+    }
+  }
+
+  .shareYourTripsStatus {
+    margin: 16px 0px 0px 24px;
+    width: 327px;
+    line-height: 20px;
+    letter-spacing: 0;
+    color: var(--Neutral-2, #959595);
+    font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+  }
+
+  .family {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    margin: 20px 24px 0px;
+
+    .rectangle420 {
+      display: flex;
+      align-items: flex-start;
+      align-self: stretch;
+      justify-content: space-between;
+      margin-top: 12px;
+      border-radius: 12px;
+      box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+      background: var(--Neutral-5, #ffffff);
+      padding: 10px 12px 14px 16px;
+      min-width: 327px;
+
+      .setUpYourFamily2 {
+        position: relative;
+        width: 269px;
+        height: 36px;
+
+        .setUpYourFamily {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 113px;
+          height: 20px;
+          line-height: 20px;
+          letter-spacing: 0;
+          color: var(--Neutral-1, #49493d);
+          font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+          font-size: 14px;
+          font-weight: 500;
+        }
+
+        .payForYourLovedOnesA {
+          position: absolute;
+          top: 18px;
+          left: 0;
+          width: 269px;
+          height: 18px;
+          line-height: 18px;
+          letter-spacing: 0;
+          color: var(--Neutral-2, #959595);
+          font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+          font-size: 12px;
+        }
+      }
+
+      .iconsRightArrow2 {
+        margin-top: 12px;
+        width: 12px;
+        height: 12px;
+        overflow: hidden;
+      }
+    }
+  }
+
+  .rewards {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    margin: 16px 24px 0px;
+
+    .rectangle4202 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      align-self: stretch;
+      margin-top: 12px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 40px 0px #0000000d;
+      background: var(--Neutral-5, #ffffff);
+      padding: 24px 16px;
+
+      .autoWrapper {
+        display: flex;
+        align-items: center;
+        align-self: stretch;
+        justify-content: space-between;
+        padding-right: 0;
+        padding-left: 0;
+
+        .visaLocalOffers {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+
+          .joinAndStartEarningG {
+            line-height: 18px;
+            letter-spacing: 0;
+            color: var(--Neutral-2, #959595);
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            font-size: 12px;
+          }
+        }
+      }
+
+      .divider {
+        margin-top: 12px;
+        background: #f3f3f3;
+        width: 295px;
+        height: 1px;
+      }
+
+      .autoWrapper2 {
+        display: flex;
+        align-items: center;
+        align-self: stretch;
+        justify-content: space-between;
+        margin-top: 16px;
+        padding-right: 0;
+        padding-left: 0;
+
+        .safety {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+
+          .controlYourSafetySet {
+            width: 271px;
+            line-height: 18px;
+            letter-spacing: 0;
+            color: var(--Neutral-2, #959595);
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            font-size: 12px;
+          }
+        }
+      }
+
+      .autoWrapper3 {
+        display: flex;
+        align-items: center;
+        align-self: stretch;
+        justify-content: space-between;
+        margin-top: 16px;
+        padding-right: 0;
+        padding-left: 0;
+
+        .privacySettings {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+
+          .manageTheDataYouShar {
+            width: 269px;
+            line-height: 18px;
+            letter-spacing: 0;
+            color: var(--Neutral-2, #959595);
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            font-size: 12px;
+          }
+        }
+      }
+
+      .autoWrapper4 {
+        display: flex;
+        align-items: center;
+        align-self: stretch;
+        justify-content: space-between;
+        margin-top: 16px;
+        padding-right: 0;
+        padding-left: 0;
+
+        .security {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+
+          .controlYourAccountSe {
+            width: 219px;
+            line-height: 18px;
+            letter-spacing: 0;
+            color: var(--Neutral-2, #959595);
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+
+  .rectangle4164 {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    margin: 16px 24px 0px;
+    border-radius: 12px;
+    box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+    background: var(--Neutral-5, #ffffff);
+    padding: 16px;
+
+    .iconsSendToPhone1 {
+      width: 20px;
+      height: 20px;
+      overflow: hidden;
+    }
+
+    .signOut {
+      margin: 0px 0px 0px 12px;
+      line-height: 20px;
+      letter-spacing: 0;
+      color: var(--Neutral-1, #49493d);
+      font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .iconsRightArrow1 {
+      margin-left: 199px;
+      width: 12px;
+      height: 12px;
+      overflow: hidden;
+    }
+  }
+
+  .barsHomeIndicatorIPh {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    margin-top: 20px;
+    padding: 21px 121px 8px 120px;
+
+    .homeIndicator {
+      border-radius: 100px;
+      background: var(--Neutral-1, #49493d);
+      width: 134px;
+      height: 5px;
+    }
+  }
+
+  // 通用箭头样式
+  .iconsRightArrow2 {
+    width: 12px;
+    height: 12px;
+    overflow: hidden;
+  }
+
+  .setUpYourFamily {
+    line-height: 20px;
+    letter-spacing: 0;
+    color: var(--Neutral-1, #49493d);
+    font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
