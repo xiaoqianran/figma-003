@@ -39,11 +39,17 @@ jobs:
       # - name: Build
       #   run: npm run build
 
+      - name: Prepare static site for deployment
+        run: |
+          # Ensure we deploy a clean static site (remove any React build artifacts if present)
+          rm -rf dist node_modules .cache 2>/dev/null || true
+          echo "Static site prepared for deployment (黄控台 + all prototype folders)"
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Deploy the entire project root so the original static "黄控台" + gody-app/console.html
-          # + all 25+ prototype folders at root remain the primary GitHub Pages experience.
+          # Deploy the entire project root so the original static "黄控台" (root index.html + gody-app/console.html)
+          # + all prototype folders at root remain the primary GitHub Pages experience.
           path: .
 
   deploy:
