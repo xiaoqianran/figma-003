@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './index.css'
 
-// Import the registry we migrated
+// Import the registry (shared shape with gody-app/page-registry.json for dual-mode consistency)
 import pageRegistry from './page-registry.json'
 
 interface Prototype {
@@ -35,9 +35,20 @@ function App() {
     setSelectedPrototype(proto)
   }
 
-  // Use Vite's BASE_URL so it works both in dev (/) and production (/figma-003/)
-  const currentIframeSrc = selectedPrototype 
-    ? `${import.meta.env.BASE_URL}prototypes/${selectedPrototype.path}` 
+  // Dual-mode prototype resolution for the React + Vite tech stack:
+  // - PRIMARY: public/prototypes/ (exact mirror of root prototype folders).
+  //   This ensures `npm run build` produces a fully self-contained React console
+  //   with working iframes, independent of the static files.
+  // - In Vite dev server, both paths resolve (root-level folders + public/prototypes/ copy),
+  //   but we standardize on the public/prototypes/ path to match production build output.
+  // - The original static experience (root index.html + gody-app/console.html) remains
+  //   untouched and continues referencing the folders directly at root level via its
+  //   own page-registry.json + '../' + path logic.
+  // - Fallback graceful: the construction is robust; if BASE_URL or hosting differs,
+  //   the path can be easily extended (e.g. runtime 404 fallback to root-level path)
+  //   without affecting the static "黄控台".
+  const currentIframeSrc = selectedPrototype
+    ? `${(import.meta.env.BASE_URL || '/').replace(/\/$/, '')}/prototypes/${selectedPrototype.path}`
     : null
 
   return (

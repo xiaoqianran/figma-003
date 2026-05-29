@@ -1,86 +1,91 @@
 # Figma 学习 003 - 参考 GODY
 
-**React + Vite + TypeScript 重构版**
+**Dual-Mode Project: Static "黄控台" Primary + React + Vite (in development)**
 
-本项目已完成从纯静态 HTML 原型集合向现代前端技术栈的全面迁移。
+This repository cleanly supports **two experiences at the same time** with zero deletions of original work.
 
-## 技术栈
+## Primary Experience (GitHub Pages — What Visitors See)
 
-- Vite + React 19 + TypeScript
-- Tailwind CSS
-- 保留「黄控台」工业档案美学设计系统
+The beautiful original static **黄控台 (Yellow Console)**:
 
-## 核心特性（正在重建中）
+- `index.html` (landing page at repo root)
+- `gody-app/console.html` (the full-featured interactive prototype console)
+- All prototype HTML folders living directly at the project root (e.g. `home-page/`, `login-page/`, `map-pages/`, `trips-pages/`, `confirm-pickup*-page/`, etc.)
 
-- 专业设备模拟器（缩放、旋转、弹出）
-- 44 个原型的动态注册表 + 搜索筛选
-- 用户旅程自动播放器
-- 由 React 完全主导的架构
+**44 prototypes** are loaded via `gody-app/page-registry.json` using relative paths (`../xxx-page/...`).
 
-## 开发
+**Live URL**: https://xiaoqianran.github.io/figma-003/
+
+This is the **authoritative, always-visible** version on GitHub Pages. The deployment workflow uploads the entire project root so the original design system and all static files remain untouched and primary.
+
+## React + Vite Tech Stack (Development in Progress)
+
+Modern React 19 + TypeScript + Vite + Tailwind re-implementation lives in `src/`:
+
+- `src/App.tsx` — the React-powered "GODY LAB • REACT" console (device simulator, search/filter, zoom/rotate, registry-driven)
+- `src/page-registry.json` — same data shape as the static one (for consistency)
+- `src/main.tsx`, styling, etc.
+
+**Prototype previews in the React console** are powered by iframes pointing to the dedicated mirror:
+
+- `public/prototypes/` — **exact, complete copy** of all 26 prototype folders from the root (kept in sync manually or via copy scripts during development).
+
+This mirror allows the React build (`npm run build`) to be completely self-contained.
+
+### Running the React Edition Locally
 
 ```bash
 npm install
-npm run dev
+npm run dev          # Vite dev server (visit the React console entry as appropriate for your setup)
+npm run build        # Produces dist/ (React assets + public/prototypes/ inside)
+npm run preview      # Preview the built React output
 ```
 
-## 在线预览
+The React console can preview **exactly the same 44 prototypes** as the static 黄控台.
 
-https://xiaoqianran.github.io/figma-003/
+## How the Dual Setup Works
 
-## 原项目
+| Aspect                    | Static "黄控台" (Primary on Pages)          | React + Vite (src/)                          |
+|---------------------------|---------------------------------------------|---------------------------------------------|
+| Entry point               | `index.html` → `gody-app/console.html`     | `src/App.tsx` (bundled)                     |
+| Prototype files           | Folders at project root                     | Mirror at `public/prototypes/` (for build)  |
+| Registry                  | `gody-app/page-registry.json`               | `src/page-registry.json` (imported)         |
+| Iframe paths              | `../login-page/index.html` etc.             | `${BASE_URL}prototypes/login-page/...`      |
+| GitHub Pages behavior     | Fully deployed (no build step)              | Not deployed (dev/build only)               |
+| When editing a prototype  | Edit root folder directly                   | Also sync to `public/prototypes/`           |
 
-旧版纯 HTML 版本的代码已迁移至 `public/prototypes/` 目录，当前作为 React 应用内的预览资源使用。
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **No original HTML, folders, or gody-app/ were deleted or moved.**
+- `public/prototypes/` is the **only** additional copy required for the React stack to be independent.
+- The deployment workflow (`.github/workflows/deploy.yml`) explicitly avoids building the React app so the static primary experience is never overwritten.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Keeping Prototypes in Sync
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+After modifying any root-level prototype folder (HTML, assets, jsx/scss experiments), run a sync so the React edition sees the latest:
+
+```powershell
+# Example PowerShell (or equivalent shell script)
+$protoDirs = @('account-pages', 'choose-car-page', ...); foreach ($d in $protoDirs) { Copy-Item $d "public/prototypes" -Recurse -Force }
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Or simply copy the changed folder into `public/prototypes/`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Project Structure Highlights
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- `gody-app/` — static console + its registry + styles
+- `*-page/` / `*-pages/` (26 folders) — original prototype sources (used by static)
+- `public/prototypes/` — mirror for React/Vite self-contained builds
+- `src/` — React source (App.tsx is the new console UI)
+- `.github/workflows/deploy.yml` — deploys full root for static primacy
+- Root `index.html` — beautiful static landing (preserved)
+
+## Philosophy
+
+The original hand-crafted static 黄控台 with its exquisite industrial aesthetic is the **shipped product** and the face of the GitHub Pages site.
+
+The React + Vite work is a parallel modernization track that can eventually offer enhanced interactivity, while always being able to preview 100% of the same prototype content.
+
+Both modes coexist peacefully.
+
+---
+
+**Figma 学习 003** — Preserving craft while exploring modern stacks.

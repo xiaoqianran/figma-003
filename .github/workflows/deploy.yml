@@ -24,7 +24,16 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      # Optional: You can add a build step here later (e.g. for React/Vite)
+      # DUAL-MODE DEPLOYMENT (static primary + React in development):
+      # - GitHub Pages ALWAYS deploys the full project root (no build step).
+      #   This makes the beautiful original static "黄控台" (root index.html + gody-app/console.html)
+      #   the primary visible experience, using prototype folders directly at root.
+      # - The React + Vite stack (src/App.tsx etc.) is developed locally via `npm run dev` / `npm run build`.
+      #   Its preview iframes use the dedicated mirror at public/prototypes/ (kept in sync with root).
+      # - Do NOT add an unconditional build step here, or the static primary experience would be overwritten.
+      # - Optional future: a separate workflow/job or branch for deploying the React build from dist/
+      #   if a dedicated React-hosted console preview is desired.
+      #
       # - name: Install dependencies
       #   run: npm ci
       # - name: Build
@@ -33,7 +42,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Deploy the entire project so that gody-app/ and all original pages work correctly
+          # Deploy the entire project root so the original static "黄控台" + gody-app/console.html
+          # + all 25+ prototype folders at root remain the primary GitHub Pages experience.
           path: .
 
   deploy:
