@@ -4,7 +4,7 @@
     "path": "login-page/index.html",
     "displayName": "登录",
     "category": "Auth",
-    "description": "GODY 应用登录入口，支持手机号与社交账号快速登录。"
+    "description": "GODY 应用登录入口，支持手机号与社交账号快速登录。（canonical root prototype）"
   },
   {
     "id": "auth-signup",
@@ -305,6 +305,6 @@
     "path": "evaluate2-page/index.html",
     "displayName": "评价 2",
     "category": "Other",
-    "description": "评价与反馈流程的进阶交互变体。"
+    "description": "评价与反馈流程的进阶交互变体。（canonical root prototype — part of full 44-screen archive）"
   }
 ]

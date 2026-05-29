@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GODY 路 鍘熷瀷鎺у埗鍙?/title>
+  <title>GODY • 原型控制台 | 黄控台</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
@@ -114,10 +114,10 @@
       position: absolute;
       inset: 0;
       /* Visuals (bg, border, shadow, radius) are delegated to inner .screen-content
-         so the logical viewport is *guaranteed* to be exactly 375脳812.
+         so the logical viewport is *guaranteed* to be exactly 375x812.
          The ~2.5px/3px ring around .screen-content reveals the .device-bevel
-         (#0C0C0A) 鈥?this is the current bevel math: 380脳818 hardware face
-         minus the precise display glass yields the documented 375脳812 target
+         (#0C0C0A). This is the current bevel math: 380x818 hardware face
+         minus the precise display glass yields the documented 375x812 target
          (plus the decorative GODY label bar at top and home indicator at bottom
          are overlaid via sibling absolutes). */
       border-radius: 46px;
@@ -300,6 +300,13 @@
       justify-content: center;
       overflow: visible;
       transform-origin: center center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .device-toolbar {
+      position: relative;
+      z-index: 30;
     }
 
     /* Subtle bezel reflection / edge highlight (very restrained) */
@@ -389,6 +396,15 @@
       color: #B8B5B0;
       padding: 6px 4px 2px;
       margin-top: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-section-count {
+      font-size: 9px;
+      font-family: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
+      color: #6E6A61;
+      letter-spacing: 0.5px;
     }
 
     .nav-item {
@@ -416,7 +432,40 @@
       white-space: nowrap;
     }
 
-    /* === User Flow Player (榛勬帶鍙?/ industrial metal aesthetic) === */
+    /* Per-item action: "View in new tab" — subtle until hover (黄控台 industrial) */
+    .nav-open-btn {
+      opacity: 0;
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: #6E6A61;
+      background: #1A1916;
+      border: 1px solid #2A2926;
+      border-radius: 4px;
+      transition: all 0.1s cubic-bezier(0.23, 1, 0.32, 1);
+      flex-shrink: 0;
+      margin-left: 6px;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .nav-item:hover .nav-open-btn {
+      opacity: 0.8;
+    }
+    .nav-open-btn:hover {
+      opacity: 1 !important;
+      color: #fecc2a;
+      border-color: #fecc2a;
+      background: #22211D;
+      transform: scale(1.05);
+    }
+    .nav-open-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* === User Flow Player (黄控台 industrial metal aesthetic) === */
     .flow-pill {
       font-family: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
       font-size: 9px;
@@ -488,14 +537,14 @@
         <div class="flex items-center gap-x-2 mt-1">
           <div class="section-label tracking-[2px]">PROTOTYPE CONSOLE</div>
           <div class="h-px w-8 bg-[#B8B5B0]/30"></div>
-          <div class="text-[10px] text-[#B8B5B0] console-font">V 0.2 鈥?SHANGHAI 2025</div>
+          <div class="text-[10px] text-[#B8B5B0] console-font">V 0.3 • SHANGHAI 2025</div>
         </div>
       </div>
 
       <div class="flex items-center gap-x-8 text-sm">
         <div class="flex items-center gap-x-2 text-[#B8B5B0]">
           <i class="fa-solid fa-folder-open text-xs"></i>
-          <span class="console-font">44 FILES</span>
+          <span class="console-font">44 PROTOTYPES</span>
         </div>
         <div onclick="powerCycle()" 
              class="flex items-center gap-x-2.5 px-5 py-2 bg-[#1A1916] hover:bg-[#22211D] border border-[#2A2926] rounded-full cursor-pointer transition-colors">
@@ -510,8 +559,11 @@
       <!-- Left: Navigation -->
       <div class="w-72 flex-shrink-0">
         <div class="mb-3 px-1 flex items-center justify-between">
-          <div class="section-label">ARCHIVE</div>
-          <div class="text-[10px] text-[#B8B5B0] console-font">44 / 44</div>
+          <div class="section-label flex items-center gap-x-1.5">
+            <i class="fa-solid fa-archive fa-sm"></i>
+            <span>ARCHIVE</span>
+          </div>
+          <div id="archive-count" class="text-[10px] text-[#B8B5B0] console-font tabular-nums tracking-widest" title="Filtered / Total prototypes">44 / 44</div>
         </div>
 
         <div class="bg-[#11110F] border border-[#22221F] rounded-2xl overflow-hidden">
@@ -520,7 +572,7 @@
             <div class="px-1 pb-2">
               <div class="relative">
                 <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-[#6E6A61] text-xs pointer-events-none"></i>
-                <input id="nav-search" type="text" placeholder="鎼滅储鍘熷瀷鍚嶇О..." 
+                <input id="nav-search" type="text" placeholder="搜索原型名称或路径..." 
                        class="nav-search-input w-full bg-[#0A0908] border border-[#2A2926] text-[#EDEBE5] pl-8 pr-3 py-[7px] rounded-xl placeholder:text-[#6E6A61] focus:outline-none focus:border-[#fecc2a]/60">
               </div>
             </div>
@@ -541,8 +593,9 @@
 
         <div class="mt-4 px-3">
           <div class="text-[10px] text-[#B8B5B0] leading-tight console-font">
-            鎵€鏈夊師鍨嬪潎涓洪潤鎬佸鍒汇€?br>
-            鐩稿璺緞璺宠浆宸查€傞厤銆備娇鐢ㄦ悳绱笌鍒嗙被绛涢€夈€?          </div>
+            所有原型均为静态复制。<br>
+            相对路径已适配 iframe 加载。使用搜索与分类多选筛选。
+          </div>
         </div>
       </div>
 
@@ -575,7 +628,7 @@
             </div>
 
             <!-- Rotate -->
-            <button onclick="toggleRotate()" class="tb-btn" id="rotate-btn" title="Toggle 90掳 landscape / portrait">
+            <button onclick="toggleRotate()" class="tb-btn" id="rotate-btn" title="Toggle 90 degrees landscape / portrait">
               <i class="fa-solid fa-rotate fa-fw text-[10px]"></i>
               <span class="hidden sm:inline">ROTATE</span>
             </button>
@@ -606,7 +659,7 @@
                   <div class="w-1.5 h-1.5 rounded-full bg-[#3A3A36]"></div>
                   <div>
                     <span class="text-[9px] text-[#B8B5B0] console-font tracking-[1.5px]">GODY LAB</span>
-                    <span class="text-[7px] text-[#6E6A61] console-font ml-px">13</span>
+                    <span class="text-[7px] text-[#6E6A61] console-font ml-1 tracking-[0.8px]">iPhone 13</span>
                   </div>
                 </div>
               </div>
@@ -639,24 +692,31 @@
         </div>
 
         <div class="mt-4 text-[10px] text-[#B8B5B0] flex items-center gap-x-2 console-font">
-          <span>375 脳 812</span>
-          <span class="text-[#B8B5B0]/40">鈥?/span>
-          <span>iPhone 13 鐗╃悊妯℃嫙</span>
+          <span>375 × 812</span>
+          <span class="text-[#B8B5B0]/40">•</span>
+          <span>iPhone 13 物理模拟</span>
         </div>
       </div>
 
       <!-- Right: Metadata -->
       <div class="w-96 flex-shrink-0">
         <div class="archive-card rounded-3xl p-6 text-sm leading-relaxed">
-          <div class="section-label text-[#0A0908] mb-3 tracking-widest">CURRENT PROTOTYPE</div>
+          <div class="flex items-center justify-between mb-3">
+            <div class="section-label text-[#0A0908] tracking-widest">CURRENT PROTOTYPE</div>
+            <button onclick="popOutPrototype()" class="text-[9px] px-2 py-0.5 rounded border border-[#D9D4C8] text-[#6E6A61] hover:text-[#0A0908] hover:bg-[#fecc2a] hover:border-[#fecc2a] console-font transition-all flex items-center gap-x-1" title="View current prototype in new tab">
+              <i class="fa-solid fa-external-link-alt fa-xs"></i>
+              <span class="tracking-wider">NEW TAB</span>
+            </button>
+          </div>
           
           <div id="meta-title" class="display-font text-3xl leading-none text-[#0A0908] mb-4">
-            鈥斺€?          </div>
+            --
+          </div>
 
           <div class="space-y-4 text-[#3F3D37]">
             <div>
               <div class="text-[10px] console-font text-[#6E6A61] mb-px">MODULE</div>
-              <div id="meta-module" class="font-medium">鈥?/div>
+              <div id="meta-module" class="font-medium">--</div>
             </div>
             
             <div>
@@ -676,19 +736,21 @@
             <div class="pt-2 border-t border-[#D9D4C8]">
               <div class="text-[10px] console-font text-[#6E6A61] mb-1">NOTES</div>
               <div id="meta-notes" class="text-sm leading-snug text-[#3F3D37]">
-                閫夋嫨宸︿晶鍘熷瀷浠ュ姞杞借嚦璁惧銆?              </div>
+                选择左侧原型以加载至设备模拟器。
+              </div>
             </div>
           </div>
         </div>
 
         <div class="mt-4 px-1 text-[11px] text-[#B8B5B0] leading-tight">
-          姝ゆ帶鍒跺彴涓哄唴閮ㄨ璁¤瘎瀹″伐鍏枫€?br>
-          鎵€鏈変氦浜掑潎涓虹湡瀹炲彲鐐瑰嚮鍘熷瀷銆?        </div>
+          此控制台为内部设计评审工具。<br>
+          所有交互均为真实可点击原型。
+        </div>
 
-        <!-- FLOWS / 鐢ㄦ埛鏃呯▼: Powerful User Flow Player (integrated, optional but prominent) -->
+        <!-- FLOWS / User Journey: Powerful User Flow Player (integrated, optional but prominent) -->
         <div class="mt-5">
           <div class="flex items-center gap-x-2 px-1 mb-1.5">
-            <div class="section-label tracking-[1.5px] text-[#B8B5B0]">FLOWS 路 鐢ㄦ埛鏃呯▼</div>
+            <div class="section-label tracking-[1.5px] text-[#B8B5B0]">FLOWS • 用户旅程</div>
             <div class="flex-1 h-px bg-[#2A2926]"></div>
           </div>
 
@@ -722,11 +784,11 @@
               <button id="flow-prev-btn"
                 class="flex-1 console-font text-xs tracking-wider py-[7px] bg-[#1A1916] hover:bg-[#22211D] active:bg-[#0F0F0D] border border-[#2A2926] hover:border-[#fecc2a]/50 text-[#EDEBE5] rounded-xl transition-all flex items-center justify-center gap-x-1 text-[10px]">
                 <i class="fa-solid fa-chevron-left text-[8px]"></i>
-                <span>涓婁竴姝?/span>
+                <span>PREV</span>
               </button>
               <button id="flow-next-btn"
                 class="flex-1 console-font text-xs tracking-wider py-[7px] bg-[#fecc2a] hover:bg-[#f0c000] active:bg-[#e6b800] text-[#0A0908] font-semibold rounded-xl transition-all flex items-center justify-center gap-x-1 text-[10px] shadow-sm">
-                <span>涓嬩竴姝?/span>
+                <span>NEXT</span>
                 <i class="fa-solid fa-chevron-right text-[8px]"></i>
               </button>
             </div>
@@ -735,17 +797,18 @@
             <div class="flex gap-1.5">
               <button id="flow-restart-btn"
                 class="flex-1 console-font text-[9px] tracking-wider py-1 bg-[#1A1916] hover:bg-[#22211D] border border-[#2A2926] hover:border-[#3A3A36] text-[#B8B5B0] hover:text-[#EDEBE5] rounded-lg transition-colors">
-                閲嶆柊寮€濮?              </button>
+                RESTART
+              </button>
               <button id="flow-auto-btn"
                 class="flex-1 console-font text-[9px] tracking-wider py-1 bg-[#1A1916] hover:bg-[#22211D] border border-[#2A2926] hover:border-[#fecc2a]/50 text-[#B8B5B0] hover:text-[#fecc2a] rounded-lg transition-colors flex items-center justify-center gap-x-1">
                 <i id="flow-auto-icon" class="fa-solid fa-play fa-xs"></i>
-                <span id="flow-auto-text">鑷姩鎾斁</span>
+                <span id="flow-auto-text">AUTO PLAY</span>
               </button>
             </div>
           </div>
 
           <div class="px-1 mt-1.5 text-[9px] text-[#6E6A61] console-font leading-tight">
-            璇勫瀹屾暣鐢ㄦ埛璺緞 路 1.2s 鑷姩姝ヨ繘
+            Review complete user journeys - 1.2s auto step
           </div>
         </div>
       </div>
@@ -780,67 +843,67 @@
 
     // Minimal fallback (used only if fetch fails under file:// or network issues)
     const FALLBACK_REGISTRY = [
-      { id: 'auth-login', path: 'login-page/index.html', displayName: '鐧诲綍', category: 'Auth', description: 'GODY 搴旂敤鐧诲綍鍏ュ彛锛屾敮鎸佹墜鏈哄彿涓庣ぞ浜よ处鍙峰揩閫熺櫥褰曘€? },
-      { id: 'core-home', path: 'home-page/index.html', displayName: '棣栭〉锛堝湴鍥撅級', category: 'Core', description: '搴旂敤涓诲睆骞曪紝瀹炴椂鍦板浘灞曠ず闄勮繎鍙敤杞﹁締涓庡揩鎹锋搷浣溿€? },
-      { id: 'booking-choose-trip1', path: 'choose-trip1-page/index.html', displayName: '閫夋嫨琛岀▼ 1', category: 'Booking', description: '鎺ㄨ崘琛岀▼閫夐」鍗＄墖锛屽寘鍚椂闂翠笌浠锋牸淇℃伅銆? },
-      { id: 'booking-confirm-pickup1', path: 'confirm-pickup1-page/index.html', displayName: '纭涓婅溅鐐?1', category: 'Booking', description: '纭涔樿溅涓婅溅鍦扮偣涓庡徃鏈轰俊鎭尮閰嶇晫闈€? },
-      { id: 'payment-select', path: 'payment-pages/select-payment.html', displayName: '閫夋嫨鏀粯鏂瑰紡', category: 'Payment', description: '鏀寔寰俊銆佹敮浠樺疂銆侀摱琛屽崱绛夊绉嶆敮浠樻笭閬撻€夋嫨銆? },
-      { id: 'trips-upcoming', path: 'trips-pages/your-trips-upcoming.html', displayName: '杩涜涓绋?, category: 'Trips', description: '褰撳墠杩涜涓笌鍗冲皢寮€濮嬬殑琛岀▼鍗＄墖鍒楄〃銆? },
-      { id: 'account-profile', path: 'account-pages/profile.html', displayName: '涓汉璧勬枡', category: 'Account', description: '鐢ㄦ埛澶村儚銆佹樀绉颁笌鍩烘湰璐︽埛淇℃伅灞曠ず椤点€? },
-      { id: 'map-home', path: 'map-pages/map-home.html', displayName: '鍦板浘涓婚〉', category: 'Map', description: '鏍稿績鍦板浘娴忚鐣岄潰锛屾敮鎸佸畾浣嶄笌淇濆瓨鍦扮偣銆? }
+      { id: 'auth-login', path: 'login-page/index.html', displayName: 'Login', category: 'Auth', description: 'GODY app login entry.' },
+      { id: 'core-home', path: 'home-page/index.html', displayName: 'Home Map', category: 'Core', description: 'Main map screen with nearby vehicles.' },
+      { id: 'booking-choose-trip1', path: 'choose-trip1-page/index.html', displayName: 'Choose Trip 1', category: 'Booking', description: 'Recommended trip option cards.' },
+      { id: 'booking-confirm-pickup1', path: 'confirm-pickup1-page/index.html', displayName: 'Confirm Pickup 1', category: 'Booking', description: 'Confirm pickup location and driver matching.' },
+      { id: 'payment-select', path: 'payment-pages/select-payment.html', displayName: 'Select Payment', category: 'Payment', description: 'Choose a payment method.' },
+      { id: 'trips-upcoming', path: 'trips-pages/your-trips-upcoming.html', displayName: 'Upcoming Trips', category: 'Trips', description: 'Current and upcoming trip list.' },
+      { id: 'account-profile', path: 'account-pages/profile.html', displayName: 'Profile', category: 'Account', description: 'User profile and account information.' },
+      { id: 'map-home', path: 'map-pages/map-home.html', displayName: 'Map Home', category: 'Map', description: 'Map browsing with location controls.' }
     ];
 
-    // === User Flow Player: Pre-defined realistic journeys (榛勬帶鍙?aesthetic) ===
+    // === User Flow Player: Pre-defined realistic journeys ===
     const USER_FLOWS = [
       {
         id: 'flow-new-user',
-        name: '鏂扮敤鎴锋敞鍐屼笌棣栨鍙溅',
+        name: 'New User + First Ride',
         steps: [
-          { path: 'signup-page/index.html', title: '濉啓娉ㄥ唽淇℃伅' },
-          { path: 'login-page/index.html', title: '鐧诲綍璐︽埛' },
-          { path: 'home-page/index.html', title: '杩涘叆棣栭〉鍦板浘' },
-          { path: 'search1-page/index.html', title: '鎼滅储鐩殑鍦? },
-          { path: 'choose-car-page/index.html', title: '閫夋嫨杞﹁締杞﹀瀷' },
-          { path: 'requesting-page/index.html', title: '鍙戣捣鍙溅璇锋眰' }
+          { path: 'signup-page/index.html', title: 'Create account' },
+          { path: 'login-page/index.html', title: 'Sign in' },
+          { path: 'home-page/index.html', title: 'Open home map' },
+          { path: 'search1-page/index.html', title: 'Search destination' },
+          { path: 'choose-car-page/index.html', title: 'Choose vehicle' },
+          { path: 'requesting-page/index.html', title: 'Request ride' }
         ]
       },
       {
         id: 'flow-book-pay',
-        name: '棰勮琛岀▼骞舵敮浠?,
+        name: 'Schedule Trip + Pay',
         steps: [
-          { path: 'home-page/index.html', title: '鎵撳紑鍦板浘棣栭〉' },
-          { path: 'schedule-page/index.html', title: '棰勭害鏈潵琛岀▼' },
-          { path: 'choose-trip1-page/index.html', title: '閫夋嫨鎺ㄨ崘琛岀▼' },
-          { path: 'payment-pages/select-payment.html', title: '閫夋嫨鏀粯鏂瑰紡' },
-          { path: 'payment-pages/confirm-payment.html', title: '纭骞跺畬鎴愭敮浠? }
+          { path: 'home-page/index.html', title: 'Open home map' },
+          { path: 'schedule-page/index.html', title: 'Schedule future trip' },
+          { path: 'choose-trip1-page/index.html', title: 'Choose recommended trip' },
+          { path: 'payment-pages/select-payment.html', title: 'Select payment method' },
+          { path: 'payment-pages/confirm-payment.html', title: 'Confirm payment' }
         ]
       },
       {
         id: 'flow-active-trip',
-        name: '鏌ョ湅杩涜涓绋?+ 鍙栨秷',
+        name: 'Active Trip + Cancel',
         steps: [
-          { path: 'trips-pages/your-trips-upcoming.html', title: '鏌ョ湅杩涜涓绋? },
-          { path: 'trip-pages/upcoming-trip.html', title: '琛岀▼璇︽儏棰勮' },
-          { path: 'trips-pages/trips-detail-1.html', title: '鎵ц鍙栨秷鎿嶄綔' }
+          { path: 'trips-pages/your-trips-upcoming.html', title: 'Open upcoming trips' },
+          { path: 'trip-pages/upcoming-trip.html', title: 'Preview trip detail' },
+          { path: 'trips-pages/trips-detail-1.html', title: 'Cancel trip' }
         ]
       },
       {
         id: 'flow-account',
-        name: '璐︽埛璁剧疆涓庣紪杈?,
+        name: 'Account Settings',
         steps: [
-          { path: 'account-pages/profile.html', title: '鏌ョ湅涓汉璧勬枡' },
-          { path: 'account-pages/index.html', title: '杩涘叆璐︽埛璁剧疆' },
-          { path: 'account-pages/edit-account-1.html', title: '缂栬緫璐︽埛淇℃伅' }
+          { path: 'account-pages/profile.html', title: 'Open profile' },
+          { path: 'account-pages/index.html', title: 'Open account settings' },
+          { path: 'account-pages/edit-account-1.html', title: 'Edit account information' }
         ]
       },
       {
         id: 'flow-map-search',
-        name: '鍦板浘鎼滅储 + 閫夋嫨杞﹁締',
+        name: 'Map Search + Vehicle',
         steps: [
-          { path: 'home-page/index.html', title: '鍦板浘涓诲睆瀹氫綅' },
-          { path: 'search2-page/index.html', title: '楂樼骇鎼滅储绛涢€? },
-          { path: 'choose-car-page/index.html', title: '娴忚骞堕€夋嫨杞﹁締' },
-          { path: 'map-pages/map-home.html', title: '纭鍦板浘浣嶇疆' }
+          { path: 'home-page/index.html', title: 'Open map location' },
+          { path: 'search2-page/index.html', title: 'Advanced search' },
+          { path: 'choose-car-page/index.html', title: 'Browse vehicles' },
+          { path: 'map-pages/map-home.html', title: 'Confirm map location' }
         ]
       }
     ];
@@ -863,10 +926,10 @@
     }
 
     function updateMetadata(title, module, status, notes) {
-      document.getElementById('meta-title').innerHTML = title || '鈥斺€?;
-      document.getElementById('meta-module').innerHTML = module || '鈥?;
+      document.getElementById('meta-title').innerHTML = title || '—';
+      document.getElementById('meta-module').innerHTML = module || '—';
       document.getElementById('meta-status').innerHTML = status || 'STANDBY';
-      document.getElementById('meta-notes').innerHTML = notes || '鈥?;
+      document.getElementById('meta-notes').innerHTML = notes || '选择左侧原型以加载至设备模拟器。';
       
       const dot = document.getElementById('meta-status-dot');
       dot.className = 'w-1.5 h-1.5 rounded-full ' + 
@@ -893,16 +956,29 @@
       pageRegistry = FALLBACK_REGISTRY;
     }
 
+    // Helper: counts per category (for rich filter chips)
+    function getCategoryCounts() {
+      const counts = {};
+      CATEGORY_ORDER.forEach(c => counts[c] = 0);
+      pageRegistry.forEach(p => {
+        if (counts.hasOwnProperty(p.category)) counts[p.category]++;
+      });
+      return counts;
+    }
+
     function renderCategoryFilters() {
       const container = document.getElementById('category-filters');
       if (!container) return;
       container.innerHTML = '';
 
-      // Optional reset chip
+      const counts = getCategoryCounts();
+      const total = pageRegistry.length;
+
+      // Optional reset chip — shows grand total
       const reset = document.createElement('button');
       reset.className = 'cat-filter';
-      reset.textContent = 'ALL';
-      reset.title = '閲嶇疆鎵€鏈夊垎绫荤瓫閫?;
+      reset.textContent = `ALL (${total})`;
+      reset.title = '重置所有分类筛选，显示全部原型';
       reset.onclick = () => {
         activeCategoryFilters = new Set(CATEGORY_ORDER);
         renderCategoryFilters();
@@ -913,9 +989,10 @@
       CATEGORY_ORDER.forEach(cat => {
         const btn = document.createElement('button');
         btn.className = 'cat-filter' + (activeCategoryFilters.has(cat) ? ' active' : '');
-        btn.textContent = cat.toUpperCase();
+        const n = counts[cat] || 0;
+        btn.textContent = `${cat.toUpperCase()} (${n})`;
         btn.dataset.category = cat;
-        btn.title = cat + ' 鍒嗙被绛涢€夛紙鐐瑰嚮鍒囨崲锛?;
+        btn.title = `${cat} 分类筛选（点击切换显示/隐藏）`;
         btn.onclick = () => {
           toggleCategory(cat);
         };
@@ -957,36 +1034,49 @@
         return matchesSearch && matchesCat;
       });
 
+      // === DYNAMIC COUNT (overhauled sidebar) ===
+      const countEl = document.getElementById('archive-count');
+      if (countEl) {
+        countEl.textContent = `${filtered.length} / ${pageRegistry.length}`;
+      }
+
       if (filtered.length === 0) {
         const empty = document.createElement('div');
         empty.className = 'px-3 py-4 text-center text-[#6E6A61] text-xs console-font';
-        empty.textContent = '鏃犲尮閰嶅師鍨?;
+        empty.textContent = '无匹配原型';
         container.appendChild(empty);
         return;
       }
 
-      // Group by category (preserve CATEGORY_ORDER)
+      // Group by category (preserve CATEGORY_ORDER) — show counts in headers
       CATEGORY_ORDER.forEach(cat => {
         const items = filtered.filter(p => p.category === cat);
         if (items.length === 0) return;
 
-        // Section header
+        // Section header with count (professional)
         const header = document.createElement('div');
         header.className = 'nav-section-header section-label';
-        header.textContent = cat.toUpperCase();
+        header.innerHTML = `
+          <span>${cat.toUpperCase()}</span>
+          <span class="nav-section-count">${items.length}</span>
+        `;
         container.appendChild(header);
 
         items.forEach(page => {
           const item = document.createElement('div');
-          item.className = 'nav-item flex items-center gap-x-3 px-3 py-[6px] rounded-xl cursor-pointer text-[#EDEBE5]';
+          item.className = 'nav-item flex items-center gap-x-2 px-3 py-[6px] rounded-xl cursor-pointer text-[#EDEBE5]';
           item.dataset.path = page.path;
           item.dataset.category = page.category;
           item.title = page.description || page.displayName;
 
           const icon = CATEGORY_ICONS[page.category] || 'fa-file';
+          // Overhauled item: name + dedicated "View in new tab" button per prototype
           item.innerHTML = `
             <i class="fa-solid ${icon} w-4 text-[#B8B5B0] flex-shrink-0"></i>
             <span class="item-name">${page.displayName}</span>
+            <button class="nav-open-btn" title="在新标签页中打开此原型（View in new tab）" aria-label="Open ${page.displayName} in new tab">
+              <i class="fa-solid fa-external-link-alt"></i>
+            </button>
           `;
 
           container.appendChild(item);
@@ -998,7 +1088,7 @@
     }
 
     function setupNavControls() {
-      // Search input 鈥?live filter
+      // Search input - live filter
       const searchInput = document.getElementById('nav-search');
       if (searchInput) {
         searchInput.addEventListener('input', () => {
@@ -1018,6 +1108,10 @@
       const navList = document.getElementById('nav-list');
       if (navList) {
         navList.addEventListener('click', (e) => {
+          // Ignore clicks originating from the per-item "View in new tab" buttons (they have their own handler)
+          if (e.target.closest('.nav-open-btn')) {
+            return;
+          }
           const item = e.target.closest('.nav-item');
           if (item && item.dataset.path) {
             // Exit any active User Flow when manually browsing archive (keeps experiences separate)
@@ -1041,6 +1135,7 @@
     function loadPrototype(path, element) {
       const iframe = document.getElementById('preview-frame');
       const shell = document.getElementById('device-shell');
+      const viewport = document.getElementById('device-viewport');
 
       // Power on if not already
       if (!isPowered) {
@@ -1058,7 +1153,7 @@
       applyActiveState();
 
       // Rich data from registry
-      const page = pageRegistry.find(p => p.path === path) || { displayName: path, category: 'Other', description: '闈欐€佸鍒诲師鍨嬶紝鍙洿鎺ヤ氦浜掋€? };
+      const page = pageRegistry.find(p => p.path === path) || { displayName: path, category: 'Other', description: 'Static prototype page.' };
 
       // Update UI label
       updateCurrentLabel(page.displayName.toUpperCase());
@@ -1071,14 +1166,16 @@
         page.description
       );
 
-      // Gentle device feedback 鈥?preserves current zoom + rotation transform
-      const rot = isRotated ? 90 : 0;
-      shell.style.transition = 'transform 80ms cubic-bezier(0.23, 1, 0.32, 1)';
-      shell.style.transform = `scale(${currentZoom * 0.982}) rotate(${rot}deg)`;
-      setTimeout(() => {
-        shell.style.transition = 'transform 0.4s cubic-bezier(0.23, 1.0, 0.32, 1)';
-        shell.style.transform = `scale(${currentZoom}) rotate(${rot}deg)`;
-      }, 160);
+      // Gentle device feedback - preserves current zoom + rotation transform
+      if (viewport) {
+        const rot = isRotated ? 90 : 0;
+        viewport.style.transition = 'transform 80ms cubic-bezier(0.23, 1, 0.32, 1)';
+        viewport.style.transform = `scale(${currentZoom * 0.982}) rotate(${rot}deg)`;
+        setTimeout(() => {
+          viewport.style.transition = 'width 0.4s cubic-bezier(0.23, 1.0, 0.32, 1), height 0.4s cubic-bezier(0.23, 1.0, 0.32, 1), transform 0.35s cubic-bezier(0.23, 1.0, 0.32, 1)';
+          updateDeviceTransform();
+        }, 160);
+      }
     }
 
     function powerOnDevice() {
@@ -1146,11 +1243,16 @@
       // For simplicity and stability we keep the viewport at base size and let the transform handle visuals.
       // (This prevents inner content from becoming tiny.)
       if (isRotated) {
+        const rotatedOverflow = Math.ceil(Math.max(0, ((BASE_DEVICE_H * currentZoom) - BASE_DEVICE_W) / 2) + 24);
         viewport.style.width = BASE_DEVICE_H + 'px';
         viewport.style.height = BASE_DEVICE_W + 'px';
+        viewport.style.marginTop = rotatedOverflow + 'px';
+        viewport.style.marginBottom = rotatedOverflow + 'px';
       } else {
         viewport.style.width = BASE_DEVICE_W + 'px';
         viewport.style.height = BASE_DEVICE_H + 'px';
+        viewport.style.marginTop = '';
+        viewport.style.marginBottom = '';
       }
     }
 
@@ -1201,6 +1303,13 @@
       window.open(url, '_blank');
     }
 
+    // New: per-prototype "View in new tab" action (called from sidebar items)
+    function openPrototypeInNewTab(path) {
+      if (!path) return;
+      const url = '../' + path;
+      window.open(url, '_blank');
+    }
+
     function reloadPrototype() {
       const iframe = document.getElementById('preview-frame');
       const overlay = document.getElementById('load-overlay');
@@ -1239,7 +1348,7 @@
       }
     }
 
-    // === User Flow Player Implementation (calls existing loadPrototype, matches 榛勬帶鍙?style) ===
+    // === User Flow Player Implementation (calls existing loadPrototype) ===
     function renderFlowPills() {
       const container = document.getElementById('flow-pills');
       if (!container) return;
@@ -1248,7 +1357,7 @@
         const pill = document.createElement('button');
         pill.className = 'flow-pill';
         pill.textContent = flow.name;
-        pill.title = `鍔犺浇鐢ㄦ埛鏃呯▼锛?{flow.name}`;
+        pill.title = `Load user journey: ${flow.name}`;
         pill.onclick = () => selectFlow(flow.id);
         container.appendChild(pill);
       });
@@ -1484,7 +1593,7 @@
       updateDeviceTransform();
       syncZoomUI();
 
-      // Attach single load listener for prototype iframe 鈥?hides loading overlay cleanly
+      // Attach single load listener for prototype iframe - hides loading overlay cleanly
       const iframeEl = document.getElementById('preview-frame');
       if (iframeEl) {
         iframeEl.addEventListener('load', () => {
@@ -1502,15 +1611,14 @@
         if (light) light.style.background = '#3A3A36';
       }, 600);
 
-      // Optional: auto-load a sensible default (commented for clean start)
+      // Auto-load a sensible default so the console is immediately usable.
       setTimeout(() => {
         if (!currentPath) {
-          // Uncomment to auto-load on open:
-          // const login = pageRegistry.find(p => p.path.includes('login'));
-          // if (login) {
-          //   const el = document.querySelector(`#nav-list .nav-item[data-path="${login.path}"]`);
-          //   loadPrototype(login.path, el);
-          // }
+          const login = pageRegistry.find(p => p.path.includes('login')) || pageRegistry[0];
+          if (login) {
+            const el = document.querySelector(`#nav-list .nav-item[data-path="${login.path}"]`);
+            loadPrototype(login.path, el);
+          }
         }
       }, 900);
 
@@ -1525,11 +1633,12 @@
         toggleRotate,
         popOutPrototype,
         reloadPrototype,
+        openPrototypeInNewTab,
         // Flow player controls (public)
         selectFlow, renderFlowPills, nextFlowStep, prevFlowStep, restartFlow, toggleAutoPlay, getCurrentFlow: () => ({ flow: currentFlow, step: currentStepIndex })
       };
 
-      console.log('%c[GODY Console] Dynamic registry navigation ready 鈥?' + pageRegistry.length + ' prototypes loaded.', 'color:#B8B5B0');
+      console.log('%c[GODY Console] Dynamic registry navigation ready — ' + pageRegistry.length + ' prototypes loaded.', 'color:#B8B5B0');
     }
 
     // Start everything

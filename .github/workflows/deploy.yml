@@ -24,46 +24,16 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      # DUAL-MODE DEPLOYMENT (static primary + React in development):
-      # - GitHub Pages ALWAYS deploys from the project root with NO Vite/React build step.
-      #   This makes the beautiful original static "黄控台" (root index.html + gody-app/console.html)
-      #   the primary visible experience, using prototype folders directly at root.
-      # - The React + Vite stack (src/App.tsx etc.) is developed locally via `npm run dev` / `npm run build`.
-      #   Its preview iframes use the dedicated mirror at public/prototypes/ (kept in sync with root).
-      # - Do NOT add an unconditional build step here, or the static primary experience would be overwritten.
-      # - Optional future: a separate workflow/job or branch for deploying the React build from dist/
-      #   if a dedicated React-hosted console preview is desired.
-      #
-      # - name: Install dependencies
-      #   run: npm ci
-      # - name: Build
-      #   run: npm run build
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Prepare static site for deployment
-        run: |
-          # Thoroughly remove React/Vite build artifacts, source trees, dev configs, and tooling.
-          # This guarantees a clean deployment of ONLY the static "黄控台" + prototypes + gody-app.
-          # .nojekyll (present at root) disables Jekyll processing for fully static behavior.
-          rm -rf dist dist-ssr node_modules .cache .git .github .figma .trae .vscode public src 2>/dev/null || true
-          rm -f package*.json *.config.* tsconfig*.json vite.config.ts eslint.config.js postcss.config.js tailwind.config.js 2>/dev/null || true
-          # Re-ensure .nojekyll (prevents any Jekyll interference on GitHub Pages)
-          touch .nojekyll
-          echo "=== Cleaned static deployment root contents ==="
-          ls -1 | sort
-          echo "------------------------------------------------"
-          echo "Prototype folders:"
-          ls -d *-page* *-pages* 2>/dev/null || true
-          echo "gody-app: $([ -d gody-app ] && echo 'present' || echo 'MISSING')"
-          echo "index.html: $([ -f index.html ] && echo 'present' || echo 'MISSING')"
-          echo "Static site prepared cleanly for GitHub Pages (黄控台 primary, no React/Vite artifacts)"
+      - name: Build React app
+        run: npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload the (now cleaned) project root. All static prototype folders, root index.html,
-          # and gody-app/ remain at their natural paths for the primary "黄控台" GitHub Pages experience.
-          # React sources, Vite build outputs, and dev configs have been pruned in the prepare step.
-          path: .
+          path: dist
 
   deploy:
     environment:
