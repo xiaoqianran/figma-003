@@ -35,8 +35,9 @@ function App() {
     setSelectedPrototype(proto)
   }
 
+  // Use Vite's BASE_URL so it works both in dev (/) and production (/figma-003/)
   const currentIframeSrc = selectedPrototype 
-    ? `/prototypes/${selectedPrototype.path}` 
+    ? `${import.meta.env.BASE_URL}prototypes/${selectedPrototype.path}` 
     : null
 
   return (
@@ -159,18 +160,21 @@ function App() {
                   <span className="text-[9px] text-[#B8B5B0] console-font tracking-[1.5px]">GODY LAB • REACT</span>
                 </div>
 
-                <div className="prototype-screen mt-9 mx-2 mb-2 relative">
-                  {currentIframeSrc ? (
-                    <iframe 
-                      src={currentIframeSrc} 
-                      className="w-full h-full" 
-                      title={selectedPrototype?.displayName}
-                    />
-                  ) : (
-                    <div className="h-full flex items-center justify-center text-[#0A0908] console-font text-sm">
-                      请选择左侧原型进行预览
-                    </div>
-                  )}
+                {/* Use explicit inner container for correct 375x812 logical area (same robust pattern as the final vanilla fix) */}
+                <div className="prototype-screen">
+                  <div className="screen-content">
+                    {currentIframeSrc ? (
+                      <iframe 
+                        src={currentIframeSrc} 
+                        className="w-full h-full" 
+                        title={selectedPrototype?.displayName}
+                      />
+                    ) : (
+                      <div className="h-full flex items-center justify-center text-[#0A0908] console-font text-sm">
+                        请选择左侧原型进行预览
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <div className="absolute bottom-3 left-1/2 -translate-x-1/2 w-[108px] h-[5px] bg-[#2A2926] rounded-full z-30" />
