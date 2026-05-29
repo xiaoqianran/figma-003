@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pick up countdown - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .pickup-container {
+            position: relative;
+            background: #ffffff;
+            width: 375px;
+            height: 812px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .time {
+            font-size: 14px;
+            font-weight: 600;
+            color: #000000;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        /* 地图区域 */
+        .map-area {
+            position: relative;
+            height: 500px;
+            background: linear-gradient(135deg, #e8f4f8 0%, #d4edda 50%, #fff3cd 100%);
+        }
+
+        .map-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* 地图上的车辆 */
+        .map-car {
+            position: absolute;
+            width: 16px;
+            height: 32px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .map-car1 { top: 80px; left: 60px; transform: rotate(30deg); }
+        .map-car2 { top: 120px; left: 280px; transform: rotate(45deg); }
+        .map-car3 { top: 200px; left: 100px; transform: rotate(20deg); }
+        .map-car4 { top: 280px; left: 250px; transform: rotate(60deg); }
+        .map-car5 { top: 160px; left: 320px; transform: rotate(-30deg); }
+        .map-car6 { top: 320px; left: 80px; transform: rotate(15deg); }
+
+        /* 起点标记 */
+        .pickup-marker {
+            position: absolute;
+            bottom: 200px;
+            left: 80px;
+            width: 20px;
+            height: 20px;
+            background: #fecc2a;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            cursor: pointer;
+        }
+
+        .pickup-marker::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 6px;
+            height: 6px;
+            background: #fff;
+            border-radius: 50%;
+        }
+
+        /* 接机信息弹窗 */
+        .pickup-info {
+            position: absolute;
+            top: 180px;
+            left: 120px;
+            background: #fff;
+            border-radius: 12px;
+            padding: 12px 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 160px;
+        }
+
+        .pickup-label {
+            font-size: 12px;
+            color: #959595;
+            margin-bottom: 4px;
+        }
+
+        .pickup-location {
+            font-size: 14px;
+            color: #49493d;
+            font-weight: 500;
+        }
+
+        /* 底部信息卡片 */
+        .info-card {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-radius: 20px 20px 0 0;
+            padding: 24px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+        }
+
+        /* 倒计时 */
+        .countdown {
+            font-size: 16px;
+            color: #fecc2a;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        /* 目的地信息 */
+        .destination-info {
+            margin-bottom: 16px;
+        }
+
+        .destination {
+            font-size: 18px;
+            font-weight: 600;
+            color: #49493d;
+            margin-bottom: 4px;
+        }
+
+        .trip-details {
+            font-size: 14px;
+            color: #959595;
+            margin-bottom: 2px;
+        }
+
+        /* 价格 */
+        .price {
+            font-size: 18px;
+            font-weight: 600;
+            color: #49493d;
+        }
+
+        /* 底部指示器 */
+        .home-indicator {
+            display: flex;
+            justify-content: center;
+            padding: 21px 0 8px;
+            margin-top: 20px;
+        }
+
+        .indicator {
+            width: 134px;
+            height: 5px;
+            background: #49493d;
+            border-radius: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="pickup-container">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <span class="time">9:09</span>
+            <div class="status-icons">
+                <span>📶</span>
+                <span>📶</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <!-- 地图区域 -->
+        <div class="map-area">
+            <div class="map-grid"></div>
+            
+            <!-- 地图上的车辆 -->
+            <div class="map-car map-car1" onclick="selectCar(this)">🚕</div>
+            <div class="map-car map-car2" onclick="selectCar(this)">🚕</div>
+            <div class="map-car map-car3" onclick="selectCar(this)">🚕</div>
+            <div class="map-car map-car4" onclick="selectCar(this)">🚕</div>
+            <div class="map-car map-car5" onclick="selectCar(this)">🚕</div>
+            <div class="map-car map-car6" onclick="selectCar(this)">🚕</div>
+            
+            <!-- 起点标记 -->
+            <div class="pickup-marker" onclick="selectPickupPoint()"></div>
+            
+            <!-- 接机信息弹窗 -->
+            <div class="pickup-info">
+                <div class="pickup-label">Pick up</div>
+                <div class="pickup-location">San Francisco International Airport</div>
+            </div>
+        </div>
+
+        <!-- 底部信息卡片 -->
+        <div class="info-card">
+            <div class="countdown">Pick up in 8m 39s</div>
+            
+            <div class="destination-info">
+                <div class="destination">To Apple Union Square</div>
+                <div class="trip-details">At 3:50 PM from San Francisco International Airport</div>
+            </div>
+            
+            <div class="price">$16.00</div>
+            
+            <!-- 底部指示器 -->
+            <div class="home-indicator">
+                <div class="indicator"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 选择车辆
+        function selectCar(carElement) {
+            // 清除其他车辆的选中状态
+            document.querySelectorAll('.map-car').forEach(car => {
+                car.style.transform = car.style.transform.replace(' scale(1.5)', '');
+                car.style.zIndex = '1';
+            });
+            
+            // 选中当前车辆
+            const currentTransform = carElement.style.transform || '';
+            carElement.style.transform = currentTransform + ' scale(1.5)';
+            carElement.style.zIndex = '10';
+            
+            setTimeout(() => {
+                alert('已选择车辆，司机正在赶来');
+            }, 300);
+        }
+
+        // 选择起点位置
+        function selectPickupPoint() {
+            const marker = document.querySelector('.pickup-marker');
+            marker.style.transform = 'scale(1.3)';
+            marker.style.background = '#00b894';
+            
+            setTimeout(() => {
+                marker.style.transform = 'scale(1)';
+                marker.style.background = '#fecc2a';
+                alert('已选择接机点：San Francisco International Airport');
+            }, 200);
+        }
+
+        // 实时更新倒计时
+        function updateCountdown() {
+            const countdownElement = document.querySelector('.countdown');
+            if (!countdownElement) return;
+
+            // 模拟倒计时
+            let timeText = countdownElement.textContent;
+            let match = timeText.match(/(\d+)m (\d+)s/);
+            
+            if (match) {
+                let minutes = parseInt(match[1]);
+                let seconds = parseInt(match[2]);
+                
+                setInterval(() => {
+                    seconds--;
+                    if (seconds < 0) {
+                        seconds = 59;
+                        minutes--;
+                    }
+                    
+                    if (minutes < 0) {
+                        countdownElement.textContent = 'Driver arrived!';
+                        countdownElement.style.color = '#00b894';
+                        return;
+                    }
+                    
+                    countdownElement.textContent = `Pick up in ${minutes}m ${seconds}s`;
+                }, 1000);
+            }
+        }
+
+        // 初始化功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为车辆添加悬停效果
+            const mapCars = document.querySelectorAll('.map-car');
+            mapCars.forEach(car => {
+                car.addEventListener('mouseenter', function() {
+                    if (!this.style.transform.includes('scale(1.5)')) {
+                        this.style.transform = (this.style.transform || '') + ' scale(1.2)';
+                    }
+                });
+                
+                car.addEventListener('mouseleave', function() {
+                    if (!this.style.transform.includes('scale(1.5)')) {
+                        this.style.transform = this.style.transform.replace(' scale(1.2)', '');
+                    }
+                });
+            });
+
+            // 为信息卡片添加点击效果
+            const infoCard = document.querySelector('.info-card');
+            if (infoCard) {
+                infoCard.addEventListener('click', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateY(0)';
+                    }, 200);
+                });
+            }
+
+            // 启动倒计时
+            setTimeout(() => {
+                updateCountdown();
+            }, 2000);
+
+            console.log('Pick up countdown 页面初始化完成');
+        });
+
+        // 添加键盘支持
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (confirm('确定要取消行程吗？')) {
+                    window.history.back();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

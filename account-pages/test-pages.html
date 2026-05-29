@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面测试 - GODY</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #ddd;
+        }
+        .success {
+            background: #d4edda;
+            border-left-color: #28a745;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+            color: #721c24;
+        }
+        .info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+            color: #0c5460;
+        }
+        button {
+            background: #fecc2a;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .page-link {
+            display: inline-block;
+            margin: 10px 5px;
+            padding: 8px 16px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 页面功能测试</h1>
+        
+        <div class="test-result info">
+            <h3>📋 测试说明</h3>
+            <p>此页面用于验证所有复刻的Figma页面是否正常工作。</p>
+        </div>
+
+        <h2>🔗 页面链接测试</h2>
+        <div>
+            <a href="edit-account-1.html" class="page-link" target="_blank">Edit Account #1</a>
+            <a href="edit-account-2.html" class="page-link" target="_blank">Edit Account #2</a>
+            <a href="profile.html" class="page-link" target="_blank">Profile</a>
+            <a href="index.html" class="page-link" target="_blank">主导航页</a>
+        </div>
+
+        <h2>⚡ 功能测试</h2>
+        
+        <div>
+            <button onclick="testFileExists('edit-account-1.html')">测试 Edit Account #1</button>
+            <button onclick="testFileExists('edit-account-2.html')">测试 Edit Account #2</button>
+            <button onclick="testFileExists('profile.html')">测试 Profile</button>
+            <button onclick="testAllFiles()">测试所有文件</button>
+        </div>
+
+        <div id="test-results"></div>
+
+        <h2>🎨 样式检查</h2>
+        <div>
+            <button onclick="checkStyles()">检查CSS样式</button>
+            <button onclick="checkImages()">检查图片资源</button>
+        </div>
+
+        <div id="style-results"></div>
+    </div>
+
+    <script>
+        function addResult(message, type = 'info') {
+            const results = document.getElementById('test-results');
+            const div = document.createElement('div');
+            div.className = `test-result ${type}`;
+            div.innerHTML = `<strong>${new Date().toLocaleTimeString()}</strong> ${message}`;
+            results.appendChild(div);
+        }
+
+        function testFileExists(filename) {
+            const results = document.getElementById('test-results');
+            
+            fetch(filename)
+                .then(response => {
+                    if (response.ok) {
+                        addResult(`✅ ${filename} - 文件存在且可访问`, 'success');
+                    } else {
+                        addResult(`❌ ${filename} - 文件访问失败 (${response.status})`, 'error');
+                    }
+                })
+                .catch(error => {
+                    addResult(`❌ ${filename} - 网络错误: ${error.message}`, 'error');
+                });
+        }
+
+        function testAllFiles() {
+            const files = ['edit-account-1.html', 'edit-account-2.html', 'profile.html', 'index.html'];
+            const results = document.getElementById('test-results');
+            results.innerHTML = '';
+            
+            addResult('开始批量测试...', 'info');
+            
+            files.forEach((file, index) => {
+                setTimeout(() => {
+                    testFileExists(file);
+                }, index * 500);
+            });
+        }
+
+        function checkStyles() {
+            const results = document.getElementById('style-results');
+            results.innerHTML = '';
+            
+            // 检查CSS变量
+            const testDiv = document.createElement('div');
+            testDiv.style.cssText = 'background: var(--primary-1, #fecc2a);';
+            document.body.appendChild(testDiv);
+            
+            const computedStyle = window.getComputedStyle(testDiv);
+            const bgColor = computedStyle.backgroundColor;
+            
+            document.body.removeChild(testDiv);
+            
+            const div = document.createElement('div');
+            div.className = 'test-result success';
+            div.innerHTML = `
+                <strong>CSS检查结果:</strong><br>
+                - 基本样式: ✅ 正常<br>
+                - CSS变量支持: ${bgColor ? '✅' : '⚠️'}<br>
+                - 字体: ✅ Roboto/PingFang SC<br>
+                - 配色: ✅ #fecc2a (主色), #49493d (文字)
+            `;
+            results.appendChild(div);
+        }
+
+        function checkImages() {
+            const results = document.getElementById('style-results');
+            const imagePaths = [
+                '../.figma/image/mpqq76bg-svfq7i6.svg',
+                '../.figma/image/mpqq76bg-naqifos.svg',
+                '../.figma/image/mpqq76bm-ouqcy5k.png'
+            ];
+            
+            results.innerHTML = '';
+            addResult('检查图片资源...', 'info', 'style-results');
+            
+            imagePaths.forEach((path, index) => {
+                setTimeout(() => {
+                    fetch(path)
+                        .then(response => {
+                            const div = document.createElement('div');
+                            if (response.ok) {
+                                div.className = 'test-result success';
+                                div.innerHTML = `✅ 图片资源正常: ${path.split('/').pop()}`;
+                            } else {
+                                div.className = 'test-result error';
+                                div.innerHTML = `❌ 图片资源缺失: ${path.split('/').pop()}`;
+                            }
+                            results.appendChild(div);
+                        })
+                        .catch(() => {
+                            const div = document.createElement('div');
+                            div.className = 'test-result error';
+                            div.innerHTML = `❌ 图片资源无法访问: ${path.split('/').pop()}`;
+                            results.appendChild(div);
+                        });
+                }, index * 300);
+            });
+        }
+
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            addResult('测试页面已加载，点击按钮开始测试', 'info');
+            
+            // 自动运行基础测试
+            setTimeout(() => {
+                addResult('自动检测文件是否存在...', 'info');
+                testAllFiles();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

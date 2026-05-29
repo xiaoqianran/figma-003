@@ -1,13 +1,142 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GODY · 原型控制台</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GODY 路 鍘熷瀷鎺у埗鍙?/title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Playfair+Display:wght@700&amp;display=swap');
+
+    body {
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+      background-color: #0A0908;
+      color: #EDEBE5;
+    }
+    
+    .display-font {
+      font-family: "Playfair Display", Georgia, "Songti SC", serif;
+    }
+    
+    .console-font {
+      font-family: "IBM Plex Mono", "SF Mono", monospace;
+    }
+
+    .lab-grid {
+      background-image: 
+        linear-gradient(rgba(184, 181, 176, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(184, 181, 176, 0.03) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+
+    .metal {
+      background: linear-gradient(#1F1F1C, #11110F);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: #B8B5B0;
+    }
+  </style>
+</head>
+<body class="lab-grid">
+  <div class="max-w-5xl mx-auto px-8 pt-14">
+    <!-- Top -->
+    <div class="flex justify-between items-end mb-10">
+      <div>
+        <div class="flex items-center gap-x-3">
+          <div class="w-8 h-8 bg-[#fecc2a] flex items-center justify-center">
+            <div class="w-4 h-4 bg-[#0A0908]"></div>
+          </div>
+          <span class="display-font text-6xl font-bold tracking-[-2.5px]">GODY</span>
+        </div>
+        <div class="ml-11 -mt-2">
+          <span class="section-label tracking-[3.5px]">PROTOTYPE ARCHIVE 路 2025</span>
+        </div>
+      </div>
+      
+      <a href="gody-app/console.html" 
+         class="group inline-flex items-center gap-x-3 px-7 py-3.5 bg-[#fecc2a] text-[#0A0908] rounded-2xl font-semibold hover:bg-[#f2c21f] transition-all active:scale-[0.985]">
+        <span>杩涘叆鎺у埗鍙?/span>
+        <i class="fa-solid fa-arrow-right group-active:translate-x-0.5 transition"></i>
+      </a>
+    </div>
+
+    <div class="max-w-2xl">
+      <h1 class="text-[72px] leading-[1.02] tracking-[-3.2px] font-semibold display-font">
+        鎵€鏈夊師鍨嬶紝<br>涓€涓笓涓氭帶鍒跺彴銆?      </h1>
+      <p class="mt-6 text-xl text-[#B8B5B0] max-w-md">
+        灏?44 涓垎鏁ｇ殑绉诲姩绔〉闈㈤泦鎴愪簬宸ヤ笟绾ц澶囨ā鎷熷櫒涓€?br>
+        鐢ㄤ簬涓ヨ們鐨勮璁¤瘎瀹′笌浜や簰楠岃瘉銆?      </p>
+    </div>
+
+    <div class="mt-14 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="metal border border-[#22221F] rounded-3xl p-6">
+        <div class="text-[#fecc2a] text-xs console-font tracking-widest mb-2">44 PROTOTYPES</div>
+        <div class="text-2xl font-medium">瀹屾暣瑕嗙洊</div>
+        <div class="text-[#B8B5B0] mt-2 text-sm leading-snug">鐧诲綍銆佸湴鍥俱€侀璁€佹敮浠樸€佽绋嬨€佽处鎴风瓑鍏ㄩ儴鏍稿績璺緞銆?/div>
+      </div>
+      
+      <div class="metal border border-[#22221F] rounded-3xl p-6">
+        <div class="text-[#fecc2a] text-xs console-font tracking-widest mb-2">HARDWARE SIMULATION</div>
+        <div class="text-2xl font-medium">鐪熷疄璁惧鎰?/div>
+        <div class="text-[#B8B5B0] mt-2 text-sm leading-snug">鐗╃悊杈规銆侀珮鍏夈€佺數婧愭寚绀虹伅涓庢満姊板垏鎹㈠弽棣堛€?/div>
+      </div>
+      
+      <div class="metal border border-[#22221F] rounded-3xl p-6">
+        <div class="text-[#fecc2a] text-xs console-font tracking-widest mb-2">DESIGN SYSTEM</div>
+        <div class="text-2xl font-medium">宸ヤ笟妗ｆ缇庡</div>
+        <div class="text-[#B8B5B0] mt-2 text-sm leading-snug">鍩轰簬 80 骞翠唬涓浗浜ら€氳皟搴︿笌鐜颁唬鏋佺畝鐨勬贩鍚堣瑷€銆?/div>
+      </div>
+    </div>
+
+    <div class="mt-16 flex justify-center">
+      <a href="gody-app/console.html" 
+         class="inline-flex items-center gap-x-2 text-sm border-b border-[#fecc2a] pb-1 text-[#fecc2a] hover:border-[#f2c21f] transition-colors">
+        <span class="console-font tracking-widest">OPEN THE CONSOLE</span>
+        <i class="fa-solid fa-arrow-right-long"></i>
+      </a>
+    </div>
+
+    <!-- About Section -->
+    <div class="mt-20 pt-10 border-t border-[#22221F]">
+      <div class="max-w-3xl">
+        <div class="section-label mb-4 tracking-[2.5px]">ABOUT THIS PROJECT</div>
+        
+        <div class="display-font text-[42px] leading-[1.1] tracking-[-1.5px] mb-6">
+          Figma 瀛︿範 003 - 鍙傝€?GODY
+        </div>
+
+        <p class="text-[#B8B5B0] text-[15px] leading-relaxed max-w-2xl">
+          鏈」鐩负 Figma 璁捐澶嶅埢瀛︿範绯诲垪绗?003 鏈燂紝绯荤粺鎬у鍒讳簡 GODY 绉诲姩搴旂敤鐨勫叏濂楁牳蹇冧氦浜掗〉闈€?          閫氳繃宸ヤ笟妗ｆ缇庡璇█锛屽皢 44 涓垎鏁ｇ殑闈欐€佸師鍨嬫暣鍚堣繘涓撲笟绾ц澶囨ā鎷熸帶鍒跺彴锛屼緵璁捐璇勫涓庝氦浜掗獙璇佷娇鐢ㄣ€?        </p>
+
+        <!-- Prominent Link -->
+        <div class="mt-8">
+          <a href="https://github.com/xiaoqianran/figma-003" 
+             target="_blank"
+             class="group inline-flex items-center justify-between w-full max-w-xl px-7 py-4 bg-[#1F1F1C] hover:bg-[#252521] border border-[#fecc2a] hover:border-[#fecc2a] rounded-2xl transition-all">
+            <div class="flex items-center gap-x-4">
+              <i class="fa-brands fa-github text-2xl text-[#fecc2a]"></i>
+              <div>
+                <div class="console-font text-xs tracking-[1.5px] text-[#B8B5B0]">SOURCE REPOSITORY</div>
+                <div class="text-[#fecc2a] text-xl font-medium tracking-tight group-hover:underline">github.com/xiaoqianran/figma-003</div>
+              </div>
+            </div>
+            <i class="fa-solid fa-external-link-alt text-[#fecc2a] text-lg opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 transition"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="mt-20 border-t border-[#22221F] py-8 text-center">
+    <div class="text-[10px] text-[#B8B5B0] console-font tracking-[1px]">
+      XIAOQIANRAN / FIGMA-003 &nbsp;路&nbsp; FOR INTERNAL REVIEW ONLY
+    </div>
+  </div>
+</body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GODY · 原型控制台</title>
+  <title>GODY 路 鍘熷瀷鎺у埗鍙?/title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
@@ -114,10 +114,10 @@
       position: absolute;
       inset: 0;
       /* Visuals (bg, border, shadow, radius) are delegated to inner .screen-content
-         so the logical viewport is *guaranteed* to be exactly 375×812.
+         so the logical viewport is *guaranteed* to be exactly 375脳812.
          The ~2.5px/3px ring around .screen-content reveals the .device-bevel
-         (#0C0C0A) — this is the current bevel math: 380×818 hardware face
-         minus the precise display glass yields the documented 375×812 target
+         (#0C0C0A) 鈥?this is the current bevel math: 380脳818 hardware face
+         minus the precise display glass yields the documented 375脳812 target
          (plus the decorative GODY label bar at top and home indicator at bottom
          are overlaid via sibling absolutes). */
       border-radius: 46px;
@@ -192,7 +192,7 @@
       pointer-events: none;
     }
 
-    /* === Hardware Toolbar & Enhancements (黄控台 aesthetic) === */
+    /* === Hardware Toolbar & Enhancements (榛勬帶鍙?aesthetic) === */
     .device-toolbar {
       font-family: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
       font-size: 10px;
@@ -416,7 +416,7 @@
       white-space: nowrap;
     }
 
-    /* === User Flow Player (黄控台 / industrial metal aesthetic) === */
+    /* === User Flow Player (榛勬帶鍙?/ industrial metal aesthetic) === */
     .flow-pill {
       font-family: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
       font-size: 9px;
@@ -488,7 +488,7 @@
         <div class="flex items-center gap-x-2 mt-1">
           <div class="section-label tracking-[2px]">PROTOTYPE CONSOLE</div>
           <div class="h-px w-8 bg-[#B8B5B0]/30"></div>
-          <div class="text-[10px] text-[#B8B5B0] console-font">V 0.2 — SHANGHAI 2025</div>
+          <div class="text-[10px] text-[#B8B5B0] console-font">V 0.2 鈥?SHANGHAI 2025</div>
         </div>
       </div>
 
@@ -520,7 +520,7 @@
             <div class="px-1 pb-2">
               <div class="relative">
                 <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-[#6E6A61] text-xs pointer-events-none"></i>
-                <input id="nav-search" type="text" placeholder="搜索原型名称..." 
+                <input id="nav-search" type="text" placeholder="鎼滅储鍘熷瀷鍚嶇О..." 
                        class="nav-search-input w-full bg-[#0A0908] border border-[#2A2926] text-[#EDEBE5] pl-8 pr-3 py-[7px] rounded-xl placeholder:text-[#6E6A61] focus:outline-none focus:border-[#fecc2a]/60">
               </div>
             </div>
@@ -541,9 +541,8 @@
 
         <div class="mt-4 px-3">
           <div class="text-[10px] text-[#B8B5B0] leading-tight console-font">
-            所有原型均为静态复刻。<br>
-            相对路径跳转已适配。使用搜索与分类筛选。
-          </div>
+            鎵€鏈夊師鍨嬪潎涓洪潤鎬佸鍒汇€?br>
+            鐩稿璺緞璺宠浆宸查€傞厤銆備娇鐢ㄦ悳绱笌鍒嗙被绛涢€夈€?          </div>
         </div>
       </div>
 
@@ -576,7 +575,7 @@
             </div>
 
             <!-- Rotate -->
-            <button onclick="toggleRotate()" class="tb-btn" id="rotate-btn" title="Toggle 90° landscape / portrait">
+            <button onclick="toggleRotate()" class="tb-btn" id="rotate-btn" title="Toggle 90掳 landscape / portrait">
               <i class="fa-solid fa-rotate fa-fw text-[10px]"></i>
               <span class="hidden sm:inline">ROTATE</span>
             </button>
@@ -640,9 +639,9 @@
         </div>
 
         <div class="mt-4 text-[10px] text-[#B8B5B0] flex items-center gap-x-2 console-font">
-          <span>375 × 812</span>
-          <span class="text-[#B8B5B0]/40">•</span>
-          <span>iPhone 13 物理模拟</span>
+          <span>375 脳 812</span>
+          <span class="text-[#B8B5B0]/40">鈥?/span>
+          <span>iPhone 13 鐗╃悊妯℃嫙</span>
         </div>
       </div>
 
@@ -652,13 +651,12 @@
           <div class="section-label text-[#0A0908] mb-3 tracking-widest">CURRENT PROTOTYPE</div>
           
           <div id="meta-title" class="display-font text-3xl leading-none text-[#0A0908] mb-4">
-            ——
-          </div>
+            鈥斺€?          </div>
 
           <div class="space-y-4 text-[#3F3D37]">
             <div>
               <div class="text-[10px] console-font text-[#6E6A61] mb-px">MODULE</div>
-              <div id="meta-module" class="font-medium">—</div>
+              <div id="meta-module" class="font-medium">鈥?/div>
             </div>
             
             <div>
@@ -678,21 +676,19 @@
             <div class="pt-2 border-t border-[#D9D4C8]">
               <div class="text-[10px] console-font text-[#6E6A61] mb-1">NOTES</div>
               <div id="meta-notes" class="text-sm leading-snug text-[#3F3D37]">
-                选择左侧原型以加载至设备。
-              </div>
+                閫夋嫨宸︿晶鍘熷瀷浠ュ姞杞借嚦璁惧銆?              </div>
             </div>
           </div>
         </div>
 
         <div class="mt-4 px-1 text-[11px] text-[#B8B5B0] leading-tight">
-          此控制台为内部设计评审工具。<br>
-          所有交互均为真实可点击原型。
-        </div>
+          姝ゆ帶鍒跺彴涓哄唴閮ㄨ璁¤瘎瀹″伐鍏枫€?br>
+          鎵€鏈変氦浜掑潎涓虹湡瀹炲彲鐐瑰嚮鍘熷瀷銆?        </div>
 
-        <!-- FLOWS / 用户旅程: Powerful User Flow Player (integrated, optional but prominent) -->
+        <!-- FLOWS / 鐢ㄦ埛鏃呯▼: Powerful User Flow Player (integrated, optional but prominent) -->
         <div class="mt-5">
           <div class="flex items-center gap-x-2 px-1 mb-1.5">
-            <div class="section-label tracking-[1.5px] text-[#B8B5B0]">FLOWS · 用户旅程</div>
+            <div class="section-label tracking-[1.5px] text-[#B8B5B0]">FLOWS 路 鐢ㄦ埛鏃呯▼</div>
             <div class="flex-1 h-px bg-[#2A2926]"></div>
           </div>
 
@@ -726,11 +722,11 @@
               <button id="flow-prev-btn"
                 class="flex-1 console-font text-xs tracking-wider py-[7px] bg-[#1A1916] hover:bg-[#22211D] active:bg-[#0F0F0D] border border-[#2A2926] hover:border-[#fecc2a]/50 text-[#EDEBE5] rounded-xl transition-all flex items-center justify-center gap-x-1 text-[10px]">
                 <i class="fa-solid fa-chevron-left text-[8px]"></i>
-                <span>上一步</span>
+                <span>涓婁竴姝?/span>
               </button>
               <button id="flow-next-btn"
                 class="flex-1 console-font text-xs tracking-wider py-[7px] bg-[#fecc2a] hover:bg-[#f0c000] active:bg-[#e6b800] text-[#0A0908] font-semibold rounded-xl transition-all flex items-center justify-center gap-x-1 text-[10px] shadow-sm">
-                <span>下一步</span>
+                <span>涓嬩竴姝?/span>
                 <i class="fa-solid fa-chevron-right text-[8px]"></i>
               </button>
             </div>
@@ -739,18 +735,17 @@
             <div class="flex gap-1.5">
               <button id="flow-restart-btn"
                 class="flex-1 console-font text-[9px] tracking-wider py-1 bg-[#1A1916] hover:bg-[#22211D] border border-[#2A2926] hover:border-[#3A3A36] text-[#B8B5B0] hover:text-[#EDEBE5] rounded-lg transition-colors">
-                重新开始
-              </button>
+                閲嶆柊寮€濮?              </button>
               <button id="flow-auto-btn"
                 class="flex-1 console-font text-[9px] tracking-wider py-1 bg-[#1A1916] hover:bg-[#22211D] border border-[#2A2926] hover:border-[#fecc2a]/50 text-[#B8B5B0] hover:text-[#fecc2a] rounded-lg transition-colors flex items-center justify-center gap-x-1">
                 <i id="flow-auto-icon" class="fa-solid fa-play fa-xs"></i>
-                <span id="flow-auto-text">自动播放</span>
+                <span id="flow-auto-text">鑷姩鎾斁</span>
               </button>
             </div>
           </div>
 
           <div class="px-1 mt-1.5 text-[9px] text-[#6E6A61] console-font leading-tight">
-            评审完整用户路径 · 1.2s 自动步进
+            璇勫瀹屾暣鐢ㄦ埛璺緞 路 1.2s 鑷姩姝ヨ繘
           </div>
         </div>
       </div>
@@ -785,67 +780,67 @@
 
     // Minimal fallback (used only if fetch fails under file:// or network issues)
     const FALLBACK_REGISTRY = [
-      { id: 'auth-login', path: 'login-page/index.html', displayName: '登录', category: 'Auth', description: 'GODY 应用登录入口，支持手机号与社交账号快速登录。' },
-      { id: 'core-home', path: 'home-page/index.html', displayName: '首页（地图）', category: 'Core', description: '应用主屏幕，实时地图展示附近可用车辆与快捷操作。' },
-      { id: 'booking-choose-trip1', path: 'choose-trip1-page/index.html', displayName: '选择行程 1', category: 'Booking', description: '推荐行程选项卡片，包含时间与价格信息。' },
-      { id: 'booking-confirm-pickup1', path: 'confirm-pickup1-page/index.html', displayName: '确认上车点 1', category: 'Booking', description: '确认乘车上车地点与司机信息匹配界面。' },
-      { id: 'payment-select', path: 'payment-pages/select-payment.html', displayName: '选择支付方式', category: 'Payment', description: '支持微信、支付宝、银行卡等多种支付渠道选择。' },
-      { id: 'trips-upcoming', path: 'trips-pages/your-trips-upcoming.html', displayName: '进行中行程', category: 'Trips', description: '当前进行中与即将开始的行程卡片列表。' },
-      { id: 'account-profile', path: 'account-pages/profile.html', displayName: '个人资料', category: 'Account', description: '用户头像、昵称与基本账户信息展示页。' },
-      { id: 'map-home', path: 'map-pages/map-home.html', displayName: '地图主页', category: 'Map', description: '核心地图浏览界面，支持定位与保存地点。' }
+      { id: 'auth-login', path: 'login-page/index.html', displayName: '鐧诲綍', category: 'Auth', description: 'GODY 搴旂敤鐧诲綍鍏ュ彛锛屾敮鎸佹墜鏈哄彿涓庣ぞ浜よ处鍙峰揩閫熺櫥褰曘€? },
+      { id: 'core-home', path: 'home-page/index.html', displayName: '棣栭〉锛堝湴鍥撅級', category: 'Core', description: '搴旂敤涓诲睆骞曪紝瀹炴椂鍦板浘灞曠ず闄勮繎鍙敤杞﹁締涓庡揩鎹锋搷浣溿€? },
+      { id: 'booking-choose-trip1', path: 'choose-trip1-page/index.html', displayName: '閫夋嫨琛岀▼ 1', category: 'Booking', description: '鎺ㄨ崘琛岀▼閫夐」鍗＄墖锛屽寘鍚椂闂翠笌浠锋牸淇℃伅銆? },
+      { id: 'booking-confirm-pickup1', path: 'confirm-pickup1-page/index.html', displayName: '纭涓婅溅鐐?1', category: 'Booking', description: '纭涔樿溅涓婅溅鍦扮偣涓庡徃鏈轰俊鎭尮閰嶇晫闈€? },
+      { id: 'payment-select', path: 'payment-pages/select-payment.html', displayName: '閫夋嫨鏀粯鏂瑰紡', category: 'Payment', description: '鏀寔寰俊銆佹敮浠樺疂銆侀摱琛屽崱绛夊绉嶆敮浠樻笭閬撻€夋嫨銆? },
+      { id: 'trips-upcoming', path: 'trips-pages/your-trips-upcoming.html', displayName: '杩涜涓绋?, category: 'Trips', description: '褰撳墠杩涜涓笌鍗冲皢寮€濮嬬殑琛岀▼鍗＄墖鍒楄〃銆? },
+      { id: 'account-profile', path: 'account-pages/profile.html', displayName: '涓汉璧勬枡', category: 'Account', description: '鐢ㄦ埛澶村儚銆佹樀绉颁笌鍩烘湰璐︽埛淇℃伅灞曠ず椤点€? },
+      { id: 'map-home', path: 'map-pages/map-home.html', displayName: '鍦板浘涓婚〉', category: 'Map', description: '鏍稿績鍦板浘娴忚鐣岄潰锛屾敮鎸佸畾浣嶄笌淇濆瓨鍦扮偣銆? }
     ];
 
-    // === User Flow Player: Pre-defined realistic journeys (黄控台 aesthetic) ===
+    // === User Flow Player: Pre-defined realistic journeys (榛勬帶鍙?aesthetic) ===
     const USER_FLOWS = [
       {
         id: 'flow-new-user',
-        name: '新用户注册与首次叫车',
+        name: '鏂扮敤鎴锋敞鍐屼笌棣栨鍙溅',
         steps: [
-          { path: 'signup-page/index.html', title: '填写注册信息' },
-          { path: 'login-page/index.html', title: '登录账户' },
-          { path: 'home-page/index.html', title: '进入首页地图' },
-          { path: 'search1-page/index.html', title: '搜索目的地' },
-          { path: 'choose-car-page/index.html', title: '选择车辆车型' },
-          { path: 'requesting-page/index.html', title: '发起叫车请求' }
+          { path: 'signup-page/index.html', title: '濉啓娉ㄥ唽淇℃伅' },
+          { path: 'login-page/index.html', title: '鐧诲綍璐︽埛' },
+          { path: 'home-page/index.html', title: '杩涘叆棣栭〉鍦板浘' },
+          { path: 'search1-page/index.html', title: '鎼滅储鐩殑鍦? },
+          { path: 'choose-car-page/index.html', title: '閫夋嫨杞﹁締杞﹀瀷' },
+          { path: 'requesting-page/index.html', title: '鍙戣捣鍙溅璇锋眰' }
         ]
       },
       {
         id: 'flow-book-pay',
-        name: '预订行程并支付',
+        name: '棰勮琛岀▼骞舵敮浠?,
         steps: [
-          { path: 'home-page/index.html', title: '打开地图首页' },
-          { path: 'schedule-page/index.html', title: '预约未来行程' },
-          { path: 'choose-trip1-page/index.html', title: '选择推荐行程' },
-          { path: 'payment-pages/select-payment.html', title: '选择支付方式' },
-          { path: 'payment-pages/confirm-payment.html', title: '确认并完成支付' }
+          { path: 'home-page/index.html', title: '鎵撳紑鍦板浘棣栭〉' },
+          { path: 'schedule-page/index.html', title: '棰勭害鏈潵琛岀▼' },
+          { path: 'choose-trip1-page/index.html', title: '閫夋嫨鎺ㄨ崘琛岀▼' },
+          { path: 'payment-pages/select-payment.html', title: '閫夋嫨鏀粯鏂瑰紡' },
+          { path: 'payment-pages/confirm-payment.html', title: '纭骞跺畬鎴愭敮浠? }
         ]
       },
       {
         id: 'flow-active-trip',
-        name: '查看进行中行程 + 取消',
+        name: '鏌ョ湅杩涜涓绋?+ 鍙栨秷',
         steps: [
-          { path: 'trips-pages/your-trips-upcoming.html', title: '查看进行中行程' },
-          { path: 'trip-pages/upcoming-trip.html', title: '行程详情预览' },
-          { path: 'trips-pages/trips-detail-1.html', title: '执行取消操作' }
+          { path: 'trips-pages/your-trips-upcoming.html', title: '鏌ョ湅杩涜涓绋? },
+          { path: 'trip-pages/upcoming-trip.html', title: '琛岀▼璇︽儏棰勮' },
+          { path: 'trips-pages/trips-detail-1.html', title: '鎵ц鍙栨秷鎿嶄綔' }
         ]
       },
       {
         id: 'flow-account',
-        name: '账户设置与编辑',
+        name: '璐︽埛璁剧疆涓庣紪杈?,
         steps: [
-          { path: 'account-pages/profile.html', title: '查看个人资料' },
-          { path: 'account-pages/index.html', title: '进入账户设置' },
-          { path: 'account-pages/edit-account-1.html', title: '编辑账户信息' }
+          { path: 'account-pages/profile.html', title: '鏌ョ湅涓汉璧勬枡' },
+          { path: 'account-pages/index.html', title: '杩涘叆璐︽埛璁剧疆' },
+          { path: 'account-pages/edit-account-1.html', title: '缂栬緫璐︽埛淇℃伅' }
         ]
       },
       {
         id: 'flow-map-search',
-        name: '地图搜索 + 选择车辆',
+        name: '鍦板浘鎼滅储 + 閫夋嫨杞﹁締',
         steps: [
-          { path: 'home-page/index.html', title: '地图主屏定位' },
-          { path: 'search2-page/index.html', title: '高级搜索筛选' },
-          { path: 'choose-car-page/index.html', title: '浏览并选择车辆' },
-          { path: 'map-pages/map-home.html', title: '确认地图位置' }
+          { path: 'home-page/index.html', title: '鍦板浘涓诲睆瀹氫綅' },
+          { path: 'search2-page/index.html', title: '楂樼骇鎼滅储绛涢€? },
+          { path: 'choose-car-page/index.html', title: '娴忚骞堕€夋嫨杞﹁締' },
+          { path: 'map-pages/map-home.html', title: '纭鍦板浘浣嶇疆' }
         ]
       }
     ];
@@ -868,10 +863,10 @@
     }
 
     function updateMetadata(title, module, status, notes) {
-      document.getElementById('meta-title').innerHTML = title || '——';
-      document.getElementById('meta-module').innerHTML = module || '—';
+      document.getElementById('meta-title').innerHTML = title || '鈥斺€?;
+      document.getElementById('meta-module').innerHTML = module || '鈥?;
       document.getElementById('meta-status').innerHTML = status || 'STANDBY';
-      document.getElementById('meta-notes').innerHTML = notes || '—';
+      document.getElementById('meta-notes').innerHTML = notes || '鈥?;
       
       const dot = document.getElementById('meta-status-dot');
       dot.className = 'w-1.5 h-1.5 rounded-full ' + 
@@ -907,7 +902,7 @@
       const reset = document.createElement('button');
       reset.className = 'cat-filter';
       reset.textContent = 'ALL';
-      reset.title = '重置所有分类筛选';
+      reset.title = '閲嶇疆鎵€鏈夊垎绫荤瓫閫?;
       reset.onclick = () => {
         activeCategoryFilters = new Set(CATEGORY_ORDER);
         renderCategoryFilters();
@@ -920,7 +915,7 @@
         btn.className = 'cat-filter' + (activeCategoryFilters.has(cat) ? ' active' : '');
         btn.textContent = cat.toUpperCase();
         btn.dataset.category = cat;
-        btn.title = cat + ' 分类筛选（点击切换）';
+        btn.title = cat + ' 鍒嗙被绛涢€夛紙鐐瑰嚮鍒囨崲锛?;
         btn.onclick = () => {
           toggleCategory(cat);
         };
@@ -965,7 +960,7 @@
       if (filtered.length === 0) {
         const empty = document.createElement('div');
         empty.className = 'px-3 py-4 text-center text-[#6E6A61] text-xs console-font';
-        empty.textContent = '无匹配原型';
+        empty.textContent = '鏃犲尮閰嶅師鍨?;
         container.appendChild(empty);
         return;
       }
@@ -1003,7 +998,7 @@
     }
 
     function setupNavControls() {
-      // Search input — live filter
+      // Search input 鈥?live filter
       const searchInput = document.getElementById('nav-search');
       if (searchInput) {
         searchInput.addEventListener('input', () => {
@@ -1063,7 +1058,7 @@
       applyActiveState();
 
       // Rich data from registry
-      const page = pageRegistry.find(p => p.path === path) || { displayName: path, category: 'Other', description: '静态复刻原型，可直接交互。' };
+      const page = pageRegistry.find(p => p.path === path) || { displayName: path, category: 'Other', description: '闈欐€佸鍒诲師鍨嬶紝鍙洿鎺ヤ氦浜掋€? };
 
       // Update UI label
       updateCurrentLabel(page.displayName.toUpperCase());
@@ -1076,7 +1071,7 @@
         page.description
       );
 
-      // Gentle device feedback — preserves current zoom + rotation transform
+      // Gentle device feedback 鈥?preserves current zoom + rotation transform
       const rot = isRotated ? 90 : 0;
       shell.style.transition = 'transform 80ms cubic-bezier(0.23, 1, 0.32, 1)';
       shell.style.transform = `scale(${currentZoom * 0.982}) rotate(${rot}deg)`;
@@ -1244,7 +1239,7 @@
       }
     }
 
-    // === User Flow Player Implementation (calls existing loadPrototype, matches 黄控台 style) ===
+    // === User Flow Player Implementation (calls existing loadPrototype, matches 榛勬帶鍙?style) ===
     function renderFlowPills() {
       const container = document.getElementById('flow-pills');
       if (!container) return;
@@ -1253,7 +1248,7 @@
         const pill = document.createElement('button');
         pill.className = 'flow-pill';
         pill.textContent = flow.name;
-        pill.title = `加载用户旅程：${flow.name}`;
+        pill.title = `鍔犺浇鐢ㄦ埛鏃呯▼锛?{flow.name}`;
         pill.onclick = () => selectFlow(flow.id);
         container.appendChild(pill);
       });
@@ -1324,7 +1319,7 @@
 
       if (currentFlow) {
         const total = currentFlow.steps.length;
-        metaFlowText.textContent = `Step ${currentStepIndex + 1}/${total} · ${currentFlow.name}`;
+        metaFlowText.textContent = `Step ${currentStepIndex + 1}/${total} 路 ${currentFlow.name}`;
         metaFlow.classList.remove('hidden');
       } else {
         metaFlow.classList.add('hidden');
@@ -1379,7 +1374,7 @@
       if (autoPlayTimer) {
         stopAutoPlay();
       } else {
-        if (text) text.textContent = '暂停';
+        if (text) text.textContent = '鏆傚仠';
         if (icon) icon.className = 'fa-solid fa-pause fa-xs';
         if (btn) btn.style.borderColor = 'rgba(254,204,42,0.55)';
 
@@ -1409,7 +1404,7 @@
       const text = document.getElementById('flow-auto-text');
       const icon = document.getElementById('flow-auto-icon');
       const btn = document.getElementById('flow-auto-btn');
-      if (text) text.textContent = '自动播放';
+      if (text) text.textContent = '鑷姩鎾斁';
       if (icon) icon.className = 'fa-solid fa-play fa-xs';
       if (btn) btn.style.borderColor = '';
     }
@@ -1489,7 +1484,7 @@
       updateDeviceTransform();
       syncZoomUI();
 
-      // Attach single load listener for prototype iframe — hides loading overlay cleanly
+      // Attach single load listener for prototype iframe 鈥?hides loading overlay cleanly
       const iframeEl = document.getElementById('preview-frame');
       if (iframeEl) {
         iframeEl.addEventListener('load', () => {
@@ -1534,7 +1529,7 @@
         selectFlow, renderFlowPills, nextFlowStep, prevFlowStep, restartFlow, toggleAutoPlay, getCurrentFlow: () => ({ flow: currentFlow, step: currentStepIndex })
       };
 
-      console.log('%c[GODY Console] Dynamic registry navigation ready — ' + pageRegistry.length + ' prototypes loaded.', 'color:#B8B5B0');
+      console.log('%c[GODY Console] Dynamic registry navigation ready 鈥?' + pageRegistry.length + ' prototypes loaded.', 'color:#B8B5B0');
     }
 
     // Start everything

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming trip set - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .trip-container {
+            position: relative;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375 812"><rect fill="%23333" width="375" height="812"/><circle fill="%23444" cx="80" cy="120" r="25"/><circle fill="%23444" cx="180" cy="80" r="30"/><circle fill="%23444" cx="280" cy="150" r="20"/><path fill="%23555" d="M0 250 Q100 230 200 250 Q300 270 375 250 L375 450 Q300 430 200 450 Q100 470 0 450 Z"/></svg>');
+            background-position: center;
+            background-size: cover;
+            width: 375px;
+            height: 812px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            color: #fff;
+        }
+
+        .time {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        /* 底部弹窗 */
+        .trip-modal {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-radius: 20px 20px 0 0;
+            padding: 24px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+        }
+
+        /* 拖拽指示器 */
+        .drag-handle {
+            width: 40px;
+            height: 4px;
+            background: #ddd;
+            border-radius: 2px;
+            margin: 0 auto 20px;
+        }
+
+        /* 标题 */
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #49493d;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        /* 行程信息 */
+        .trip-info {
+            margin-bottom: 24px;
+        }
+
+        .destination {
+            font-size: 18px;
+            font-weight: 600;
+            color: #49493d;
+            margin-bottom: 12px;
+        }
+
+        .trip-details {
+            font-size: 16px;
+            color: #49493d;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .price {
+            font-size: 18px;
+            font-weight: 600;
+            color: #49493d;
+            margin-bottom: 16px;
+        }
+
+        /* 折扣提示 */
+        .discount-info {
+            font-size: 14px;
+            color: #959595;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .terms-link {
+            color: #fecc2a;
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .terms-link:hover {
+            color: #e6b824;
+        }
+
+        /* 完成按钮 */
+        .finish-button {
+            width: 100%;
+            padding: 16px;
+            background: #fecc2a;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #49493d;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 24px;
+        }
+
+        .finish-button:hover {
+            background: #e6b824;
+            transform: translateY(-2px);
+        }
+
+        .finish-button:active {
+            transform: scale(0.98);
+        }
+
+        /* 底部指示器 */
+        .home-indicator {
+            display: flex;
+            justify-content: center;
+            padding: 21px 0 8px;
+            margin-top: 20px;
+        }
+
+        .indicator {
+            width: 134px;
+            height: 5px;
+            background: #49493d;
+            border-radius: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="trip-container">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <span class="time">9:09</span>
+            <div class="status-icons">
+                <span>📶</span>
+                <span>📶</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <!-- 行程弹窗 -->
+        <div class="trip-modal">
+            <!-- 拖拽指示器 -->
+            <div class="drag-handle"></div>
+            
+            <!-- 标题 -->
+            <h1 class="modal-title">Upcoming trip set</h1>
+            
+            <!-- 行程信息 -->
+            <div class="trip-info">
+                <div class="destination">To Apple Union Square</div>
+                <div class="trip-details">Tue, 24 Sep at 3:50 PM - 4:00 PM</div>
+                <div class="trip-details">GMT-7</div>
+                <div class="price">$16.00</div>
+            </div>
+            
+            <!-- 折扣信息 -->
+            <div class="discount-info">
+                Save up to 15% on all routes when you ride with Gody and Pool in the San Francisco metropolitan area. Discounts may vary by trip.
+                <span class="terms-link" onclick="showTerms()">See terms</span>
+            </div>
+            
+            <!-- 完成按钮 -->
+            <button class="finish-button" onclick="finishTrip()">Finished</button>
+            
+            <!-- 底部指示器 -->
+            <div class="home-indicator">
+                <div class="indicator"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 显示条款
+        function showTerms() {
+            alert('显示服务条款详情');
+            console.log('用户点击了See terms');
+        }
+
+        // 完成行程设置
+        function finishTrip() {
+            const button = document.querySelector('.finish-button');
+            button.style.transform = 'scale(0.95)';
+            button.textContent = 'Processing...';
+            
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+                button.textContent = 'Completed!';
+                button.style.background = '#00b894';
+                button.style.color = '#fff';
+                
+                setTimeout(() => {
+                    alert('行程设置完成！');
+                    console.log('用户完成了行程设置');
+                    // 可以跳转到其他页面
+                    // window.location.href = '../home-page/index.html';
+                }, 1000);
+            }, 1500);
+        }
+
+        // 初始化功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为拖拽指示器添加点击效果
+            const dragHandle = document.querySelector('.drag-handle');
+            if (dragHandle) {
+                dragHandle.addEventListener('click', function() {
+                    const modal = document.querySelector('.trip-modal');
+                    modal.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        modal.style.transform = 'translateY(0)';
+                    }, 200);
+                });
+            }
+
+            // 为条款链接添加悬停效果
+            const termsLink = document.querySelector('.terms-link');
+            if (termsLink) {
+                termsLink.addEventListener('mouseenter', function() {
+                    this.style.color = '#e6b824';
+                });
+                
+                termsLink.addEventListener('mouseleave', function() {
+                    this.style.color = '#fecc2a';
+                });
+            }
+
+            console.log('Upcoming trip set 页面初始化完成');
+        });
+
+        // 添加键盘支持
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                finishTrip();
+            } else if (e.key === 'Escape') {
+                if (confirm('确定要取消行程设置吗？')) {
+                    window.history.back();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Account #1 - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .edit-account-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #ffffff;
+            width: 375px;
+            height: 812px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        /* 状态栏 */
+        .system-status-bar {
+            width: 375px;
+            height: 40px;
+            background: #ffffff;
+        }
+
+        /* 顶部导航 */
+        .group-548 {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            justify-content: space-between;
+            padding: 24px 207px 32px 24px;
+            min-width: 375px;
+        }
+
+        .icons-delete {
+            width: 16px;
+            height: 16px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .ui-text-heading-h3b {
+            line-height: 16px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        /* 头像区域 */
+        .auto-wrapper {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+        }
+
+        .ellipse-35 {
+            display: flex;
+            position: absolute;
+            top: 0;
+            left: 0;
+            align-items: center;
+            border-radius: 50%;
+            background: var(--background-1, #ffffff);
+            width: 100px;
+            height: 100px;
+            box-shadow: 0px 4px 40px 0px #0000000d;
+        }
+
+        .ellipse-15 {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        .ellipse-6 {
+            display: flex;
+            position: absolute;
+            top: 68px;
+            right: -1px;
+            align-items: center;
+            border-radius: 50%;
+            box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+            background: var(--primary-1, #fecc2a);
+            padding: 9px;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .ellipse-6:hover {
+            transform: scale(1.1);
+        }
+
+        .icons-a-edit-1 {
+            width: 13px;
+            height: 13px;
+            overflow: hidden;
+        }
+
+        /* 表单字段 */
+        .text-field {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            align-self: stretch;
+            margin: 16px 24px 0px;
+        }
+
+        .text-field.first-name-field {
+            margin-top: 24px;
+        }
+
+        .field-label {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: var(--Neutral-2, #959595);
+            font-size: 14px;
+        }
+
+        .field-input {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            justify-content: space-between;
+            margin-top: 6px;
+            border-radius: 12px;
+            background: var(--Neutral-4, #f3f3f3);
+            padding: 16px 16px 12px;
+            min-width: 327px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .field-input:hover {
+            background: #e8e8e8;
+        }
+
+        .field-value {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .field-value.phone {
+            margin: 1px 0px 0px;
+        }
+
+        .field-value.email {
+            margin: 1px 0px 0px;
+        }
+
+        .field-value.password {
+            line-height: 16px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .field-arrow {
+            margin-top: 1px;
+            width: 12px;
+            height: 12px;
+            overflow: hidden;
+        }
+
+        .field-arrow.phone {
+            margin-top: 3px;
+            margin-left: 12px;
+        }
+
+        .field-arrow.email {
+            margin-top: 3px;
+            margin-left: 12px;
+        }
+
+        .field-arrow.password {
+            margin-top: 7px;
+        }
+
+        /* 验证状态 */
+        .verified {
+            margin: 0px 0px 0px 161px;
+            line-height: 18px;
+            letter-spacing: 0;
+            color: var(--primary-1, #fecc2a);
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .unverified {
+            margin: 0px 0px 0px 28px;
+            line-height: 18px;
+            letter-spacing: 0;
+            color: var(--Semantic-1, #ff3838);
+            font-size: 12px;
+        }
+
+        /* 底部指示器 */
+        .bars-home-indicator-iph {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin-top: 109px;
+            padding: 21px 121px 8px 120px;
+        }
+
+        .home-indicator {
+            border-radius: 100px;
+            background: var(--Neutral-1, #49493d);
+            width: 134px;
+            height: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="edit-account-container">
+        <!-- 状态栏 -->
+        <img src="../.figma/image/mpqq76bg-svfq7i6.svg" class="system-status-bar" alt="状态栏" />
+        
+        <!-- 顶部导航 -->
+        <div class="group-548">
+            <img src="../.figma/image/mpqq76bg-naqifos.svg" class="icons-delete" alt="关闭" onclick="goBack()" />
+            <p class="ui-text-heading-h3b">Edit account</p>
+        </div>
+
+        <!-- 头像区域 -->
+        <div class="auto-wrapper">
+            <div class="ellipse-35">
+                <img src="../.figma/image/mpqq76bm-ouqcy5k.png" class="ellipse-15" alt="用户头像" />
+            </div>
+            <div class="ellipse-6" onclick="editAvatar()">
+                <img src="../.figma/image/mpqq76bg-p15ymd0.svg" class="icons-a-edit-1" alt="编辑头像" />
+            </div>
+        </div>
+
+        <!-- 名字字段 -->
+        <div class="text-field first-name-field">
+            <p class="field-label">First name</p>
+            <div class="field-input" onclick="editField('firstName')">
+                <p class="field-value">Push</p>
+                <img src="../.figma/image/mpqq76bg-ifqle2m.svg" class="field-arrow" alt="箭头" />
+            </div>
+        </div>
+
+        <!-- 姓氏字段 -->
+        <div class="text-field">
+            <p class="field-label">Last name</p>
+            <div class="field-input" onclick="editField('lastName')">
+                <p class="field-value">Puttichai</p>
+                <img src="../.figma/image/mpqq76bg-ifqle2m.svg" class="field-arrow" alt="箭头" />
+            </div>
+        </div>
+
+        <!-- 电话号码字段 -->
+        <div class="text-field">
+            <p class="field-label">Phone number</p>
+            <div class="field-input" onclick="editField('phone')">
+                <p class="field-value phone">9784 2348</p>
+                <p class="verified">Verified</p>
+                <img src="../.figma/image/mpqq76bg-ifqle2m.svg" class="field-arrow phone" alt="箭头" />
+            </div>
+        </div>
+
+        <!-- 邮箱字段 -->
+        <div class="text-field">
+            <p class="field-label">Email</p>
+            <div class="field-input" onclick="editField('email')">
+                <p class="field-value email">pushputtichai789@gmail.com</p>
+                <p class="unverified">Unverified</p>
+                <img src="../.figma/image/mpqq76bg-ifqle2m.svg" class="field-arrow email" alt="箭头" />
+            </div>
+        </div>
+
+        <!-- 密码字段 -->
+        <div class="text-field">
+            <p class="field-label">Password</p>
+            <div class="field-input" onclick="editField('password')">
+                <p class="field-value password">..........</p>
+                <img src="../.figma/image/mpqq76bg-ifqle2m.svg" class="field-arrow password" alt="箭头" />
+            </div>
+        </div>
+
+        <!-- 底部指示器 -->
+        <div class="bars-home-indicator-iph">
+            <div class="home-indicator"></div>
+        </div>
+    </div>
+
+    <script>
+        // 返回上一页
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '../home-page/index.html';
+            }
+        }
+
+        // 编辑头像
+        function editAvatar() {
+            const avatar = document.querySelector('.ellipse-35');
+            avatar.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                avatar.style.transform = 'scale(1)';
+                alert('打开头像编辑功能');
+            }, 150);
+        }
+
+        // 编辑字段
+        function editField(fieldType) {
+            const fieldNames = {
+                'firstName': '名字',
+                'lastName': '姓氏',
+                'phone': '电话号码',
+                'email': '邮箱',
+                'password': '密码'
+            };
+            
+            const fieldName = fieldNames[fieldType] || fieldType;
+            
+            // 添加点击动画效果
+            const inputElement = event.currentTarget;
+            if (inputElement) {
+                inputElement.style.background = '#e0e0e0';
+                setTimeout(() => {
+                    inputElement.style.background = '#f3f3f3';
+                }, 200);
+            }
+            
+            // 根据字段类型跳转到不同的编辑页面
+            if (fieldType === 'firstName') {
+                // 跳转到Edit Account #2页面
+                window.location.href = 'edit-account-2.html';
+            } else {
+                alert(`编辑${fieldName}`);
+            }
+        }
+
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为所有字段输入框添加悬停效果
+            const fieldInputs = document.querySelectorAll('.field-input');
+            fieldInputs.forEach(input => {
+                input.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(2px)';
+                });
+                
+                input.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateX(0)';
+                });
+            });
+
+            console.log('Edit Account #1 页面初始化完成');
+        });
+    </script>
+</body>
+</html>

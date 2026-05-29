@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search #2 - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .search2-container {
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+            width: 375px;
+            height: 812px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            background: #ffffff;
+        }
+
+        .time {
+            font-size: 14px;
+            font-weight: 600;
+            color: #000000;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        /* 顶部导航 */
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 16px 24px;
+        }
+
+        .back-button {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #49493d;
+            transition: all 0.2s ease;
+        }
+
+        .back-button:hover {
+            color: #fecc2a;
+            transform: scale(1.2);
+        }
+
+        /* 搜索结果区域 */
+        .search-results {
+            margin: 0 24px 24px;
+        }
+
+        .search-result-item {
+            margin-bottom: 12px;
+            padding: 12px 16px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search-result-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .result-content {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .result-dot {
+            width: 8px;
+            height: 8px;
+            background: #fecc2a;
+            border-radius: 50%;
+            margin-right: 12px;
+        }
+
+        .result-info {
+            flex: 1;
+        }
+
+        .result-label {
+            font-size: 12px;
+            color: #959595;
+            margin-bottom: 2px;
+        }
+
+        .result-value {
+            font-size: 16px;
+            color: #49493d;
+            font-weight: 500;
+        }
+
+        .result-action {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #959595;
+        }
+
+        .result-action.close {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* 位置选项 */
+        .location-options {
+            margin: 0 24px 24px;
+        }
+
+        .location-option {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 12px;
+        }
+
+        .location-option:last-child {
+            margin-bottom: 0;
+        }
+
+        .location-option:hover {
+            background: #f0f1f5;
+            transform: translateY(-1px);
+        }
+
+        .location-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            font-size: 16px;
+        }
+
+        .location-text {
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .location-arrow {
+            margin-left: auto;
+            color: #959595;
+        }
+
+        /* 机场选项 */
+        .airport-option {
+            display: flex;
+            align-items: flex-start;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin: 0 24px 12px;
+        }
+
+        .airport-option:hover {
+            background: #f0f1f5;
+            transform: translateY(-1px);
+        }
+
+        .airport-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            margin-top: 2px;
+            font-size: 16px;
+            color: #fecc2a;
+        }
+
+        .airport-details {
+            flex: 1;
+        }
+
+        .airport-name {
+            font-size: 16px;
+            color: #49493d;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .airport-address {
+            font-size: 14px;
+            color: #959595;
+            line-height: 1.4;
+        }
+
+        /* 虚拟键盘 */
+        .virtual-keyboard {
+            margin-top: auto;
+            background: #dfe0e5;
+            padding: 8px 0;
+        }
+
+        .keyboard-row {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin-bottom: 8px;
+            padding: 0 8px;
+        }
+
+        .key {
+            min-width: 32px;
+            height: 42px;
+            background: #fcfcfe;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 500;
+            color: #49493d;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            flex: 1;
+            max-width: 36px;
+        }
+
+        .key:active {
+            background: #e8e8ea;
+            transform: scale(0.95);
+        }
+
+        .key-wide {
+            flex: 2;
+            max-width: none;
+        }
+
+        .key-space {
+            flex: 4;
+            max-width: none;
+        }
+
+        .key-return {
+            flex: 1.5;
+            max-width: none;
+            font-size: 12px;
+        }
+
+        .key-number {
+            font-size: 12px;
+        }
+
+        .key-special {
+            background: #e8e8ea;
+        }
+
+        /* 底部工具栏 */
+        .keyboard-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 24px;
+            background: #f0f1f5;
+        }
+
+        .toolbar-icon {
+            width: 24px;
+            height: 24px;
+            font-size: 18px;
+            cursor: pointer;
+            color: #49493d;
+        }
+
+        /* 底部指示器 */
+        .home-indicator {
+            display: flex;
+            justify-content: center;
+            padding: 8px 0;
+            background: #dfe0e5;
+        }
+
+        .indicator {
+            width: 134px;
+            height: 5px;
+            background: #49493d;
+            border-radius: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="search2-container">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <span class="time">9:09</span>
+            <div class="status-icons">
+                <span>📶</span>
+                <span>📶</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <!-- 顶部导航 -->
+        <div class="header">
+            <div class="back-button" onclick="goBack()">←</div>
+        </div>
+
+        <!-- 搜索结果 -->
+        <div class="search-results">
+            <!-- 当前位置 -->
+            <div class="search-result-item">
+                <div class="result-content">
+                    <div class="result-dot"></div>
+                    <div class="result-info">
+                        <div class="result-label">You are here:</div>
+                        <div class="result-value">Apple Union Square</div>
+                    </div>
+                </div>
+                <div class="result-action" onclick="editLocation(this)">✏️</div>
+            </div>
+
+            <!-- 目的地搜索框 -->
+            <div class="search-result-item">
+                <div class="result-content">
+                    <div class="result-dot"></div>
+                    <div class="result-info">
+                        <div class="result-label">You are here:</div>
+                        <div class="result-value">Search your location</div>
+                    </div>
+                </div>
+                <div class="result-action" onclick="focusSearch()">🎤</div>
+            </div>
+        </div>
+
+        <!-- 位置选项 -->
+        <div class="location-options">
+            <div class="location-option" onclick="addHome()">
+                <span class="location-icon">⭐</span>
+                <span class="location-text">Add home</span>
+            </div>
+            <div class="location-option" onclick="addWork()">
+                <span class="location-icon">🏢</span>
+                <span class="location-text">Add work</span>
+            </div>
+            <div class="location-option" onclick="showSavedPlaces()">
+                <span class="location-icon">⭐</span>
+                <span class="location-text">Saved places</span>
+                <span class="location-arrow">→</span>
+            </div>
+        </div>
+
+        <!-- 机场选项 -->
+        <div class="airport-option" onclick="selectAirport(this)">
+            <span class="airport-icon">🕐</span>
+            <div class="airport-details">
+                <div class="airport-name">San Francisco International Airport</div>
+                <div class="airport-address">348 Mc Donnell Rd, San Francisco</div>
+            </div>
+        </div>
+
+        <!-- 虚拟键盘 -->
+        <div class="virtual-keyboard">
+            <!-- 第一行 -->
+            <div class="keyboard-row">
+                <div class="key" onclick="inputKey('Q')">Q</div>
+                <div class="key" onclick="inputKey('W')">W</div>
+                <div class="key" onclick="inputKey('E')">E</div>
+                <div class="key" onclick="inputKey('R')">R</div>
+                <div class="key" onclick="inputKey('T')">T</div>
+                <div class="key" onclick="inputKey('Y')">Y</div>
+                <div class="key" onclick="inputKey('U')">U</div>
+                <div class="key" onclick="inputKey('I')">I</div>
+                <div class="key" onclick="inputKey('O')">O</div>
+                <div class="key" onclick="inputKey('P')">P</div>
+            </div>
+            
+            <!-- 第二行 -->
+            <div class="keyboard-row">
+                <div class="key" onclick="inputKey('A')">A</div>
+                <div class="key" onclick="inputKey('S')">S</div>
+                <div class="key" onclick="inputKey('D')">D</div>
+                <div class="key" onclick="inputKey('F')">F</div>
+                <div class="key" onclick="inputKey('G')">G</div>
+                <div class="key" onclick="inputKey('H')">H</div>
+                <div class="key" onclick="inputKey('J')">J</div>
+                <div class="key" onclick="inputKey('K')">K</div>
+                <div class="key" onclick="inputKey('L')">L</div>
+            </div>
+            
+            <!-- 第三行 -->
+            <div class="keyboard-row">
+                <div class="key key-special" onclick="toggleShift()">⇧</div>
+                <div class="key" onclick="inputKey('Z')">Z</div>
+                <div class="key" onclick="inputKey('X')">X</div>
+                <div class="key" onclick="inputKey('C')">C</div>
+                <div class="key" onclick="inputKey('V')">V</div>
+                <div class="key" onclick="inputKey('B')">B</div>
+                <div class="key" onclick="inputKey('N')">N</div>
+                <div class="key" onclick="inputKey('M')">M</div>
+                <div class="key key-special" onclick="deleteChar()">⌫</div>
+            </div>
+            
+            <!-- 第四行 -->
+            <div class="keyboard-row">
+                <div class="key key-number" onclick="switchToNumbers()">123</div>
+                <div class="key key-space" onclick="inputKey(' ')">space</div>
+                <div class="key key-return" onclick="submitSearch()">return</div>
+            </div>
+            
+            <!-- 底部工具栏 -->
+            <div class="keyboard-toolbar">
+                <div class="toolbar-icon" onclick="showEmoji()">😊</div>
+                <div class="toolbar-icon" onclick="startDictation()">🎤</div>
+            </div>
+        </div>
+
+        <!-- 底部指示器 -->
+        <div class="home-indicator">
+            <div class="indicator"></div>
+        </div>
+    </div>
+
+    <script>
+        let searchInput = '';
+        let isShiftPressed = false;
+
+        // 返回上一页
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '../home-page/index.html';
+            }
+        }
+
+        // 编辑位置
+        function editLocation(element) {
+            const item = element.parentElement;
+            item.style.background = '#fff9e6';
+            setTimeout(() => {
+                item.style.background = '#f8f9fa';
+                alert('编辑位置功能');
+            }, 200);
+        }
+
+        // 聚焦搜索
+        function focusSearch() {
+            alert('聚焦搜索输入框');
+        }
+
+        // 添加家庭地址
+        function addHome() {
+            alert('添加家庭地址');
+        }
+
+        // 添加工作地址
+        function addWork() {
+            alert('添加工作地址');
+        }
+
+        // 显示保存的地点
+        function showSavedPlaces() {
+            alert('显示保存的地点');
+        }
+
+        // 选择机场
+        function selectAirport(element) {
+            // 清除其他选中状态
+            document.querySelectorAll('.airport-option').forEach(item => {
+                item.style.background = '#f8f9fa';
+            });
+            
+            // 选中当前项
+            element.style.background = '#fff9e6';
+            
+            const airportName = element.querySelector('.airport-name').textContent;
+            setTimeout(() => {
+                element.style.background = '#f8f9fa';
+                alert(`已选择：${airportName}`);
+                // 可以跳转到地图页面
+                // window.location.href = '../map-pages/index.html';
+            }, 300);
+        }
+
+        // 输入按键
+        function inputKey(char) {
+            if (isShiftPressed && char.match(/[a-zA-Z]/)) {
+                char = char.toUpperCase();
+                isShiftPressed = false;
+                // 重置shift键样式
+                const shiftKeys = document.querySelectorAll('.key-special');
+                shiftKeys.forEach(key => key.style.background = '#e8e8ea');
+            }
+            
+            searchInput += char;
+            
+            // 更新搜索结果显示
+            const searchFields = document.querySelectorAll('.result-value');
+            if (searchFields.length > 0) {
+                const lastField = searchFields[searchFields.length - 1];
+                if (lastField.textContent.includes('Search')) {
+                    lastField.textContent = searchInput || 'Search your location';
+                }
+            }
+            
+            console.log('搜索输入:', searchInput);
+        }
+
+        // 删除字符
+        function deleteChar() {
+            searchInput = searchInput.slice(0, -1);
+            
+            // 更新搜索结果显示
+            const searchFields = document.querySelectorAll('.result-value');
+            if (searchFields.length > 0) {
+                const lastField = searchFields[searchFields.length - 1];
+                if (lastField.textContent.includes('Search') || searchInput) {
+                    lastField.textContent = searchInput || 'Search your location';
+                }
+            }
+        }
+
+        // 切换大小写
+        function toggleShift() {
+            isShiftPressed = !isShiftPressed;
+            const shiftKeys = document.querySelectorAll('.key-special');
+            shiftKeys.forEach(key => {
+                if (key.textContent === '⇧') {
+                    key.style.background = isShiftPressed ? '#fecc2a' : '#e8e8ea';
+                }
+            });
+        }
+
+        // 切换到数字键盘
+        function switchToNumbers() {
+            alert('切换到数字键盘');
+        }
+
+        // 提交搜索
+        function submitSearch() {
+            if (searchInput.trim()) {
+                alert(`搜索：${searchInput}`);
+                console.log('搜索关键词:', searchInput);
+            } else {
+                alert('请输入搜索关键词');
+            }
+        }
+
+        // 显示表情符号
+        function showEmoji() {
+            alert('显示表情符号选择器');
+        }
+
+        // 开始听写
+        function startDictation() {
+            alert('开始语音听写');
+        }
+
+        // 初始化功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为键盘按键添加触摸反馈
+            const keys = document.querySelectorAll('.key');
+            keys.forEach(key => {
+                key.addEventListener('touchstart', function() {
+                    this.style.background = '#d0d0d2';
+                });
+                
+                key.addEventListener('touchend', function() {
+                    if (!this.classList.contains('key-special')) {
+                        this.style.background = '#fcfcfe';
+                    }
+                });
+            });
+            
+            // 为位置选项添加悬停效果
+            const locationOptions = document.querySelectorAll('.location-option, .airport-option');
+            locationOptions.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    if (this.style.background !== 'rgb(255, 249, 230)') {
+                        this.style.background = '#f0f1f5';
+                    }
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    if (this.style.background !== 'rgb(255, 249, 230)') {
+                        this.style.background = '#f8f9fa';
+                    }
+                });
+            });
+            
+            console.log('Search #2 页面初始化完成');
+        });
+    </script>
+</body>
+</html>

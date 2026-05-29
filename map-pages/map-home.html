@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Home - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .map-container {
+            position: relative;
+            background: #ffffff;
+            width: 375px;
+            height: 812px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .time {
+            font-size: 14px;
+            font-weight: 600;
+            color: #000000;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        /* 用户信息区域 */
+        .user-info {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            margin-top: 16px;
+            padding-right: 48px;
+            padding-left: 0;
+        }
+
+        .avatar {
+            display: flex;
+            align-items: center;
+            border-radius: 50%;
+            background: #ffffff;
+        }
+
+        .avatar img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+        }
+
+        .greeting {
+            margin: 0px 0px 0px 22px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .menu-icon {
+            margin-left: 89px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            font-size: 18px;
+            color: #49493d;
+        }
+
+        /* 地图区域 */
+        .map-area {
+            position: relative;
+            height: 456px;
+            background: linear-gradient(135deg, #e8f4f8 0%, #d4edda 50%, #fff3cd 100%);
+        }
+
+        .map-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* 地图上的车辆 */
+        .map-car {
+            position: absolute;
+            width: 16px;
+            height: 32px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .map-car1 { top: 105px; left: 51px; transform: rotate(0deg); }
+        .map-car2 { top: 171px; left: 236px; transform: rotate(-47deg); }
+        .map-car3 { top: 257px; left: 212px; transform: rotate(79deg); }
+        .map-car4 { top: 240px; left: 348px; transform: rotate(90deg); }
+        .map-car5 { top: 138px; left: 53px; transform: rotate(90deg); }
+        .map-car6 { top: 307px; left: 55px; transform: rotate(-44deg); }
+
+        /* 定位区域 */
+        .location-area {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            justify-content: space-between;
+            margin-top: 58px;
+            padding-right: 24px;
+            padding-left: 142px;
+        }
+
+        .location-marker {
+            display: flex;
+            align-items: center;
+            margin-top: 7px;
+        }
+
+        .location-dot {
+            border-radius: 50%;
+            background: #fecc2a;
+            width: 10px;
+            height: 10px;
+        }
+
+        .location-button {
+            display: flex;
+            align-items: center;
+            border-radius: 50%;
+            box-shadow: 0px 4px 40px 0px rgba(0,0,0,0.1);
+            background: #ffffff;
+            padding: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .location-button:hover {
+            transform: scale(1.1);
+        }
+
+        .location-icon {
+            width: 20px;
+            height: 20px;
+            font-size: 16px;
+        }
+
+        /* 底部操作面板 */
+        .action-panel {
+            display: flex;
+            position: absolute;
+            top: 397px;
+            left: 0;
+            flex-direction: column;
+            align-items: flex-start;
+            border-radius: 24px 24px 0px 0px;
+            background: #ffffff;
+            padding-top: 32px;
+            width: 375px;
+            height: 415px;
+            box-shadow: 0px -4px 20px rgba(0,0,0,0.1);
+        }
+
+        /* 搜索框 */
+        .search-box {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            margin-right: 24px;
+            margin-left: 24px;
+            border-radius: 12px;
+            background: #f3f3f3;
+            padding: 14px 16px;
+        }
+
+        .search-icon {
+            width: 20px;
+            height: 20px;
+            font-size: 14px;
+            color: #959595;
+        }
+
+        .search-input {
+            margin: 0px 0px 0px 8px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #959595;
+            font-size: 14px;
+            flex: 1;
+            border: none;
+            background: transparent;
+            outline: none;
+        }
+
+        .schedule-link {
+            margin: 0px 0px 0px 90px;
+            line-height: 14px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 12px;
+            font-weight: 500;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        /* 保存位置选项 */
+        .saved-options {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            align-self: stretch;
+            margin-top: 24px;
+            padding: 8px 21px 19px 24px;
+        }
+
+        .saved-option {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            justify-content: space-between;
+            margin-right: 204px;
+            min-width: 126px;
+            height: 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .saved-option:hover {
+            opacity: 0.8;
+        }
+
+        .saved-icon {
+            width: 20px;
+            height: 20px;
+            font-size: 16px;
+        }
+
+        .saved-text {
+            line-height: 24px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+            margin-left: 8px;
+        }
+
+        .divider {
+            margin-top: 12px;
+            margin-left: 3px;
+            background: #f3f3f3;
+            width: 327px;
+            height: 1px;
+        }
+
+        /* 设置位置选项 */
+        .set-location-option {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            align-self: stretch;
+            padding: 8px 21px 19px 24px;
+        }
+
+        .set-location {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            justify-content: space-between;
+            margin-right: 156px;
+            min-width: 174px;
+            height: 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .set-location:hover {
+            opacity: 0.8;
+        }
+
+        /* 底部按钮 */
+        .bottom-buttons {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            justify-content: space-between;
+            margin-top: 32px;
+            padding-right: 103px;
+            padding-left: 24px;
+        }
+
+        .trips-button {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 12px;
+            background: #fecc2a;
+            padding: 12px 24px;
+            width: 117px;
+            min-width: 117px;
+            height: 44px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .trips-button:hover {
+            background: #e6b824;
+            transform: translateY(-2px);
+        }
+
+        .trips-icon {
+            width: 20px;
+            height: 20px;
+            font-size: 16px;
+        }
+
+        .trips-text {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+
+        .eats-button {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 12px;
+            background: #f3f3f3;
+            padding: 12px 24px;
+            width: 112px;
+            min-width: 112px;
+            height: 44px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .eats-button:hover {
+            background: #e8e8e8;
+            transform: translateY(-2px);
+        }
+
+        .eats-icon {
+            width: 20px;
+            height: 20px;
+            font-size: 16px;
+        }
+
+        .eats-text {
+            display: flex;
+            align-items: center;
+            width: 32px;
+            height: 18px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+
+        /* 底部指示器 */
+        .home-indicator {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin-top: 73px;
+            padding: 21px 121px 8px 120px;
+            width: 100%;
+        }
+
+        .indicator {
+            border-radius: 100px;
+            background: #49493d;
+            width: 134px;
+            height: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="map-container">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <span class="time">9:09</span>
+            <div class="status-icons">
+                <span>📶</span>
+                <span>📶</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <!-- 用户信息 -->
+        <div class="user-info">
+            <div class="avatar">
+                <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(45deg, #ff6b6b, #4ecdc4); display: flex; align-items: center; justify-content: center; font-size: 20px; color: white;">👨‍💼</div>
+            </div>
+            <p class="greeting">Good morning, John</p>
+            <div class="menu-icon" onclick="showMenu()">☰</div>
+        </div>
+
+        <!-- 地图区域 -->
+        <div class="map-area">
+            <div class="map-grid"></div>
+            
+            <!-- 地图上的车辆 -->
+            <div class="map-car map-car1" onclick="selectCar(this)">🚕</div>
+            <div class="map-car map-car2" onclick="selectCar(this)">🚕</div>
+            <div class="map-car map-car3" onclick="selectCar(this)">🚕</div>
+            <div class="map-car map-car4" onclick="selectCar(this)">🚕</div>
+            <div class="map-car map-car5" onclick="selectCar(this)">🚕</div>
+            <div class="map-car map-car6" onclick="selectCar(this)">🚕</div>
+
+            <!-- 定位区域 -->
+            <div class="location-area">
+                <div class="location-marker">
+                    <div class="location-dot"></div>
+                </div>
+                <div class="location-button" onclick="centerLocation()">
+                    <span class="location-icon">🚗</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部操作面板 -->
+        <div class="action-panel">
+            <!-- 搜索框 -->
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="Search your location" />
+                <span class="schedule-link" onclick="openSchedule()">Schedule</span>
+            </div>
+
+            <!-- 保存位置选项 -->
+            <div class="saved-options">
+                <div class="saved-option" onclick="showSavedPlaces()">
+                    <span class="saved-icon">⭐</span>
+                    <span class="saved-text">Saved places</span>
+                </div>
+                <div class="divider"></div>
+            </div>
+
+            <!-- 设置位置选项 -->
+            <div class="set-location-option">
+                <div class="set-location" onclick="setLocationOnMap()">
+                    <span class="saved-icon">📍</span>
+                    <span class="saved-text">Set location on map</span>
+                </div>
+                <div class="divider"></div>
+            </div>
+
+            <!-- 底部按钮 -->
+            <div class="bottom-buttons">
+                <button class="trips-button" onclick="openTrips()">
+                    <span class="trips-icon">🚗</span>
+                    <span class="trips-text">Trips</span>
+                </button>
+                <button class="eats-button" onclick="openEats()">
+                    <span class="eats-icon">🍽️</span>
+                    <span class="eats-text">Eats</span>
+                </button>
+            </div>
+
+            <!-- 底部指示器 -->
+            <div class="home-indicator">
+                <div class="indicator"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 显示菜单
+        function showMenu() {
+            alert('菜单功能');
+            console.log('打开菜单');
+        }
+
+        // 定位到当前位置
+        function centerLocation() {
+            const locationBtn = document.querySelector('.location-button');
+            locationBtn.style.transform = 'scale(0.8)';
+            
+            setTimeout(() => {
+                locationBtn.style.transform = 'scale(1)';
+                alert('已定位到当前位置');
+            }, 200);
+        }
+
+        // 选择车辆
+        function selectCar(carElement) {
+            document.querySelectorAll('.map-car').forEach(car => {
+                car.style.transform = car.style.transform.replace(' scale(1.5)', '');
+                car.style.zIndex = '1';
+            });
+            
+            const currentTransform = carElement.style.transform || '';
+            carElement.style.transform = currentTransform + ' scale(1.5)';
+            carElement.style.zIndex = '10';
+            
+            setTimeout(() => {
+                alert('已选择车辆');
+            }, 300);
+        }
+
+        // 打开日程安排
+        function openSchedule() {
+            alert('打开日程安排');
+            window.location.href = '../schedule-page/index.html';
+        }
+
+        // 显示保存的位置
+        function showSavedPlaces() {
+            alert('显示保存的位置');
+        }
+
+        // 在地图上设置位置
+        function setLocationOnMap() {
+            alert('在地图上设置位置');
+        }
+
+        // 打开行程
+        function openTrips() {
+            const button = document.querySelector('.trips-button');
+            button.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+                alert('打开行程页面');
+                window.location.href = '../trip-pages/index.html';
+            }, 150);
+        }
+
+        // 打开美食
+        function openEats() {
+            const button = document.querySelector('.eats-button');
+            button.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+                alert('打开美食页面');
+            }, 150);
+        }
+
+        // 初始化功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.querySelector('.search-input');
+            
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && this.value.trim()) {
+                    alert(`搜索位置: ${this.value}`);
+                }
+            });
+
+            searchInput.addEventListener('focus', function() {
+                this.parentElement.style.border = '2px solid #fecc2a';
+            });
+
+            searchInput.addEventListener('blur', function() {
+                this.parentElement.style.border = 'none';
+            });
+
+            console.log('#1 地图主页初始化完成');
+        });
+    </script>
+</body>
+</html>

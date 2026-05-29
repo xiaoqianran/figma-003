@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Car - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .choose-car-container {
+            position: relative;
+            background: #ffffff;
+            width: 375px;
+            height: 858px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* 地图区域 */
+        .map-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 500px;
+            height: 858px;
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+        }
+
+        /* 地图背景图案 */
+        .map-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            width: 375px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            color: #49493d;
+            position: relative;
+            z-index: 10;
+        }
+
+        .time {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        /* 顶部导航 */
+        .top-nav {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            padding: 24px 335px 32px 24px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .back-arrow {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #49493d;
+        }
+
+        /* 定位按钮 */
+        .location-btn {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            margin: 220px 24px 0px 303px;
+            border-radius: 50%;
+            box-shadow: 0px 4px 40px 0px rgba(0,0,0,0.1);
+            background: #ffffff;
+            padding: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .location-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .crosshair-icon {
+            width: 20px;
+            height: 20px;
+            font-size: 16px;
+        }
+
+        /* 底部车辆选择面板 */
+        .vehicle-panel {
+            display: flex;
+            position: absolute;
+            top: 396px;
+            left: 0;
+            flex-direction: column;
+            align-items: flex-start;
+            border-radius: 24px 24px 0px 0px;
+            box-shadow: 0px 4px 40px 0px rgba(0,0,0,0.1);
+            background: #ffffff;
+            padding-top: 32px;
+            width: 375px;
+            height: 462px;
+        }
+
+        /* 提示文字 */
+        .hint-text {
+            margin: 0px 0px 0px 24px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* 车辆卡片容器 */
+        .vehicle-cards {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            justify-content: space-between;
+            margin-top: 8px;
+            padding-right: 39px;
+            padding-left: 24px;
+        }
+
+        /* 车辆卡片 */
+        .vehicle-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 12px;
+            box-shadow: 0px 4px 40px 0px rgba(0,0,0,0.1);
+            background: #ffffff;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .vehicle-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0px 6px 50px 0px rgba(0,0,0,0.15);
+        }
+
+        .vehicle-card.selected {
+            border-color: #fecc2a;
+        }
+
+        .vehicle-image {
+            width: 116px;
+            height: 59px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .vehicle-name {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .vehicle-info {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            justify-content: space-between;
+            padding-right: 25px;
+            padding-left: 0;
+        }
+
+        .seats-info, .time-info {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .info-icon {
+            width: 10px;
+            height: 10px;
+            font-size: 10px;
+        }
+
+        .info-text {
+            line-height: 18px;
+            letter-spacing: 0;
+            color: #959595;
+            font-size: 12px;
+        }
+
+        .vehicle-description {
+            margin: 8px 0px 0px;
+            width: 116px;
+            text-align: center;
+            line-height: 18px;
+            letter-spacing: 0;
+            color: #959595;
+            font-size: 12px;
+        }
+
+        .vehicle-price {
+            margin: 7px 0px 0px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #fecc2a;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        /* 支付方式卡片 */
+        .payment-card {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin: 18px 24px 0px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 40px 0px rgba(0,0,0,0.1);
+            background: #ffffff;
+            padding: 12px 16px 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .payment-card:hover {
+            transform: translateX(2px);
+        }
+
+        .visa-logo {
+            width: 40px;
+            height: 25px;
+            background: linear-gradient(45deg, #1a73e8, #4285f4);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .card-info {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-left: 12px;
+            width: 54px;
+            min-width: 54px;
+        }
+
+        .card-dots {
+            display: flex;
+            align-items: center;
+            width: 18px;
+            height: 17px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .card-number {
+            display: flex;
+            align-items: center;
+            margin: 4px 0px 0px;
+            width: 37px;
+            height: 16px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 14px;
+        }
+
+        .arrow-icon {
+            margin-top: 8px;
+            margin-left: 177px;
+            width: 12px;
+            height: 12px;
+            font-size: 12px;
+            color: #49493d;
+        }
+
+        /* 预定按钮 */
+        .schedule-button {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            margin: 28px 24px 0px;
+            border-radius: 12px;
+            background: #fecc2a;
+            padding: 12px 105px 12px 104px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .schedule-button:hover {
+            background: #e6b824;
+            transform: translateY(-2px);
+        }
+
+        .schedule-text {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* 底部指示器 */
+        .home-indicator {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin-top: 16px;
+            padding: 21px 121px 8px 120px;
+        }
+
+        .indicator {
+            border-radius: 100px;
+            background: #49493d;
+            width: 134px;
+            height: 5px;
+        }
+
+        /* 地图上的元素 */
+        .map-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .map-pin {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            font-size: 24px;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        .map-pin1 { top: 292px; left: 92px; }
+        .map-pin2 { top: 128px; left: 10px; transform: rotate(61deg); }
+
+        .location-label {
+            position: absolute;
+            top: 79px;
+            left: 128px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 12px;
+            box-shadow: 0px 4px 40px 0px rgba(0,0,0,0.1);
+            background: #ffffff;
+            padding: 12px;
+            width: 147px;
+            height: 42px;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        .location-text {
+            width: 109px;
+            line-height: 18px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 12px;
+        }
+
+        .clock-icon {
+            width: 10px;
+            height: 10px;
+            font-size: 10px;
+        }
+
+        /* 搜索位置输入框 */
+        .search-location {
+            display: flex;
+            position: absolute;
+            top: 456px;
+            left: 352px;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 12px;
+            box-shadow: 0px 4px 40px 0px rgba(0,0,0,0.1);
+            background: #ffffff;
+            padding: 0px 14px 16px;
+            width: 148px;
+            height: 210px;
+            pointer-events: auto;
+        }
+
+        .search-input-area {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 21px;
+            padding-right: 29px;
+            padding-left: 0;
+        }
+
+        .search-icon {
+            width: 20px;
+            height: 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="choose-car-container">
+        <!-- 地图区域 -->
+        <div class="map-area">
+            <div class="map-background"></div>
+            
+            <!-- 状态栏 -->
+            <div class="status-bar">
+                <span class="time">9:09</span>
+                <div class="status-icons">
+                    <span>📶</span>
+                    <span>📶</span>
+                    <span>🔋</span>
+                </div>
+            </div>
+
+            <!-- 顶部导航 -->
+            <div class="top-nav">
+                <span class="back-arrow" onclick="goBack()">←</span>
+            </div>
+
+            <!-- 定位按钮 -->
+            <div class="location-btn" onclick="centerLocation()">
+                <span class="crosshair-icon">🎯</span>
+            </div>
+
+            <!-- 地图元素 -->
+            <div class="map-elements">
+                <!-- 地图上的定位点 -->
+                <div class="map-pin map-pin1" onclick="selectLocation(this)">📍</div>
+                <div class="map-pin map-pin2" onclick="selectLocation(this)">🛤️</div>
+                
+                <!-- 位置标签 -->
+                <div class="location-label" onclick="showLocationInfo()">
+                    <span class="location-text">Apple Union Square</span>
+                    <span class="clock-icon">🕐</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部车辆选择面板 -->
+        <div class="vehicle-panel">
+            <p class="hint-text">Chooose a trip or swipe up for more</p>
+            
+            <!-- 车辆卡片 -->
+            <div class="vehicle-cards">
+                <!-- GodyX 卡片 -->
+                <div class="vehicle-card" onclick="selectVehicle(this, 'GodyX')">
+                    <div class="vehicle-image">🚗</div>
+                    <p class="vehicle-name">GodyX</p>
+                    <div class="vehicle-info">
+                        <div class="seats-info">
+                            <span class="info-icon">👤</span>
+                            <span class="info-text">4</span>
+                        </div>
+                        <div class="time-info">
+                            <span class="info-icon">🕐</span>
+                            <span class="info-text">1-4 min</span>
+                        </div>
+                    </div>
+                    <p class="vehicle-description">Affordable rides, all to yourself</p>
+                    <p class="vehicle-price">$22.00</p>
+                </div>
+
+                <!-- Black SUV 卡片 -->
+                <div class="vehicle-card" onclick="selectVehicle(this, 'Black SUV')">
+                    <div class="vehicle-image">🚙</div>
+                    <p class="vehicle-name">Black SUV</p>
+                    <div class="vehicle-info">
+                        <div class="seats-info">
+                            <span class="info-icon">👤</span>
+                            <span class="info-text">4</span>
+                        </div>
+                        <div class="time-info">
+                            <span class="info-icon">🕐</span>
+                            <span class="info-text">1-8 min</span>
+                        </div>
+                    </div>
+                    <p class="vehicle-description">Affordable rides, all to yourself</p>
+                    <p class="vehicle-price">$17.00</p>
+                </div>
+            </div>
+
+            <!-- 支付方式 -->
+            <div class="payment-card" onclick="selectPayment()">
+                <div class="visa-logo">VISA</div>
+                <div class="card-info">
+                    <span class="card-dots">....</span>
+                    <span class="card-number">1234</span>
+                </div>
+                <span class="arrow-icon">→</span>
+            </div>
+
+            <!-- 预定按钮 -->
+            <button class="schedule-button" onclick="scheduleRide()">
+                <span class="schedule-text">Schedule GodyX</span>
+            </button>
+
+            <!-- 底部指示器 -->
+            <div class="home-indicator">
+                <div class="indicator"></div>
+            </div>
+        </div>
+
+        <!-- 搜索位置输入框 -->
+        <div class="search-location">
+            <div class="search-input-area">
+                <span class="search-icon">📍</span>
+                <span class="location-text">San Francisco</span>
+                <span class="clock-icon">🕐</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 返回上一页
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                alert('返回首页');
+                // window.location.href = '../home-page/index.html';
+            }
+        }
+
+        // 定位到当前位置
+        function centerLocation() {
+            const locationBtn = document.querySelector('.location-btn');
+            locationBtn.style.transform = 'scale(0.8)';
+            
+            setTimeout(() => {
+                locationBtn.style.transform = 'scale(1)';
+                alert('已定位到当前位置');
+            }, 200);
+        }
+
+        // 选择车辆
+        function selectVehicle(cardElement, vehicleType) {
+            // 清除其他卡片的选中状态
+            document.querySelectorAll('.vehicle-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // 选中当前卡片
+            cardElement.classList.add('selected');
+            
+            setTimeout(() => {
+                alert(`已选择 ${vehicleType}，准备预定`);
+            }, 300);
+        }
+
+        // 选择位置
+        function selectLocation(pinElement) {
+            // 清除其他定位点的选中状态
+            document.querySelectorAll('.map-pin').forEach(pin => {
+                pin.style.transform = pin.style.transform.replace(' scale(1.5)', '');
+            });
+            
+            // 选中当前定位点
+            const currentTransform = pinElement.style.transform || '';
+            pinElement.style.transform = currentTransform + ' scale(1.5)';
+            
+            setTimeout(() => {
+                alert('已选择位置');
+            }, 300);
+        }
+
+        // 显示位置信息
+        function showLocationInfo() {
+            alert('Apple Union Square\n这是一家苹果商店，位于联合广场附近');
+        }
+
+        // 选择支付方式
+        function selectPayment() {
+            const paymentCard = document.querySelector('.payment-card');
+            paymentCard.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                paymentCard.style.transform = 'scale(1)';
+                alert('打开支付方式选择');
+                // 可以跳转到支付页面
+                // window.location.href = '../payment-page/index.html';
+            }, 150);
+        }
+
+        // 预定行程
+        function scheduleRide() {
+            const button = document.querySelector('.schedule-button');
+            button.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+                alert('行程已预定成功！');
+                // 可以跳转到确认页面
+                // window.location.href = '../confirmation-page/index.html';
+            }, 150);
+        }
+
+        // 初始化功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为车辆卡片添加悬停效果
+            const vehicleCards = document.querySelectorAll('.vehicle-card');
+            vehicleCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    if (!this.classList.contains('selected')) {
+                        this.style.transform = 'translateY(-4px)';
+                    }
+                });
+
+                card.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('selected')) {
+                        this.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            // 为支付卡片添加悬停效果
+            const paymentCard = document.querySelector('.payment-card');
+            paymentCard.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(4px)';
+            });
+
+            paymentCard.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+            });
+
+            // 默认选中第一辆车
+            setTimeout(() => {
+                const firstCard = document.querySelector('.vehicle-card');
+                if (firstCard) {
+                    firstCard.classList.add('selected');
+                }
+            }, 1000);
+
+            console.log('Choose Car页面初始化完成');
+        });
+    </script>
+</body>
+</html>

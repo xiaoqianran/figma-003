@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GODY Trip Pages</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #49493d;
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #959595;
+            font-size: 16px;
+        }
+
+        .pages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .page-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .page-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .page-preview {
+            width: 100%;
+            height: 200px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .page-info {
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #49493d;
+            margin-bottom: 8px;
+        }
+
+        .page-description {
+            font-size: 14px;
+            color: #959595;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .page-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #fecc2a;
+            color: #49493d;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .page-link:hover {
+            background: #e6b824;
+            transform: translateY(-2px);
+        }
+
+        .navigation {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .nav-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #f8f9fa;
+            color: #49493d;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 0 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>GODY Trip Pages</h1>
+            <p>行程相关页面集合 - 包含Upcoming trip、Pick up倒计时和Scheduling安排</p>
+        </div>
+
+        <div class="pages-grid">
+            <!-- Upcoming trip set -->
+            <div class="page-card">
+                <div class="page-preview">
+                    <div style="width: 200px; height: 150px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; position: relative; display: flex; align-items: center; justify-content: center;">
+                        <div style="background: #fff; border-radius: 12px; padding: 16px; width: 160px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                            <div style="font-size: 16px; font-weight: 600; color: #49493d; margin-bottom: 12px;">Upcoming trip set</div>
+                            <div style="font-size: 12px; color: #959595; margin-bottom: 8px;">To Apple Union Square</div>
+                            <div style="font-size: 14px; color: #49493d; margin-bottom: 12px;">$16.00</div>
+                            <div style="background: #fecc2a; color: #49493d; padding: 8px; border-radius: 6px; font-size: 12px; font-weight: 500;">Finished</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-info">
+                    <div class="page-title">Upcoming trip set</div>
+                    <div class="page-description">显示已安排的行程详情，包括目的地、时间、价格和折扣信息</div>
+                    <a href="upcoming-trip.html" class="page-link">查看页面</a>
+                </div>
+            </div>
+
+            <!-- Pick up countdown -->
+            <div class="page-card">
+                <div class="page-preview">
+                    <div style="width: 200px; height: 150px; background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%); border-radius: 8px; position: relative; display: flex; align-items: center; justify-content: center;">
+                        <div style="background: #fff; border-radius: 12px; padding: 12px; width: 140px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                            <div style="font-size: 11px; color: #fecc2a; font-weight: 600; margin-bottom: 4px;">Pick up in 8m 39s</div>
+                            <div style="font-size: 12px; color: #49493d; font-weight: 600; margin-bottom: 2px;">To Apple Union Square</div>
+                            <div style="font-size: 10px; color: #959595; margin-bottom: 8px;">At 3:50 PM from SFO</div>
+                            <div style="font-size: 12px; color: #49493d; font-weight: 600;">$16.00</div>
+                        </div>
+                        <div style="position: absolute; top: 30px; right: 30px; width: 8px; height: 8px; background: #fecc2a; border-radius: 50%;"></div>
+                    </div>
+                </div>
+                <div class="page-info">
+                    <div class="page-title">Pick up countdown</div>
+                    <div class="page-description">实时显示接机倒计时，包含地图、车辆位置和行程信息</div>
+                    <a href="pickup-countdown.html" class="page-link">查看页面</a>
+                </div>
+            </div>
+
+            <!-- Scheduling trip -->
+            <div class="page-card">
+                <div class="page-preview">
+                    <div style="width: 200px; height: 150px; background: linear-gradient(135deg, #2d3436 0%, #636e72 100%); border-radius: 8px; position: relative; display: flex; align-items: center; justify-content: center;">
+                        <div style="text-align: center; color: #fff;">
+                            <div style="width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid #fecc2a; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+                            <div style="font-size: 14px; font-weight: 500;">Scheduling your trip</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-info">
+                    <div class="page-title">Scheduling your trip</div>
+                    <div class="page-description">行程安排加载页面，包含进度动画和状态更新</div>
+                    <a href="scheduling-trip.html" class="page-link">查看页面</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <a href="../home-page/index.html" class="nav-link">🏠 返回首页</a>
+            <a href="../schedule-page/index.html" class="nav-link">📅 行程安排</a>
+            <a href="../search1-page/index.html" class="nav-link">🔍 搜索页面</a>
+        </div>
+    </div>
+
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</body>
+</html>

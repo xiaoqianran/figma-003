@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Pages - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .pages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .page-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .page-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+        }
+
+        .page-preview {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            background: #f5f5f5;
+        }
+
+        .page-preview iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            transform: scale(0.6);
+            transform-origin: top center;
+            pointer-events: none;
+        }
+
+        .page-info {
+            padding: 25px;
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #49493d;
+            margin-bottom: 8px;
+        }
+
+        .page-description {
+            font-size: 14px;
+            color: #959595;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .page-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: #fecc2a;
+            color: #49493d;
+        }
+
+        .btn-primary:hover {
+            background: #e6b824;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #f3f3f3;
+            color: #49493d;
+        }
+
+        .btn-secondary:hover {
+            background: #e8e8e8;
+            transform: translateY(-1px);
+        }
+
+        .navigation-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .nav-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #49493d;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #49493d;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: #fecc2a;
+            color: #49493d;
+            border-color: #e6b824;
+            transform: translateX(5px);
+        }
+
+        .nav-item-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            color: white;
+            opacity: 0.8;
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #4CAF50;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 页面头部 -->
+        <div class="header">
+            <h1>🚗 GODY Account Pages</h1>
+            <p>复刻Figma设计稿 - Edit Account #1、#2 和 Profile 页面</p>
+        </div>
+
+        <!-- 页面卡片 -->
+        <div class="pages-grid">
+            <!-- Edit Account #1 -->
+            <div class="page-card">
+                <div class="page-preview">
+                    <div class="status-badge">已完成</div>
+                    <iframe src="edit-account-1.html" frameborder="0"></iframe>
+                </div>
+                <div class="page-info">
+                    <h3 class="page-title">Edit Account #1</h3>
+                    <p class="page-description">
+                        用户账户编辑主页面，展示用户头像、基本信息（姓名、电话、邮箱、密码）以及编辑入口。
+                    </p>
+                    <div class="page-actions">
+                        <a href="edit-account-1.html" class="btn btn-primary">查看页面</a>
+                        <a href="#navigation" class="btn btn-secondary">了解更多</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Account #2 -->
+            <div class="page-card">
+                <div class="page-preview">
+                    <div class="status-badge">已完成</div>
+                    <iframe src="edit-account-2.html" frameborder="0"></iframe>
+                </div>
+                <div class="page-info">
+                    <h3 class="page-title">Edit Account #2</h3>
+                    <p class="page-description">
+                        名字编辑页面，包含虚拟键盘输入界面，支持字符输入、删除和大小写切换功能。
+                    </p>
+                    <div class="page-actions">
+                        <a href="edit-account-2.html" class="btn btn-primary">查看页面</a>
+                        <a href="#navigation" class="btn btn-secondary">了解更多</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile -->
+            <div class="page-card">
+                <div class="page-preview">
+                    <div class="status-badge">已完成</div>
+                    <iframe src="profile.html" frameborder="0"></iframe>
+                </div>
+                <div class="page-info">
+                    <h3 class="page-title">Profile</h3>
+                    <p class="page-description">
+                        用户个人资料页面，展示用户菜单、侧边栏导航，支持访问各项功能和账户设置。
+                    </p>
+                    <div class="page-actions">
+                        <a href="profile.html" class="btn btn-primary">查看页面</a>
+                        <a href="#navigation" class="btn btn-secondary">了解更多</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 导航部分 -->
+        <div class="navigation-section" id="navigation">
+            <h2 class="nav-title">🔗 页面导航流程</h2>
+            <div class="nav-grid">
+                <a href="../home-page/index.html" class="nav-item">
+                    <span class="nav-item-icon">🏠</span>
+                    返回主页
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <span class="nav-item-icon">👤</span>
+                    Profile 页面
+                </a>
+                <a href="edit-account-1.html" class="nav-item">
+                    <span class="nav-item-icon">✏️</span>
+                    Edit Account #1
+                </a>
+                <a href="edit-account-2.html" class="nav-item">
+                    <span class="nav-item-icon">⌨️</span>
+                    Edit Account #2
+                </a>
+            </div>
+        </div>
+
+        <!-- 功能说明 -->
+        <div class="navigation-section" style="margin-top: 30px;">
+            <h2 class="nav-title">✨ 实现功能</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; text-align: left;">
+                <div>
+                    <h4 style="color: #49493d; margin-bottom: 10px;">🎨 界面复刻</h4>
+                    <ul style="color: #666; line-height: 1.6;">
+                        <li>完全按照Figma设计稿实现像素级复刻</li>
+                        <li>保持原有的配色方案和字体样式</li>
+                        <li>响应式布局适配不同屏幕尺寸</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color: #49493d; margin-bottom: 10px;">⚡ 交互功能</h4>
+                    <ul style="color: #666; line-height: 1.6;">
+                        <li>虚拟键盘输入和编辑功能</li>
+                        <li>侧边菜单滑入滑出动画</li>
+                        <li>页面间流畅的导航跳转</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color: #49493d; margin-bottom: 10px;">🔧 技术特性</h4>
+                    <ul style="color: #666; line-height: 1.6;">
+                        <li>纯HTML/CSS/JavaScript实现</li>
+                        <li>无外部依赖，轻量级代码</li>
+                        <li>完整的注释和代码结构</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>基于Figma设计稿复刻 • GODY移动应用界面</p>
+    </div>
+
+    <script>
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为页面卡片添加点击事件
+            const pageCards = document.querySelectorAll('.page-card');
+            pageCards.forEach((card, index) => {
+                card.addEventListener('click', function(e) {
+                    // 如果点击的不是按钮区域，则跳转到对应页面
+                    if (!e.target.closest('.btn')) {
+                        const links = ['edit-account-1.html', 'edit-account-2.html', 'profile.html'];
+                        window.location.href = links[index];
+                    }
+                });
+            });
+
+            console.log('Account Pages 主页面初始化完成');
+        });
+
+        // 键盘快捷键
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case '1':
+                        e.preventDefault();
+                        window.location.href = 'edit-account-1.html';
+                        break;
+                    case '2':
+                        e.preventDefault();
+                        window.location.href = 'edit-account-2.html';
+                        break;
+                    case '3':
+                        e.preventDefault();
+                        window.location.href = 'profile.html';
+                        break;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

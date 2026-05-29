@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your trips - Past - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .your-trips-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background: #ffffff;
+            width: 375px;
+            height: 812px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        /* 状态栏 */
+        .system-status-bar {
+            width: 375px;
+            height: 40px;
+            background: #ffffff;
+        }
+
+        /* 顶部标题区域 */
+        .title-black {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            justify-content: space-between;
+            padding: 16px 24px 18px;
+            min-width: 375px;
+        }
+
+        .group-548 {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 8px;
+            width: 119px;
+            min-width: 119px;
+            height: 16px;
+        }
+
+        .icons-delete {
+            width: 16px;
+            height: 16px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .ui-text-heading-h3b {
+            line-height: 16px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        /* 下拉选择器 */
+        .rectangle-462 {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 12px;
+            box-shadow: var(--Card-1, 0px 4px 40px 0px #0000000d);
+            background: var(--Neutral-5, #ffffff);
+            padding: 10px 16px;
+            width: 81px;
+            min-width: 81px;
+            height: 38px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .rectangle-462:hover {
+            box-shadow: var(--Card-1, 0px 6px 50px 0px #00000015);
+        }
+
+        .past {
+            line-height: 18px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .icons-down-arrow-1 {
+            width: 12px;
+            height: 12px;
+            overflow: hidden;
+        }
+
+        /* 行程卡片 */
+        .trip-card {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            justify-content: space-between;
+            margin-top: 16px;
+            padding-right: 25px;
+            padding-left: 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .trip-card:hover {
+            background: rgba(0,0,0,0.02);
+            margin-left: -2px;
+            margin-right: -2px;
+            padding-left: 26px;
+            padding-right: 27px;
+        }
+
+        .trip-time {
+            line-height: 24px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-size: 16px;
+        }
+
+        .trip-price {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: var(--Neutral-1, #49493d);
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        /* 车辆和评分信息 */
+        .trip-info {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            justify-content: space-between;
+            margin-top: 4px;
+            padding-right: 24px;
+            padding-left: 24px;
+        }
+
+        .vehicle-info {
+            line-height: 18px;
+            letter-spacing: 0;
+            color: var(--Neutral-2, #959595);
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* 星级评分 */
+        .stars {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-right: 1px;
+            width: 112px;
+            min-width: 112px;
+            height: 16px;
+        }
+
+        .star-icon {
+            width: 16px;
+            height: 16px;
+            overflow: hidden;
+        }
+
+        /* 地图区域 */
+        .map-section {
+            position: relative;
+            margin-top: 15px;
+            width: 375px;
+            height: 166px;
+        }
+
+        .map-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 375px;
+            height: 166px;
+        }
+
+        .path-overlay {
+            position: absolute;
+            top: 23px;
+            left: 122px;
+            width: 112px;
+            height: 106px;
+            transform: rotate(61deg);
+        }
+
+        .pin-icon {
+            position: absolute;
+            top: 111px;
+            left: 181px;
+            width: 20px;
+            height: 20px;
+            overflow: hidden;
+        }
+
+        /* 取消状态 */
+        .canceled {
+            margin: 3px 0px 0px 301px;
+            line-height: 18px;
+            letter-spacing: 0;
+            color: var(--Neutral-2, #959595);
+            font-size: 12px;
+        }
+
+        /* 底部指示器 */
+        .bars-home-indicator-iph {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin-top: 172px;
+            padding: 21px 121px 8px 120px;
+        }
+
+        .home-indicator {
+            border-radius: 100px;
+            background: var(--Neutral-1, #49493d);
+            width: 134px;
+            height: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="your-trips-container">
+        <!-- 状态栏 -->
+        <img src="../.figma/image/mpqqes43-0n6nhfl.svg" class="system-status-bar" alt="状态栏" />
+        
+        <!-- 顶部标题区域 -->
+        <div class="title-black">
+            <div class="group-548">
+                <img src="../.figma/image/mpqqes43-e8czvsp.svg" class="icons-delete" alt="返回" onclick="goBack()" />
+                <p class="ui-text-heading-h3b">Your trips</p>
+            </div>
+            <div class="rectangle-462" onclick="toggleTripFilter()">
+                <p class="past">Past</p>
+                <img src="../.figma/image/mpqqes43-ilyui4r.svg" class="icons-down-arrow-1" alt="下拉箭头" />
+            </div>
+        </div>
+
+        <!-- 第一个行程卡片 -->
+        <div class="trip-card" onclick="openTripDetail(1)">
+            <p class="trip-time">Today, 3:45 pm&nbsp;</p>
+            <p class="trip-price">$17.00</p>
+        </div>
+
+        <div class="trip-info">
+            <p class="vehicle-info">Toyota Camry - 9HTR789</p>
+            <div class="stars">
+                <img src="../.figma/image/mpqqes43-1i89qwf.svg" class="star-icon" alt="星级" />
+                <img src="../.figma/image/mpqqes43-nq4l1tv.svg" class="star-icon" alt="星级" />
+                <img src="../.figma/image/mpqqes43-3xmwcfo.svg" class="star-icon" alt="星级" />
+                <img src="../.figma/image/mpqqes43-5ijr3g6.svg" class="star-icon" alt="星级" />
+                <img src="../.figma/image/mpqqes43-y03cy4f.svg" class="star-icon" alt="星级" />
+            </div>
+        </div>
+
+        <!-- 第一个行程地图 -->
+        <div class="map-section">
+            <img src="../.figma/image/mpqqes44-7fx7ve2.png" class="map-image" alt="行程地图" />
+            <img src="../.figma/image/mpqqes43-sb8juar.png" class="path-overlay" alt="路径" />
+            <img src="../.figma/image/mpqqes43-f6l1g5h.svg" class="pin-icon" alt="定位" />
+        </div>
+
+        <!-- 第二个行程卡片 -->
+        <div class="trip-card" onclick="openTripDetail(2)">
+            <p class="trip-time">Today, 3:41 pm&nbsp;</p>
+            <p class="trip-price">$0.00</p>
+        </div>
+
+        <p class="canceled">Canceled</p>
+
+        <!-- 第二个行程地图 -->
+        <img src="../.figma/image/mpqqes44-7fx7ve2.png" class="map-image" style="margin-top: 16px; margin-left: -1px;" alt="行程地图" />
+
+        <!-- 底部指示器 -->
+        <div class="bars-home-indicator-iph">
+            <div class="home-indicator"></div>
+        </div>
+    </div>
+
+    <script>
+        // 返回上一页
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '../home-page/index.html';
+            }
+        }
+
+        // 切换行程筛选器
+        function toggleTripFilter() {
+            const filter = document.querySelector('.rectangle-462');
+            const text = document.querySelector('.past');
+            
+            if (text.textContent === 'Past') {
+                text.textContent = 'Upcoming';
+                // 跳转到Upcoming版本
+                setTimeout(() => {
+                    window.location.href = 'your-trips-upcoming.html';
+                }, 300);
+            } else {
+                text.textContent = 'Past';
+            }
+            
+            // 添加点击动画
+            filter.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                filter.style.transform = 'scale(1)';
+            }, 150);
+        }
+
+        // 打开行程详情
+        function openTripDetail(tripIndex) {
+            const card = event.currentTarget;
+            if (card) {
+                card.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    card.style.transform = 'scale(1)';
+                }, 150);
+            }
+            
+            if (tripIndex === 1) {
+                // 完成行程 - 跳转到Trips detail #2
+                window.location.href = 'trips-detail-2.html';
+            } else if (tripIndex === 2) {
+                // 取消行程 - 跳转到Trips detail #1
+                window.location.href = 'trips-detail-1.html';
+            }
+        }
+
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Your trips (Past) 页面初始化完成');
+            
+            // 为行程卡片添加悬停效果
+            const tripCards = document.querySelectorAll('.trip-card');
+            tripCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = 'rgba(254, 204, 42, 0.1)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = 'transparent';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

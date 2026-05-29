@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Pick-up #5 - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .confirm-pickup-container {
+            position: relative;
+            background: #ffffff;
+            width: 375px;
+            height: 812px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            width: 375px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            color: #49493d;
+        }
+
+        .time {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        /* 顶部导航 */
+        .nav-area {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            justify-content: space-between;
+            padding: 24px 228px 32px 24px;
+            min-width: 375px;
+        }
+
+        .back-arrow {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #49493d;
+        }
+
+        .time-info {
+            line-height: 16px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        /* 司机筛选提示 */
+        .screened-notice {
+            margin: 12px 0px 0px 113px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* 分割线 */
+        .divider {
+            margin-top: 16px;
+            margin-left: 24px;
+            background: #f3f3f3;
+            width: 327px;
+            height: 1px;
+        }
+
+        /* 车辆信息 */
+        .vehicle-section {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            justify-content: space-between;
+            margin-top: 23px;
+            padding-right: 24px;
+            padding-left: 24px;
+        }
+
+        .car-image {
+            width: 120px;
+            height: 61px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .vehicle-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .vehicle-name {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 14px;
+        }
+
+        .vehicle-plate {
+            margin: 0px 0px 0px 19px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* 司机评分 */
+        .driver-rating {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            justify-content: space-between;
+            margin: 12px 105px 0px;
+            min-width: 165px;
+        }
+
+        .rating-text {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 14px;
+        }
+
+        .star-icon {
+            margin-top: 2px;
+            width: 12px;
+            height: 12px;
+            font-size: 10px;
+            color: #fecc2a;
+        }
+
+        /* 备注输入区域 */
+        .notes-section {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-right: 16px;
+            padding-left: 24px;
+        }
+
+        .phone-button {
+            display: flex;
+            align-items: center;
+            border-radius: 50%;
+            box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.05);
+            background: #f3f3f3;
+            padding: 14px;
+        }
+
+        .phone-icon {
+            width: 20px;
+            height: 20px;
+            font-size: 14px;
+            color: #49493d;
+        }
+
+        .notes-input {
+            display: flex;
+            align-items: center;
+            border-radius: 24px;
+            background: #fbfbfb;
+            padding: 14px 73px 14px 16px;
+        }
+
+        .notes-placeholder {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #959595;
+            font-size: 14px;
+        }
+
+        .sun-button {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 50%;
+            box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.05);
+            background: #f3f3f3;
+            padding: 14px;
+            width: 48px;
+            min-width: 48px;
+            height: 48px;
+            overflow: hidden;
+        }
+
+        .sun-icon {
+            background: #fecc2a;
+            width: 3px;
+            height: 2px;
+        }
+
+        /* 选项卡片样式 */
+        .option-card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            align-self: stretch;
+            padding: 8px 21px 19px 24px;
+            cursor: pointer;
+        }
+
+        .option-content {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            justify-content: space-between;
+            padding-right: 3px;
+            padding-left: 0;
+        }
+
+        .option-left {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 105px;
+            min-width: 105px;
+            height: 24px;
+        }
+
+        .option-left-small {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 59px;
+            min-width: 59px;
+            height: 24px;
+        }
+
+        .option-left-large {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 189px;
+            min-width: 189px;
+            height: 24px;
+        }
+
+        .option-left-medium {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 158px;
+            min-width: 158px;
+            height: 24px;
+        }
+
+        .option-icon {
+            width: 20px;
+            height: 20px;
+            font-size: 14px;
+            color: #49493d;
+        }
+
+        .option-text {
+            line-height: 24px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+        }
+
+        .option-action {
+            margin: 7px 0px 0px;
+            line-height: 18px;
+            letter-spacing: 0;
+            color: #fecc2a;
+            font-size: 12px;
+        }
+
+        .option-divider {
+            margin-top: 11px;
+            margin-left: 3px;
+            background: #f3f3f3;
+            width: 327px;
+            height: 1px;
+        }
+
+        /* 底部按钮区域 */
+        .bottom-buttons {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            justify-content: space-between;
+            margin-top: 16px;
+            padding-right: 24px;
+            padding-left: 24px;
+        }
+
+        .cancel-button {
+            display: flex;
+            align-items: center;
+            border: 1px solid #fecc2a;
+            border-radius: 12px;
+            background: #ffffff;
+            padding: 13px 52px;
+            cursor: pointer;
+        }
+
+        .cancel-text {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #fecc2a;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .safety-button {
+            display: flex;
+            align-items: center;
+            border-radius: 12px;
+            background: #fecc2a;
+            padding: 14px 56px 14px 54px;
+            cursor: pointer;
+        }
+
+        .safety-text {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* 司机信息卡片 */
+        .driver-info-card {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin-top: 40px;
+            padding-right: 24px;
+            padding-left: 24px;
+        }
+
+        .driver-avatar {
+            display: flex;
+            align-items: center;
+            border-radius: 50%;
+            background: #ffffff;
+        }
+
+        .driver-photo {
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+        }
+
+        .driver-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 5px;
+            margin-left: 12px;
+        }
+
+        .driver-name {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .driver-vehicle {
+            margin: 2px 0px 0px;
+            line-height: 18px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 12px;
+        }
+
+        .driver-phone {
+            display: flex;
+            align-items: center;
+            margin-left: 85px;
+            border-radius: 50%;
+            box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.05);
+            background: #f3f3f3;
+            padding: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="confirm-pickup-container">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <span class="time">9:09</span>
+            <div class="status-icons">
+                <span>📶</span>
+                <span>📶</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <!-- 顶部导航 -->
+        <div class="nav-area">
+            <span class="back-arrow" onclick="goBack()">↑</span>
+            <p class="time-info">2 min way</p>
+        </div>
+
+        <!-- 司机筛选提示 -->
+        <p class="screened-notice">All drivers are screened</p>
+
+        <!-- 分割线 -->
+        <div class="divider"></div>
+
+        <!-- 车辆信息 -->
+        <div class="vehicle-section">
+            <div class="car-image">🚗</div>
+            <div class="vehicle-details">
+                <p class="vehicle-name">Toyota Camry</p>
+                <p class="vehicle-plate">9HTR789</p>
+            </div>
+        </div>
+
+        <!-- 司机评分 -->
+        <div class="driver-rating">
+            <p class="rating-text">Push - 4.93</p>
+            <span class="star-icon">⭐</span>
+            <p class="rating-text">- 3,375 trips</p>
+        </div>
+
+        <!-- 备注输入区域 -->
+        <div class="notes-section">
+            <div class="phone-button" onclick="callDriver()">
+                <span class="phone-icon">📞</span>
+            </div>
+            <div class="notes-input">
+                <p class="notes-placeholder">Any pick-up notes?</p>
+            </div>
+            <div class="sun-button" onclick="toggleSunMode()">
+                <div class="sun-icon"></div>
+            </div>
+        </div>
+
+        <!-- 添加家庭选项 -->
+        <div class="option-card" onclick="addHome()">
+            <div class="option-content">
+                <div class="option-left">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span class="option-icon">🏠</span>
+                        <p class="option-text">Add home</p>
+                    </div>
+                </div>
+                <p class="option-action">Add or change</p>
+            </div>
+            <div class="option-divider"></div>
+        </div>
+
+        <!-- 价格选项 -->
+        <div class="option-card" onclick="changePrice()">
+            <div class="option-content">
+                <div class="option-left-small">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span class="option-icon">👤</span>
+                        <p class="option-text">$14</p>
+                    </div>
+                </div>
+                <p class="option-action">Change</p>
+            </div>
+            <div class="option-divider"></div>
+        </div>
+
+        <!-- 分摊费用选项 -->
+        <div class="option-card" onclick="splitFare()">
+            <div class="option-content">
+                <div class="option-left-large">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span class="option-icon">📡</span>
+                        <p class="option-text">Riding with someone?</p>
+                    </div>
+                </div>
+                <p class="option-action">Split fare</p>
+            </div>
+            <div class="option-divider"></div>
+        </div>
+
+        <!-- 分享行程选项 -->
+        <div class="option-card" onclick="shareTrip()">
+            <div class="option-content">
+                <div class="option-left-medium">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span class="option-icon">📍</span>
+                        <p class="option-text">Share trips status</p>
+                    </div>
+                </div>
+                <p class="option-action">Share</p>
+            </div>
+            <div class="option-divider"></div>
+        </div>
+
+        <!-- 底部按钮 -->
+        <div class="bottom-buttons">
+            <div class="cancel-button" onclick="cancelTrip()">
+                <p class="cancel-text">Cancel</p>
+            </div>
+            <div class="safety-button" onclick="safetyCheck()">
+                <p class="safety-text">Safety</p>
+            </div>
+        </div>
+
+        <!-- 司机信息卡片 -->
+        <div class="driver-info-card">
+            <div class="driver-avatar">
+                <div class="driver-photo">👩‍💼</div>
+            </div>
+            <div class="driver-details">
+                <p class="driver-name">Push Puttichai</p>
+                <p class="driver-vehicle">Toyota Camry - 9HTR789</p>
+            </div>
+            <div class="driver-phone" onclick="callDriver()">
+                <span class="phone-icon">📞</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 返回上一页
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                alert('返回上一页');
+                // window.location.href = '../confirm-pickup4-page/index.html';
+            }
+        }
+
+        // 致电司机
+        function callDriver() {
+            const buttons = document.querySelectorAll('.phone-button, .driver-phone');
+            buttons.forEach(btn => {
+                btn.style.transform = 'scale(0.9)';
+            });
+            
+            setTimeout(() => {
+                buttons.forEach(btn => {
+                    btn.style.transform = 'scale(1)';
+                });
+                alert('正在拨打司机电话...');
+                // 可以调用电话功能
+                // window.location.href = 'tel:+1234567890';
+            }, 150);
+        }
+
+        // 切换太阳模式
+        function toggleSunMode() {
+            const button = document.querySelector('.sun-button');
+            button.style.background = button.style.background === 'rgb(254, 204, 42)' ? '#f3f3f3' : '#fecc2a';
+            alert('切换日光模式');
+        }
+
+        // 添加家庭地址
+        function addHome() {
+            alert('添加或更改家庭地址');
+            // 可以跳转到地址编辑页面
+            // window.location.href = '../edit-address/index.html';
+        }
+
+        // 更改价格
+        function changePrice() {
+            alert('更改价格设置');
+            // 可以跳转到价格设置页面
+            // window.location.href = '../price-settings/index.html';
+        }
+
+        // 分摊费用
+        function splitFare() {
+            alert('分摊车费给同行人');
+            // 可以跳转到分摊费用页面
+            // window.location.href = '../split-fare/index.html';
+        }
+
+        // 分享行程
+        function shareTrip() {
+            alert('分享行程状态给联系人');
+            // 可以跳转到分享页面
+            // window.location.href = '../share-trip/index.html';
+        }
+
+        // 取消行程
+        function cancelTrip() {
+            const button = document.querySelector('.cancel-button');
+            button.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+                if (confirm('确定要取消行程吗？')) {
+                    alert('行程已取消');
+                    // 可以跳转到首页
+                    // window.location.href = '../home-page/index.html';
+                }
+            }, 150);
+        }
+
+        // 安全检查
+        function safetyCheck() {
+            const button = document.querySelector('.safety-button');
+            button.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+                alert('打开安全功能');
+                // 可以跳转到安全页面
+                // window.location.href = '../safety/index.html';
+            }, 150);
+        }
+
+        // 初始化功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为所有可点击元素添加悬停效果
+            const clickableElements = document.querySelectorAll('.option-card, .cancel-button, .safety-button, .phone-button, .sun-button, .driver-phone');
+            
+            clickableElements.forEach(element => {
+                element.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-1px)';
+                });
+                
+                element.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            console.log('Confirm Pick-up #5页面初始化完成');
+        });
+    </script>
+</body>
+</html>

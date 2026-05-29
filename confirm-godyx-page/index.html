@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm GodyX - GODY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .confirm-godyx-container {
+            position: relative;
+            background: #ffffff;
+            width: 375px;
+            height: 812px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* 地图背景区域 */
+        .map-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 375px;
+            height: 496px;
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* 地图上的路径线 */
+        .map-path {
+            position: absolute;
+            top: 60px;
+            left: 30px;
+            width: 320px;
+            height: 380px;
+            border: 2px solid #49493d;
+            border-radius: 30% 70% 50% 40%;
+            opacity: 0.3;
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 375px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            color: #49493d;
+            z-index: 10;
+        }
+
+        .time {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        /* 遮罩层 */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 375px;
+            height: 812px;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 5;
+        }
+
+        /* 底部确认卡片 */
+        .confirm-card {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 375px;
+            height: 598px;
+            background: #ffffff;
+            border-radius: 24px 24px 0 0;
+            box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.05);
+            z-index: 20;
+            padding-top: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 返回按钮区域 */
+        .nav-area {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 375px;
+            height: 72px;
+            padding: 24px 335px 32px 24px;
+            z-index: 15;
+        }
+
+        .back-arrow {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #ffffff;
+        }
+
+        /* 车辆信息卡片 */
+        .vehicle-info-card {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            justify-content: space-between;
+            margin-right: 24px;
+            margin-left: 24px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.05);
+            background: #ffffff;
+            padding: 12px 15px 10px 16px;
+            min-width: 327px;
+            margin-top: 8px;
+        }
+
+        /* 车辆基本信息 */
+        .vehicle-basic-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .vehicle-header {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            justify-content: space-between;
+            padding-right: 83px;
+            padding-left: 0;
+        }
+
+        .vehicle-name-section {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-top: 3px;
+            width: 21px;
+            min-width: 21px;
+        }
+
+        .vehicle-name {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .rating-section {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-top: 3px;
+            width: 21px;
+            min-width: 21px;
+        }
+
+        .star-icon {
+            margin-top: 3px;
+            width: 10px;
+            height: 10px;
+            font-size: 10px;
+        }
+
+        .rating-text {
+            line-height: 18px;
+            letter-spacing: 0;
+            color: #959595;
+            font-size: 12px;
+        }
+
+        .vehicle-details {
+            line-height: 18px;
+            letter-spacing: 0;
+            color: #959595;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        .vehicle-description {
+            line-height: 18px;
+            letter-spacing: 0;
+            color: #959595;
+            font-size: 12px;
+        }
+
+        /* 价格信息 */
+        .price-info {
+            margin: 10px 0px 0px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #fecc2a;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        /* 支付方式卡片 */
+        .payment-card {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin: 16px 24px 0px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.05);
+            background: #ffffff;
+            padding: 12px 16px 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .payment-card:hover {
+            transform: translateX(2px);
+        }
+
+        .visa-logo {
+            width: 40px;
+            height: 25px;
+            background: linear-gradient(45deg, #1a73e8, #4285f4);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .card-info {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-left: 12px;
+            width: 60px;
+            min-width: 60px;
+        }
+
+        .card-dots {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .card-number {
+            display: flex;
+            align-items: center;
+            margin: 6px 0px 0px;
+            width: 37px;
+            height: 16px;
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .arrow-icon {
+            margin-top: 8px;
+            margin-left: 171px;
+            width: 12px;
+            height: 12px;
+            font-size: 12px;
+            color: #49493d;
+        }
+
+        /* 车辆图片区域 */
+        .vehicle-image-section {
+            width: 250px;
+            height: 127px;
+            margin: 16px 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            position: relative;
+        }
+
+        .vehicle-image-placeholder {
+            width: 200px;
+            height: 80px;
+            background: linear-gradient(45deg, #ffffff, #f0f0f0);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* 确认按钮 */
+        .confirm-button {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            margin: 94px 24px 0px;
+            border-radius: 12px;
+            background: #fecc2a;
+            padding: 12px 109px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .confirm-button:hover {
+            background: #fed16c;
+            transform: translateY(-1px);
+        }
+
+        .confirm-button:active {
+            transform: scale(0.98);
+        }
+
+        .confirm-text {
+            line-height: 20px;
+            letter-spacing: 0;
+            color: #49493d;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* 底部指示器 */
+        .home-indicator {
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            margin-top: 24px;
+            padding: 21px 121px 8px 120px;
+        }
+
+        .indicator {
+            border-radius: 100px;
+            background: #49493d;
+            width: 134px;
+            height: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="confirm-godyx-container">
+        <!-- 地图背景 -->
+        <div class="map-background">
+            <!-- 地图路径装饰 -->
+            <div class="map-path"></div>
+        </div>
+
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <span class="time">9:09</span>
+            <div class="status-icons">
+                <span>📶</span>
+                <span>📶</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <!-- 返回按钮 -->
+        <div class="nav-area">
+            <span class="back-arrow" onclick="goBack()">←</span>
+        </div>
+
+        <!-- 遮罩层 -->
+        <div class="overlay"></div>
+
+        <!-- 底部确认卡片 -->
+        <div class="confirm-card">
+            <!-- 车辆信息卡片 -->
+            <div class="vehicle-info-card">
+                <div class="vehicle-basic-info">
+                    <div class="vehicle-header">
+                        <p class="vehicle-name">GodyX</p>
+                        <div class="rating-section">
+                            <span class="star-icon">⭐</span>
+                            <p class="rating-text">4</p>
+                        </div>
+                    </div>
+                    <p class="vehicle-details">4:04pm drop-off</p>
+                    <p class="vehicle-description">Affordable rides, all to yourself</p>
+                </div>
+                <p class="price-info">$17.00</p>
+            </div>
+
+            <!-- 车辆图片 -->
+            <div class="vehicle-image-section">
+                <div class="vehicle-image-placeholder">🚗</div>
+            </div>
+
+            <!-- 支付方式卡片 -->
+            <div class="payment-card" onclick="selectPayment()">
+                <div class="visa-logo">VISA</div>
+                <div class="card-info">
+                    <p class="card-dots">....</p>
+                    <p class="card-number">6789</p>
+                </div>
+                <span class="arrow-icon">→</span>
+            </div>
+
+            <!-- 确认按钮 -->
+            <div class="confirm-button" onclick="confirmGodyX()">
+                <p class="confirm-text">Confirm GodyX</p>
+            </div>
+            
+            <!-- 底部指示器 -->
+            <div class="home-indicator">
+                <div class="indicator"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 返回上一页
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                alert('返回上一页');
+                // window.location.href = '../confirm-pickup2-page/index.html';
+            }
+        }
+
+        // 选择支付方式
+        function selectPayment() {
+            const paymentCard = document.querySelector('.payment-card');
+            paymentCard.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                paymentCard.style.transform = 'scale(1)';
+                alert('打开支付方式选择');
+                // 可以跳转到支付页面
+                // window.location.href = '../payment-pages/select-payment.html';
+            }, 150);
+        }
+
+        // 确认 GodyX
+        function confirmGodyX() {
+            const button = document.querySelector('.confirm-button');
+            const originalText = button.innerHTML;
+            
+            button.style.transform = 'scale(0.95)';
+            button.innerHTML = '<p class="confirm-text">确认中...</p>';
+            
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+                button.innerHTML = originalText;
+                alert('GodyX 已确认！正在为您安排车辆...');
+                // 可以跳转到请求页面
+                // window.location.href = '../requesting-page/index.html';
+            }, 1500);
+        }
+
+        // 初始化功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为支付卡片添加悬停效果
+            const paymentCard = document.querySelector('.payment-card');
+            paymentCard.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(4px)';
+            });
+            
+            paymentCard.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+            });
+
+            // 为确认按钮添加悬停效果
+            const confirmButton = document.querySelector('.confirm-button');
+            confirmButton.addEventListener('mouseenter', function() {
+                this.style.background = '#fed16c';
+            });
+            
+            confirmButton.addEventListener('mouseleave', function() {
+                this.style.background = '#fecc2a';
+            });
+
+            console.log('Confirm GodyX页面初始化完成');
+        });
+    </script>
+</body>
+</html>

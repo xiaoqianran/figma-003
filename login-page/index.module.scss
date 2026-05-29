@@ -1,0 +1,289 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  width: 375px;
+  height: 812px;
+  overflow: hidden;
+  font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+  position: relative;
+}
+
+// 状态栏样式
+.statusBar {
+  width: 375px;
+  height: 40px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.statusBarContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.time {
+  font-size: 14px;
+  font-weight: 600;
+  color: #000000;
+}
+
+.statusIcons {
+  display: flex;
+  gap: 4px;
+  font-size: 12px;
+}
+
+// 欢迎标题
+.welcomeTitle {
+  margin: 32px 0px 0px;
+  line-height: 16px;
+  letter-spacing: 0;
+  color: #fecc2a;
+  font-size: 28px;
+  font-weight: 500;
+  text-align: center;
+}
+
+// 插画区域
+.illustration {
+  position: relative;
+  margin-top: 64px;
+  width: 375px;
+  height: 249px;
+}
+
+.cityBackground {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #f0f0f0 0%, #e0e0e0 100%);
+  border-radius: 0 0 50% 50%;
+  overflow: hidden;
+}
+
+// 定位图标
+.locationPin {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+.pinIcon {
+  width: 60px;
+  height: 60px;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// 汽车
+.car {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.carBody {
+  font-size: 50px;
+}
+
+// 人物
+.person {
+  position: absolute;
+  bottom: 50px;
+  right: 40px;
+  z-index: 2;
+}
+
+.personIcon {
+  font-size: 35px;
+}
+
+// 手机模拟
+.phoneMockup {
+  position: absolute;
+  bottom: 40px;
+  left: 30px;
+  width: 50px;
+  height: 90px;
+  background: #333;
+  border-radius: 8px;
+  padding: 4px;
+  z-index: 1;
+}
+
+.phoneScreen {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding: 4px;
+}
+
+.mapDisplay {
+  font-size: 12px;
+}
+
+.listDisplay {
+  font-size: 10px;
+}
+
+// 手机号输入区域
+.phoneInputSection {
+  position: relative;
+  margin-top: 64px;
+  width: 327px;
+  height: 44px;
+}
+
+.phoneInput {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 44px;
+  border: 1px solid #bdbdbd;
+  border-radius: 12px;
+  padding: 0 16px;
+  background: #ffffff;
+}
+
+.countrySelector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 80px;
+}
+
+.flag {
+  font-size: 18px;
+}
+
+.arrow {
+  font-size: 10px;
+  color: #666;
+}
+
+.countryCode {
+  color: #fecc2a;
+  font-size: 16px;
+  font-weight: 500;
+  margin-left: 8px;
+}
+
+.divider {
+  width: 1px;
+  height: 20px;
+  background: #bdbdbd;
+  margin: 0 12px;
+}
+
+.phoneInputField {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #bdbdbd;
+  font-family: inherit;
+
+  &::placeholder {
+    color: #bdbdbd;
+  }
+}
+
+// 社交媒体提示
+.socialPrompt {
+  margin: 24px 0px 0px;
+  line-height: 18px;
+  letter-spacing: 0;
+  color: #959595;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+}
+
+// 社交媒体按钮
+.socialButtons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin: 16px 0 0;
+  height: 40px;
+}
+
+.socialButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.facebook {
+  background: #395898;
+}
+
+.twitter {
+  background: #1aa8e6;
+}
+
+.google {
+  background: #e34f33;
+}
+
+.socialIcon {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+// 底部指示器
+.homeIndicator {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: auto;
+  padding: 21px 0 8px;
+  width: 100%;
+}
+
+.indicator {
+  border-radius: 100px;
+  background: #49493d;
+  width: 134px;
+  height: 5px;
+}
