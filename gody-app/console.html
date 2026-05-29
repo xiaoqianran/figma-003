@@ -132,23 +132,6 @@
       color: #B8B5B0;
     }
 
-    .nav-item {
-      font-size: 13px;
-      transition: all 0.1s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-
-    .nav-item:hover {
-      background-color: #1A1916;
-      color: #fecc2a;
-    }
-
-    .nav-item.active {
-      background-color: #1F1E1B;
-      color: #fecc2a;
-      border-left: 3px solid #fecc2a;
-      padding-left: 11px;
-    }
-
     .archive-card {
       background: #F5F3ED;
       color: #0A0908;
@@ -189,10 +172,289 @@
       background-size: 140px;
       pointer-events: none;
     }
+
+    /* === Hardware Toolbar & Enhancements (黄控台 aesthetic) === */
+    .device-toolbar {
+      font-family: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
+      font-size: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    .device-toolbar .tb-btn {
+      background: #1A1916;
+      border: 1px solid #2A2926;
+      color: #B8B5B0;
+      padding: 3px 9px;
+      border-radius: 6px;
+      font-size: 9px;
+      letter-spacing: 0.75px;
+      transition: all 0.08s cubic-bezier(0.23, 1, 0.32, 1);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+    .device-toolbar .tb-btn:hover {
+      color: #fecc2a;
+      border-color: #3A3A36;
+      background: #22211D;
+    }
+    .device-toolbar .tb-btn:active {
+      background: #0F0F0D;
+      transform: translateY(0.5px);
+    }
+    .device-toolbar .tb-btn.preset {
+      padding: 2px 8px;
+      min-width: 32px;
+      justify-content: center;
+    }
+    .device-toolbar .tb-btn.preset.active {
+      background: #fecc2a;
+      color: #0A0908;
+      border-color: #fecc2a;
+      font-weight: 600;
+    }
+    .device-toolbar .tb-icon-btn {
+      background: #1A1916;
+      border: 1px solid #2A2926;
+      color: #B8B5B0;
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.08s cubic-bezier(0.23, 1, 0.32, 1);
+      cursor: pointer;
+    }
+    .device-toolbar .tb-icon-btn:hover {
+      color: #fecc2a;
+      border-color: rgba(254, 204, 42, 0.35);
+      background: #22211D;
+    }
+    .device-toolbar .tb-icon-btn:active {
+      background: #0F0F0D;
+    }
+
+    .zoom-slider {
+      width: 78px;
+      height: 3px;
+      background: #2A2926;
+      border-radius: 999px;
+      outline: none;
+      accent-color: #fecc2a;
+      cursor: pointer;
+      vertical-align: middle;
+    }
+    .zoom-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 10px;
+      height: 10px;
+      background: #fecc2a;
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px #0A0908, 0 1px 2px rgba(0,0,0,0.4);
+      cursor: pointer;
+      border: 1px solid #11110F;
+    }
+    .zoom-slider::-moz-range-thumb {
+      width: 10px;
+      height: 10px;
+      background: #fecc2a;
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px #0A0908;
+      cursor: pointer;
+      border: 1px solid #11110F;
+    }
+
+    .load-overlay {
+      background: rgba(12, 12, 10, 0.94);
+      backdrop-filter: blur(1px);
+    }
+
+    .device-viewport {
+      transition: width 0.4s cubic-bezier(0.23, 1.0, 0.32, 1),
+                  height 0.4s cubic-bezier(0.23, 1.0, 0.32, 1),
+                  transform 0.35s cubic-bezier(0.23, 1.0, 0.32, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
+      transform-origin: center center;
+    }
+
+    /* Subtle bezel reflection / edge highlight (very restrained) */
+    .device-bevel::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 54px;
+      background: linear-gradient(
+        125deg,
+        rgba(255,255,255,0.032) 8%,
+        transparent 22%,
+        transparent 78%,
+        rgba(255,255,255,0.018) 92%
+      );
+      pointer-events: none;
+      z-index: 6;
+      opacity: 0.65;
+      transition: opacity 160ms ease;
+    }
+    .device-bevel:hover::after,
+    .hardware-frame.active .device-bevel::after {
+      opacity: 0.95;
+    }
+
+    /* Dynamic registry nav styles - industrial console aesthetic */
+    .nav-search-input {
+      font-family: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
+      font-size: 12px;
+      letter-spacing: 0.3px;
+    }
+
+    .cat-filter {
+      font-family: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
+      font-size: 9px;
+      letter-spacing: 0.75px;
+      padding: 2px 9px;
+      border-radius: 9999px;
+      border: 1px solid #2A2926;
+      color: #B8B5B0;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.08s cubic-bezier(0.23, 1, 0.32, 1);
+      white-space: nowrap;
+    }
+
+    .cat-filter:hover {
+      color: #EDEBE5;
+      border-color: rgba(254, 204, 42, 0.4);
+    }
+
+    .cat-filter.active {
+      background-color: #fecc2a;
+      color: #0A0908;
+      border-color: #fecc2a;
+      font-weight: 600;
+    }
+
+    .nav-list-container {
+      max-height: 468px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #2A2926 #11110F;
+    }
+
+    .nav-list-container::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .nav-list-container::-webkit-scrollbar-track {
+      background: #11110F;
+    }
+
+    .nav-list-container::-webkit-scrollbar-thumb {
+      background: #2A2926;
+      border-radius: 2px;
+    }
+
+    .nav-list-container::-webkit-scrollbar-thumb:hover {
+      background: #3A3A36;
+    }
+
+    .nav-section-header {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+      color: #B8B5B0;
+      padding: 6px 4px 2px;
+      margin-top: 6px;
+    }
+
+    .nav-item {
+      font-size: 13px;
+      transition: all 0.1s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .nav-item:hover {
+      background-color: #1A1916;
+      color: #fecc2a;
+    }
+
+    .nav-item.active {
+      background-color: #1F1E1B;
+      color: #fecc2a;
+      border-left: 3px solid #fecc2a;
+      padding-left: 11px;
+    }
+
+    .nav-item .item-name {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* === User Flow Player (黄控台 / industrial metal aesthetic) === */
+    .flow-pill {
+      font-family: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
+      font-size: 9px;
+      letter-spacing: 0.6px;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      background: #1A1916;
+      border: 1px solid #2A2926;
+      color: #B8B5B0;
+      cursor: pointer;
+      transition: all 0.08s cubic-bezier(0.23, 1, 0.32, 1);
+      white-space: nowrap;
+      user-select: none;
+    }
+    .flow-pill:hover {
+      color: #fecc2a;
+      border-color: rgba(254, 204, 42, 0.55);
+      background: #22211D;
+    }
+    .flow-pill.active {
+      background: #fecc2a;
+      color: #0A0908;
+      border-color: #fecc2a;
+      font-weight: 600;
+    }
+
+    .flow-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+      background: #2A2926;
+      border: 1px solid #3A3A36;
+      transition: background 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
+      flex-shrink: 0;
+    }
+    .flow-dot.completed {
+      background: #fecc2a;
+      border-color: #fecc2a;
+    }
+    .flow-dot.current {
+      background: #fecc2a;
+      border-color: #fecc2a;
+      box-shadow: 0 0 0 2px rgba(254, 204, 42, 0.25);
+    }
+
+    #flow-player {
+      font-family: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
+    }
+    #flow-player .flow-step-title {
+      font-size: 11px;
+      color: #EDEBE5;
+      letter-spacing: 0.2px;
+    }
   </style>
 </head>
 <body class="min-h-screen lab-grid">
-  <div class="max-w-[1280px] mx-auto px-8 pt-9 pb-12">
+  <div class="max-w-[1340px] mx-auto px-8 pt-9 pb-12">
     <!-- Header -->
     <div class="flex items-end justify-between mb-8">
       <div>
@@ -235,60 +497,25 @@
 
         <div class="bg-[#11110F] border border-[#22221F] rounded-2xl overflow-hidden">
           <div class="p-2">
-            <!-- Auth -->
-            <div class="px-3 pt-3 pb-1">
-              <div class="section-label mb-2 px-1">AUTHENTICATION</div>
-              <div onclick="loadPrototype('login-page/index.html', this)" class="nav-item flex items-center gap-x-3 px-3 py-[7px] rounded-xl cursor-pointer text-[#EDEBE5]">
-                <i class="fa-solid fa-key w-4"></i>
-                <span>登录 / 注册</span>
+            <!-- Search -->
+            <div class="px-1 pb-2">
+              <div class="relative">
+                <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-[#6E6A61] text-xs pointer-events-none"></i>
+                <input id="nav-search" type="text" placeholder="搜索原型名称..." 
+                       class="nav-search-input w-full bg-[#0A0908] border border-[#2A2926] text-[#EDEBE5] pl-8 pr-3 py-[7px] rounded-xl placeholder:text-[#6E6A61] focus:outline-none focus:border-[#fecc2a]/60">
               </div>
             </div>
 
-            <!-- Core -->
-            <div class="px-3 pt-2 pb-1">
-              <div class="section-label mb-2 px-1">CORE</div>
-              <div onclick="loadPrototype('home-page/index.html', this)" class="nav-item flex items-center gap-x-3 px-3 py-[7px] rounded-xl cursor-pointer text-[#EDEBE5]">
-                <i class="fa-solid fa-home w-4"></i>
-                <span>主页（地图）</span>
-              </div>
-              <div onclick="loadPrototype('search1-page/index.html', this)" class="nav-item flex items-center gap-x-3 px-3 py-[7px] rounded-xl cursor-pointer text-[#EDEBE5]">
-                <i class="fa-solid fa-search w-4"></i>
-                <span>搜索与发现</span>
+            <!-- Category Filters (multi-select) -->
+            <div class="px-1 pb-2">
+              <div class="flex flex-wrap gap-1" id="category-filters">
+                <!-- JS populated category chips -->
               </div>
             </div>
 
-            <!-- Booking -->
-            <div class="px-3 pt-2 pb-1">
-              <div class="section-label mb-2 px-1">BOOKING FLOW</div>
-              <div onclick="loadPrototype('choose-trip1-page/index.html', this)" class="nav-item flex items-center gap-x-3 px-3 py-[7px] rounded-xl cursor-pointer text-[#EDEBE5]">
-                <span>选择行程</span>
-              </div>
-              <div onclick="loadPrototype('confirm-pickup1-page/index.html', this)" class="nav-item flex items-center gap-x-3 px-3 py-[7px] rounded-xl cursor-pointer text-[#EDEBE5]">
-                <span>确认上车</span>
-              </div>
-              <div onclick="loadPrototype('payment-pages/select-payment.html', this)" class="nav-item flex items-center gap-x-3 px-3 py-[7px] rounded-xl cursor-pointer text-[#EDEBE5]">
-                <span>支付</span>
-              </div>
-            </div>
-
-            <!-- Trips -->
-            <div class="px-3 pt-2 pb-1">
-              <div class="section-label mb-2 px-1">TRIPS</div>
-              <div onclick="loadPrototype('trips-pages/your-trips-upcoming.html', this)" class="nav-item flex items-center gap-x-3 px-3 py-[7px] rounded-xl cursor-pointer text-[#EDEBE5]">
-                <span>我的行程（进行中）</span>
-              </div>
-              <div onclick="loadPrototype('trips-pages/your-trips-past.html', this)" class="nav-item flex items-center gap-x-3 px-3 py-[7px] rounded-xl cursor-pointer text-[#EDEBE5]">
-                <span>历史行程</span>
-              </div>
-            </div>
-
-            <!-- Account -->
-            <div class="px-3 pt-2 pb-3">
-              <div class="section-label mb-2 px-1">ACCOUNT</div>
-              <div onclick="loadPrototype('account-pages/profile.html', this)" class="nav-item flex items-center gap-x-3 px-3 py-[7px] rounded-xl cursor-pointer text-[#EDEBE5]">
-                <i class="fa-solid fa-user w-4"></i>
-                <span>个人资料</span>
-              </div>
+            <!-- Dynamic Registry List -->
+            <div id="nav-list" class="nav-list-container px-1">
+              <!-- Populated dynamically from page-registry.json -->
             </div>
           </div>
         </div>
@@ -296,7 +523,7 @@
         <div class="mt-4 px-3">
           <div class="text-[10px] text-[#B8B5B0] leading-tight console-font">
             所有原型均为静态复刻。<br>
-            相对路径跳转已适配。
+            相对路径跳转已适配。使用搜索与分类筛选。
           </div>
         </div>
       </div>
@@ -315,28 +542,77 @@
           </div>
         </div>
 
-        <!-- The Hardware -->
-        <div id="device-shell" 
-             onclick="if(!document.getElementById('preview-frame').src.includes('about:blank')) return; powerOnDevice()"
-             class="hardware-frame mx-auto cursor-pointer">
-          
-          <div class="device-bevel relative">
-            <!-- Top metal bar -->
-            <div class="absolute top-0 left-0 right-0 h-9 bg-gradient-to-b from-[#1F1F1C] to-transparent z-20 flex items-center justify-center">
-              <div class="flex items-center gap-x-[6px]">
-                <div class="w-1.5 h-1.5 rounded-full bg-[#3A3A36]"></div>
-                <div class="text-[9px] text-[#B8B5B0] console-font tracking-[1.5px]">GODY LAB</div>
+        <!-- Professional Hardware Toolbar (yellow console aesthetic) -->
+        <div class="device-toolbar w-full max-w-[430px] mx-auto mb-2.5">
+          <div class="bg-[#11110F] border border-[#22221F] rounded-2xl px-3 py-[7px] flex items-center gap-x-2.5 shadow-inner">
+            <!-- Zoom -->
+            <div class="flex items-center gap-x-1.5 pr-1 border-r border-[#2A2926]">
+              <span class="text-[#6E6A61] text-[8px] tracking-[1.25px] font-medium mr-0.5">ZOOM</span>
+              <button onclick="setZoomPreset(0.75, this)" class="tb-btn preset" data-zoom="0.75">75</button>
+              <button onclick="setZoomPreset(1, this)" class="tb-btn preset active" data-zoom="1">100</button>
+              <button onclick="setZoomPreset(1.25, this)" class="tb-btn preset" data-zoom="1.25">125</button>
+              <input type="range" id="zoom-slider" class="zoom-slider ml-1" min="0.6" max="1.6" step="0.05" value="1" 
+                     oninput="setZoom(this.value, true)">
+              <span id="zoom-value" class="console-font text-[#fecc2a] text-[9px] w-[30px] text-right tabular-nums">100%</span>
+            </div>
+
+            <!-- Rotate -->
+            <button onclick="toggleRotate()" class="tb-btn" id="rotate-btn" title="Toggle 90° landscape / portrait">
+              <i class="fa-solid fa-rotate fa-fw text-[10px]"></i>
+              <span class="hidden sm:inline">ROTATE</span>
+            </button>
+
+            <div class="flex-1"></div>
+
+            <!-- Action icons -->
+            <button onclick="reloadPrototype()" class="tb-icon-btn" title="Reload iframe">
+              <i class="fa-solid fa-redo fa-sm"></i>
+            </button>
+            <button onclick="popOutPrototype()" class="tb-icon-btn" title="Open in new tab">
+              <i class="fa-solid fa-external-link-alt fa-sm"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- The Hardware (zoom + rotation applied to viewport wrapper for correct inner sizing) -->
+        <div id="device-viewport" class="device-viewport mx-auto" 
+             style="width: 380px; height: 818px; transform-origin: center center; transition: transform 0.35s cubic-bezier(0.23, 1.0, 0.32, 1);">
+          <div id="device-shell" 
+               onclick="if(!document.getElementById('preview-frame').src.includes('about:blank')) return; powerOnDevice()"
+               class="hardware-frame cursor-pointer" style="margin: 0; width: 380px; height: 818px;">
+            
+            <div class="device-bevel relative">
+              <!-- Top metal bar (enhanced label) -->
+              <div class="absolute top-0 left-0 right-0 h-9 bg-gradient-to-b from-[#1F1F1C] to-transparent z-20 flex items-center justify-center">
+                <div class="flex items-center gap-x-[6px]">
+                  <div class="w-1.5 h-1.5 rounded-full bg-[#3A3A36]"></div>
+                  <div>
+                    <span class="text-[9px] text-[#B8B5B0] console-font tracking-[1.5px]">GODY LAB</span>
+                    <span class="text-[7px] text-[#6E6A61] console-font ml-px">13</span>
+                  </div>
+                </div>
               </div>
-            </div>
 
-            <div id="screen-container" class="prototype-screen mt-9 mx-2 mb-2 relative">
-              <iframe id="preview-frame" src="about:blank" class="w-full h-full"></iframe>
-              <div class="scanline"></div>
-              <div class="subtle-grain absolute inset-0 rounded-[46px]"></div>
-            </div>
+              <div id="screen-container" class="prototype-screen mt-9 mx-2 mb-2 relative">
+                <!-- The iframe must always render at the correct 375x812 logical size relative to the phone bezel -->
+                <iframe id="preview-frame" src="about:blank" class="w-full h-full" style="width: 100%; height: 100%;"></iframe>
+                <div class="scanline"></div>
+                <div class="subtle-grain absolute inset-0 rounded-[46px]"></div>
+                <!-- Loading overlay -->
+                <div id="load-overlay" class="load-overlay hidden absolute inset-0 z-40 flex items-center justify-center rounded-[46px]">
+                  <div class="text-center">
+                    <div class="text-[#fecc2a] text-[10px] console-font tracking-[2.5px] mb-0.5 flex items-center justify-center gap-x-1.5">
+                      <i class="fa-solid fa-circle-notch fa-spin"></i>
+                      <span>LOADING PROTOTYPE</span>
+                    </div>
+                    <div class="text-[#B8B5B0] text-[8px] console-font tracking-wider opacity-75">PLEASE WAIT</div>
+                  </div>
+                </div>
+              </div>
 
-            <!-- Home indicator area -->
-            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 w-[108px] h-[5px] bg-[#2A2926] rounded-full z-30"></div>
+              <!-- Home indicator area -->
+              <div class="absolute bottom-3 left-1/2 -translate-x-1/2 w-[108px] h-[5px] bg-[#2A2926] rounded-full z-30"></div>
+            </div>
           </div>
         </div>
 
@@ -348,7 +624,7 @@
       </div>
 
       <!-- Right: Metadata -->
-      <div class="w-80 flex-shrink-0">
+      <div class="w-96 flex-shrink-0">
         <div class="archive-card rounded-3xl p-6 text-sm leading-relaxed">
           <div class="section-label text-[#0A0908] mb-3 tracking-widest">CURRENT PROTOTYPE</div>
           
@@ -370,6 +646,12 @@
               </div>
             </div>
 
+            <!-- Bonus: Flow context injected here when User Flow Player is active -->
+            <div id="meta-flow" class="hidden pt-1.5 border-t border-[#D9D4C8]">
+              <div class="text-[10px] console-font text-[#6E6A61] mb-px">FLOW STEP</div>
+              <div id="meta-flow-text" class="font-medium text-[#fecc2a] text-xs tracking-wide console-font"></div>
+            </div>
+
             <div class="pt-2 border-t border-[#D9D4C8]">
               <div class="text-[10px] console-font text-[#6E6A61] mb-1">NOTES</div>
               <div id="meta-notes" class="text-sm leading-snug text-[#3F3D37]">
@@ -383,17 +665,183 @@
           此控制台为内部设计评审工具。<br>
           所有交互均为真实可点击原型。
         </div>
+
+        <!-- FLOWS / 用户旅程: Powerful User Flow Player (integrated, optional but prominent) -->
+        <div class="mt-5">
+          <div class="flex items-center gap-x-2 px-1 mb-1.5">
+            <div class="section-label tracking-[1.5px] text-[#B8B5B0]">FLOWS · 用户旅程</div>
+            <div class="flex-1 h-px bg-[#2A2926]"></div>
+          </div>
+
+          <!-- Clickable flow pills (metal cards style, always visible) -->
+          <div id="flow-pills" class="flex flex-wrap gap-1.5 mb-2.5">
+            <!-- JS populated: compact .flow-pill buttons -->
+          </div>
+
+          <!-- The Flow Player Controls (revealed on selection, industrial console UI) -->
+          <div id="flow-player" class="hidden bg-[#11110F] border border-[#22221F] rounded-2xl p-3">
+            <div class="mb-2">
+              <div id="flow-name" class="console-font text-[10px] font-semibold text-[#EDEBE5] tracking-[0.75px]"></div>
+              <div class="flex items-baseline gap-x-2 mt-0.5">
+                <span id="flow-step" class="console-font text-sm font-bold text-[#fecc2a] tabular-nums"></span>
+                <span id="flow-step-title" class="flow-step-title text-[#B8B5B0]"></span>
+              </div>
+            </div>
+
+            <!-- Visual progress: yellow-accent bar + dots -->
+            <div class="mb-2.5">
+              <div class="h-[3px] bg-[#2A2926] rounded-full overflow-hidden mb-1.5">
+                <div id="flow-progress-bar" class="h-[3px] bg-[#fecc2a] transition-all" style="width:0%"></div>
+              </div>
+              <div id="flow-dots" class="flex items-center gap-[5px]">
+                <!-- populated by JS with .flow-dot elements -->
+              </div>
+            </div>
+
+            <!-- Primary transport controls -->
+            <div class="flex gap-1.5 mb-1.5">
+              <button id="flow-prev-btn"
+                class="flex-1 console-font text-xs tracking-wider py-[7px] bg-[#1A1916] hover:bg-[#22211D] active:bg-[#0F0F0D] border border-[#2A2926] hover:border-[#fecc2a]/50 text-[#EDEBE5] rounded-xl transition-all flex items-center justify-center gap-x-1 text-[10px]">
+                <i class="fa-solid fa-chevron-left text-[8px]"></i>
+                <span>上一步</span>
+              </button>
+              <button id="flow-next-btn"
+                class="flex-1 console-font text-xs tracking-wider py-[7px] bg-[#fecc2a] hover:bg-[#f0c000] active:bg-[#e6b800] text-[#0A0908] font-semibold rounded-xl transition-all flex items-center justify-center gap-x-1 text-[10px] shadow-sm">
+                <span>下一步</span>
+                <i class="fa-solid fa-chevron-right text-[8px]"></i>
+              </button>
+            </div>
+
+            <!-- Secondary actions -->
+            <div class="flex gap-1.5">
+              <button id="flow-restart-btn"
+                class="flex-1 console-font text-[9px] tracking-wider py-1 bg-[#1A1916] hover:bg-[#22211D] border border-[#2A2926] hover:border-[#3A3A36] text-[#B8B5B0] hover:text-[#EDEBE5] rounded-lg transition-colors">
+                重新开始
+              </button>
+              <button id="flow-auto-btn"
+                class="flex-1 console-font text-[9px] tracking-wider py-1 bg-[#1A1916] hover:bg-[#22211D] border border-[#2A2926] hover:border-[#fecc2a]/50 text-[#B8B5B0] hover:text-[#fecc2a] rounded-lg transition-colors flex items-center justify-center gap-x-1">
+                <i id="flow-auto-icon" class="fa-solid fa-play fa-xs"></i>
+                <span id="flow-auto-text">自动播放</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="px-1 mt-1.5 text-[9px] text-[#6E6A61] console-font leading-tight">
+            评审完整用户路径 · 1.2s 自动步进
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    let currentItem = null;
+    // === GODY Console: Dynamic Registry Powered Navigation ===
+    let pageRegistry = [];
+    let currentPath = null;
     let isPowered = false;
 
+    // Hardware simulator state (zoom/rotate preserved across loads)
+    let currentZoom = 1;
+    let isRotated = false;
+
+    const CATEGORY_ORDER = ['Auth', 'Core', 'Booking', 'Trips', 'Payment', 'Account', 'Map', 'Other'];
+
+    // Category filter state (fixed: was missing causing runtime error)
+    let activeCategoryFilters = new Set(CATEGORY_ORDER);
+
+    const CATEGORY_ICONS = {
+      'Auth': 'fa-key',
+      'Core': 'fa-home',
+      'Booking': 'fa-car',
+      'Trips': 'fa-route',
+      'Payment': 'fa-credit-card',
+      'Account': 'fa-user',
+      'Map': 'fa-map',
+      'Other': 'fa-star'
+    };
+
+    // Minimal fallback (used only if fetch fails under file:// or network issues)
+    const FALLBACK_REGISTRY = [
+      { id: 'auth-login', path: 'login-page/index.html', displayName: '登录', category: 'Auth', description: 'GODY 应用登录入口，支持手机号与社交账号快速登录。' },
+      { id: 'core-home', path: 'home-page/index.html', displayName: '首页（地图）', category: 'Core', description: '应用主屏幕，实时地图展示附近可用车辆与快捷操作。' },
+      { id: 'booking-choose-trip1', path: 'choose-trip1-page/index.html', displayName: '选择行程 1', category: 'Booking', description: '推荐行程选项卡片，包含时间与价格信息。' },
+      { id: 'booking-confirm-pickup1', path: 'confirm-pickup1-page/index.html', displayName: '确认上车点 1', category: 'Booking', description: '确认乘车上车地点与司机信息匹配界面。' },
+      { id: 'payment-select', path: 'payment-pages/select-payment.html', displayName: '选择支付方式', category: 'Payment', description: '支持微信、支付宝、银行卡等多种支付渠道选择。' },
+      { id: 'trips-upcoming', path: 'trips-pages/your-trips-upcoming.html', displayName: '进行中行程', category: 'Trips', description: '当前进行中与即将开始的行程卡片列表。' },
+      { id: 'account-profile', path: 'account-pages/profile.html', displayName: '个人资料', category: 'Account', description: '用户头像、昵称与基本账户信息展示页。' },
+      { id: 'map-home', path: 'map-pages/map-home.html', displayName: '地图主页', category: 'Map', description: '核心地图浏览界面，支持定位与保存地点。' }
+    ];
+
+    // === User Flow Player: Pre-defined realistic journeys (黄控台 aesthetic) ===
+    const USER_FLOWS = [
+      {
+        id: 'flow-new-user',
+        name: '新用户注册与首次叫车',
+        steps: [
+          { path: 'signup-page/index.html', title: '填写注册信息' },
+          { path: 'login-page/index.html', title: '登录账户' },
+          { path: 'home-page/index.html', title: '进入首页地图' },
+          { path: 'search1-page/index.html', title: '搜索目的地' },
+          { path: 'choose-car-page/index.html', title: '选择车辆车型' },
+          { path: 'requesting-page/index.html', title: '发起叫车请求' }
+        ]
+      },
+      {
+        id: 'flow-book-pay',
+        name: '预订行程并支付',
+        steps: [
+          { path: 'home-page/index.html', title: '打开地图首页' },
+          { path: 'schedule-page/index.html', title: '预约未来行程' },
+          { path: 'choose-trip1-page/index.html', title: '选择推荐行程' },
+          { path: 'payment-pages/select-payment.html', title: '选择支付方式' },
+          { path: 'payment-pages/confirm-payment.html', title: '确认并完成支付' }
+        ]
+      },
+      {
+        id: 'flow-active-trip',
+        name: '查看进行中行程 + 取消',
+        steps: [
+          { path: 'trips-pages/your-trips-upcoming.html', title: '查看进行中行程' },
+          { path: 'trip-pages/upcoming-trip.html', title: '行程详情预览' },
+          { path: 'trips-pages/trips-detail-1.html', title: '执行取消操作' }
+        ]
+      },
+      {
+        id: 'flow-account',
+        name: '账户设置与编辑',
+        steps: [
+          { path: 'account-pages/profile.html', title: '查看个人资料' },
+          { path: 'account-pages/index.html', title: '进入账户设置' },
+          { path: 'account-pages/edit-account-1.html', title: '编辑账户信息' }
+        ]
+      },
+      {
+        id: 'flow-map-search',
+        name: '地图搜索 + 选择车辆',
+        steps: [
+          { path: 'home-page/index.html', title: '地图主屏定位' },
+          { path: 'search2-page/index.html', title: '高级搜索筛选' },
+          { path: 'choose-car-page/index.html', title: '浏览并选择车辆' },
+          { path: 'map-pages/map-home.html', title: '确认地图位置' }
+        ]
+      }
+    ];
+
+    // Flow player runtime state
+    let currentFlow = null;
+    let currentStepIndex = 0;
+    let autoPlayTimer = null;
+
     function setActiveNav(element) {
+      // Legacy support for any remaining static items
       document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
       if (element) element.classList.add('active');
+    }
+
+    function applyActiveState() {
+      document.querySelectorAll('#nav-list .nav-item').forEach(el => {
+        el.classList.toggle('active', el.dataset.path === currentPath);
+      });
     }
 
     function updateMetadata(title, module, status, notes) {
@@ -411,6 +859,210 @@
       document.getElementById('current-label').innerHTML = text;
     }
 
+    // === Registry & Rendering ===
+    async function loadRegistry() {
+      try {
+        const res = await fetch('./page-registry.json', { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          pageRegistry = data;
+          return;
+        }
+      } catch (e) {
+        console.warn('[GODY Console] Registry fetch failed, using fallback.', e);
+      }
+      pageRegistry = FALLBACK_REGISTRY;
+    }
+
+    function renderCategoryFilters() {
+      const container = document.getElementById('category-filters');
+      if (!container) return;
+      container.innerHTML = '';
+
+      // Optional reset chip
+      const reset = document.createElement('button');
+      reset.className = 'cat-filter';
+      reset.textContent = 'ALL';
+      reset.title = '重置所有分类筛选';
+      reset.onclick = () => {
+        activeCategoryFilters = new Set(CATEGORY_ORDER);
+        renderCategoryFilters();
+        renderNavList(getCurrentSearchTerm());
+      };
+      container.appendChild(reset);
+
+      CATEGORY_ORDER.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = 'cat-filter' + (activeCategoryFilters.has(cat) ? ' active' : '');
+        btn.textContent = cat.toUpperCase();
+        btn.dataset.category = cat;
+        btn.title = cat + ' 分类筛选（点击切换）';
+        btn.onclick = () => {
+          toggleCategory(cat);
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function toggleCategory(cat) {
+      if (activeCategoryFilters.has(cat)) {
+        activeCategoryFilters.delete(cat);
+      } else {
+        activeCategoryFilters.add(cat);
+      }
+      // Re-render chips to reflect state
+      renderCategoryFilters();
+      renderNavList(getCurrentSearchTerm());
+    }
+
+    function getCurrentSearchTerm() {
+      const input = document.getElementById('nav-search');
+      return input ? input.value.trim().toLowerCase() : '';
+    }
+
+    function renderNavList(searchTerm = '') {
+      const container = document.getElementById('nav-list');
+      if (!container || !pageRegistry.length) return;
+
+      container.innerHTML = '';
+
+      const q = (searchTerm || '').toLowerCase();
+
+      // Filter by search + active categories
+      const filtered = pageRegistry.filter(p => {
+        const matchesSearch = !q || 
+          p.displayName.toLowerCase().includes(q) || 
+          p.path.toLowerCase().includes(q) ||
+          (p.description || '').toLowerCase().includes(q);
+        const matchesCat = activeCategoryFilters.has(p.category);
+        return matchesSearch && matchesCat;
+      });
+
+      if (filtered.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'px-3 py-4 text-center text-[#6E6A61] text-xs console-font';
+        empty.textContent = '无匹配原型';
+        container.appendChild(empty);
+        return;
+      }
+
+      // Group by category (preserve CATEGORY_ORDER)
+      CATEGORY_ORDER.forEach(cat => {
+        const items = filtered.filter(p => p.category === cat);
+        if (items.length === 0) return;
+
+        // Section header
+        const header = document.createElement('div');
+        header.className = 'nav-section-header section-label';
+        header.textContent = cat.toUpperCase();
+        container.appendChild(header);
+
+        items.forEach(page => {
+          const item = document.createElement('div');
+          item.className = 'nav-item flex items-center gap-x-3 px-3 py-[6px] rounded-xl cursor-pointer text-[#EDEBE5]';
+          item.dataset.path = page.path;
+          item.dataset.category = page.category;
+          item.title = page.description || page.displayName;
+
+          const icon = CATEGORY_ICONS[page.category] || 'fa-file';
+          item.innerHTML = `
+            <i class="fa-solid ${icon} w-4 text-[#B8B5B0] flex-shrink-0"></i>
+            <span class="item-name">${page.displayName}</span>
+          `;
+
+          container.appendChild(item);
+        });
+      });
+
+      // Re-apply active highlight after rebuild
+      applyActiveState();
+    }
+
+    function setupNavControls() {
+      // Search input — live filter
+      const searchInput = document.getElementById('nav-search');
+      if (searchInput) {
+        searchInput.addEventListener('input', () => {
+          renderNavList(searchInput.value.trim().toLowerCase());
+        });
+
+        // ESC clears search
+        searchInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            searchInput.value = '';
+            renderNavList('');
+          }
+        });
+      }
+
+      // Event delegation on list container (survives re-renders)
+      const navList = document.getElementById('nav-list');
+      if (navList) {
+        navList.addEventListener('click', (e) => {
+          const item = e.target.closest('.nav-item');
+          if (item && item.dataset.path) {
+            // Exit any active User Flow when manually browsing archive (keeps experiences separate)
+            if (currentFlow) {
+              stopAutoPlay();
+              currentFlow = null;
+              currentStepIndex = 0;
+              const player = document.getElementById('flow-player');
+              if (player) player.classList.add('hidden');
+              document.querySelectorAll('#flow-pills .flow-pill').forEach(p => p.classList.remove('active'));
+              const mf = document.getElementById('meta-flow');
+              if (mf) mf.classList.add('hidden');
+            }
+            loadPrototype(item.dataset.path, item);
+          }
+        });
+      }
+    }
+
+    // === Core Load Function (uses registry for rich metadata) ===
+    function loadPrototype(path, element) {
+      const iframe = document.getElementById('preview-frame');
+      const shell = document.getElementById('device-shell');
+
+      // Power on if not already
+      if (!isPowered) {
+        powerOnDevice();
+      }
+
+      // Show high-quality loading state (yellow accent, console style)
+      showLoadingOverlay(true);
+
+      // Resolve path relative to project root (from gody-app/)
+      iframe.src = '../' + path;
+
+      currentPath = path;
+      setActiveNav(element);
+      applyActiveState();
+
+      // Rich data from registry
+      const page = pageRegistry.find(p => p.path === path) || { displayName: path, category: 'Other', description: '静态复刻原型，可直接交互。' };
+
+      // Update UI label
+      updateCurrentLabel(page.displayName.toUpperCase());
+
+      // Update metadata panel with registry info
+      updateMetadata(
+        page.displayName,
+        page.category,
+        'LOADED',
+        page.description
+      );
+
+      // Gentle device feedback — preserves current zoom + rotation transform
+      const rot = isRotated ? 90 : 0;
+      shell.style.transition = 'transform 80ms cubic-bezier(0.23, 1, 0.32, 1)';
+      shell.style.transform = `scale(${currentZoom * 0.982}) rotate(${rot}deg)`;
+      setTimeout(() => {
+        shell.style.transition = 'transform 0.4s cubic-bezier(0.23, 1.0, 0.32, 1)';
+        shell.style.transform = `scale(${currentZoom}) rotate(${rot}deg)`;
+      }, 160);
+    }
+
     function powerOnDevice() {
       const shell = document.getElementById('device-shell');
       const light = document.getElementById('power-indicator');
@@ -419,7 +1071,6 @@
       light.classList.add('on');
       isPowered = true;
       
-      // Subtle boot animation
       const screen = document.getElementById('screen-container');
       screen.style.transition = 'none';
       screen.style.opacity = '0.2';
@@ -451,96 +1102,420 @@
       }
     }
 
-    function loadPrototype(path, element) {
-      const iframe = document.getElementById('preview-frame');
-      const shell = document.getElementById('device-shell');
+    // === Hardware Simulator Controls (toolbar) ===
+    const BASE_DEVICE_W = 380;
+    const BASE_DEVICE_H = 818;
 
-      // Power on if not already
-      if (!isPowered) {
-        powerOnDevice();
+    function updateDeviceTransform() {
+      const viewport = document.getElementById('device-viewport');
+      const frame = document.getElementById('device-shell');
+      if (!viewport || !frame) return;
+
+      const rot = isRotated ? 90 : 0;
+
+      // Critical fix: The phone hardware (#device-shell) must ALWAYS stay at its native 380x818 size.
+      // This ensures the inner .prototype-screen + iframe always occupy the full correct 375x812 area.
+      // We only apply visual scale + rotation to the viewport wrapper.
+      frame.style.width = BASE_DEVICE_W + 'px';
+      frame.style.height = BASE_DEVICE_H + 'px';
+      frame.style.transform = 'none';   // never scale/rotate the inner frame itself
+
+      // Apply zoom + rotation to the viewport container instead.
+      // This scales/rotates the entire physical phone (bezel + screen) as one unit.
+      viewport.style.transform = `scale(${currentZoom}) rotate(${rot}deg)`;
+
+      // When rotated, we still want the layout to reserve reasonable space.
+      // For simplicity and stability we keep the viewport at base size and let the transform handle visuals.
+      // (This prevents inner content from becoming tiny.)
+      if (isRotated) {
+        viewport.style.width = BASE_DEVICE_H + 'px';
+        viewport.style.height = BASE_DEVICE_W + 'px';
+      } else {
+        viewport.style.width = BASE_DEVICE_W + 'px';
+        viewport.style.height = BASE_DEVICE_H + 'px';
       }
-
-      // Resolve path relative to project root
-      iframe.src = '../' + path;
-
-      setActiveNav(element);
-      currentItem = { path, element };
-
-      // Update UI
-      const niceName = path.split('/')[1] || path;
-      updateCurrentLabel(niceName.toUpperCase());
-
-      // Metadata
-      let module = 'GENERAL';
-      let notes = '静态复刻原型，可直接交互。';
-
-      if (path.includes('login')) {
-        module = 'AUTH';
-        notes = '手机号 + 社交登录入口。';
-      } else if (path.includes('home')) {
-        module = 'CORE';
-        notes = '地图主屏，包含快速操作。';
-      } else if (path.includes('search')) {
-        module = 'DISCOVERY';
-        notes = '位置搜索与推荐流程。';
-      } else if (path.includes('choose') || path.includes('confirm') || path.includes('payment')) {
-        module = 'BOOKING';
-        notes = '完整预订链路。';
-      } else if (path.includes('trip') || path.includes('trips')) {
-        module = 'TRIPS';
-        notes = '用户行程管理视图。';
-      } else if (path.includes('account')) {
-        module = 'ACCOUNT';
-        notes = '个人资料与设置。';
-      }
-
-      updateMetadata(
-        niceName.replace(/-/g, ' ').toUpperCase(),
-        module,
-        'LOADED',
-        notes
-      );
-
-      // Gentle device feedback
-      shell.style.transform = 'scale(0.985)';
-      setTimeout(() => {
-        shell.style.transform = 'scale(1)';
-      }, 180);
     }
 
-    // Keyboard support
+    function setZoom(z, fromSlider = false) {
+      currentZoom = Math.max(0.6, Math.min(1.6, parseFloat(z)));
+      updateDeviceTransform();
+      syncZoomUI(fromSlider);
+    }
+
+    function setZoomPreset(z, btnEl) {
+      // Deactivate other preset buttons
+      document.querySelectorAll('.device-toolbar .tb-btn.preset').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+
+      setZoom(z);
+    }
+
+    function syncZoomUI(fromSlider = false) {
+      const slider = document.getElementById('zoom-slider');
+      const val = document.getElementById('zoom-value');
+      if (slider) slider.value = currentZoom;
+      if (val) val.textContent = Math.round(currentZoom * 100) + '%';
+
+      // Sync preset active states (within tolerance)
+      document.querySelectorAll('.device-toolbar .tb-btn.preset').forEach(b => {
+        const bz = parseFloat(b.dataset.zoom);
+        b.classList.toggle('active', Math.abs(bz - currentZoom) < 0.01);
+      });
+    }
+
+    function toggleRotate() {
+      isRotated = !isRotated;
+      const btn = document.getElementById('rotate-btn');
+      if (btn) {
+        btn.style.color = isRotated ? '#fecc2a' : '';
+        btn.style.borderColor = isRotated ? 'rgba(254,204,42,0.4)' : '';
+      }
+      updateDeviceTransform();
+    }
+
+    function popOutPrototype() {
+      if (!currentPath) {
+        // subtle console feedback only
+        console.log('%c[GODY] No prototype loaded to pop out.', 'color:#6E6A61');
+        return;
+      }
+      const url = '../' + currentPath;
+      window.open(url, '_blank');
+    }
+
+    function reloadPrototype() {
+      const iframe = document.getElementById('preview-frame');
+      const overlay = document.getElementById('load-overlay');
+      if (!iframe || iframe.src.includes('about:blank')) return;
+
+      // Show loading briefly for polish
+      if (overlay) {
+        overlay.classList.remove('hidden');
+        overlay.style.opacity = '1';
+      }
+
+      // Force reload while preserving currentPath
+      const currentSrc = iframe.src;
+      iframe.src = 'about:blank';
+      setTimeout(() => {
+        iframe.src = currentSrc;
+        // onload handler below will hide overlay
+      }, 60);
+    }
+
+    function showLoadingOverlay(show) {
+      const overlay = document.getElementById('load-overlay');
+      if (!overlay) return;
+      if (show) {
+        overlay.style.transition = 'none';
+        overlay.style.opacity = '1';
+        overlay.classList.remove('hidden');
+      } else {
+        overlay.style.transition = 'opacity 260ms cubic-bezier(0.23, 1, 0.32, 1)';
+        overlay.style.opacity = '0';
+        setTimeout(() => {
+          overlay.classList.add('hidden');
+          overlay.style.opacity = '1';
+          overlay.style.transition = 'none';
+        }, 260);
+      }
+    }
+
+    // === User Flow Player Implementation (calls existing loadPrototype, matches 黄控台 style) ===
+    function renderFlowPills() {
+      const container = document.getElementById('flow-pills');
+      if (!container) return;
+      container.innerHTML = '';
+      USER_FLOWS.forEach(flow => {
+        const pill = document.createElement('button');
+        pill.className = 'flow-pill';
+        pill.textContent = flow.name;
+        pill.title = `加载用户旅程：${flow.name}`;
+        pill.onclick = () => selectFlow(flow.id);
+        container.appendChild(pill);
+      });
+    }
+
+    function selectFlow(flowId) {
+      stopAutoPlay();
+      const flow = USER_FLOWS.find(f => f.id === flowId);
+      if (!flow || !flow.steps.length) return;
+
+      currentFlow = flow;
+      currentStepIndex = 0;
+
+      // Highlight the active pill (metal yellow state)
+      document.querySelectorAll('#flow-pills .flow-pill').forEach(p => {
+        p.classList.toggle('active', p.textContent === flow.name);
+      });
+
+      // Reveal player panel
+      const player = document.getElementById('flow-player');
+      if (player) player.classList.remove('hidden');
+
+      // Load first step via the existing core function (device updates)
+      const firstStep = flow.steps[0];
+      loadPrototype(firstStep.path);
+
+      updateFlowPlayerUI();
+      updateFlowMeta();
+    }
+
+    function updateFlowPlayerUI() {
+      if (!currentFlow) return;
+      const step = currentFlow.steps[currentStepIndex];
+      if (!step) return;
+
+      const nameEl = document.getElementById('flow-name');
+      const stepEl = document.getElementById('flow-step');
+      const titleEl = document.getElementById('flow-step-title');
+
+      if (nameEl) nameEl.textContent = currentFlow.name.toUpperCase();
+      if (stepEl) stepEl.textContent = `${currentStepIndex + 1} / ${currentFlow.steps.length}`;
+      if (titleEl) titleEl.textContent = step.title;
+
+      // Progress bar (yellow accent)
+      const pct = Math.round(((currentStepIndex + 1) / currentFlow.steps.length) * 100);
+      const bar = document.getElementById('flow-progress-bar');
+      if (bar) bar.style.width = pct + '%';
+
+      // Dots (completed / current with yellow)
+      const dotsContainer = document.getElementById('flow-dots');
+      if (dotsContainer) {
+        dotsContainer.innerHTML = '';
+        currentFlow.steps.forEach((s, i) => {
+          const d = document.createElement('div');
+          d.className = 'flow-dot';
+          if (i < currentStepIndex) d.classList.add('completed');
+          else if (i === currentStepIndex) d.classList.add('current');
+          d.title = `${i + 1}. ${s.title}`;
+          dotsContainer.appendChild(d);
+        });
+      }
+    }
+
+    function updateFlowMeta() {
+      const metaFlow = document.getElementById('meta-flow');
+      const metaFlowText = document.getElementById('meta-flow-text');
+      if (!metaFlow || !metaFlowText) return;
+
+      if (currentFlow) {
+        const total = currentFlow.steps.length;
+        metaFlowText.textContent = `Step ${currentStepIndex + 1}/${total} · ${currentFlow.name}`;
+        metaFlow.classList.remove('hidden');
+      } else {
+        metaFlow.classList.add('hidden');
+      }
+    }
+
+    function nextFlowStep() {
+      if (!currentFlow) return;
+      stopAutoPlay();
+      if (currentStepIndex < currentFlow.steps.length - 1) {
+        currentStepIndex++;
+        const step = currentFlow.steps[currentStepIndex];
+        loadPrototype(step.path);
+        updateFlowPlayerUI();
+        updateFlowMeta();
+      }
+    }
+
+    function prevFlowStep() {
+      if (!currentFlow) return;
+      stopAutoPlay();
+      if (currentStepIndex > 0) {
+        currentStepIndex--;
+        const step = currentFlow.steps[currentStepIndex];
+        loadPrototype(step.path);
+        updateFlowPlayerUI();
+        updateFlowMeta();
+      }
+    }
+
+    function restartFlow() {
+      if (!currentFlow) return;
+      stopAutoPlay();
+      currentStepIndex = 0;
+      const step = currentFlow.steps[0];
+      loadPrototype(step.path);
+      updateFlowPlayerUI();
+      updateFlowMeta();
+      // Keep pill active
+      document.querySelectorAll('#flow-pills .flow-pill').forEach(p => {
+        p.classList.toggle('active', p.textContent === currentFlow.name);
+      });
+    }
+
+    function toggleAutoPlay() {
+      const text = document.getElementById('flow-auto-text');
+      const icon = document.getElementById('flow-auto-icon');
+      const btn = document.getElementById('flow-auto-btn');
+
+      if (!currentFlow) return;
+
+      if (autoPlayTimer) {
+        stopAutoPlay();
+      } else {
+        if (text) text.textContent = '暂停';
+        if (icon) icon.className = 'fa-solid fa-pause fa-xs';
+        if (btn) btn.style.borderColor = 'rgba(254,204,42,0.55)';
+
+        autoPlayTimer = setInterval(() => {
+          if (!currentFlow) {
+            stopAutoPlay();
+            return;
+          }
+          if (currentStepIndex < currentFlow.steps.length - 1) {
+            currentStepIndex++;
+            const step = currentFlow.steps[currentStepIndex];
+            loadPrototype(step.path);
+            updateFlowPlayerUI();
+            updateFlowMeta();
+          } else {
+            stopAutoPlay();
+          }
+        }, 1200);
+      }
+    }
+
+    function stopAutoPlay() {
+      if (autoPlayTimer) {
+        clearInterval(autoPlayTimer);
+        autoPlayTimer = null;
+      }
+      const text = document.getElementById('flow-auto-text');
+      const icon = document.getElementById('flow-auto-icon');
+      const btn = document.getElementById('flow-auto-btn');
+      if (text) text.textContent = '自动播放';
+      if (icon) icon.className = 'fa-solid fa-play fa-xs';
+      if (btn) btn.style.borderColor = '';
+    }
+
+    function setupFlowPlayer() {
+      // Wire robust listeners (HTML buttons have no inline handlers)
+      const nextBtn = document.getElementById('flow-next-btn');
+      const prevBtn = document.getElementById('flow-prev-btn');
+      const restartBtn = document.getElementById('flow-restart-btn');
+      const autoBtn = document.getElementById('flow-auto-btn');
+
+      if (nextBtn) nextBtn.addEventListener('click', nextFlowStep);
+      if (prevBtn) prevBtn.addEventListener('click', prevFlowStep);
+      if (restartBtn) restartBtn.addEventListener('click', restartFlow);
+      if (autoBtn) autoBtn.addEventListener('click', toggleAutoPlay);
+
+      // Populate the list of metal flow pills
+      renderFlowPills();
+    }
+
+    // Non-breaking enhancement: reset flow state cleanly on power off
+    const _origPowerOffDevice = powerOffDevice;
+    powerOffDevice = function() {
+      if (typeof _origPowerOffDevice === 'function') _origPowerOffDevice();
+      stopAutoPlay();
+      currentFlow = null;
+      currentStepIndex = 0;
+      const player = document.getElementById('flow-player');
+      if (player) player.classList.add('hidden');
+      document.querySelectorAll('#flow-pills .flow-pill').forEach(p => p.classList.remove('active'));
+      const mf = document.getElementById('meta-flow');
+      if (mf) mf.classList.add('hidden');
+    };
+
+    // === Keyboard support (enhanced) ===
     document.addEventListener('keydown', function(e) {
       if (e.key === '/' && document.activeElement.tagName === 'BODY') {
         e.preventDefault();
-        const first = document.querySelector('.nav-item');
-        if (first) first.click();
+        const search = document.getElementById('nav-search');
+        if (search) {
+          search.focus();
+          search.select();
+        } else {
+          const first = document.querySelector('#nav-list .nav-item');
+          if (first) first.click();
+        }
       }
       if (e.key.toLowerCase() === 'p') {
         powerCycle();
       }
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        const search = document.getElementById('nav-search');
+        if (search) {
+          search.focus();
+          search.select();
+        }
+      }
     });
 
-    // Boot sequence
-    window.onload = function() {
+    // === Initialization ===
+    async function initConsole() {
+      await loadRegistry();
+
+      // Initial renders
+      renderCategoryFilters();
+      renderNavList('');
+
+      // Wire up search + clicks
+      setupNavControls();
+
+      // Initialize User Flow Player (pills + controls + wiring)
+      setupFlowPlayer();
+
+      // === Hardware simulator init (toolbar controls + loading) ===
+      // Initial transform state (ensures viewport + frame match defaults)
+      updateDeviceTransform();
+      syncZoomUI();
+
+      // Attach single load listener for prototype iframe — hides loading overlay cleanly
+      const iframeEl = document.getElementById('preview-frame');
+      if (iframeEl) {
+        iframeEl.addEventListener('load', () => {
+          // Hide loading if visible (covers both loadPrototype + reloads)
+          const overlay = document.getElementById('load-overlay');
+          if (overlay && !overlay.classList.contains('hidden')) {
+            showLoadingOverlay(false);
+          }
+        });
+      }
+
+      // Boot indicator
       const light = document.getElementById('power-indicator');
-      
-      // Initial subtle state
       setTimeout(() => {
-        light.style.background = '#3A3A36';
+        if (light) light.style.background = '#3A3A36';
       }, 600);
 
-      // Auto-load first prototype after a moment (optional dramatic effect)
+      // Optional: auto-load a sensible default (commented for clean start)
       setTimeout(() => {
-        const firstNav = document.querySelector('.nav-item');
-        if (firstNav && !currentItem) {
-          // Uncomment the next line if you want auto-load on visit
-          // loadPrototype('login-page/index.html', firstNav);
+        if (!currentPath) {
+          // Uncomment to auto-load on open:
+          // const login = pageRegistry.find(p => p.path.includes('login'));
+          // if (login) {
+          //   const el = document.querySelector(`#nav-list .nav-item[data-path="${login.path}"]`);
+          //   loadPrototype(login.path, el);
+          // }
         }
-      }, 1200);
-    };
+      }, 900);
 
-    // Expose for debugging
-    window.GODY_CONSOLE = { loadPrototype, powerCycle };
+      // Expose rich API (including new hardware controls + User Flow Player)
+      window.GODY_CONSOLE = { 
+        loadPrototype, 
+        powerCycle, 
+        loadRegistry, 
+        renderNavList, 
+        getRegistry: () => pageRegistry,
+        setZoom, 
+        toggleRotate,
+        popOutPrototype,
+        reloadPrototype,
+        // Flow player controls (public)
+        selectFlow, renderFlowPills, nextFlowStep, prevFlowStep, restartFlow, toggleAutoPlay, getCurrentFlow: () => ({ flow: currentFlow, step: currentStepIndex })
+      };
+
+      console.log('%c[GODY Console] Dynamic registry navigation ready — ' + pageRegistry.length + ' prototypes loaded.', 'color:#B8B5B0');
+    }
+
+    // Start everything
+    window.onload = initConsole;
   </script>
 </body>
 </html>
