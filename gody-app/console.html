@@ -113,16 +113,35 @@
     .prototype-screen {
       position: absolute;
       inset: 0;
-      background: #F5F3ED;
+      /* Visuals (bg, border, shadow, radius) are delegated to inner .screen-content
+         so the logical viewport is *guaranteed* to be exactly 375×812.
+         The ~2.5px/3px ring around .screen-content reveals the .device-bevel
+         (#0C0C0A) — this is the current bevel math: 380×818 hardware face
+         minus the precise display glass yields the documented 375×812 target
+         (plus the decorative GODY label bar at top and home indicator at bottom
+         are overlaid via sibling absolutes). */
       border-radius: 46px;
       overflow: hidden;
-      box-shadow: inset 0 0 0 1px #2A2926;
     }
 
     .prototype-screen iframe {
       width: 100%;
       height: 100%;
       border: none;
+    }
+
+    /* Robust explicit logical screen viewport (production-grade) */
+    .screen-content {
+      position: absolute;
+      width: 375px;
+      height: 812px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: #F5F3ED;
+      border-radius: 46px;
+      box-shadow: inset 0 0 0 1px #2A2926;
+      overflow: hidden;
     }
 
     .section-label {
@@ -593,19 +612,23 @@
                 </div>
               </div>
 
-              <div id="screen-container" class="prototype-screen mt-9 mx-2 mb-2 relative">
-                <!-- The iframe must always render at the correct 375x812 logical size relative to the phone bezel -->
-                <iframe id="preview-frame" src="about:blank" class="w-full h-full" style="width: 100%; height: 100%;"></iframe>
-                <div class="scanline"></div>
-                <div class="subtle-grain absolute inset-0 rounded-[46px]"></div>
-                <!-- Loading overlay -->
-                <div id="load-overlay" class="load-overlay hidden absolute inset-0 z-40 flex items-center justify-center rounded-[46px]">
-                  <div class="text-center">
-                    <div class="text-[#fecc2a] text-[10px] console-font tracking-[2.5px] mb-0.5 flex items-center justify-center gap-x-1.5">
-                      <i class="fa-solid fa-circle-notch fa-spin"></i>
-                      <span>LOADING PROTOTYPE</span>
+              <div id="screen-container" class="prototype-screen">
+                <!-- The iframe must always render at the *exact* 375x812 logical size.
+                     .screen-content wrapper guarantees this target regardless of bevel padding/offsets.
+                     Fully compatible with device-viewport transforms, overlays, scanlines, grain, etc. -->
+                <div class="screen-content">
+                  <iframe id="preview-frame" src="about:blank" class="w-full h-full" style="width: 100%; height: 100%;"></iframe>
+                  <div class="scanline"></div>
+                  <div class="subtle-grain absolute inset-0 rounded-[46px]"></div>
+                  <!-- Loading overlay -->
+                  <div id="load-overlay" class="load-overlay hidden absolute inset-0 z-40 flex items-center justify-center rounded-[46px]">
+                    <div class="text-center">
+                      <div class="text-[#fecc2a] text-[10px] console-font tracking-[2.5px] mb-0.5 flex items-center justify-center gap-x-1.5">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i>
+                        <span>LOADING PROTOTYPE</span>
+                      </div>
+                      <div class="text-[#B8B5B0] text-[8px] console-font tracking-wider opacity-75">PLEASE WAIT</div>
                     </div>
-                    <div class="text-[#B8B5B0] text-[8px] console-font tracking-wider opacity-75">PLEASE WAIT</div>
                   </div>
                 </div>
               </div>
