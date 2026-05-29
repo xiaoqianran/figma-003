@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================
+   GODY 黄控台 (Industrial Archive Aesthetic)
+   Design Tokens - Matching previous high-quality console
+========================================= */
+:root {
+  --yellow: #fecc2a;
+  --ink: #0A0908;
+  --paper: #F5F3ED;
+  --steel: #B8B5B0;
+  --metal-dark: #11110F;
+  --metal: #1A1916;
+  --metal-light: #22211D;
+  --alert: #C53D3D;
+}
+
+body {
+  font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+  background-color: var(--ink);
+  color: #EDEBE5;
+}
+
+/* Console / Industrial fonts */
+.console-font {
+  font-family: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
+  font-feature-settings: "tnum";
+}
+
+.display-font {
+  font-family: "Playfair Display", Georgia, "Songti SC", serif;
+  font-feature-settings: "palt";
+}
+
+/* Lab grid background */
+.lab-grid {
+  background-image: 
+    linear-gradient(rgba(184, 181, 176, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184, 181, 176, 0.035) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Metal card style */
+.metal {
+  background: linear-gradient(var(--metal-dark), var(--metal));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+  border: 1px solid #22221F;
+}
+
+/* Hardware device styles (preserved from previous high-quality version) */
+.hardware-frame {
+  width: 380px;
+  height: 818px;
+  background: #11110F;
+  border-radius: 68px;
+  padding: 14px;
+  box-shadow: 
+    0 0 0 1px #22221F,
+    0 40px 80px -20px rgba(0, 0, 0, 0.6),
+    0 20px 30px -10px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px #2A2926;
+  position: relative;
+}
+
+.device-bevel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #0C0C0A;
+  border-radius: 54px;
+  overflow: hidden;
+  box-shadow: 
+    inset 0 2px 4px rgba(255,255,255,0.06),
+    inset 0 -4px 8px rgba(0,0,0,0.5);
+}
+
+.prototype-screen {
+  position: absolute;
+  inset: 0;
+  background: #F5F3ED;
+  border-radius: 46px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px #2A2926;
+}
+
+.prototype-screen iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Section labels */
+.section-label {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  color: #B8B5B0;
+}
+
+/* Reusable metal buttons */
+.tb-btn {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: #1A1916;
+  border: 1px solid #2A2926;
+  color: #B8B5B0;
+  transition: all 0.1s ease;
+  white-space: nowrap;
+}
+
+.tb-btn:hover {
+  color: #fecc2a;
+  border-color: rgba(254, 204, 42, 0.4);
+}
+
+.tb-btn.active {
+  background: #fecc2a;
+  color: #0A0908;
+  border-color: #fecc2a;
+  font-weight: 600;
+}
