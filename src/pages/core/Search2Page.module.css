@@ -1,0 +1,262 @@
+/* Search2Page.module.css - 1:1 pixel-perfect from search2-page/index.html */
+
+.searchHeader {
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+}
+
+.backButton {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #49493d;
+  transition: all 0.2s ease;
+}
+
+.backButton:hover {
+  color: #fecc2a;
+  transform: scale(1.2);
+}
+
+/* Search results top section */
+.searchResults {
+  margin: 0 24px 24px;
+}
+
+.searchResultItem {
+  margin-bottom: 12px;
+  padding: 12px 16px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.searchResultItem:last-child {
+  margin-bottom: 0;
+}
+
+.resultContent {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.resultDot {
+  width: 8px;
+  height: 8px;
+  background: #fecc2a;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.resultInfo {
+  flex: 1;
+}
+
+.resultLabel {
+  font-size: 12px;
+  color: #959595;
+  margin-bottom: 2px;
+}
+
+.resultValue {
+  font-size: 16px;
+  color: #49493d;
+  font-weight: 500;
+}
+
+.resultAction {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #959595;
+}
+
+.resultAction.close {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Location options */
+.locationOptions {
+  margin: 0 24px 24px;
+}
+
+.locationOption {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 12px;
+}
+
+.locationOption:last-child {
+  margin-bottom: 0;
+}
+
+.locationOption:hover {
+  background: #f0f1f5;
+  transform: translateY(-1px);
+}
+
+.locationIcon {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  font-size: 16px;
+}
+
+.locationText {
+  color: #49493d;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.locationArrow {
+  margin-left: auto;
+  color: #959595;
+}
+
+/* Airport option */
+.airportOption {
+  display: flex;
+  align-items: flex-start;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0 24px 12px;
+}
+
+.airportOption.selected {
+  background: #fff9e6;
+}
+
+.airportOption:hover {
+  background: #f0f1f5;
+  transform: translateY(-1px);
+}
+
+.airportIcon {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  margin-top: 2px;
+  font-size: 16px;
+  color: #fecc2a;
+}
+
+.airportDetails {
+  flex: 1;
+}
+
+.airportName {
+  font-size: 16px;
+  color: #49493d;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.airportAddress {
+  font-size: 14px;
+  color: #959595;
+  line-height: 1.4;
+}
+
+/* Virtual Keyboard - identical structure to Search1 for fidelity */
+.virtualKeyboard {
+  margin-top: auto;
+  background: #dfe0e5;
+  padding: 8px 0;
+  flex-shrink: 0;
+}
+
+.keyboardRow {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 8px;
+  padding: 0 8px;
+}
+
+.key {
+  min-width: 32px;
+  height: 42px;
+  background: #fcfcfe;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: #49493d;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  flex: 1;
+  max-width: 36px;
+  user-select: none;
+}
+
+.key:active {
+  background: #e8e8ea;
+  transform: scale(0.95);
+}
+
+.keyWide {
+  flex: 2;
+  max-width: none;
+}
+
+.keySpace {
+  flex: 4;
+  max-width: none;
+}
+
+.keyReturn {
+  flex: 1.5;
+  max-width: none;
+  font-size: 12px;
+}
+
+.keyNumber {
+  font-size: 12px;
+}
+
+.keySpecial {
+  background: #e8e8ea;
+}
+
+.keySpecial.active {
+  background: #fecc2a;
+}
+
+.keyboardToolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 24px;
+  background: #f0f1f5;
+}
+
+.toolbarIcon {
+  width: 24px;
+  height: 24px;
+  font-size: 18px;
+  cursor: pointer;
+  color: #49493d;
+  transition: transform 0.1s ease;
+}
+
+.toolbarIcon:active {
+  transform: scale(0.9);
+}

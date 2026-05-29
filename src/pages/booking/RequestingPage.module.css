@@ -1,0 +1,121 @@
+/* RequestingPage specific styles */
+.tripInfoCard {
+  margin: 0 24px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 40px 0px rgba(0,0,0,0.1);
+  background: #ffffff;
+  padding: 20px 108px 19px 16px;
+}
+
+.pickupTime {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+}
+
+.timeValue {
+  color: #fecc2a;
+  font-weight: 500;
+}
+
+.destination {
+  margin: 19px 0 0;
+  font-size: 20px;
+  font-weight: 500;
+  color: #49493d;
+}
+
+.departureInfo {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: #959595;
+}
+
+.priceRange {
+  margin: 16px 0 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #49493d;
+}
+
+.actionCard {
+  margin: 20px 24px 0;
+  border-radius: 12px;
+  box-shadow: 0px 4px 40px 0px rgba(0,0,0,0.1);
+  background: #ffffff;
+  padding: 24px 14px 28px 16px;
+}
+
+.actionItem {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.actionItem + .actionItem {
+  margin-top: 24px;
+}
+
+.actionContent {
+  display: flex;
+  align-items: flex-start;
+  padding-right: 0;
+  padding-left: 2px;
+}
+
+.actionIcon {
+  width: 20px;
+  height: 20px;
+  font-size: 16px;
+  margin-right: 12px;
+}
+
+.actionText {
+  margin: 0 0 0 12px;
+  font-size: 14px;
+  color: #49493d;
+}
+
+.actionLink {
+  margin: 4px 0 0 60px;
+  font-size: 12px;
+  color: #fecc2a;
+}
+
+.divider {
+  margin-top: 10px;
+  background: #f3f3f3;
+  width: 295px;
+  height: 1px;
+}
+
+.cancelButton {
+  margin-top: 20px;
+  margin-right: 2px;
+  border-radius: 12px;
+  background: #f3f3f3;
+  padding: 12px 123px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+.cancelText {
+  font-size: 16px;
+  font-weight: 500;
+  color: #ff3838;
+}
+
+.promoInfo {
+  margin: 11px 0 0 24px;
+  font-size: 12px;
+  color: #959595;
+}
+
+.promoDetail {
+  margin: 10px 0 0 24px;
+  width: 327px;
+  font-size: 14px;
+  color: #49493d;
+}

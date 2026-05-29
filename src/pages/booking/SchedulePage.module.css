@@ -1,0 +1,244 @@
+/* SchedulePage specific styles - dark map + picker modal */
+.scheduleContainer {
+  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  width: 375px;
+  height: 812px;
+  overflow: hidden;
+  border-radius: 20px;
+  position: relative;
+}
+
+.mapArea {
+  position: relative;
+  height: 300px;
+  margin-top: 20px;
+}
+
+.mapBackground {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.mapGrid {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.mapCar {
+  position: absolute;
+  width: 16px;
+  height: 32px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.locationPin {
+  position: absolute;
+  bottom: 60px;
+  right: 80px;
+  width: 20px;
+  height: 20px;
+  background: #fecc2a;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.locationPin::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px; height: 6px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.scheduleModal {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  padding: 24px;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+}
+
+.dragHandle {
+  width: 40px;
+  height: 4px;
+  background: #ddd;
+  border-radius: 2px;
+  margin: 0 auto 20px;
+}
+
+.modalTitle {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: #49493d;
+  margin-bottom: 8px;
+}
+
+.modalSubtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #959595;
+  margin-bottom: 4px;
+}
+
+.modalTime {
+  text-align: center;
+  font-size: 16px;
+  color: #49493d;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.datetimePicker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.timeColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60px;
+}
+
+.timeItem {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #959595;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 0 12px;
+  margin: 2px 0;
+}
+
+.timeItem.active {
+  color: #49493d;
+  font-weight: 600;
+  background: #f8f9fa;
+}
+
+.timeItem.selected {
+  color: #fecc2a;
+  font-weight: 700;
+  background: #fff9e6;
+}
+
+.timeItem:hover {
+  background: #f0f0f0;
+}
+
+.separator {
+  width: 1px;
+  height: 120px;
+  background: #e0e0e0;
+  margin: 0 16px;
+}
+
+.ampmColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50px;
+}
+
+.ampmItem {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #959595;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 0 16px;
+  margin: 2px 0;
+}
+
+.ampmItem.active {
+  color: #49493d;
+  font-weight: 600;
+  background: #f8f9fa;
+}
+
+.ampmItem.selected {
+  color: #fecc2a;
+  font-weight: 700;
+  background: #fff9e6;
+}
+
+.modalButtons {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.btn {
+  flex: 1;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.btnCancel {
+  background: #f8f9fa;
+  color: #959595;
+}
+
+.btnCancel:hover {
+  background: #e9ecef;
+}
+
+.btnContinue {
+  background: #fecc2a;
+  color: #49493d;
+}
+
+.btnContinue:hover {
+  background: #e6b824;
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.homeIndicator {
+  display: flex;
+  justify-content: center;
+  padding: 21px 0 8px;
+  margin-top: 20px;
+}
+
+.indicator {
+  width: 134px;
+  height: 5px;
+  background: #49493d;
+  border-radius: 100px;
+}

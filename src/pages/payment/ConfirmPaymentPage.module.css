@@ -1,0 +1,81 @@
+/* ConfirmPaymentPage */
+.container {
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.mapArea {
+  height: 496px;
+  background: linear-gradient(135deg, #e8f4f8 0%, #d4edda 50%, #fff3cd 100%);
+  position: relative;
+}
+
+.mapGrid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.header {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  right: 0;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.helpBtn {
+  background: #fff;
+  border-radius: 12px;
+  padding: 8px 24px;
+  box-shadow: 0 4px 40px rgba(0,0,0,0.1);
+  font-weight: 500;
+}
+
+.confirmCard {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 24px 24px 0 0;
+  padding: 32px 24px;
+  box-shadow: 0 -4px 40px rgba(0,0,0,0.1);
+}
+
+.price {
+  font-size: 26px;
+  font-weight: 500;
+  margin: 12px 0;
+}
+
+.paymentRow {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 12px 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 40px rgba(0,0,0,0.1);
+  margin: 18px 0;
+  cursor: pointer;
+}
+
+.confirmBtn {
+  background: #fecc2a;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 500;
+  width: 100%;
+  cursor: pointer;
+  margin-top: 12px;
+}

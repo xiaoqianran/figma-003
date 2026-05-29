@@ -1,0 +1,65 @@
+import React from 'react';
+import { StatusBar, HomeIndicator } from '../../components/mobile';
+import styles from './ConfirmPaymentPage.module.css';
+import { useDemoState } from '../../context/DemoStateContext';
+import { useToast } from '../../components/ui';
+
+interface ConfirmPaymentPageProps {
+  onNavigate?: (pageId: string) => void;
+}
+
+const ConfirmPaymentPage: React.FC<ConfirmPaymentPageProps> = ({ onNavigate }) => {
+  const { selectedPayment, activeTrip, addRecentAction, setActiveTrip } = useDemoState();
+  const { success } = useToast();
+
+  const confirm = () => {
+    addRecentAction(`Confirmed payment with ${selectedPayment.label} for trip`);
+    // On confirm payment, promote trip to in-progress if one exists
+    if (activeTrip) {
+      setActiveTrip({ ...activeTrip, status: 'in-progress' });
+    }
+    success('支付成功', '支付确认成功！行程已预订 (demo state updated)');
+    onNavigate?.('trips-upcoming');
+  };
+
+  return (
+    <div className="mobile-frame">
+      <div className={styles.container}>
+        <StatusBar />
+
+        <div className={styles.mapArea}>
+          <div className={styles.mapGrid} />
+
+          <div className={styles.header}>
+            <div onClick={() => onNavigate?.('payment-select')} style={{ fontSize: 22, cursor: 'pointer' }}>←</div>
+            <div className={styles.helpBtn}>Help</div>
+          </div>
+
+          <div className={styles.confirmCard}>
+            <div style={{ fontWeight: 500, fontSize: 16 }}>Confirm price</div>
+            <div className={styles.price}>$3.00 to reserve</div>
+            <div style={{ fontSize: 13, color: '#49493d' }}>Save up to 15% on all routes when you ride with Gody and Pool in the San Francisco metropolitan area.</div>
+
+            <div className={styles.paymentRow} onClick={() => onNavigate?.('payment-select')}>
+              {selectedPayment.type === 'visa' ? (
+                <div style={{ background: 'linear-gradient(45deg,#1a1f71,#0066cc)', color: '#fff', padding: '2px 8px', borderRadius: 3, fontSize: 10, fontWeight: 700 }}>VISA</div>
+              ) : (
+                <div style={{ background: '#fecc2a', color: '#0A0908', padding: '2px 8px', borderRadius: 3, fontSize: 10, fontWeight: 700 }}>GODY</div>
+              )}
+              <div style={{ marginLeft: 12, fontWeight: 700 }}>{selectedPayment.label}</div>
+              <div style={{ marginLeft: 'auto', color: '#fecc2a', fontSize: 14 }}>Change</div>
+            </div>
+
+            <button className={styles.confirmBtn} onClick={confirm}>
+              Confirm
+            </button>
+          </div>
+        </div>
+
+        <HomeIndicator />
+      </div>
+    </div>
+  );
+};
+
+export default ConfirmPaymentPage;

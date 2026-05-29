@@ -1,0 +1,650 @@
+/* =========================================
+   GODY Prototypes - Shared Mobile Chrome & Primitives
+   Extracted & adapted from original static HTML for React migration
+   All values preserve original visual fidelity (colors, radii, shadows, spacing)
+========================================= */
+
+/* Base mobile frame used by all page components */
+.mobile-frame {
+  width: 375px;
+  height: 812px;
+  background: #ffffff;
+  overflow: hidden;
+  border-radius: 20px;
+  position: relative;
+  font-family: Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Taller variant used by a few pages (choose-car, some confirms) */
+.mobile-frame-tall {
+  height: 858px;
+}
+
+/* Status Bar - common across almost all pages */
+.status-bar {
+  width: 100%;
+  height: 40px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 100;
+}
+
+.status-bar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.status-bar .time {
+  font-size: 14px;
+  font-weight: 600;
+  color: #000000;
+}
+
+.status-bar .status-icons {
+  display: flex;
+  gap: 4px;
+  font-size: 12px;
+}
+
+/* Home Indicator (bottom rounded pill) */
+.home-indicator {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: auto;
+  padding: 21px 0 8px;
+  width: 100%;
+  flex-shrink: 0;
+  background: inherit;
+}
+
+.home-indicator .indicator {
+  border-radius: 100px;
+  background: #49493d;
+  width: 134px;
+  height: 5px;
+}
+
+/* Top Navigation (back arrow + optional title) */
+.top-nav {
+  display: flex;
+  align-items: center;
+  padding: 12px 24px;
+  z-index: 50;
+}
+
+.top-nav .back-arrow {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  font-size: 18px;
+  color: #49493d;
+  user-select: none;
+}
+
+.top-nav .nav-title {
+  flex: 1;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0A0908;
+  margin-right: 16px;
+}
+
+/* Common button styles */
+.primary-btn {
+  background: #fecc2a;
+  color: #0A0908;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s ease, opacity 0.1s;
+}
+
+.primary-btn:active {
+  transform: scale(0.985);
+  opacity: 0.9;
+}
+
+.secondary-btn {
+  background: #ffffff;
+  color: #49493d;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Vehicle Card base (for choose-car etc) */
+.vehicle-card {
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+  border-radius: 16px;
+  border: 1px solid #e8e8e8;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 12px;
+}
+
+.vehicle-card.selected {
+  border-color: #fecc2a;
+  box-shadow: 0 4px 12px rgba(254, 204, 42, 0.15);
+  background: #fffdf5;
+}
+
+.vehicle-card .vehicle-image {
+  font-size: 32px;
+  margin-right: 16px;
+}
+
+.vehicle-card .vehicle-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0A0908;
+}
+
+.vehicle-card .vehicle-description {
+  font-size: 12px;
+  color: #6E6A61;
+  margin-top: 2px;
+}
+
+.vehicle-card .vehicle-price {
+  margin-left: auto;
+  font-size: 15px;
+  font-weight: 600;
+  color: #0A0908;
+}
+
+/* Star Rating (for evaluate pages) */
+.star {
+  font-size: 28px;
+  color: #ddd;
+  cursor: pointer;
+  transition: color 0.1s;
+  margin-right: 4px;
+}
+.star.filled,
+.star:hover {
+  color: #fecc2a;
+}
+
+/* Form inputs & textareas matching prototype style */
+.proto-input,
+.proto-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #bdbdbd;
+  border-radius: 12px;
+  font-size: 14px;
+  background: #fff;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+.proto-input:focus,
+.proto-textarea:focus {
+  border-color: #fecc2a;
+  outline: none;
+}
+.proto-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* List item row */
+.list-row {
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+}
+.list-row:active {
+  background: #f9f9f7;
+}
+.list-row:last-child {
+  border-bottom: none;
+}
+
+/* Status badge */
+.status-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* Map pin helper */
+.map-pin {
+  position: absolute;
+  font-size: 22px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  z-index: 5;
+}
+.map-pin.selected {
+  transform: scale(1.3);
+  filter: drop-shadow(0 2px 4px rgba(254,204,42,0.5));
+}
+
+/* Payment card */
+.payment-card {
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.payment-card.selected {
+  border-color: #fecc2a;
+}
+
+/* Map mock area (simple gradient + grid used in several pages) */
+.map-mock {
+  background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.map-mock-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Generic card / panel */
+.info-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 16px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+/* Text styles matching original */
+.text-label {
+  font-size: 14px;
+  color: #49493d;
+  font-weight: 500;
+}
+
+.text-muted {
+  color: #959595;
+  font-size: 12px;
+}
+
+/* Focus states for inputs (yellow accent) */
+.input-focus-yellow:focus {
+  border-color: #fecc2a !important;
+  outline: none;
+}
+
+/* For pages that need full height scrollable content inside 812px */
+.page-scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Console / industrial accents preserved */
+.gody-yellow {
+  color: #fecc2a;
+}
+
+/* Remove any body centering that was for standalone HTML */
+.mobile-frame body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+/* =========================================
+   ADDITIONAL SHARED CLASSES FOR BATCH MIGRATIONS
+   Cards, lists, forms, badges, loading, toggles, driver info etc.
+========================================= */
+
+/* Enhanced Trip Card styles (used by trips pages) */
+.trip-card {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #eee;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  padding: 14px 16px;
+  margin: 8px 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.trip-card:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.trip-card.selected {
+  border-color: #fecc2a;
+  box-shadow: 0 0 0 3px rgba(254,204,42,0.1);
+}
+
+/* Status variants for badges inside cards */
+.trip-card .status-upcoming { background: #E8F4E8; color: #2E7D32; }
+.trip-card .status-in-progress { background: #FFF3E0; color: #E65100; }
+.trip-card .status-completed { background: #E3F2FD; color: #1565C0; }
+.trip-card .status-cancelled { background: #FFEBEE; color: #C62828; }
+
+/* Driver Info Card (common in confirm-pickup, trips) */
+.driver-info-card {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  background: #fff;
+  border-radius: 16px;
+  margin: 16px 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.driver-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.driver-details {
+  flex: 1;
+  margin-left: 14px;
+}
+.driver-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0A0908;
+}
+.driver-vehicle {
+  font-size: 13px;
+  color: #6E6A61;
+  margin-top: 2px;
+}
+.driver-phone {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f3;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* Driver Rating row (with stars) */
+.driver-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 24px;
+  font-size: 14px;
+  color: #49493d;
+}
+.star-icon {
+  color: #fecc2a;
+  font-size: 12px;
+}
+
+/* Rating Card for evaluate pages */
+.rating-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 20px;
+  margin: 16px 24px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+/* Star Rating component styles */
+.star-rating {
+  display: inline-flex;
+  gap: 4px;
+  margin: 12px 0;
+}
+.star {
+  font-size: 28px;
+  color: #e0e0e0;
+  cursor: pointer;
+  transition: transform 0.1s, color 0.1s;
+  user-select: none;
+}
+.star.filled, .star.active {
+  color: #fecc2a;
+}
+.star:hover {
+  transform: scale(1.2);
+}
+
+/* Option Card (used in pickup confirms, settings) */
+.option-card {
+  display: flex;
+  align-items: center;
+  padding: 14px 18px;
+  margin: 8px 24px;
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.option-card:hover, .option-card:active {
+  border-color: #fecc2a;
+  background: #fffdf5;
+}
+.option-card .option-icon {
+  font-size: 20px;
+  margin-right: 12px;
+}
+.option-card .option-title {
+  font-weight: 500;
+  color: #0A0908;
+}
+.option-card .option-subtitle {
+  font-size: 12px;
+  color: #6E6A61;
+  margin-top: 1px;
+}
+
+/* Form Field primitive */
+.form-field {
+  margin: 0 24px 16px;
+}
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #49493d;
+  margin-bottom: 6px;
+}
+.form-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 15px;
+  background: #fff;
+  color: #0A0908;
+  transition: border-color 0.2s;
+}
+.form-input:focus {
+  border-color: #fecc2a;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(254,204,42,0.1);
+}
+.form-input::placeholder {
+  color: #959595;
+}
+
+/* Toggle switch */
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 28px;
+}
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #e0e0e0;
+  transition: .3s;
+  border-radius: 34px;
+}
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.toggle input:checked + .toggle-slider {
+  background-color: #fecc2a;
+}
+.toggle input:checked + .toggle-slider:before {
+  transform: translateX(20px);
+}
+
+/* Loading Overlay / State */
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(245, 243, 237, 0.92);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  border-radius: inherit;
+}
+.loading-spinner {
+  width: 42px;
+  height: 42px;
+  border: 3px solid #e8e4d9;
+  border-top-color: #fecc2a;
+  border-radius: 50%;
+  animation: gody-spin 0.9s linear infinite;
+}
+@keyframes gody-spin {
+  to { transform: rotate(360deg); }
+}
+.loading-text {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #49493d;
+  font-weight: 500;
+}
+
+/* Badge variants */
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+.badge-yellow { background: #fecc2a; color: #0A0908; }
+.badge-green { background: #e8f5e8; color: #2e7d32; }
+.badge-blue { background: #e3f2fd; color: #1565c0; }
+.badge-red { background: #ffebee; color: #c62828; }
+.badge-gray { background: #f0f0f0; color: #6e6a61; }
+
+/* Confirm card / bottom sheet primitive */
+.confirm-card {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 375px;
+  background: #fff;
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+  padding: 24px 24px 0;
+  z-index: 10;
+}
+
+/* Notes / input row helpers */
+.notes-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 24px;
+}
+.notes-input {
+  flex: 1;
+  padding: 12px 16px;
+  background: #f8f7f4;
+  border-radius: 12px;
+  color: #6E6A61;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Map route line helper (for MapMock) */
+.map-route {
+  position: absolute;
+  background: #fecc2a;
+  opacity: 0.6;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Search / quick action pill */
+.search-pill {
+  display: flex;
+  align-items: center;
+  background: #f3f3f3;
+  border-radius: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  margin: 0 24px;
+}
+.search-pill .icon { margin-right: 10px; font-size: 16px; }
+.search-pill .label { color: #6E6A61; font-size: 15px; }
+
+/* Vehicle quick entry cards (home page variant) */
+.quick-vehicle {
+  flex: 1;
+  padding: 14px;
+  border: 1px solid #eee;
+  border-radius: 14px;
+  cursor: pointer;
+  background: #fff;
+}
+.quick-vehicle .icon { font-size: 22px; margin-bottom: 4px; }
+.quick-vehicle .name { font-weight: 600; }
+.quick-vehicle .meta { font-size: 12px; color: #6E6A61; }

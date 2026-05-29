@@ -1,0 +1,270 @@
+/* NotificationPage.module.css - 1:1 from notification-page/index.html
+   Preserves exact illustration layout, colors, animations, button states.
+*/
+
+.backButton {
+  display: flex;
+  align-items: flex-start;
+  align-self: stretch;
+  padding: 24px 335px 32px 24px;
+}
+
+.backIcon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #49493d;
+  transition: all 0.2s ease;
+}
+
+.backIcon:hover {
+  color: #fecc2a;
+  transform: scale(1.2);
+}
+
+/* Illustration area - EXACT dimensions and positioning */
+.illustration {
+  position: relative;
+  margin-top: 16px;
+  margin-left: 24px;
+  width: 327px;
+  height: 175px;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.illustration:active {
+  transform: scale(0.95);
+}
+
+.illustrationBg {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 10px;
+  align-items: flex-start;
+  padding: 23px 37px 4px 48px;
+  width: 313px;
+  height: 175px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Phone mockup inside illustration */
+.phoneMockup {
+  position: relative;
+  margin-left: 20px;
+  width: 74px;
+  height: 148px;
+  background: #333;
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.phoneScreen {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Map interface */
+.mapInterface {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #e8f4f8 0%, #d4edda 50%, #fff3cd 100%);
+  position: relative;
+}
+
+.mapGrid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
+  background-size: 12px 12px;
+}
+
+/* Location marker + pulse */
+.locationMarker {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  width: 8px;
+  height: 8px;
+  background: #fecc2a;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  z-index: 2;
+}
+
+.locationMarker::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 12px;
+  height: 12px;
+  background: rgba(254, 204, 42, 0.3);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+/* Vehicles and icons inside illustration */
+.scooter {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  font-size: 24px;
+  transform: rotate(-15deg);
+  z-index: 3;
+  transition: transform 3s ease-in-out;
+}
+
+.truck {
+  position: absolute;
+  bottom: 15px;
+  right: 20px;
+  font-size: 28px;
+  z-index: 3;
+  transition: transform 4s ease-in-out;
+}
+
+.clockIcon {
+  position: absolute;
+  top: 30px;
+  right: 25px;
+  width: 30px;
+  height: 30px;
+  background: #fecc2a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  z-index: 4;
+}
+
+/* Decorative circles */
+.decoration {
+  position: absolute;
+}
+
+.decoration1 {
+  top: 40px;
+  left: 50px;
+  width: 20px;
+  height: 20px;
+  background: #6c5ce7;
+  border-radius: 50%;
+  opacity: 0.3;
+}
+
+.decoration2 {
+  top: 60px;
+  left: 80px;
+  width: 15px;
+  height: 15px;
+  background: #00b894;
+  border-radius: 50%;
+  opacity: 0.3;
+}
+
+.decoration3 {
+  top: 80px;
+  left: 60px;
+  width: 12px;
+  height: 12px;
+  background: #e17055;
+  border-radius: 50%;
+  opacity: 0.3;
+}
+
+/* Path line at bottom of illustration */
+.pathLine {
+  position: absolute;
+  top: 172px;
+  left: 0;
+  width: 327px;
+  height: 3px;
+  background: linear-gradient(90deg, #dfe6e9, #b2bec3, #dfe6e9);
+  z-index: 1;
+}
+
+/* Text content */
+.content {
+  margin: 40px 0px 0px 24px;
+  line-height: 20px;
+  letter-spacing: 0;
+  color: #49493d;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.subContent {
+  margin: 4px 0px 0px 24px;
+  width: 327px;
+  line-height: 20px;
+  letter-spacing: 0;
+  color: #959595;
+  font-size: 14px;
+}
+
+/* Enable button states */
+.enableButton {
+  margin: 20px 24px 0px 24px;
+  padding: 12px 24px;
+  background: #fecc2a;
+  border: none;
+  border-radius: 12px;
+  color: #49493d;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: auto;
+  align-self: flex-start;
+}
+
+.enableButton:hover {
+  background: #e6b824;
+  transform: translateY(-2px);
+}
+
+.enableButton:disabled {
+  opacity: 0.85;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.enableButton.success {
+  background: #00b894;
+  color: #fff;
+}
+
+.enableButton.error {
+  background: #e74c3c;
+  color: #fff;
+}
+
+/* Home indicator positioned exactly */
+.homeIndicatorWrapper {
+  display: flex;
+  align-items: flex-start;
+  align-self: stretch;
+  margin-top: auto;
+  padding: 21px 121px 8px 120px;
+  width: 100%;
+}

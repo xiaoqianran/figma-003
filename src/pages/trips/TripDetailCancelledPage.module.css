@@ -1,0 +1,150 @@
+/* TripDetailCancelledPage.module.css - faithful recreation of trips-detail-1.html styles */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #ffffff;
+  width: 375px;
+  height: 812px;
+  overflow: hidden;
+  border-radius: 20px;
+  position: relative;
+}
+
+.titleBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px 18px;
+  width: 100%;
+}
+
+.backGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.backIcon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  font-size: 18px;
+  color: #49493d;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #49493d;
+}
+
+.filterBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 40px rgba(0,0,0,0.05);
+  font-size: 12px;
+  font-weight: 500;
+  color: #49493d;
+  cursor: pointer;
+}
+
+.tripRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 24px;
+  margin-top: 16px;
+}
+
+.tripTime {
+  font-size: 16px;
+  color: #49493d;
+}
+
+.tripPrice {
+  font-size: 16px;
+  font-weight: 700;
+  color: #49493d;
+}
+
+.vehicleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 24px;
+  margin-top: 4px;
+}
+
+.vehicleInfo {
+  font-size: 12px;
+  color: #959595;
+  font-weight: 500;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+}
+
+.star {
+  font-size: 14px;
+  color: #fecc2a;
+}
+
+.mapArea {
+  position: relative;
+  margin-top: 15px;
+  width: 375px;
+  height: 166px;
+  background: linear-gradient(135deg, #e3f0f7 0%, #f0e8d8 100%);
+  overflow: hidden;
+}
+
+.mapGrid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.pathLine {
+  position: absolute;
+  top: 23px;
+  left: 122px;
+  width: 112px;
+  height: 106px;
+  border: 3px solid #fecc2a;
+  border-radius: 40%;
+  transform: rotate(61deg);
+  opacity: 0.7;
+}
+
+.pin {
+  position: absolute;
+  top: 111px;
+  left: 181px;
+  font-size: 18px;
+}
+
+.canceledLabel {
+  margin: 3px 0 0 301px;
+  font-size: 12px;
+  color: #959595;
+}
+
+.secondaryMap {
+  margin-top: 16px;
+  margin-left: -1px;
+  width: 375px;
+  height: 166px;
+  background: linear-gradient(135deg, #e3f0f7 0%, #f0e8d8 100%);
+}

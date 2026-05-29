@@ -1,0 +1,74 @@
+/* MapHomePage */
+.mapArea {
+  height: 456px;
+  background: linear-gradient(135deg, #e8f4f8 0%, #d4edda 50%, #fff3cd 100%);
+  position: relative;
+}
+
+.mapGrid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.car {
+  position: absolute;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform .3s;
+}
+
+.locationBtn {
+  position: absolute;
+  top: 58px;
+  right: 24px;
+  background: #fff;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 40px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+
+.bottomPanel {
+  position: absolute;
+  bottom: 0;
+  width: 375px;
+  background: #fff;
+  border-radius: 24px 24px 0 0;
+  padding: 28px 24px 30px;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+}
+
+.searchBox {
+  background: #f3f3f3;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+}
+
+.actionRow {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.actionBtn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.tripsBtn { background: #fecc2a; }
+.eatsBtn { background: #f3f3f3; }

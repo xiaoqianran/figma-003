@@ -1,0 +1,242 @@
+/* ProfilePage - faithful recreation from account-pages/profile.html */
+.profileContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.topSection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 375px;
+  height: 812px;
+}
+
+.mapBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 375px;
+  height: 496px;
+  background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 50%, #fff9c4 100%);
+  background-size: cover;
+}
+
+.headerSection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #ffffff;
+  padding-bottom: 47px;
+}
+
+.menuIcon {
+  margin-top: 31px;
+  margin-left: 331px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #49493d;
+}
+
+.locationBtn {
+  display: flex;
+  align-items: center;
+  margin: 167px 24px 0px 303px;
+  border-radius: 50%;
+  box-shadow: 0px 4px 40px 0px rgba(0,0,0,0.13);
+  background: #ffffff;
+  padding: 14px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.locationBtn:hover {
+  transform: scale(1.1);
+}
+
+.bottomPanel {
+  position: absolute;
+  top: 395px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 24px 24px 0 0;
+  background: #ffffff;
+  padding-top: 32px;
+  padding-bottom: 60px;
+  width: 375px;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+}
+
+.scheduleBtn {
+  display: flex;
+  align-items: center;
+  margin: 0 24px 0 24px;
+  border-radius: 12px;
+  background: #f3f3f3;
+  padding: 17px 16px 17px 261px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 327px;
+}
+
+.scheduleBtn:hover {
+  background: #e8e8e8;
+}
+
+.scheduleText {
+  line-height: 14px;
+  color: #49493d;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.divider {
+  background: #f3f3f3;
+  width: 327px;
+  height: 1px;
+  margin: 24px 0;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 21px 14px 27px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.menuItem:hover {
+  background: rgba(0,0,0,0.02);
+}
+
+.menuText {
+  line-height: 20px;
+  color: #49493d;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.carIcon {
+  position: absolute;
+  top: 249px;
+  left: 330px;
+  font-size: 18px;
+  transform: rotate(-47deg);
+}
+
+/* Side menu */
+.sideMenuOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,0.6);
+  width: 375px;
+  height: 812px;
+  display: none;
+  z-index: 1000;
+}
+
+.sideMenuOverlay.show {
+  display: block;
+}
+
+.sideMenu {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  flex-direction: column;
+  background: #ffffff;
+  width: 315px;
+  height: 812px;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 1001;
+}
+
+.sideMenu.show {
+  transform: translateX(0);
+}
+
+.userHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fecc2a;
+  padding: 64px 24px 64px 24px;
+  min-width: 315px;
+  height: 188px;
+  cursor: pointer;
+}
+
+.userAvatar {
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  background: #ffffff;
+  width: 60px;
+  height: 60px;
+  overflow: hidden;
+}
+
+.avatarImage {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userName {
+  line-height: 20px;
+  color: #49493d;
+  font-size: 16px;
+  font-weight: 500;
+  margin-left: 12px;
+}
+
+.sideMenuItem {
+  display: flex;
+  align-items: center;
+  padding: 14px 21px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sideMenuItem:hover {
+  background: rgba(0,0,0,0.02);
+}
+
+.sideMenuItem + .sideMenuItem {
+  margin-top: 8px;
+}
+
+.sideMenuItem:first-of-type {
+  margin-top: 32px;
+}
+
+.sideMenuIcon {
+  width: 20px;
+  height: 20px;
+  margin-right: 16px;
+}
+
+.sideMenuText {
+  line-height: 20px;
+  color: #49493d;
+  font-size: 16px;
+  font-weight: 500;
+}

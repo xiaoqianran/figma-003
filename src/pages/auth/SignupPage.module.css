@@ -1,0 +1,209 @@
+/* SignupPage specific styles - adapted from signup-page/index.html */
+.header {
+  display: flex;
+  align-items: flex-start;
+  align-self: stretch;
+  justify-content: space-between;
+  padding: 24px 24px 32px 24px;
+  min-width: 375px;
+  width: 100%;
+}
+
+.backButton {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #49493d;
+}
+
+.headerTitle {
+  line-height: 16px;
+  letter-spacing: 0;
+  color: #49493d;
+  font-size: 20px;
+  font-weight: 500;
+  flex: 1;
+  text-align: left;
+  margin-left: 16px;
+}
+
+.instructionText {
+  margin: 0px 0px 0px 24px;
+  line-height: 20px;
+  letter-spacing: 0;
+  color: #49493d;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.phoneInputSection {
+  margin: 24px 0px 0px 24px;
+  width: 327px;
+  height: 44px;
+}
+
+.phoneInput {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 44px;
+  border: 1px solid #bdbdbd;
+  border-radius: 12px;
+  padding: 0 16px;
+  background: #ffffff;
+}
+
+.countrySelector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 80px;
+}
+
+.flag {
+  font-size: 18px;
+}
+
+.arrow {
+  font-size: 10px;
+  color: #666;
+}
+
+.countryCode {
+  color: #fecc2a;
+  font-size: 16px;
+  font-weight: 500;
+  margin-left: 8px;
+}
+
+.divider {
+  width: 1px;
+  height: 20px;
+  background: #bdbdbd;
+  margin: 0 12px;
+}
+
+.phoneInputField {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #333;
+  font-family: inherit;
+  background: transparent;
+}
+
+.sendButton {
+  margin: 24px 0px 0px 24px;
+  width: 327px;
+  height: 44px;
+  background: #fecc2a;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sendButton:active {
+  transform: scale(0.985);
+}
+
+.sendText {
+  color: #0A0908;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.verificationNotice {
+  margin: 12px 0px 0px 24px;
+  width: 327px;
+  line-height: 18px;
+  letter-spacing: 0;
+  color: #959595;
+  font-size: 12px;
+}
+
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+  margin-top: auto;
+  background: #dfe0e5;
+  padding-top: 6px;
+  width: 100%;
+}
+
+.keyboardRow {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  justify-content: space-between;
+  padding-right: 5px;
+  padding-left: 5px;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.key {
+  position: relative;
+  width: 118px;
+  height: 53px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  box-shadow: 0px 1px 0px 0px #898a8d;
+  background: #fcfcfe;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  user-select: none;
+}
+
+.key:active {
+  background: #f0f0f2;
+  transform: scale(0.98);
+}
+
+.keyNumber {
+  line-height: 34px;
+  letter-spacing: 0;
+  color: #49493d;
+  font-family: Lato, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.keyLetters {
+  line-height: 13px;
+  letter-spacing: 1px;
+  color: #49493d;
+  font-family: Lato, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimHei, Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  text-align: center;
+}
+
+.keyWide {
+  width: 118px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.keyDelete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 23px;
+  height: 17px;
+  font-size: 16px;
+  color: #49493d;
+}

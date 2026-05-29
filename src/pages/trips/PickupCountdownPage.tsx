@@ -1,0 +1,188 @@
+import React, { useState, useEffect } from 'react';
+import { StatusBar, HomeIndicator } from '../../components/mobile';
+import { useDemoState } from '../../context/DemoStateContext';
+import { useToast } from '../../components/ui';
+
+interface PickupCountdownPageProps {
+  onNavigate?: (pageId: string) => void;
+}
+
+const PickupCountdownPage: React.FC<PickupCountdownPageProps> = ({ onNavigate }) => {
+  const { activeTrip, addRecentAction } = useDemoState();
+  const { success, info } = useToast();
+  const [minutes, setMinutes] = useState(8);
+  const [seconds, setSeconds] = useState(39);
+  const [countdownText, setCountdownText] = useState('Pick up in 8m 39s');
+  // seconds referenced below to satisfy TS (live countdown state)
+  const [selectedCars, setSelectedCars] = useState<number[]>([]);
+  const [markerColor, setMarkerColor] = useState('#fecc2a');
+
+  // Log view for demo state propagation
+  useEffect(() => {
+    addRecentAction('Viewed pickup countdown page');
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Live countdown with setInterval
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSeconds(prevSec => {
+        let newSec = prevSec - 1;
+        let newMin = minutes;
+
+        if (newSec < 0) {
+          newSec = 59;
+          newMin = Math.max(0, minutes - 1);
+          setMinutes(newMin);
+        }
+
+        if (newMin <= 0 && newSec <= 0) {
+          clearInterval(interval);
+          const doneText = 'Driver arrived!';
+          setCountdownText(doneText);
+          return 0;
+        }
+
+        const text = `Pick up in ${newMin}m ${newSec < 10 ? '0' : ''}${newSec}s`;
+        setCountdownText(text);
+        return newSec;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [minutes]);
+
+  const cars = [
+    { id: 1, top: 80, left: 60, rotate: 30 },
+    { id: 2, top: 120, left: 280, rotate: 45 },
+    { id: 3, top: 200, left: 100, rotate: 20 },
+    { id: 4, top: 280, left: 250, rotate: 60 },
+    { id: 5, top: 160, left: 320, rotate: -30 },
+    { id: 6, top: 320, left: 80, rotate: 15 },
+  ];
+
+  const handleCarClick = (id: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    addRecentAction(`Selected car ${id} on pickup countdown`);
+    const isSelected = selectedCars.includes(id);
+    if (isSelected) {
+      setSelectedCars(selectedCars.filter(c => c !== id));
+    } else {
+      const newSel = [...selectedCars, id];
+      setSelectedCars(newSel);
+      success('车辆选择', '已选择车辆，司机正在赶来 (demo)');
+    }
+  };
+
+  const handleMarkerClick = () => {
+    addRecentAction('Selected pickup marker on countdown map');
+    setMarkerColor('#00b894');
+    setTimeout(() => {
+      setMarkerColor('#fecc2a');
+      info('接机点', '已选择接机点：San Francisco International Airport (demo)');
+    }, 220);
+  };
+
+  const handleInfoCardClick = () => {
+    addRecentAction('Tapped info card from pickup countdown');
+    onNavigate?.('trip-upcoming');
+  };
+
+  return (
+    <div className="mobile-frame" style={{ height: 812, background: '#fff', overflow: 'hidden', position: 'relative' }}>
+      <StatusBar />
+
+      {/* 地图区域 */}
+      <div style={{
+        height: 500,
+        background: 'linear-gradient(135deg, #e8f4f8 0%, #d4edda 50%, #fff3cd 100%)',
+        position: 'relative'
+      }}>
+        {/* 网格 */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: 'linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)',
+          backgroundSize: '20px 20px'
+        }} />
+
+        {/* 车辆 */}
+        {cars.map(car => {
+          const isSel = selectedCars.includes(car.id);
+          return (
+            <div
+              key={car.id}
+              onClick={(e) => handleCarClick(car.id, e)}
+              style={{
+                position: 'absolute',
+                top: car.top,
+                left: car.left,
+                width: 16, height: 32,
+                fontSize: 14,
+                transform: `rotate(${car.rotate}deg) ${isSel ? 'scale(1.6)' : 'scale(1)'}`,
+                transition: 'transform 0.2s ease',
+                cursor: 'pointer',
+                zIndex: isSel ? 10 : 1,
+                filter: isSel ? 'drop-shadow(0 0 6px #fecc2a)' : 'none'
+              }}
+            >
+              🚕
+            </div>
+          );
+        })}
+
+        {/* 起点标记 */}
+        <div
+          onClick={handleMarkerClick}
+          style={{
+            position: 'absolute',
+            bottom: 200, left: 80,
+            width: 20, height: 20,
+            background: markerColor,
+            borderRadius: '50%',
+            border: '3px solid #fff',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+            cursor: 'pointer',
+            transition: 'all 0.2s'
+          }}
+        >
+          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 6, height: 6, background: '#fff', borderRadius: '50%' }} />
+        </div>
+
+        {/* 接机信息弹窗 - uses active trip if present */}
+        <div style={{
+          position: 'absolute', top: 180, left: 120,
+          background: '#fff', borderRadius: 12, padding: '12px 16px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.15)', minWidth: 160
+        }}>
+          <div style={{ fontSize: 12, color: '#959595', marginBottom: 4 }}>Pick up</div>
+          <div style={{ fontSize: 14, color: '#49493d', fontWeight: 500 }}>{activeTrip?.from || 'San Francisco International Airport'}</div>
+        </div>
+      </div>
+
+      {/* 底部信息卡片 */}
+      <div
+        onClick={handleInfoCardClick}
+        style={{
+          position: 'absolute', bottom: 0, left: 0, right: 0,
+          background: '#fff', borderRadius: '20px 20px 0 0',
+          padding: 24, boxShadow: '0 -4px 20px rgba(0,0,0,0.1)',
+          cursor: 'pointer'
+        }}
+      >
+        <div style={{ fontSize: 16, color: countdownText.includes('arrived') ? '#00b894' : '#fecc2a', fontWeight: 600, marginBottom: 8 }}>
+          {countdownText}<span style={{display:'none'}}>{seconds}</span>
+        </div>
+
+        <div style={{ marginBottom: 16 }}>
+          <div style={{ fontSize: 18, fontWeight: 600, color: '#49493d', marginBottom: 4 }}>To {activeTrip?.to || 'Apple Union Square'}</div>
+          <div style={{ fontSize: 14, color: '#959595', marginBottom: 2 }}>At {activeTrip?.eta || '3:50 PM'} from {activeTrip?.from || 'San Francisco International Airport'}</div>
+        </div>
+
+        <div style={{ fontSize: 18, fontWeight: 600, color: '#49493d' }}>${activeTrip?.price || 16}.00</div>
+
+        <HomeIndicator />
+      </div>
+    </div>
+  );
+};
+
+export default PickupCountdownPage;
