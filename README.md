@@ -1,5 +1,16 @@
 # Figma 学习 003 - GODY React Prototype Console
 
+> **🚀 在线演示**： [https://xiaoqianran.github.io/figma-003/](https://xiaoqianran.github.io/figma-003/)
+
+## 快速访问
+
+- 🚀 **在线演示** — [https://xiaoqianran.github.io/figma-003/](https://xiaoqianran.github.io/figma-003/)
+- 📖 **完整迁移报告** — [MIGRATION.md](./MIGRATION.md)
+- 📁 **React 源码** — [`src/`](./src/)（44 个真实页面组件）
+- 🗂️ **历史静态原型保留** — [`legacy-html/`](./legacy-html/)
+
+---
+
 This project is now React-first. The production entry is the Vite app at `index.html` + `src/main.tsx`; the 44 prototype screens are rendered by real React components under `src/pages`.
 
 ## Current Structure
