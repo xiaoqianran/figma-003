@@ -1,0 +1,2 @@
+# Prevent GitHub Pages from processing with Jekyll
+# This file is required when deploying static sites that contain folders starting with underscore (e.g. .github)
