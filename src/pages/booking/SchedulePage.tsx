@@ -10,7 +10,7 @@ interface SchedulePageProps {
 }
 
 const SchedulePage: React.FC<SchedulePageProps> = ({ onNavigate }) => {
-  const { activeTrip, setActiveTrip, addRecentAction } = useDemoState();
+  const { activeTrip, addRecentAction, bookTrip } = useDemoState();
   const { success, info } = useToast();
   const [selectedDate, setSelectedDate] = useState('Today');
   const [selectedDay, setSelectedDay] = useState('3');
@@ -55,17 +55,15 @@ const SchedulePage: React.FC<SchedulePageProps> = ({ onNavigate }) => {
     setTimeout(() => {
       if (btn) btn.style.transform = 'scale(1)';
       addRecentAction(`Scheduled trip for ${selectedDate} ${selectedTime}:${selectedAmPm}`);
-      // Create/update active trip from schedule
-      const newTrip = {
-        id: 'trip-sched-' + Date.now(),
-        status: 'upcoming' as const,
+      // Use bookTrip for persistent multi-trip + active focus (new core feature)
+      bookTrip({
+        status: 'upcoming',
         from: activeTrip?.from || 'Current location',
         to: activeTrip?.to || 'Apple Union Square',
         eta: `${selectedTime}:00 ${selectedAmPm}`,
         price: activeTrip?.price || 18,
         vehicle: activeTrip?.vehicle || 'Scheduled Ride'
-      };
-      setActiveTrip(newTrip);
+      });
       success('行程已安排', `日期: ${selectedDate} ${selectedDay} Sep · 时间: ${selectedTime}:00 ${selectedAmPm}`);
       onNavigate?.('booking-requesting');
     }, 140);

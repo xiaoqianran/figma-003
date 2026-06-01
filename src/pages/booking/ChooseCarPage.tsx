@@ -8,7 +8,7 @@ interface ChooseCarPageProps {
 }
 
 const ChooseCarPage: React.FC<ChooseCarPageProps> = ({ onNavigate }) => {
-  const { setActiveTrip, addRecentAction, selectedPayment } = useDemoState();
+  const { addRecentAction, selectedPayment, bookTrip } = useDemoState();
   const { error, success, info } = useToast();
   const [selected, setSelected] = useState<string | null>(null);
 
@@ -29,18 +29,16 @@ const ChooseCarPage: React.FC<ChooseCarPageProps> = ({ onNavigate }) => {
     const v = vehicles.find(x => x.id === selected);
     if (!v) return;
 
-    // Create and persist active trip in demo state
-    const trip = {
-      id: 'trip-' + Date.now(),
-      status: 'upcoming' as const,
+    // Use new bookTrip for persistent multi-trip history + active focus
+    const booked = bookTrip({
+      status: 'upcoming',
       from: '51 Sharon St',
       to: 'Apple Union Square',
       vehicle: v.name,
       price: v.price,
       eta: '3:50 PM',
-    };
-    setActiveTrip(trip);
-    addRecentAction(`Booked ${v.name} to ${trip.to} ($${v.price})`);
+    });
+    addRecentAction(`Booked ${v.name} to ${booked.to} ($${v.price}) via ChooseCar`);
 
     success('车辆已选择', `${v.name} • $${v.price}（演示）`);
     onNavigate?.('booking-confirm-pickup1');

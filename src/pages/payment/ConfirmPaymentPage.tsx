@@ -9,16 +9,19 @@ interface ConfirmPaymentPageProps {
 }
 
 const ConfirmPaymentPage: React.FC<ConfirmPaymentPageProps> = ({ onNavigate }) => {
-  const { selectedPayment, activeTrip, addRecentAction, setActiveTrip } = useDemoState();
+  const { selectedPayment, activeTrip, addRecentAction, updateTripStatus, bookTrip } = useDemoState();
   const { success } = useToast();
 
   const confirm = () => {
     addRecentAction(`Confirmed payment with ${selectedPayment.label} for trip`);
-    // On confirm payment, promote trip to in-progress if one exists
     if (activeTrip) {
-      setActiveTrip({ ...activeTrip, status: 'in-progress' });
+      // Use new state API: mark paid + in-progress
+      updateTripStatus(activeTrip.id, 'in-progress', { paid: true });
+    } else {
+      // Allow standalone payment confirm to seed a demo trip (robustness)
+      bookTrip({ status: 'in-progress', from: 'Demo Pickup', to: 'Demo Dropoff', price: 18, paid: true, vehicle: 'GodyX' });
     }
-    success('支付成功', '支付确认成功！行程已预订 (demo state updated)');
+    success('支付成功', '支付确认成功！行程已预订 (multi-trip state + paid flag)');
     onNavigate?.('trips-upcoming');
   };
 

@@ -10,7 +10,7 @@ interface RequestingPageProps {
 }
 
 const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
-  const { activeTrip, selectedPayment: _selectedPayment, addRecentAction: _addRecentAction, setActiveTrip } = useDemoState();
+  const { activeTrip, selectedPayment: _selectedPayment, addRecentAction: _addRecentAction, updateTripStatus, setActiveTrip, bookTrip } = useDemoState();
   const { info, success } = useToast();
   const [countdown, setCountdown] = useState({ min: 8, sec: 39 });
   const [showCancelModal, setShowCancelModal] = useState(false);
@@ -113,6 +113,28 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
 
         <button className={styles.cancelButton} onClick={handleCancel}>
           <span className={styles.cancelText}>Cancel</span>
+        </button>
+
+        {/* NEW: Complete the booking flow by confirming match (uses multi-trip state) */}
+        <button
+          onClick={() => {
+            const tripId = activeTrip?.id;
+            if (tripId) {
+              updateTripStatus(tripId, 'in-progress', { driver: 'Li Ming', eta: '4 min' });
+            } else {
+              // Fallback: create one if somehow reached here without prior book
+              bookTrip({ status: 'in-progress', from: '51 Sharon St', to: 'Apple Union Square', driver: 'Li Ming', vehicle: 'GodyX', eta: '4 min', price: 15 });
+            }
+            _addRecentAction('Driver matched — ride confirmed');
+            success('司机已接单', '正在前往上车点');
+            onNavigate?.('trip-pickup-countdown');
+          }}
+          style={{
+            marginTop: 10, width: '100%', padding: '11px 0', background: '#0A0908', color: '#fecc2a',
+            border: '1px solid #fecc2a', borderRadius: 999, fontSize: 13, fontWeight: 600, cursor: 'pointer'
+          }}
+        >
+          ✓ 模拟司机接单 (Driver matched)
         </button>
       </div>
 
