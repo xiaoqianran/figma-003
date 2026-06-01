@@ -512,7 +512,6 @@ function LabView() {
       ;(e.target as HTMLInputElement).value = ''
     }
     reader.readAsText(file)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resetDemoState, setUser, setSelectedPayment, setActiveTrip, bookTrip, addRecentAction, showToast])
 
   // Use the stable module-scope presets (no per-render object, eliminates stale closure risk in simulator for rapid preset triggers + mid-run controls)

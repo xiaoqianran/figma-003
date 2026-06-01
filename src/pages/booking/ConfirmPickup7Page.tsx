@@ -9,7 +9,6 @@ interface ConfirmPickup7PageProps {
 }
 
 const ConfirmPickup7Page: React.FC<ConfirmPickup7PageProps> = ({ onNavigate }) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { activeTrip, addRecentAction, bookTrip, updateTripStatus } = useDemoState();
   const { info, success } = useToast();
   const [showCancelModal, setShowCancelModal] = useState(false);

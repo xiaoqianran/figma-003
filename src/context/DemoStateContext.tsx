@@ -75,7 +75,7 @@ function loadPersistedState(): Partial<DemoState> | null {
     if (parsed.version !== STORAGE_VERSION) return null; // future migration point
     const { user, selectedPayment, activeTrip, bookedTrips, recentActions } = parsed;
     return { user, selectedPayment, activeTrip, bookedTrips, recentActions };
-  } catch { // eslint-disable-line no-empty
+  } catch {
     return null;
   }
 }
@@ -92,7 +92,7 @@ function persistState(state: DemoState) {
       savedAt: Date.now(),
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
-  } catch { // eslint-disable-line no-empty
+  } catch {
     // storage write failed (quota, private mode, etc.) — non-fatal for demo
     return;
   }
@@ -206,11 +206,11 @@ export const DemoStateProvider: React.FC<{ children: ReactNode }> = ({ children 
   }, []);
 
   const clearPersistedDemoState = useCallback(() => {
-    try { localStorage.removeItem(STORAGE_KEY); } catch {}
+    try { localStorage.removeItem(STORAGE_KEY); } catch { /* ignore storage errors */ }
   }, []);
 
   const resetDemoState = useCallback(() => {
-    try { localStorage.removeItem(STORAGE_KEY); } catch {}
+    try { localStorage.removeItem(STORAGE_KEY); } catch { /* ignore storage errors */ }
     setState(initialState);
   }, []);
 
