@@ -42,16 +42,29 @@ export const DemoStateInspector: React.FC = () => {
           ) : (
             <div>Active Trip: <span style={{opacity:0.6}}>None</span></div>
           )}
+          <div style={{ marginTop: 6, fontSize: 11, opacity: 0.85 }}>
+            Booked Trips: <strong style={{color:'#fecc2a'}}>{state.bookedTrips.length}</strong> (upcoming + history)
+          </div>
           <div style={{ marginTop: 8, fontSize: 11, opacity: 0.7 }}>
             Recent ({state.recentActions.length}): {state.recentActions.slice(0,3).join(' • ') || '—'}
           </div>
 
-          <button
-            onClick={state.resetDemoState}
-            style={{ marginTop: 12, width: '100%', padding: '8px', background: '#2A2926', color: '#EDEBE5', border: 'none', borderRadius: 8, fontSize: 11, cursor: 'pointer' }}
-          >
-            Reset All Demo State
-          </button>
+          <div style={{ display: 'flex', gap: 6, marginTop: 10 }}>
+            <button
+              onClick={() => {
+                if (typeof state.clearBookedTrips === 'function') state.clearBookedTrips();
+              }}
+              style={{ flex: 1, padding: '6px 8px', background: '#2A2926', color: '#EDEBE5', border: 'none', borderRadius: 6, fontSize: 10, cursor: 'pointer' }}
+            >
+              Clear Bookings
+            </button>
+            <button
+              onClick={state.resetDemoState}
+              style={{ flex: 1, padding: '6px 8px', background: '#C53D3D', color: '#fff', border: 'none', borderRadius: 6, fontSize: 10, cursor: 'pointer' }}
+            >
+              Full Reset
+            </button>
+          </div>
         </div>
       )}
     </>

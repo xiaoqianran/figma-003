@@ -19,6 +19,7 @@ interface Props {
   onLoadDemoTrip?: () => void;
   onJumpPopular?: () => void;
   onOpenFlowPresets?: () => void;
+  onSeedMultiTrips?: () => void;
 }
 
 export const ConsoleToolbar: React.FC<Props> = ({
@@ -34,6 +35,7 @@ export const ConsoleToolbar: React.FC<Props> = ({
   onLoadDemoTrip,
   onJumpPopular,
   onOpenFlowPresets,
+  onSeedMultiTrips,
   zoom,
   onZoomChange,
   isRotated,
@@ -122,6 +124,9 @@ export const ConsoleToolbar: React.FC<Props> = ({
             </button>
             <button onClick={() => runQuick(onLoadDemoTrip)} className="w-full text-left px-3 py-[7px] hover:bg-[#22211D] rounded-lg console-font text-[#EDEBE5] flex items-center gap-2">
               <span>🚕</span> <span>Load demo trip (populate active state)</span>
+            </button>
+            <button onClick={() => runQuick(onSeedMultiTrips)} className="w-full text-left px-3 py-[7px] hover:bg-[#22211D] rounded-lg console-font text-[#EDEBE5] flex items-center gap-2" style={{ color: '#fecc2a' }}>
+              <span>📦</span> <span>Seed 3 sample trips (new multi-trip demo)</span>
             </button>
             <button onClick={() => runQuick(onJumpPopular)} className="w-full text-left px-3 py-[7px] hover:bg-[#22211D] rounded-lg console-font text-[#EDEBE5] flex items-center gap-2">
               <span>★</span> <span>Jump to most popular page (Choose Car)</span>

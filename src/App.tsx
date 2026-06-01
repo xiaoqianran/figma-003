@@ -122,7 +122,7 @@ function LabView() {
   const navigate = useNavigate()
   const { showToast } = useToast()
   // Full demo state access for premium features (reset + mutations for quick actions / simulator)
-  const { resetDemoState, setActiveTrip, addRecentAction } = useDemoState()
+  const { resetDemoState, setActiveTrip, addRecentAction, bookTrip, clearBookedTrips } = useDemoState()
 
   // Core UI state
   const [searchTerm, setSearchTerm] = useState('')
@@ -320,8 +320,7 @@ function LabView() {
   // Premium lab features: Flow Simulator + Quick Actions helpers (integrate with DemoState + Toast)
   // The Flow Simulator is now a powerful multi-preset controllable demo tool for stakeholders.
   const loadDemoTrip = useCallback(() => {
-    setActiveTrip({
-      id: 'demo-001',
+    bookTrip({
       status: 'in-progress',
       from: 'Pudong International',
       to: 'Lujiazui Financial Center',
@@ -330,14 +329,26 @@ function LabView() {
       eta: '7 min',
       price: 92,
     })
-    addRecentAction('Loaded realistic demo trip via Quick Actions')
-    showToast({ type: 'success', title: 'Demo trip injected', message: 'Active trip now visible in DEMO STATE inspector' })
-  }, [setActiveTrip, addRecentAction, showToast])
+    addRecentAction('Loaded realistic demo trip via Quick Actions (multi-trip)')
+    showToast({ type: 'success', title: 'Demo trip booked', message: 'Persisted to bookedTrips • visible in inspector + trips pages' })
+  }, [bookTrip, addRecentAction, showToast])
 
   const jumpToPopular = useCallback(() => {
     handleNavigate('booking-choose-car')
     showToast({ type: 'info', title: 'Jumped to popular', message: 'Vehicle chooser — core high-traffic prototype' })
   }, [handleNavigate, showToast])
+
+  // NEW: Seed multiple realistic trips for rich demo of the new bookedTrips system
+  const seedMultiTrips = useCallback(() => {
+    if (typeof clearBookedTrips === 'function') clearBookedTrips()
+    bookTrip({ status: 'completed', from: 'Hongqiao Airport T2', to: 'Puxi Riverside', driver: 'Wang Lei', vehicle: 'NIO ET7', price: 118, eta: 'Arrived' })
+    bookTrip({ status: 'upcoming', from: 'Jing\'an Temple', to: 'Century Avenue', driver: 'Chen Fang', vehicle: 'Li Auto L9', price: 64, eta: '14 min' })
+    const t3 = bookTrip({ status: 'in-progress', from: 'The Bund', to: 'Zhangjiang Hi-Tech', driver: 'Zhao Min', vehicle: 'BYD Seal', price: 71, eta: '9 min' })
+    addRecentAction(`Seeded 3 sample trips (latest active: ${t3.to})`)
+    showToast({ type: 'success', title: '3 sample trips seeded', message: 'Upcoming + In-progress + Completed in bookedTrips' })
+    // Jump to trips hub to immediately see the result
+    setTimeout(() => handleNavigate('trips-hub'), 650)
+  }, [bookTrip, clearBookedTrips, addRecentAction, showToast, handleNavigate])
 
   // Use the stable module-scope presets (no per-render object, eliminates stale closure risk in simulator for rapid preset triggers + mid-run controls)
   const FLOW_PRESETS = FLOW_PRESETS_DATA
@@ -446,7 +457,8 @@ function LabView() {
       // Powerful state injection (variety + realism)
       if (step.inject) {
         const inj = step.inject
-        setActiveTrip({
+        // Use bookTrip (new) so simulator also populates the persistent bookedTrips list
+        bookTrip({
           id: `sim-${presetKey}-${String(i)}`,
           status: (inj.status || 'in-progress') as 'upcoming' | 'in-progress' | 'completed',
           from: inj.from || 'Demo Pickup',
@@ -456,7 +468,7 @@ function LabView() {
           eta: inj.eta || '6 min',
           price: inj.price || 85,
         })
-        addRecentAction(`Simulator: ${step.title} → demo trip injected`)
+        addRecentAction(`Simulator: ${step.title} → demo trip injected (booked)`)
       }
       // status-only transitions handled via inject in current presets for simplicity & reliability
       // (DemoState setter accepts value, not updater fn)
@@ -486,7 +498,7 @@ function LabView() {
           { from: 'The Bund', to: 'Zhangjiang Hi-Tech', driver: 'Zhao Min', vehicle: 'BYD Seal • Blue', price: 71, eta: '14 min' },
         ]
         const pick = variety[Math.floor(Math.random() * variety.length)]
-        setActiveTrip({
+        bookTrip({
           id: `flow-${presetKey}-final`,
           status: 'in-progress',
           ...pick,
@@ -497,7 +509,7 @@ function LabView() {
     } else {
       addRecentAction('Flow Simulator interrupted by user')
     }
-  }, [handleNavigate, showToast, setActiveTrip, addRecentAction, FLOW_PRESETS])
+  }, [handleNavigate, showToast, setActiveTrip, addRecentAction, bookTrip, FLOW_PRESETS])
 
   // Legacy quick entry (used by button + command palette + Quick Actions)
   const simulateBookingFlow = useCallback(() => {
@@ -659,6 +671,7 @@ function LabView() {
           onLoadDemoTrip={loadDemoTrip}
           onJumpPopular={jumpToPopular}
           onOpenFlowPresets={() => setShowFlowPresets(true)}
+          onSeedMultiTrips={seedMultiTrips}
         />
 
         {/* LIVE SIMULATOR CONTROLS — only visible while a flow preset is running. Full pause/resume/skip/speed support */}
