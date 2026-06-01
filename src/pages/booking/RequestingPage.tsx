@@ -11,7 +11,7 @@ interface RequestingPageProps {
 
 const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
   const { activeTrip, selectedPayment: _selectedPayment, addRecentAction, updateTripStatus, setActiveTrip, bookTrip } = useDemoState();
-  const { info, success } = useToast();
+  const { success } = useToast();
   const [countdown, setCountdown] = useState({ min: 8, sec: 39 });
   const [showCancelModal, setShowCancelModal] = useState(false);
 
@@ -195,8 +195,10 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
 
   const handleAction = (type: string) => {
     if (type === 'payment') onNavigate?.('payment-select');
-    else if (type === 'dest') info('目的地', '打开目的地选择（演示）');
-    else info(type, `${type} 操作（演示）`);
+    else {
+      // Use only recentActions for secondary actions (non-intrusive observability)
+      addRecentAction(`Action: ${type}`);
+    }
   };
 
   const handleCancel = () => {

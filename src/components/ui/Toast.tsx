@@ -46,8 +46,10 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const showToast = useCallback((toast: Omit<Toast, 'id'>) => {
     const id = Date.now().toString(36) + Math.random().toString(36).slice(2);
-    const newToast: Toast = { id, duration: 3800, ...toast };
-    setToasts(prev => [newToast, ...prev].slice(0, 5)); // newest first, cap at 5
+    // Much shorter defaults — especially for info (the most spammy type during demos)
+    const defaultDuration = toast.type === 'info' ? 1650 : toast.type === 'success' ? 2400 : 4200;
+    const newToast: Toast = { id, duration: defaultDuration, ...toast };
+    setToasts(prev => [newToast, ...prev].slice(0, 3)); // tighter cap: max 3 to reduce visual noise
 
     if (newToast.duration && newToast.duration > 0) {
       setTimeout(() => {
@@ -87,17 +89,17 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     <ToastContext.Provider value={{ toasts, showToast, dismissToast, clearAll, success, error, info, warning, toast }}>
       {children}
 
-      {/* Toast Container - Industrial console aesthetic, overlays lab for visible feedback during prototype testing */}
+      {/* Toast Container - Moved to bottom-right to be far less intrusive while still visible for demo feedback */}
       <div style={{
         position: 'fixed',
-        top: '68px',
-        left: '50%',
-        transform: 'translateX(-50%)',
+        bottom: '24px',
+        right: '24px',
         zIndex: 99999,
         display: 'flex',
         flexDirection: 'column',
-        gap: '8px',
-        width: 'min(340px, 92vw)',
+        alignItems: 'flex-end',
+        gap: '6px',
+        width: 'min(300px, 88vw)',
         pointerEvents: 'none'
       }}>
         {toasts.map((toastItem, index) => {
