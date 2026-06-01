@@ -8,7 +8,7 @@ interface ConfirmPickup1PageProps {
 }
 
 const ConfirmPickup1Page: React.FC<ConfirmPickup1PageProps> = ({ onNavigate }) => {
-  const { addRecentAction } = useDemoState();
+  const { activeTrip, addRecentAction, bookTrip, updateTripStatus } = useDemoState();
   const { info } = useToast();
   const [confirming, setConfirming] = useState(false);
   const [addressOpacity, setAddressOpacity] = useState(1);
@@ -32,6 +32,24 @@ const ConfirmPickup1Page: React.FC<ConfirmPickup1PageProps> = ({ onNavigate }) =
     setConfirming(true);
     setTimeout(() => {
       setConfirming(false);
+      // Drive real bookedTrips + activeTrip state on key confirm pickup location action (defensive)
+      const tripId = activeTrip?.id;
+      if (tripId) {
+        updateTripStatus(tripId, activeTrip?.status || 'upcoming', {
+          from: '51 Sharon St (confirmed pickup)',
+          eta: activeTrip?.eta ? `${activeTrip.eta} • pickup locked` : 'Pickup confirmed'
+        });
+        addRecentAction('Confirmed pickup location — updated via updateTripStatus');
+      } else {
+        bookTrip({
+          status: 'upcoming',
+          from: '51 Sharon St (confirmed)',
+          to: 'Apple Union Square',
+          eta: '3:50 PM',
+          price: 16
+        });
+        addRecentAction('Confirmed pickup location — seeded via bookTrip (no prior active)');
+      }
       onNavigate?.('booking-confirm-pickup2');
     }, 1450);
   };

@@ -7,7 +7,7 @@ import './styles/prototypes.css'
 import pageRegistry, { findPageById, type PageDefinition, migratedCount } from './pageRegistry'
 
 // Demo state + notifications
-import { useDemoState, type DemoTrip } from './context/DemoStateContext'
+import { useDemoState, type DemoTrip, type DemoUser, type DemoPaymentMethod } from './context/DemoStateContext'
 import { useToast, Modal } from './components/ui'
 
 // Console devtools & panels
@@ -122,7 +122,21 @@ function LabView() {
   const navigate = useNavigate()
   const { showToast } = useToast()
   // Full demo state access for premium features (reset + mutations for quick actions / simulator)
-  const { resetDemoState, setActiveTrip, addRecentAction, bookTrip, clearBookedTrips } = useDemoState()
+  // Now also full state read for Export + setters for robust Import restore
+  const {
+    user,
+    selectedPayment,
+    activeTrip,
+    bookedTrips,
+    recentActions,
+    resetDemoState,
+    setUser,
+    setSelectedPayment,
+    setActiveTrip,
+    addRecentAction,
+    bookTrip,
+    clearBookedTrips,
+  } = useDemoState()
 
   // Core UI state
   const [searchTerm, setSearchTerm] = useState('')
@@ -147,6 +161,7 @@ function LabView() {
   const [showPostSimModal, setShowPostSimModal] = useState(false)
 
   const searchInputRef = useRef<HTMLInputElement>(null)
+  const importFileRef = useRef<HTMLInputElement>(null)
   const simCtrl = useRef<SimController>({
     aborted: false,
     paused: false,
@@ -350,6 +365,156 @@ function LabView() {
     setTimeout(() => handleNavigate('trips-hub'), 650)
   }, [bookTrip, clearBookedTrips, addRecentAction, showToast, handleNavigate])
 
+  // === NEW: Export / Import Demo State (core of this task) ===
+  // Robust, versioned, partial-tolerant, uses only existing context setters for restore.
+  // Placed here after other quick-action helpers for logical grouping.
+
+  const exportDemoState = useCallback(() => {
+    try {
+      const payload = {
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        source: 'gody-lab-console',
+        demoState: {
+          user,
+          selectedPayment,
+          activeTrip,
+          bookedTrips,
+          recentActions,
+        },
+      }
+      const jsonStr = JSON.stringify(payload, null, 2)
+      const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8' })
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      const d = new Date()
+      const ts = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}-${String(d.getHours()).padStart(2, '0')}${String(d.getMinutes()).padStart(2, '0')}`
+      const filename = `gody-demo-state-${ts}.json`
+      link.href = url
+      link.download = filename
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(url)
+
+      addRecentAction(`Exported demo state (${bookedTrips.length} trips) → ${filename}`)
+      showToast({
+        type: 'success',
+        title: 'Demo state exported',
+        message: `${filename} • ${bookedTrips.length} booked trips • ${recentActions.length} recent actions`,
+      })
+    } catch (err) {
+      console.error('[Export Demo State] failed', err)
+      showToast({ type: 'error', title: 'Export failed', message: 'Could not serialize current demo state (see console)' })
+    }
+  }, [user, selectedPayment, activeTrip, bookedTrips, recentActions, addRecentAction, showToast])
+
+  const handleImportDemoState = useCallback(() => {
+    importFileRef.current?.click()
+  }, [importFileRef])
+
+  const handleImportFile = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    const reader = new FileReader()
+    reader.onload = (ev) => {
+      try {
+        const text = (ev.target?.result as string) || ''
+        const parsed = JSON.parse(text)
+
+        // Flexible shape support: {version, demoState: {...}} or bare state root, or legacy
+        let s: Record<string, unknown> | null = null
+        const p = parsed as Record<string, unknown>
+        if (p && p.demoState && typeof p.demoState === 'object') {
+          s = p.demoState as Record<string, unknown>
+        } else if (p && (p.user || p.selectedPayment || p.bookedTrips)) {
+          s = p
+        } else {
+          throw new Error('Unrecognized demo state file format (expected demoState or root user/payment keys)')
+        }
+
+        // Graceful version handling
+        if (parsed.version != null && parsed.version !== 1) {
+          showToast({
+            type: 'warning',
+            title: 'Version note',
+            message: `Imported v${parsed.version} (current is 1). Core fields applied; extra data ignored.`,
+          })
+        }
+
+        // Restore using ONLY existing setters (as required). Start clean for predictability.
+        resetDemoState()
+
+        if (s.user && typeof s.user === 'object') {
+          setUser(s.user as Partial<DemoUser>) // accepts partial but full object is fine (spreads)
+        }
+        if (s.selectedPayment && typeof s.selectedPayment === 'object') {
+          setSelectedPayment(s.selectedPayment as DemoPaymentMethod)
+        }
+
+        // Book each trip (ensures id gen/normalization + bookedTrips list + active focus)
+        const trips = Array.isArray(s.bookedTrips) ? s.bookedTrips : []
+        for (const t of trips) {
+          if (t && t.from && t.to) {
+            bookTrip({
+              id: t.id,
+              status: t.status,
+              from: t.from,
+              to: t.to,
+              driver: t.driver,
+              vehicle: t.vehicle,
+              eta: t.eta,
+              price: typeof t.price === 'number' ? t.price : undefined,
+              paid: t.paid,
+            })
+          }
+        }
+
+        // Explicit activeTrip restore (supports null or specific trip not last-booked)
+        if ('activeTrip' in s) {
+          const at = (s as Record<string, unknown>).activeTrip
+          setActiveTrip((at as DemoTrip | null) ?? null)
+        }
+
+        // Restore recent log in correct order (array[0]=newest; prepend in reverse)
+        const rec = Array.isArray(s.recentActions) ? s.recentActions : []
+        for (let i = rec.length - 1; i >= 0; i--) {
+          if (typeof rec[i] === 'string') addRecentAction(rec[i])
+        }
+
+        const restoredTrips = trips.length
+        const restoredActions = rec.length
+        addRecentAction(`Imported demo state from “${file.name}” (${restoredTrips} trips)`)
+        const userName = (s.user as { name?: string } | undefined)?.name || '?'
+        showToast({
+          type: 'success',
+          title: 'Demo state imported ✓',
+          message: `Restored user “${userName}”, ${restoredTrips} trips, ${restoredActions} actions. Ready to demo.`,
+          duration: 5200,
+        })
+      } catch (err: unknown) {
+        console.error('[Import Demo State] parse/restore error', err)
+        const msg = err && typeof err === 'object' && 'message' in err ? String((err as { message?: unknown }).message) : ''
+        showToast({
+          type: 'error',
+          title: 'Import failed',
+          message: msg || 'Bad JSON or incompatible demo state file.',
+          duration: 6500,
+        })
+      } finally {
+        // Allow re-selecting the same file
+        ;(e.target as HTMLInputElement).value = ''
+      }
+    }
+    reader.onerror = () => {
+      showToast({ type: 'error', title: 'Read error', message: 'Failed to read the selected file.' })
+      ;(e.target as HTMLInputElement).value = ''
+    }
+    reader.readAsText(file)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resetDemoState, setUser, setSelectedPayment, setActiveTrip, bookTrip, addRecentAction, showToast])
+
   // Use the stable module-scope presets (no per-render object, eliminates stale closure risk in simulator for rapid preset triggers + mid-run controls)
   const FLOW_PRESETS = FLOW_PRESETS_DATA
 
@@ -509,7 +674,7 @@ function LabView() {
     } else {
       addRecentAction('Flow Simulator interrupted by user')
     }
-  }, [handleNavigate, showToast, setActiveTrip, addRecentAction, bookTrip, FLOW_PRESETS])
+  }, [handleNavigate, showToast, addRecentAction, bookTrip, FLOW_PRESETS])
 
   // Legacy quick entry (used by button + command palette + Quick Actions)
   const simulateBookingFlow = useCallback(() => {
@@ -556,7 +721,7 @@ function LabView() {
     showToast({ type: 'warning', title: '■ Simulation stopped', message: 'Demo flow interrupted — state preserved' })
   }, [showToast])
 
-  // Keyboard shortcuts: / focus, Esc clear, numbers for cats, R random, F fav
+  // Keyboard shortcuts: / focus, Esc clear, numbers for cats, R random, F fav. (export/import via command palette in search input)
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       const targetEl = e.target as HTMLElement
@@ -672,6 +837,19 @@ function LabView() {
           onJumpPopular={jumpToPopular}
           onOpenFlowPresets={() => setShowFlowPresets(true)}
           onSeedMultiTrips={seedMultiTrips}
+          // Export / Import Demo State — new powerful DX tools
+          onExportDemoState={exportDemoState}
+          onImportDemoState={handleImportDemoState}
+        />
+
+        {/* Hidden file input for Import Demo State (triggered by button or command) */}
+        <input
+          ref={importFileRef}
+          type="file"
+          accept="application/json,.json"
+          onChange={handleImportFile}
+          style={{ display: 'none' }}
+          aria-hidden="true"
         />
 
         {/* LIVE SIMULATOR CONTROLS — only visible while a flow preset is running. Full pause/resume/skip/speed support */}
@@ -755,7 +933,7 @@ function LabView() {
                 <input
                   ref={searchInputRef}
                   type="text"
-                  placeholder="Search... (/ focus) • cmds: random, reset, flow, home, popular"
+                  placeholder="Search... (/ focus) • cmds: random, reset, flow, home, popular, export, import"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onKeyDown={(e) => {
@@ -778,6 +956,12 @@ function LabView() {
                       } else if (cmd === 'popular' || cmd === 'top') {
                         if (isSimulating) { abortCurrentSimulation(); showToast({ type: 'info', title: 'Simulation aborted', message: 'Command nav takes over', duration: 800 }) }
                         jumpToPopular()
+                        executed = true
+                      } else if (cmd === 'export' || cmd === 'export state' || cmd === 'save state') {
+                        exportDemoState()
+                        executed = true
+                      } else if (cmd === 'import' || cmd === 'import state' || cmd === 'load state') {
+                        handleImportDemoState()
                         executed = true
                       } else if (cmd.startsWith('go ')) {
                         const t = cmd.slice(3).trim()

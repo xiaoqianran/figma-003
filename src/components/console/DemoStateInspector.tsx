@@ -59,6 +59,14 @@ export const DemoStateInspector: React.FC = () => {
               Clear Bookings
             </button>
             <button
+              onClick={() => {
+                if (typeof state.clearPersistedDemoState === 'function') state.clearPersistedDemoState();
+              }}
+              style={{ flex: 1, padding: '6px 8px', background: '#3A3935', color: '#EDEBE5', border: 'none', borderRadius: 6, fontSize: 10, cursor: 'pointer' }}
+            >
+              Clear Persisted
+            </button>
+            <button
               onClick={state.resetDemoState}
               style={{ flex: 1, padding: '6px 8px', background: '#C53D3D', color: '#fff', border: 'none', borderRadius: 6, fontSize: 10, cursor: 'pointer' }}
             >

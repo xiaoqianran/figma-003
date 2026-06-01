@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
 
 export interface DemoUser {
   name: string;
@@ -46,6 +46,8 @@ interface DemoStateContextValue extends DemoState {
   cancelTrip: (id: string) => void;
   completeTrip: (id: string) => void;
   clearBookedTrips: () => void;
+  /** Clears only the persisted localStorage (keeps current in-memory state) */
+  clearPersistedDemoState: () => void;
 }
 
 const defaultUser: DemoUser = {
@@ -60,6 +62,41 @@ const defaultPayment: DemoPaymentMethod = {
   label: 'Visa •••• 4242',
   last4: '4242',
 };
+
+// === Persistence (localStorage) ===
+const STORAGE_KEY = 'gody-demo-state-v1';
+const STORAGE_VERSION = 1;
+
+function loadPersistedState(): Partial<DemoState> | null {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (parsed.version !== STORAGE_VERSION) return null; // future migration point
+    const { user, selectedPayment, activeTrip, bookedTrips, recentActions } = parsed;
+    return { user, selectedPayment, activeTrip, bookedTrips, recentActions };
+  } catch { // eslint-disable-line no-empty
+    return null;
+  }
+}
+
+function persistState(state: DemoState) {
+  try {
+    const toSave = {
+      version: STORAGE_VERSION,
+      user: state.user,
+      selectedPayment: state.selectedPayment,
+      activeTrip: state.activeTrip,
+      bookedTrips: state.bookedTrips,
+      recentActions: state.recentActions,
+      savedAt: Date.now(),
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
+  } catch { // eslint-disable-line no-empty
+    // storage write failed (quota, private mode, etc.) — non-fatal for demo
+    return;
+  }
+}
 
 const DemoStateContext = createContext<DemoStateContextValue | null>(null);
 
@@ -78,7 +115,20 @@ const initialState: DemoState = {
 };
 
 export const DemoStateProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [state, setState] = useState<DemoState>(initialState);
+  const [state, setState] = useState<DemoState>(() => {
+    // Hydrate from localStorage on first mount (demo persistence)
+    const persisted = loadPersistedState();
+    if (persisted) {
+      return {
+        user: persisted.user ?? defaultUser,
+        selectedPayment: persisted.selectedPayment ?? defaultPayment,
+        activeTrip: persisted.activeTrip ?? null,
+        bookedTrips: persisted.bookedTrips ?? [],
+        recentActions: persisted.recentActions ?? [],
+      };
+    }
+    return initialState;
+  });
 
   const setUser = useCallback((partial: Partial<DemoUser>) => {
     setState(s => ({ ...s, user: { ...s.user, ...partial } }));
@@ -155,9 +205,19 @@ export const DemoStateProvider: React.FC<{ children: ReactNode }> = ({ children 
     setState(s => ({ ...s, bookedTrips: [], activeTrip: null }));
   }, []);
 
+  const clearPersistedDemoState = useCallback(() => {
+    try { localStorage.removeItem(STORAGE_KEY); } catch {}
+  }, []);
+
   const resetDemoState = useCallback(() => {
+    try { localStorage.removeItem(STORAGE_KEY); } catch {}
     setState(initialState);
   }, []);
+
+  // Persist to localStorage whenever meaningful state changes
+  useEffect(() => {
+    persistState(state);
+  }, [state]);
 
   return (
     <DemoStateContext.Provider
@@ -174,6 +234,7 @@ export const DemoStateProvider: React.FC<{ children: ReactNode }> = ({ children 
         cancelTrip,
         completeTrip,
         clearBookedTrips,
+        clearPersistedDemoState,
       }}
     >
       {children}

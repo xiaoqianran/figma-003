@@ -20,6 +20,9 @@ interface Props {
   onJumpPopular?: () => void;
   onOpenFlowPresets?: () => void;
   onSeedMultiTrips?: () => void;
+  // Export / Import Demo State (powerful DX feature for sharing scenarios)
+  onExportDemoState?: () => void;
+  onImportDemoState?: () => void;
 }
 
 export const ConsoleToolbar: React.FC<Props> = ({
@@ -36,6 +39,8 @@ export const ConsoleToolbar: React.FC<Props> = ({
   onJumpPopular,
   onOpenFlowPresets,
   onSeedMultiTrips,
+  onExportDemoState,
+  onImportDemoState,
   zoom,
   onZoomChange,
   isRotated,
@@ -111,7 +116,7 @@ export const ConsoleToolbar: React.FC<Props> = ({
 
         {showQuick && (
           <div
-            className="metal absolute top-full left-0 mt-1 z-[999] rounded-xl p-1 text-xs min-w-[232px]"
+            className="metal absolute top-full left-0 mt-1 z-[999] rounded-xl p-1 text-xs min-w-[260px]"
             style={{
               border: '1px solid #2A2926',
               boxShadow: '0 16px 40px -10px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.04)',
@@ -127,6 +132,13 @@ export const ConsoleToolbar: React.FC<Props> = ({
             </button>
             <button onClick={() => runQuick(onSeedMultiTrips)} className="w-full text-left px-3 py-[7px] hover:bg-[#22211D] rounded-lg console-font text-[#EDEBE5] flex items-center gap-2" style={{ color: '#fecc2a' }}>
               <span>📦</span> <span>Seed 3 sample trips (new multi-trip demo)</span>
+            </button>
+            {/* NEW: Powerful export/import for sharing exact realistic demo scenarios with stakeholders */}
+            <button onClick={() => runQuick(onExportDemoState)} className="w-full text-left px-3 py-[7px] hover:bg-[#22211D] rounded-lg console-font text-[#EDEBE5] flex items-center gap-2" title="Download full current demo state (user, payment, trips, actions) as JSON">
+              <span>⬇</span> <span>Export Demo State</span>
+            </button>
+            <button onClick={() => runQuick(onImportDemoState)} className="w-full text-left px-3 py-[7px] hover:bg-[#22211D] rounded-lg console-font text-[#EDEBE5] flex items-center gap-2" title="Load demo state from a previously exported JSON file (restores via setters)">
+              <span>⬆</span> <span>Import Demo State</span>
             </button>
             <button onClick={() => runQuick(onJumpPopular)} className="w-full text-left px-3 py-[7px] hover:bg-[#22211D] rounded-lg console-font text-[#EDEBE5] flex items-center gap-2">
               <span>★</span> <span>Jump to most popular page (Choose Car)</span>
@@ -162,7 +174,7 @@ export const ConsoleToolbar: React.FC<Props> = ({
             )}
 
             {/* Close hint */}
-            <div className="px-3 pt-2 pb-1 text-[9px] text-[#6E6A61] console-font border-t border-[#2A2926] mt-1">Click action or button to close</div>
+            <div className="px-3 pt-2 pb-1 text-[9px] text-[#6E6A61] console-font border-t border-[#2A2926] mt-1">Export/Import Demo State: share exact scenarios • Click action or button to close</div>
           </div>
         )}
       </div>
@@ -170,6 +182,17 @@ export const ConsoleToolbar: React.FC<Props> = ({
       {/* Core existing controls */}
       <button onClick={onRandom} className="tb-btn">Random</button>
       <button onClick={onReset} className="tb-btn">Reset State</button>
+      {/* Prominent direct access to new Export/Import (in addition to Quick Actions dropdown) */}
+      {onExportDemoState && (
+        <button onClick={onExportDemoState} className="tb-btn" title="Export full Demo State (user + payment + trips + actions) as timestamped JSON">
+          Export State
+        </button>
+      )}
+      {onImportDemoState && (
+        <button onClick={onImportDemoState} className="tb-btn" title="Import Demo State from JSON file — restores via setters for realistic stakeholder scenarios">
+          Import State
+        </button>
+      )}
       <button onClick={toggle} className="tb-btn">
         {showFrame ? 'Hide Frame' : 'Show Frame'}
       </button>

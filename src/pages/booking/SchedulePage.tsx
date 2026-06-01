@@ -10,7 +10,7 @@ interface SchedulePageProps {
 }
 
 const SchedulePage: React.FC<SchedulePageProps> = ({ onNavigate }) => {
-  const { activeTrip, addRecentAction, bookTrip } = useDemoState();
+  const { activeTrip, addRecentAction, bookTrip, updateTripStatus } = useDemoState();
   const { success, info } = useToast();
   const [selectedDate, setSelectedDate] = useState('Today');
   const [selectedDay, setSelectedDay] = useState('3');
@@ -56,7 +56,7 @@ const SchedulePage: React.FC<SchedulePageProps> = ({ onNavigate }) => {
       if (btn) btn.style.transform = 'scale(1)';
       addRecentAction(`Scheduled trip for ${selectedDate} ${selectedTime}:${selectedAmPm}`);
       // Use bookTrip for persistent multi-trip + active focus (new core feature)
-      bookTrip({
+      const booked = bookTrip({
         status: 'upcoming',
         from: activeTrip?.from || 'Current location',
         to: activeTrip?.to || 'Apple Union Square',
@@ -64,6 +64,14 @@ const SchedulePage: React.FC<SchedulePageProps> = ({ onNavigate }) => {
         price: activeTrip?.price || 18,
         vehicle: activeTrip?.vehicle || 'Scheduled Ride'
       });
+      // Stronger integration: immediately attach driver + confirm via updateTripStatus (defensive)
+      if (booked.id) {
+        updateTripStatus(booked.id, 'upcoming', {
+          driver: 'Scheduled Driver • GodyX',
+          eta: `${selectedTime}:00 ${selectedAmPm} (confirmed)`
+        });
+      }
+      addRecentAction(`Continue scheduled + driver attached via updateTripStatus (${booked.to})`);
       success('行程已安排', `日期: ${selectedDate} ${selectedDay} Sep · 时间: ${selectedTime}:00 ${selectedAmPm}`);
       onNavigate?.('booking-requesting');
     }, 140);

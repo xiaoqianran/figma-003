@@ -8,7 +8,7 @@ interface ConfirmPickup2PageProps {
 }
 
 const ConfirmPickup2Page: React.FC<ConfirmPickup2PageProps> = ({ onNavigate }) => {
-  const { addRecentAction } = useDemoState();
+  const { activeTrip, addRecentAction, bookTrip, updateTripStatus } = useDemoState();
   const { info } = useToast_();
   const handleBack = () => {
     addRecentAction('Back from pickup confirm 2');
@@ -17,6 +17,15 @@ const ConfirmPickup2Page: React.FC<ConfirmPickup2PageProps> = ({ onNavigate }) =
 
   const handleSelect = (type: string) => {
     addRecentAction(`Selected pickup option: ${type}`);
+    // Drive state on selection/confirm in pickup2
+    const tripId = activeTrip?.id;
+    if (tripId) {
+      updateTripStatus(tripId, activeTrip.status || 'upcoming', { eta: type === 'ride-pack' ? 'Ride pack selected' : '$14 no-ride option' });
+      addRecentAction(`Pickup2 selection — mutated via updateTripStatus (${type})`);
+    } else if (type === 'ride-pack') {
+      bookTrip({ status: 'upcoming', from: '51 Sharon St', to: 'Apple Union Square', eta: 'Ride pack', price: 13 });
+      addRecentAction('Pickup2 ride-pack selected — via bookTrip');
+    }
     if (type === 'ride-pack') {
       onNavigate?.('booking-confirm-pickup3');
     } else {

@@ -8,7 +8,7 @@ interface PickupCountdownPageProps {
 }
 
 const PickupCountdownPage: React.FC<PickupCountdownPageProps> = ({ onNavigate }) => {
-  const { activeTrip, addRecentAction } = useDemoState();
+  const { activeTrip, addRecentAction, bookTrip, completeTrip } = useDemoState();
   const { success, info } = useToast();
   const [minutes, setMinutes] = useState(8);
   const [seconds, setSeconds] = useState(39);
@@ -39,6 +39,15 @@ const PickupCountdownPage: React.FC<PickupCountdownPageProps> = ({ onNavigate })
           clearInterval(interval);
           const doneText = 'Driver arrived!';
           setCountdownText(doneText);
+          // Key "arrived" action from countdown: complete the trip using completeTrip API (defensive)
+          const tripId = activeTrip?.id;
+          if (tripId) {
+            completeTrip(tripId);
+            addRecentAction(`Countdown reached arrived — completed trip via completeTrip (${activeTrip?.to || 'dest'})`);
+          } else {
+            bookTrip({ status: 'completed', from: activeTrip?.from || 'San Francisco International Airport', to: activeTrip?.to || 'Apple Union Square', driver: 'Arrived driver', vehicle: 'Toyota Camry', eta: 'Arrived', price: activeTrip?.price || 16, paid: true });
+            addRecentAction('Countdown arrived (no prior trip) — seeded completed via bookTrip');
+          }
           return 0;
         }
 
@@ -49,6 +58,7 @@ const PickupCountdownPage: React.FC<PickupCountdownPageProps> = ({ onNavigate })
     }, 1000);
 
     return () => clearInterval(interval);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [minutes]);
 
   const cars = [
@@ -84,7 +94,20 @@ const PickupCountdownPage: React.FC<PickupCountdownPageProps> = ({ onNavigate })
 
   const handleInfoCardClick = () => {
     addRecentAction('Tapped info card from pickup countdown');
-    onNavigate?.('trip-upcoming');
+    // Stronger: if arrived state, ensure completed via API before nav (defensive)
+    if (countdownText.includes('arrived')) {
+      const tripId = activeTrip?.id;
+      if (tripId) {
+        completeTrip(tripId);
+        addRecentAction('Manual arrived tap — force completeTrip');
+      } else if (!activeTrip) {
+        bookTrip({ status: 'completed', from: 'San Francisco International Airport', to: 'Apple Union Square', eta: 'Arrived', paid: true });
+        addRecentAction('Manual arrived tap — completed via bookTrip');
+      }
+      onNavigate?.('trips-detail-completed');
+    } else {
+      onNavigate?.('trip-upcoming');
+    }
   };
 
   return (

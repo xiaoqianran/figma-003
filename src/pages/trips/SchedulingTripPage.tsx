@@ -8,7 +8,7 @@ interface SchedulingTripPageProps {
 }
 
 const SchedulingTripPage: React.FC<SchedulingTripPageProps> = ({ onNavigate }) => {
-  const { activeTrip, setActiveTrip, addRecentAction } = useDemoState();
+  const { activeTrip, addRecentAction, bookTrip, updateTripStatus } = useDemoState();
   const { success } = useToast();
   const [currentStep, setCurrentStep] = useState(0);
   const [statusText, setStatusText] = useState('Scheduling your trip');
@@ -43,10 +43,12 @@ const SchedulingTripPage: React.FC<SchedulingTripPageProps> = ({ onNavigate }) =
             setStatusText('Trip scheduled successfully!');
             setTimeout(() => {
               addRecentAction('Trip scheduling completed');
-              // Ensure we have an active trip in state if none
-              if (!activeTrip) {
-                setActiveTrip({
-                  id: 'trip-sched-' + Date.now(),
+              // Use bookTrip (new API) instead of manual setActiveTrip for full multi-trip integration + bookedTrips
+              if (activeTrip?.id) {
+                updateTripStatus(activeTrip.id, 'upcoming', { eta: '3:50 PM (scheduled)', vehicle: activeTrip.vehicle || 'GodyX' });
+                addRecentAction(`Scheduling complete — updated existing via updateTripStatus (${activeTrip.to})`);
+              } else {
+                const scheduled = bookTrip({
                   status: 'upcoming',
                   from: 'Current location',
                   to: 'Apple Union Square',
@@ -54,6 +56,7 @@ const SchedulingTripPage: React.FC<SchedulingTripPageProps> = ({ onNavigate }) =
                   price: 16,
                   vehicle: 'GodyX'
                 });
+                addRecentAction(`Scheduling complete — booked via bookTrip (id: ${scheduled.id})`);
               }
               success('行程已安排', '行程安排成功！');
               setShowViewTripModal(true);

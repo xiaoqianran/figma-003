@@ -9,16 +9,40 @@ interface ConfirmPickup5PageProps {
 }
 
 const ConfirmPickup5Page: React.FC<ConfirmPickup5PageProps> = ({ onNavigate }) => {
-  const { addRecentAction } = useDemoState();
+  const { activeTrip, addRecentAction, bookTrip, updateTripStatus } = useDemoState();
   const { info, success } = useToast();
   const [showCancelModal, setShowCancelModal] = useState(false);
 
   const handleBack = () => { addRecentAction('Back from confirm pickup 5'); onNavigate?.('booking-confirm-pickup4'); };
-  const handleCall = () => { addRecentAction('Called driver from pickup 5'); info('拨打司机', '正在拨打司机电话...（演示）'); };
+  const handleCall = () => {
+    addRecentAction('Called driver from pickup 5');
+    // Driver call: attach driver + progress the trip state (defensive)
+    const tripId = activeTrip?.id;
+    if (tripId) {
+      updateTripStatus(tripId, 'in-progress', { driver: 'Push Puttichai • Toyota Camry', eta: '1 min' });
+      addRecentAction('Driver call from Confirm5 — driver/ETA via updateTripStatus');
+    } else {
+      bookTrip({ status: 'in-progress', from: 'Pickup 5', to: 'Apple Union Square', driver: 'Push', vehicle: 'Toyota Camry', eta: '1 min', price: 14 });
+      addRecentAction('Driver call from Confirm5 — seeded via bookTrip');
+    }
+    info('拨打司机', '正在拨打司机电话...（演示）');
+  };
   const handleSun = () => { addRecentAction('Toggled sunlight mode'); info('日光模式', '已切换日光模式（演示）'); };
   const handleOption = (label: string) => { addRecentAction(`Pickup option: ${label}`); info(label, `${label}（演示）`); };
   const handleCancel = () => { addRecentAction('Opened cancel from pickup 5'); setShowCancelModal(true); };
-  const handleSafety = () => { addRecentAction('Opened safety from pickup 5'); info('安全', '打开安全功能（演示）'); };
+  const handleSafety = () => {
+    addRecentAction('Opened safety from pickup 5');
+    // Key safety confirm action: mark progress + safety note via update (or book fallback)
+    const tripId = activeTrip?.id;
+    if (tripId) {
+      updateTripStatus(tripId, activeTrip?.status || 'in-progress', { eta: 'Safety confirmed • en route' });
+      addRecentAction('Safety confirmed — trip status mutated via updateTripStatus');
+    } else {
+      bookTrip({ status: 'in-progress', from: 'Current pickup', to: 'Apple Union Square', eta: 'Safety confirmed', paid: false });
+      addRecentAction('Safety confirmed — trip created via bookTrip');
+    }
+    info('安全', '打开安全功能（演示）');
+  };
 
   const confirmCancel = () => {
     addRecentAction('Confirmed cancel from pickup 5');

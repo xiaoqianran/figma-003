@@ -8,7 +8,7 @@ interface ConfirmPickup3PageProps {
 }
 
 const ConfirmPickup3Page: React.FC<ConfirmPickup3PageProps> = ({ onNavigate }) => {
-  const { addRecentAction } = useDemoState();
+  const { activeTrip, addRecentAction, bookTrip, updateTripStatus } = useDemoState();
   const { info } = useToast();
   const handleBack = () => {
     addRecentAction('Back from pickup confirm 3');
@@ -16,8 +16,28 @@ const ConfirmPickup3Page: React.FC<ConfirmPickup3PageProps> = ({ onNavigate }) =
   };
 
   const handleEdit = () => { addRecentAction('Edit pickup point'); info('上车点', '编辑上车点 (demo)'); };
-  const handleLocate = () => { addRecentAction('Locate on pickup confirm'); info('定位', '正在获取当前位置... (demo)'); };
-  const handleCall = () => { addRecentAction('Call driver from pickup'); info('电话', '正在拨打司机电话... (demo)'); };
+  const handleLocate = () => {
+    addRecentAction('Locate on pickup confirm');
+    // Mutate state on locate (confirm location action)
+    if (activeTrip?.id) {
+      updateTripStatus(activeTrip.id, activeTrip.status || 'upcoming', { eta: 'Locating • ETA updated' });
+      addRecentAction('Pickup location confirmed via locate — updateTripStatus');
+    }
+    info('定位', '正在获取当前位置... (demo)');
+  };
+  const handleCall = () => {
+    addRecentAction('Call driver from pickup');
+    // Key driver call action: attach driver info + progress status (defensive if trip exists)
+    const tripId = activeTrip?.id;
+    if (tripId) {
+      updateTripStatus(tripId, 'in-progress', { driver: 'Jack (Toyota Camry 9HTR789)', eta: '2 min away' });
+      addRecentAction('Driver called — status + driver info via updateTripStatus');
+    } else {
+      bookTrip({ status: 'in-progress', from: 'San Francisco International Airport', to: 'Apple Union Square', driver: 'Jack', vehicle: 'Toyota Camry', eta: '2 min' });
+      addRecentAction('Driver called — seeded trip via bookTrip');
+    }
+    info('电话', '正在拨打司机电话... (demo)');
+  };
   const handleSun = () => info('模式', '切换日光模式 (demo)');
 
   return (

@@ -9,15 +9,38 @@ interface ConfirmPickup7PageProps {
 }
 
 const ConfirmPickup7Page: React.FC<ConfirmPickup7PageProps> = ({ onNavigate }) => {
-  const { addRecentAction } = useDemoState();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { activeTrip, addRecentAction, bookTrip, updateTripStatus } = useDemoState();
   const { info, success } = useToast();
   const [showCancelModal, setShowCancelModal] = useState(false);
 
   const handleBack = () => { addRecentAction('Back from confirm pickup 7'); onNavigate?.('booking-confirm-pickup6'); };
   const handleShare = () => { addRecentAction('Shared trip status from pickup 7'); info('分享', '分享行程状态给联系人（演示）'); };
-  const handleCall = () => { addRecentAction('Called driver from pickup 7'); info('拨打司机', '正在拨打司机电话...（演示）'); };
+  const handleCall = () => {
+    addRecentAction('Called driver from pickup 7');
+    const tripId = activeTrip?.id;
+    if (tripId) {
+      updateTripStatus(tripId, 'in-progress', { driver: 'Push Puttichai • Toyota Camry', eta: '4:08pm arrival' });
+      addRecentAction('Driver call (page7) — driver/ETA via updateTripStatus');
+    } else {
+      bookTrip({ status: 'in-progress', from: 'Pickup 7', to: 'Apple Union Square', driver: 'Push', vehicle: 'Toyota Camry', eta: '4:08pm' });
+      addRecentAction('Driver call (page7) — via bookTrip');
+    }
+    info('拨打司机', '正在拨打司机电话...（演示）');
+  };
   const handleCancel = () => { addRecentAction('Opened cancel from pickup 7'); setShowCancelModal(true); };
-  const handleSafety = () => { addRecentAction('Opened safety from pickup 7'); info('安全', '打开安全功能（演示）'); };
+  const handleSafety = () => {
+    addRecentAction('Opened safety from pickup 7');
+    const tripId = activeTrip?.id;
+    if (tripId) {
+      updateTripStatus(tripId, activeTrip.status || 'in-progress', { eta: 'Safety confirmed • 4:08pm' });
+      addRecentAction('Safety confirmed (page7) — via updateTripStatus');
+    } else {
+      bookTrip({ status: 'in-progress', from: 'Pickup 7 loc', to: 'Apple Union Square', eta: 'Safety confirmed' });
+      addRecentAction('Safety confirmed (page7) — via bookTrip');
+    }
+    info('安全', '打开安全功能（演示）');
+  };
   const handleLearn = () => { addRecentAction('Learned about top driver from pickup 7'); info('详情', '打开Top Driver详情页面（演示）'); };
   const handleSave = () => { addRecentAction('Saved location from pickup 7'); success('已保存', '已添加到我的保存地点'); };
   const handleTrusted = () => { addRecentAction('Set trusted contact from pickup 7'); info('可信联系人', '设置可信联系人（演示）'); };

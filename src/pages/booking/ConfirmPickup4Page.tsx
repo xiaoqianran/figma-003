@@ -8,15 +8,37 @@ interface ConfirmPickup4PageProps {
 }
 
 const ConfirmPickup4Page: React.FC<ConfirmPickup4PageProps> = ({ onNavigate }) => {
-  const { addRecentAction } = useDemoState();
+  const { activeTrip, addRecentAction, bookTrip, updateTripStatus } = useDemoState();
   const { info } = useToast();
   const handleBack = () => {
     addRecentAction('Back from pickup confirm 4');
     onNavigate?.('booking-confirm-pickup3');
   };
-  const handleEdit = () => info('上车点', '编辑上车点 (demo)');
-  const handleShare = () => info('分享', '分享实时位置给司机 (demo)');
-  const handleCall = () => info('电话', '正在拨打司机电话... (demo)');
+  const handleEdit = () => {
+    addRecentAction('Edit pickup (page4)');
+    if (activeTrip?.id) {
+      updateTripStatus(activeTrip.id, activeTrip.status || 'upcoming', { from: 'Pickup point edited' });
+      addRecentAction('Pickup edit (4) — via updateTripStatus');
+    }
+    info('上车点', '编辑上车点 (demo)');
+  };
+  const handleShare = () => {
+    addRecentAction('Share live loc (page4)');
+    if (activeTrip?.id) updateTripStatus(activeTrip.id, 'in-progress', { eta: 'Location shared' });
+    info('分享', '分享实时位置给司机 (demo)');
+  };
+  const handleCall = () => {
+    addRecentAction('Call driver (page4)');
+    const tripId = activeTrip?.id;
+    if (tripId) {
+      updateTripStatus(tripId, 'in-progress', { driver: 'Push • Camry', eta: 'En route' });
+      addRecentAction('Call (4) — driver via updateTripStatus');
+    } else {
+      bookTrip({ status: 'in-progress', from: 'SFO pickup', to: 'Apple Union Square', driver: 'Push', eta: 'En route' });
+      addRecentAction('Call (4) — via bookTrip');
+    }
+    info('电话', '正在拨打司机电话... (demo)');
+  };
   const handleSun = () => info('模式', '切换日光模式 (demo)');
 
   return (
