@@ -70,7 +70,18 @@ const Search1Page: React.FC<Search1PageProps> = ({ onNavigate }) => {
     setAirportHighlight(true);
     setTimeout(() => {
       setAirportHighlight(false);
-      success('已选择机场', 'San Francisco International Airport (demo)');
+      const to = 'San Francisco International Airport';
+      // Result selection also creates real booking via bookTrip (Search1)
+      const booked = bookTrip({
+        status: 'upcoming',
+        from: 'Apple Union Square',
+        to,
+        price: 42,
+        vehicle: 'Black SUV',
+        eta: '25 min',
+      });
+      addRecentAction(`Airport selected as destination: ${to} — booked via bookTrip #${booked.id}`);
+      success('已选择机场', `已为 ${to} 创建真实预订 ($${booked.price})`);
       onNavigate?.('booking-choose-car');
     }, 200);
   };

@@ -9,7 +9,7 @@ interface NotificationPageProps {
 }
 
 const NotificationPage: React.FC<NotificationPageProps> = ({ onNavigate }) => {
-  const { activeTrip, addRecentAction } = useDemoState();
+  const { activeTrip, bookedTrips, addRecentAction } = useDemoState();
   const { success } = useToast();
   const [buttonText, setButtonText] = useState('启用推送通知');
   const [buttonDisabled, setButtonDisabled] = useState(false);
@@ -170,6 +170,22 @@ const NotificationPage: React.FC<NotificationPageProps> = ({ onNavigate }) => {
       <TopNav onBack={goBack} />
 
       {activeTrip && <div style={{ margin: '0 16px 8px', fontSize: 12, padding: '4px 10px', background: '#e8f4f8', borderRadius: 6 }}>Trip update: {activeTrip.to} ({activeTrip.status})</div>}
+
+      {/* Dynamic recent trip notifications from bookedTrips (new) */}
+      {bookedTrips.length > 0 && (
+        <div style={{ margin: '0 16px 12px', fontSize: 12 }}>
+          <div style={{ color: '#6E6A61', marginBottom: 4, paddingLeft: 4 }}>Recent trip updates</div>
+          {bookedTrips.slice(-3).reverse().map((t, idx) => (
+            <div key={idx} style={{ padding: '6px 10px', background: '#fff', borderRadius: 6, marginBottom: 4, border: '1px solid #eee', cursor: 'pointer' }}
+                 onClick={() => {
+                   addRecentAction(`Viewed notification for trip to ${t.to}`);
+                   onNavigate?.(t.status === 'completed' ? 'trips-detail-completed' : 'trip-upcoming');
+                 }}>
+              {t.status === 'completed' ? '✅' : t.status === 'in-progress' ? '🚕' : '📅'} {t.from} → {t.to} · {t.status}
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* 插画区域 - EXACT structure, classes and dimensions from original HTML */}
       <div className={styles.illustration} onClick={handleIllustrationClick}>

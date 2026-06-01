@@ -9,8 +9,8 @@ interface MapHomePageProps {
 }
 
 const MapHomePage: React.FC<MapHomePageProps> = ({ onNavigate }) => {
-  const { info } = useToast();
-  const { user, activeTrip, addRecentAction } = useDemoState();
+  const { info, success } = useToast();
+  const { user, activeTrip, addRecentAction, placeEatsOrder, bookTrip } = useDemoState();
 
   const selectCar = (e: React.MouseEvent) => {
     (e.currentTarget as HTMLElement).style.transform = 'scale(1.6)';
@@ -60,7 +60,12 @@ const MapHomePage: React.FC<MapHomePageProps> = ({ onNavigate }) => {
 
         <div className={styles.actionRow}>
           <div className={`${styles.actionBtn} ${styles.tripsBtn}`} onClick={() => { addRecentAction('Opened trips from map home'); onNavigate?.('trips-hub'); }}>🚗 Trips</div>
-          <div className={`${styles.actionBtn} ${styles.eatsBtn}`} onClick={() => { addRecentAction('Opened eats demo'); info('Eats', 'Eats demo (demo)'); }}>🍽️ Eats</div>
+          <div className={`${styles.actionBtn} ${styles.eatsBtn}`} onClick={() => {
+            addRecentAction('Opened eats demo');
+            placeEatsOrder('Map QuickBite', 'Street Bao', 18);
+            bookTrip({ from: 'Map QuickBite', to: 'Current location', driver: 'Rider', vehicle: 'Bike', price: 18, status: 'upcoming', eta: '12 min' });
+            success('Eats', 'Order placed! ¥18 Bao • Delivery trip logged in DemoState');
+          }}>🍽️ Eats</div>
         </div>
       </div>
 

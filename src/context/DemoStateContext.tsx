@@ -32,6 +32,13 @@ interface DemoState {
   activeTrip: DemoTrip | null;
   bookedTrips: DemoTrip[];
   recentActions: string[];
+  // Demo feature state for profile/account perks (lightweight flows)
+  balance: number;
+  hasGodyPass: boolean;
+  godyPassExpiry: string | null;
+  promoCredits: number;
+  giftsSent: number;
+  eatsOrders: number;
 }
 
 interface DemoStateContextValue extends DemoState {
@@ -48,6 +55,11 @@ interface DemoStateContextValue extends DemoState {
   clearBookedTrips: () => void;
   /** Clears only the persisted localStorage (keeps current in-memory state) */
   clearPersistedDemoState: () => void;
+  // Lightweight demo feature flows (Gody Pass, Gifts, Free trips, Eats)
+  buyGodyPass: (cost?: number) => void;
+  claimPromoCredit: (amount?: number) => void;
+  sendGift: (to: string, amount: number) => void;
+  placeEatsOrder: (restaurant: string, item: string, cost: number) => void;
 }
 
 const defaultUser: DemoUser = {
@@ -73,8 +85,8 @@ function loadPersistedState(): Partial<DemoState> | null {
     if (!raw) return null;
     const parsed = JSON.parse(raw);
     if (parsed.version !== STORAGE_VERSION) return null; // future migration point
-    const { user, selectedPayment, activeTrip, bookedTrips, recentActions } = parsed;
-    return { user, selectedPayment, activeTrip, bookedTrips, recentActions };
+    const { user, selectedPayment, activeTrip, bookedTrips, recentActions, balance, hasGodyPass, godyPassExpiry, promoCredits, giftsSent, eatsOrders } = parsed;
+    return { user, selectedPayment, activeTrip, bookedTrips, recentActions, balance, hasGodyPass, godyPassExpiry, promoCredits, giftsSent, eatsOrders };
   } catch {
     return null;
   }
@@ -89,6 +101,12 @@ function persistState(state: DemoState) {
       activeTrip: state.activeTrip,
       bookedTrips: state.bookedTrips,
       recentActions: state.recentActions,
+      balance: state.balance,
+      hasGodyPass: state.hasGodyPass,
+      godyPassExpiry: state.godyPassExpiry,
+      promoCredits: state.promoCredits,
+      giftsSent: state.giftsSent,
+      eatsOrders: state.eatsOrders,
       savedAt: Date.now(),
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
@@ -112,6 +130,13 @@ const initialState: DemoState = {
   activeTrip: null,
   bookedTrips: [],
   recentActions: [],
+  // Demo perks defaults
+  balance: 256.75,
+  hasGodyPass: false,
+  godyPassExpiry: null,
+  promoCredits: 0,
+  giftsSent: 0,
+  eatsOrders: 0,
 };
 
 export const DemoStateProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -125,6 +150,12 @@ export const DemoStateProvider: React.FC<{ children: ReactNode }> = ({ children 
         activeTrip: persisted.activeTrip ?? null,
         bookedTrips: persisted.bookedTrips ?? [],
         recentActions: persisted.recentActions ?? [],
+        balance: persisted.balance ?? 256.75,
+        hasGodyPass: persisted.hasGodyPass ?? false,
+        godyPassExpiry: persisted.godyPassExpiry ?? null,
+        promoCredits: persisted.promoCredits ?? 0,
+        giftsSent: persisted.giftsSent ?? 0,
+        eatsOrders: persisted.eatsOrders ?? 0,
       };
     }
     return initialState;
@@ -205,6 +236,54 @@ export const DemoStateProvider: React.FC<{ children: ReactNode }> = ({ children 
     setState(s => ({ ...s, bookedTrips: [], activeTrip: null }));
   }, []);
 
+  // --- Lightweight demo feature flows (used by Profile/Account mini UIs) ---
+  const buyGodyPass = useCallback((cost: number = 99) => {
+    setState(s => {
+      if (s.balance < cost) {
+        // UI should guard, but clamp here
+        return s;
+      }
+      return {
+        ...s,
+        balance: Math.round((s.balance - cost) * 100) / 100,
+        hasGodyPass: true,
+        godyPassExpiry: '2026-07-01',
+      };
+    });
+    addRecentAction(`Purchased Gody Pass for ¥${cost}`);
+  }, [addRecentAction]);
+
+  const claimPromoCredit = useCallback((amount: number = 1) => {
+    setState(s => ({
+      ...s,
+      promoCredits: s.promoCredits + amount,
+    }));
+    addRecentAction(`Claimed ${amount} promo credit${amount > 1 ? 's' : ''} (free trips)`);
+  }, [addRecentAction]);
+
+  const sendGift = useCallback((to: string, amount: number) => {
+    setState(s => {
+      if (s.balance < amount) {
+        return s;
+      }
+      return {
+        ...s,
+        balance: Math.round((s.balance - amount) * 100) / 100,
+        giftsSent: s.giftsSent + 1,
+      };
+    });
+    addRecentAction(`Sent ¥${amount} gift to ${to}`);
+  }, [addRecentAction]);
+
+  const placeEatsOrder = useCallback((restaurant: string, item: string, cost: number) => {
+    setState(s => ({
+      ...s,
+      eatsOrders: s.eatsOrders + 1,
+      balance: Math.max(0, Math.round((s.balance - cost) * 100) / 100),
+    }));
+    addRecentAction(`Ordered ${item} from ${restaurant} (¥${cost})`);
+  }, [addRecentAction]);
+
   const clearPersistedDemoState = useCallback(() => {
     try { localStorage.removeItem(STORAGE_KEY); } catch { /* ignore storage errors */ }
   }, []);
@@ -235,6 +314,10 @@ export const DemoStateProvider: React.FC<{ children: ReactNode }> = ({ children 
         completeTrip,
         clearBookedTrips,
         clearPersistedDemoState,
+        buyGodyPass,
+        claimPromoCredit,
+        sendGift,
+        placeEatsOrder,
       }}
     >
       {children}

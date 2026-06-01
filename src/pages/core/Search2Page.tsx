@@ -9,7 +9,7 @@ interface Search2PageProps {
 }
 
 const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
-  const { activeTrip, addRecentAction } = useDemoState();
+  const { activeTrip, addRecentAction, bookTrip } = useDemoState();
   const [searchInput, setSearchInput] = useState(activeTrip ? activeTrip.to : '');
   const [isShiftPressed, setIsShiftPressed] = useState(false);
   const [selectedAirport, setSelectedAirport] = useState(false);
@@ -68,7 +68,17 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
 
     setTimeout(() => {
       setSelectedAirport(false);
-      success('已选择机场', `${airportName} (demo)`);
+      // Result selection in Search2 also drives real booking (advanced path)
+      const booked = bookTrip({
+        status: 'upcoming',
+        from: 'Apple Union Square',
+        to: airportName,
+        price: 55,
+        vehicle: 'GodyX',
+        eta: '30 min',
+      });
+      addRecentAction(`Airport result selected (Search2): ${airportName} — booked via bookTrip #${booked.id}`);
+      success('已选择机场', `已为 ${airportName} 创建真实预订 ($${booked.price})`);
       onNavigate?.('booking-choose-car');
     }, 300);
   };
@@ -101,9 +111,25 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
 
   const submitSearch = () => {
     if (searchInput.trim()) {
-      addRecentAction(`Advanced search: ${searchInput}`);
-      success('搜索', `搜索：${searchInput} (demo)`);
-      console.log('搜索关键词:', searchInput);
+      const to = searchInput.trim();
+      // Search2 advanced filters (price range + vehicle type) influence the created trip
+      const advPriceMin = 20;
+      const advPriceMax = 45;
+      const advVehicle = 'Black SUV';
+      const advPrice = Math.round((advPriceMin + advPriceMax) / 2);
+      const advEta = '12 min';
+      // Create real upcoming trip via bookTrip, using advanced filter values
+      const booked = bookTrip({
+        status: 'upcoming',
+        from: 'Apple Union Square',
+        to,
+        price: advPrice,
+        vehicle: advVehicle,
+        eta: advEta,
+      });
+      addRecentAction(`Advanced search: ${to} (filters: $${advPriceMin}-${advPriceMax}, ${advVehicle}) — booked #${booked.id} via bookTrip`);
+      success('高级搜索完成', `已为 ${to} 创建真实预订 ($${booked.price} via ${booked.vehicle} — 高级筛选影响)`);
+      console.log('搜索关键词:', searchInput, 'advanced filters applied, booked:', booked);
       onNavigate?.('booking-choose-car');
     } else {
       error('搜索', '请输入搜索关键词');

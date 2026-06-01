@@ -8,7 +8,7 @@ interface ChooseCarPageProps {
 }
 
 const ChooseCarPage: React.FC<ChooseCarPageProps> = ({ onNavigate }) => {
-  const { addRecentAction, selectedPayment, bookTrip } = useDemoState();
+  const { activeTrip, addRecentAction, selectedPayment, bookTrip } = useDemoState();
   const { error, success, info } = useToast();
   const [selected, setSelected] = useState<string | null>(null);
 
@@ -29,11 +29,14 @@ const ChooseCarPage: React.FC<ChooseCarPageProps> = ({ onNavigate }) => {
     const v = vehicles.find(x => x.id === selected);
     if (!v) return;
 
+    // Use activeTrip.to (prefilled/passed from Search1Page/Search2Page via prior bookTrip) so ChooseCar feels connected to searched destination
+    const destTo = activeTrip?.to || 'Apple Union Square';
+    const destFrom = activeTrip?.from || '51 Sharon St';
     // Use new bookTrip for persistent multi-trip history + active focus
     const booked = bookTrip({
       status: 'upcoming',
-      from: '51 Sharon St',
-      to: 'Apple Union Square',
+      from: destFrom,
+      to: destTo,
       vehicle: v.name,
       price: v.price,
       eta: '3:50 PM',
@@ -54,7 +57,7 @@ const ChooseCarPage: React.FC<ChooseCarPageProps> = ({ onNavigate }) => {
         <div style={{ position: 'absolute', top: 180, left: 80, fontSize: 18, zIndex: 5 }}>📍</div>
         <div style={{ position: 'absolute', top: 260, left: 240, fontSize: 18, zIndex: 5 }}>🛤️</div>
         <div style={{ position: 'absolute', top: 190, left: 120, background: '#fff', padding: '2px 8px', borderRadius: 999, fontSize: 11, boxShadow: '0 2px 6px rgba(0,0,0,0.1)', zIndex: 10 }}>
-          Apple Union Square <span style={{ fontSize: 10 }}>🕐</span>
+          {(activeTrip?.to || 'Apple Union Square')} <span style={{ fontSize: 10 }}>🕐</span>
         </div>
       </div>
 
