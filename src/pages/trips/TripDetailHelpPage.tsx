@@ -9,7 +9,7 @@ interface Props {
 }
 
 const TripDetailHelpPage: React.FC<Props> = ({ onNavigate }) => {
-  const { activeTrip, addRecentAction } = useDemoState();
+  const { activeTrip, bookedTrips, setActiveTrip, addRecentAction, updateTripStatus, completeTrip, cancelTrip } = useDemoState();
   const { success, info } = useToast_();
   const goBack = () => {
     addRecentAction('Back from trip help detail');
@@ -20,6 +20,29 @@ const TripDetailHelpPage: React.FC<Props> = ({ onNavigate }) => {
     addRecentAction(`Help option selected: ${label}`);
     info('帮助选项', `已选择: ${label} (demo)`);
     if (label.includes('accident')) onNavigate?.('other-evaluate2');
+  };
+
+  // NEW: functional mutation helpers callable from help page actions (for demo flow)
+  const handleCompleteFromHelp = () => {
+    const id = activeTrip?.id;
+    addRecentAction('Completed trip from help page via completeTrip');
+    if (id) completeTrip(id);
+    success('完成', 'Trip completed from help flow');
+    onNavigate?.('trips-past');
+  };
+  const handleCancelFromHelp = () => {
+    const id = activeTrip?.id;
+    addRecentAction('Cancelled from help page via cancelTrip');
+    if (id) cancelTrip(id);
+    onNavigate?.('trips-past');
+  };
+  const handleUpdateStatusFromHelp = (status: 'upcoming' | 'in-progress' | 'completed') => {
+    const id = activeTrip?.id;
+    if (id) {
+      updateTripStatus(id, status);
+      addRecentAction(`Updated status to ${status} from help`);
+    }
+    onNavigate?.(status === 'completed' ? 'trips-past' : 'trips-upcoming');
   };
 
   React.useEffect(() => {
@@ -81,6 +104,23 @@ const TripDetailHelpPage: React.FC<Props> = ({ onNavigate }) => {
         <div className={styles.helpOption} onClick={() => handleHelpOption('I lost an item')}>I lost an item</div>
         <div className={styles.helpOption} onClick={() => handleHelpOption('My driver was unprofessional')}>My driver was unprofessional</div>
         <div className={styles.helpOption} onClick={() => handleHelpOption('My vehicle wasn\'t what I expected')}>My vehicle wasn't what I expected</div>
+
+        {/* NEW: functional Cancel/Complete/Status mutation buttons in Help detail (leverage APIs, ensure past list population) */}
+        <div style={{ padding: '16px 24px 8px', background: '#fafaf8', margin: '12px 0 0' }}>
+          <div style={{ fontSize: 11, fontWeight: 500, color: '#49493d', marginBottom: 8 }}>Quick status actions (demo - mutates bookedTrips + active):</div>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <button onClick={handleCompleteFromHelp} style={{ flex: '1 1 45%', padding: '10px 12px', fontSize: 13, background: '#4caf50', color: '#fff', border: 'none', borderRadius: 10, cursor: 'pointer' }}>✓ Complete trip</button>
+            <button onClick={handleCancelFromHelp} style={{ flex: '1 1 45%', padding: '10px 12px', fontSize: 13, background: '#c62828', color: '#fff', border: 'none', borderRadius: 10, cursor: 'pointer' }}>✕ Cancel trip</button>
+            <button onClick={() => handleUpdateStatusFromHelp('in-progress')} style={{ flex: '1 1 45%', padding: '8px 12px', fontSize: 12, background: '#fff', border: '1px solid #fecc2a', borderRadius: 10, cursor: 'pointer' }}>Set In-Progress</button>
+            <button onClick={() => handleUpdateStatusFromHelp('upcoming')} style={{ flex: '1 1 45%', padding: '8px 12px', fontSize: 12, background: '#fff', border: '1px solid #fecc2a', borderRadius: 10, cursor: 'pointer' }}>Set Upcoming</button>
+          </div>
+          {activeTrip && <div style={{ fontSize: 10, marginTop: 6, color: '#6E6A61' }}>Current: {activeTrip.to} ({activeTrip.status}) | total booked: {bookedTrips.length}</div>}
+          {bookedTrips.filter(t=>t.status==='completed').length > 0 && (
+            <div style={{ fontSize: 10, marginTop: 4 }}>
+              Past in state: {bookedTrips.filter(t=>t.status==='completed').length} — <span onClick={() => { const p = bookedTrips.find(t=>t.status==='completed'); if(p){setActiveTrip(p); onNavigate?.('trips-detail-completed');} }} style={{color:'#fecc2a', cursor:'pointer'}}>view in Past detail</span>
+            </div>
+          )}
+        </div>
 
         <HomeIndicator />
       </div>

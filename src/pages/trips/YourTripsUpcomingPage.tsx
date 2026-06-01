@@ -8,9 +8,13 @@ interface Props {
 }
 
 const YourTripsUpcomingPage: React.FC<Props> = ({ onNavigate }) => {
-  const { activeTrip, addRecentAction } = useDemoState();
+  const { activeTrip, bookedTrips, addRecentAction } = useDemoState();
   const goBack = () => onNavigate?.('trips-hub');
   const switchToPast = () => onNavigate?.('trips-past');
+
+  // NEW: Collect dynamic upcoming trips from persistent bookedTrips (status upcoming | in-progress)
+  const upcomingFromBooked = bookedTrips.filter(t => t.status === 'upcoming' || t.status === 'in-progress');
+  const hasUpcoming = activeTrip || upcomingFromBooked.length > 0;
 
   return (
     <div className="mobile-frame" style={{ background: '#fff', overflow: 'hidden' }}>
@@ -26,33 +30,64 @@ const YourTripsUpcomingPage: React.FC<Props> = ({ onNavigate }) => {
         </div>
       </div>
 
-      {/* Dynamic content: show active trip from DemoState or empty state */}
-      {activeTrip ? (
+      {hasUpcoming ? (
         <div style={{ padding: '0 24px' }}>
-          <div style={{ margin: '16px 0 8px', fontSize: 13, color: '#6E6A61', textAlign: 'center' }}>Active / Upcoming Trip (live from demo state)</div>
-          <TripCard
-            status={activeTrip.status === 'in-progress' ? 'in-progress' : 'upcoming'}
-            title={`${activeTrip.vehicle || 'Ride'} to ${activeTrip.to}`}
-            time={`${activeTrip.eta || 'Today'} · ${activeTrip.from || ''} → ${activeTrip.to}`}
-            from={activeTrip.from || 'Current location'}
-            to={activeTrip.to}
-            price={activeTrip.price ? String(activeTrip.price) : undefined}
-            driver={activeTrip.driver}
-            onClick={() => onNavigate?.('trip-upcoming')}
-          />
+          <div style={{ margin: '8px 0 12px', fontSize: 12, color: '#6E6A61', textAlign: 'center' }}>
+            Live from demo state — {upcomingFromBooked.length + (activeTrip ? 1 : 0)} upcoming/in-progress
+          </div>
+
+          {/* Active focused trip first (if present) */}
+          {activeTrip && (activeTrip.status === 'upcoming' || activeTrip.status === 'in-progress') && (
+            <div style={{ marginBottom: 12 }}>
+              <div style={{ fontSize: 10, color: '#fecc2a', marginBottom: 4, paddingLeft: 4 }}>CURRENT FOCUS</div>
+              <TripCard
+                status={activeTrip.status === 'in-progress' ? 'in-progress' : 'upcoming'}
+                title={`${activeTrip.vehicle || 'Ride'} to ${activeTrip.to}`}
+                time={`${activeTrip.eta || 'Today'} · ${activeTrip.from || ''} → ${activeTrip.to}`}
+                from={activeTrip.from || 'Current location'}
+                to={activeTrip.to}
+                price={activeTrip.price ? String(activeTrip.price) : undefined}
+                driver={activeTrip.driver}
+                onClick={() => onNavigate?.('trip-upcoming')}
+              />
+            </div>
+          )}
+
+          {/* All other booked upcoming */}
+          {upcomingFromBooked
+            .filter(t => !activeTrip || t.id !== activeTrip.id)
+            .map((trip) => (
+              <div key={trip.id} style={{ marginBottom: 10 }}>
+                <TripCard
+                  status={trip.status === 'in-progress' ? 'in-progress' : 'upcoming'}
+                  title={`${trip.vehicle || 'Ride'} to ${trip.to}`}
+                  time={`${trip.eta || 'Scheduled'} · ${trip.from} → ${trip.to}`}
+                  from={trip.from}
+                  to={trip.to}
+                  price={trip.price ? String(trip.price) : undefined}
+                  driver={trip.driver}
+                  onClick={() => {
+                    // Focus this trip as active when tapped from list
+                    // (no direct setter for arbitrary, but we can nav to detail which will use it)
+                    onNavigate?.('trip-upcoming');
+                  }}
+                />
+              </div>
+            ))}
+
           <button
             onClick={() => {
               addRecentAction('Viewed upcoming trip details');
               onNavigate?.('trip-upcoming');
             }}
-            style={{ margin: '16px 24px 0', width: 'calc(100% - 48px)', padding: '12px', background: '#fecc2a', border: 'none', borderRadius: 12, fontWeight: 600, color: '#0A0908' }}
+            style={{ margin: '12px 0 20px', width: '100%', padding: '12px', background: '#fecc2a', border: 'none', borderRadius: 12, fontWeight: 600, color: '#0A0908' }}
           >
-            View trip details
+            View active trip details
           </button>
         </div>
       ) : (
         <>
-          {/* Illustration area - simplified faithful recreation */}
+          {/* Empty state unchanged */}
           <div style={{ margin: '24px auto 0', width: 327, height: 175, position: 'relative', background: '#f8f9fa', borderRadius: 12, overflow: 'hidden' }}>
             <div style={{ position: 'absolute', top: 20, left: 20, fontSize: 60, opacity: 0.15 }}>🗺️</div>
             <div style={{ position: 'absolute', top: 40, right: 40, fontSize: 42 }}>📱</div>

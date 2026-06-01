@@ -7,7 +7,7 @@ interface Props {
 }
 
 const TripTestPage: React.FC<Props> = ({ onNavigate }) => {
-  const { activeTrip, setActiveTrip, addRecentAction } = useDemoState();
+  const { activeTrip, bookedTrips, setActiveTrip, addRecentAction, clearBookedTrips } = useDemoState();
   const [results, setResults] = useState<string[]>([]);
 
   const addResult = (msg: string) => setResults(r => [...r, `${new Date().toLocaleTimeString()} ${msg}`]);
@@ -62,7 +62,8 @@ const TripTestPage: React.FC<Props> = ({ onNavigate }) => {
             addResult('✅ Set activeTrip: ' + t.to);
           }} style={{ background: '#28a745', color: '#fff', padding: '6px 10px', border: 'none', borderRadius: 4, marginRight: 6, fontSize: 12 }}>Create Test Active Trip</button>
           <button onClick={() => { setActiveTrip(null); addRecentAction('Cleared active trip'); addResult('✅ Cleared activeTrip'); }} style={{ background: '#dc3545', color: '#fff', padding: '6px 10px', border: 'none', borderRadius: 4, fontSize: 12 }}>Clear Active Trip</button>
-          <div style={{ fontSize: 11, marginTop: 6, color: '#666' }}>Active: {activeTrip ? `${activeTrip.to} (${activeTrip.status})` : 'none'}</div>
+          <button onClick={() => { clearBookedTrips?.(); addRecentAction('Cleared all booked trips (debug)'); addResult('✅ Cleared all bookedTrips via clearBookedTrips'); }} style={{ background: '#6c757d', color: '#fff', padding: '6px 10px', border: 'none', borderRadius: 4, fontSize: 12, marginLeft: 4 }}>Clear all trips</button>
+          <div style={{ fontSize: 11, marginTop: 6, color: '#666' }}>Active: {activeTrip ? `${activeTrip.to} (${activeTrip.status})` : 'none'} | Booked: {bookedTrips.length}</div>
         </div>
 
         <div style={{ marginTop: 16, background: '#fff', padding: 12, borderRadius: 8, minHeight: 120, fontSize: 13, whiteSpace: 'pre-wrap' }}>

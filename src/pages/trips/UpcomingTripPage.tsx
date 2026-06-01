@@ -1,6 +1,6 @@
 import React from 'react';
 import { StatusBar, HomeIndicator } from '../../components/mobile';
-import { useDemoState } from '../../context/DemoStateContext';
+import { useDemoState, type DemoTrip } from '../../context/DemoStateContext';
 import { useToast } from '../../components/ui';
 
 interface UpcomingTripPageProps {
@@ -8,19 +8,27 @@ interface UpcomingTripPageProps {
 }
 
 const UpcomingTripPage: React.FC<UpcomingTripPageProps> = ({ onNavigate }) => {
-  const { activeTrip, setActiveTrip, addRecentAction } = useDemoState();
+  const { activeTrip, bookedTrips, setActiveTrip, addRecentAction, completeTrip, cancelTrip } = useDemoState();
   const { success, info } = useToast();
 
-  const trip = activeTrip || {
+  // Support multiple booked trips: derive current + others for switching in this detail view
+  const upcomingFromBooked = bookedTrips.filter(t => t.status === 'upcoming' || t.status === 'in-progress');
+  const fallbackTrip: DemoTrip = {
+    id: 'fallback-static',
+    status: 'upcoming',
     to: 'Apple Union Square',
     from: '51 Sharon St',
     eta: '3:50 PM',
     price: 16,
     vehicle: 'GodyX',
   };
+  const currentTrip: DemoTrip = activeTrip || fallbackTrip;
+  const otherUpcoming = upcomingFromBooked.filter(t => !activeTrip || t.id !== activeTrip.id);
+
+  const trip = currentTrip; // for minimal diff in render
 
   const handleFinish = () => {
-    // Simulate processing then complete + update demo state
+    // Use the new completeTrip mutation API for proper status + paid update
     const btn = document.activeElement as HTMLButtonElement | null;
     if (btn) {
       btn.style.transform = 'scale(0.95)';
@@ -35,15 +43,37 @@ const UpcomingTripPage: React.FC<UpcomingTripPageProps> = ({ onNavigate }) => {
         btn.style.color = '#fff';
       }
       setTimeout(() => {
-        addRecentAction(`Completed trip to ${trip.to}`);
-        // Mark trip completed in state (or clear)
-        if (activeTrip) {
-          setActiveTrip({ ...activeTrip, status: 'completed' });
+        addRecentAction(`Completed trip to ${trip.to} via completeTrip`);
+        if (currentTrip.id && currentTrip.id !== 'fallback-static') {
+          completeTrip(currentTrip.id);
+        } else if (activeTrip) {
+          // fallback path
+          setActiveTrip({ ...activeTrip, status: 'completed', paid: true, eta: 'Arrived' });
         }
-        success('行程完成', '行程设置完成！ (demo state updated)');
-        onNavigate?.('trips-upcoming');
+        success('行程完成', '行程已完成并记录到 Past (demo state via completeTrip)');
+        // After complete, navigate to Past lists so it appears there
+        onNavigate?.('trips-past');
       }, 800);
     }, 1200);
+  };
+
+  const handleCancel = () => {
+    // Use cancelTrip mutation API (marks terminal)
+    const id = currentTrip.id;
+    addRecentAction(`Cancelled upcoming trip to ${trip.to} via cancelTrip`);
+    if (id && id !== 'fallback-static') {
+      cancelTrip(id);
+    } else if (activeTrip) {
+      setActiveTrip({ ...activeTrip, status: 'completed' });
+    }
+    success('已取消', '行程已取消 (将出现在 Past 列表中)');
+    onNavigate?.('trips-past');
+  };
+
+  const switchToTrip = (t: DemoTrip) => {
+    setActiveTrip(t);
+    addRecentAction(`Switched focus to trip ${t.to} in upcoming detail`);
+    info('切换', '已聚焦到该行程');
   };
 
   const showTerms = () => {
@@ -99,16 +129,41 @@ const UpcomingTripPage: React.FC<UpcomingTripPageProps> = ({ onNavigate }) => {
           </span>
         </div>
 
-        {/* 完成按钮 */}
+        {/* Multiple trips support: quick switcher if other upcoming exist (minimal addition) */}
+        {otherUpcoming.length > 0 && (
+          <div style={{ marginBottom: 12 }}>
+            <div style={{ fontSize: 11, color: '#959595', marginBottom: 4 }}>Other upcoming ({otherUpcoming.length}):</div>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {otherUpcoming.slice(0, 3).map((t, i) => (
+                <button key={i} onClick={() => switchToTrip(t)} style={{ fontSize: 11, padding: '4px 10px', background: '#f0f0f0', border: 'none', borderRadius: 8, cursor: 'pointer' }}>
+                  {t.to} ({t.status})
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 完成按钮 - now uses completeTrip mutation, navs to past */}
         <button
           onClick={handleFinish}
           className="primary-btn"
           style={{
             width: '100%', height: 52, background: '#fecc2a', border: 'none', borderRadius: 12,
-            fontSize: 18, fontWeight: 600, color: '#49493d', cursor: 'pointer', marginTop: 24, marginBottom: 8
+            fontSize: 18, fontWeight: 600, color: '#49493d', cursor: 'pointer', marginTop: 8, marginBottom: 8
           }}
         >
           Finished
+        </button>
+
+        {/* New functional Cancel button using cancelTrip API */}
+        <button
+          onClick={handleCancel}
+          style={{
+            width: '100%', height: 44, background: '#fff', border: '1px solid #ccc', borderRadius: 12,
+            fontSize: 16, fontWeight: 500, color: '#c62828', cursor: 'pointer', marginBottom: 16
+          }}
+        >
+          Cancel this trip
         </button>
 
         <HomeIndicator />

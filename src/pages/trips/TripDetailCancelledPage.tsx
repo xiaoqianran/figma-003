@@ -8,11 +8,38 @@ interface Props {
 }
 
 const TripDetailCancelledPage: React.FC<Props> = ({ onNavigate }) => {
-  const { activeTrip, addRecentAction } = useDemoState();
+  const { activeTrip, bookedTrips, setActiveTrip, addRecentAction, updateTripStatus, cancelTrip, completeTrip } = useDemoState();
   const goBack = () => onNavigate?.('trips-past');
 
   const goToPast = () => {
     addRecentAction('Returned to past trips from cancelled detail');
+    onNavigate?.('trips-past');
+  };
+
+  // NEW: functional buttons using mutation APIs even on cancelled view (for demo, allows status changes + ensures appears in past)
+  const handleUndoCancel = () => {
+    const id = activeTrip?.id;
+    addRecentAction('Undo cancel via updateTripStatus (set upcoming)');
+    if (id) {
+      updateTripStatus(id, 'upcoming', { eta: 'Rescheduled' });
+    } else {
+      // create a demo one if none
+      // but avoid book here; just toast
+    }
+    onNavigate?.('trips-upcoming');
+  };
+
+  const handleCompleteFromCancelled = () => {
+    const id = activeTrip?.id;
+    addRecentAction('Force complete from cancelled detail via completeTrip');
+    if (id) completeTrip(id);
+    onNavigate?.('trips-past');
+  };
+
+  const handleCancelAgain = () => {
+    const id = activeTrip?.id;
+    if (id) cancelTrip(id);
+    addRecentAction('Re-cancel via cancelTrip API');
     onNavigate?.('trips-past');
   };
 
@@ -73,6 +100,24 @@ const TripDetailCancelledPage: React.FC<Props> = ({ onNavigate }) => {
         {/* 地图2 */}
         <div className={styles.secondaryMap}>
           <div className={styles.mapGrid} />
+        </div>
+
+        {/* NEW functional Cancel/Complete mutation buttons (and undo) in cancelled detail */}
+        <div style={{ padding: '12px 24px 8px', fontSize: 12 }}>
+          <div style={{ color: '#959595', marginBottom: 6 }}>Demo trip actions (use APIs, trip will move to Past lists on complete/cancel):</div>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <button onClick={handleUndoCancel} style={{ flex:1, padding:'8px 12px', background:'#e8f5e9', border:'none', borderRadius:8, fontSize:12, cursor:'pointer' }}>Undo Cancel → Upcoming</button>
+            <button onClick={handleCompleteFromCancelled} style={{ flex:1, padding:'8px 12px', background:'#e3f2fd', border:'none', borderRadius:8, fontSize:12, cursor:'pointer' }}>Mark Complete</button>
+            <button onClick={handleCancelAgain} style={{ flex:1, padding:'8px 12px', background:'#ffebee', border:'none', borderRadius:8, fontSize:12, cursor:'pointer', color:'#c62828' }}>Re-cancel</button>
+          </div>
+          {activeTrip && <div style={{ marginTop: 4, fontSize: 10, color: '#6E6A61' }}>Using: {activeTrip.from}→{activeTrip.to} ({activeTrip.status}) | booked:{bookedTrips.length}</div>}
+          {/* Quick focus other booked completed for past continuity */}
+          {bookedTrips.filter(t => t.status === 'completed').length > 0 && (
+            <button onClick={() => {
+              const pastOne = bookedTrips.find(t => t.status === 'completed');
+              if (pastOne) { setActiveTrip(pastOne); onNavigate?.('trips-detail-completed'); }
+            }} style={{ marginTop: 6, fontSize: 10, padding: '4px 8px', background: '#f5f5f5', border: 'none', borderRadius: 4 }}>View a completed past trip →</button>
+          )}
         </div>
 
         <HomeIndicator />

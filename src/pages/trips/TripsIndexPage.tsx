@@ -7,7 +7,7 @@ interface Props {
 }
 
 const TripsIndexPage: React.FC<Props> = ({ onNavigate }) => {
-  const { activeTrip, addRecentAction } = useDemoState();
+  const { activeTrip, bookedTrips, setActiveTrip, addRecentAction, clearBookedTrips } = useDemoState();
   const cards = [
     { id: 'trips-upcoming', title: 'Your trips - Upcoming', desc: '即将到来的行程页面，展示用户暂无即将到来的行程的空状态。', label: 'Upcoming' },
     { id: 'trips-past', title: 'Your trips - Past', desc: '历史行程页面，展示用户过去完成的行程记录。', label: 'Past' },
@@ -45,9 +45,9 @@ const TripsIndexPage: React.FC<Props> = ({ onNavigate }) => {
           </div>
         ))}
 
-        {/* Live demo state integration */}
+        {/* Live demo state integration - now shows bookedTrips counts + filtered lists for hub */}
         <div style={{ margin: '12px 0', padding: 12, background: '#f8f8f5', borderRadius: 12, fontSize: 13 }}>
-          <div style={{ fontWeight: 600, marginBottom: 4 }}>Demo State • Live Trip</div>
+          <div style={{ fontWeight: 600, marginBottom: 4 }}>Demo State • Live Trip + Booked</div>
           {activeTrip ? (
             <div>
               {activeTrip.from} → {activeTrip.to} <span style={{ color: '#fecc2a' }}>({activeTrip.status})</span>
@@ -55,6 +55,24 @@ const TripsIndexPage: React.FC<Props> = ({ onNavigate }) => {
             </div>
           ) : (
             <div style={{ color: '#6E6A61' }}>No active trip. Book from Home or Choose Car.</div>
+          )}
+          <div style={{ marginTop: 8, fontSize: 12 }}>
+            Booked: <strong>{bookedTrips.length}</strong> total &nbsp;
+            <span style={{color:'#2e7d32'}}>↑{bookedTrips.filter(t=>t.status==='upcoming'||t.status==='in-progress').length} upcoming</span> &nbsp;
+            <span style={{color:'#1565c0'}}>✓{bookedTrips.filter(t=>t.status==='completed').length} past</span>
+            {bookedTrips.length > 0 && (
+              <button onClick={() => { clearBookedTrips?.(); addRecentAction('Cleared booked trips from hub'); }} style={{ marginLeft: 8, padding: '1px 6px', fontSize: 10, background: '#eee', border: 'none', borderRadius: 3, cursor: 'pointer' }}>Clear all</button>
+            )}
+          </div>
+          {/* Mini list render from booked for hub view (filtered) */}
+          {bookedTrips.length > 0 && (
+            <div style={{ marginTop: 6, maxHeight: 80, overflowY: 'auto', fontSize: 11 }}>
+              {bookedTrips.slice(0,4).map((t, i) => (
+                <div key={i} onClick={() => { setActiveTrip(t); addRecentAction(`Focused ${t.to} from hub list`); onNavigate?.(t.status==='completed' ? 'trips-detail-completed' : 'trip-upcoming'); }} style={{ cursor:'pointer', padding:'2px 4px', borderBottom:'1px dotted #ddd' }}>
+                  {t.from}→{t.to} <span style={{opacity:0.6}}>({t.status})</span> → detail
+                </div>
+              ))}
+            </div>
           )}
         </div>
 
