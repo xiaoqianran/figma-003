@@ -7,7 +7,7 @@ interface AccountTestPageProps {
 }
 
 const AccountTestPage: React.FC<AccountTestPageProps> = ({ onNavigate }) => {
-  const { user, setUser, activeTrip, addRecentAction } = useDemoState();
+  const { user, setUser, activeTrip, bookedTrips, bookTrip, clearBookedTrips, addRecentAction } = useDemoState();
   const [results, setResults] = useState<string[]>([]);
 
   const addResult = (msg: string) => {
@@ -41,10 +41,18 @@ const AccountTestPage: React.FC<AccountTestPageProps> = ({ onNavigate }) => {
         <div style={{ background: '#fff', border: '1px solid #fecc2a', borderRadius: 8, padding: 12, marginBottom: 16, fontSize: 12 }}>
           <div style={{ fontWeight: 600, marginBottom: 6 }}>DemoState Live (Account)</div>
           <div>User: {user.name} ({user.phone})</div>
-          <div>Active Trip: {activeTrip ? activeTrip.to : 'None'}</div>
+          <div>Active Trip: {activeTrip ? activeTrip.to : 'None'} | Booked: {bookedTrips.length}</div>
           <div style={{ marginTop: 8 }}>
             <button onClick={() => { setUser({ name: 'Demo Tester' }); addRecentAction('Set test user from account test'); addResult('✅ Updated user in demo state'); }} style={{ fontSize: 11, padding: '4px 8px', marginRight: 6, background: '#0A0908', color: '#fecc2a', border: 'none', borderRadius: 4, cursor: 'pointer' }}>Set Test User</button>
             <button onClick={() => { addRecentAction('Reset user name'); setUser({ name: 'Alex Chen' }); addResult('✅ Reset demo user'); }} style={{ fontSize: 11, padding: '4px 8px', background: '#0A0908', color: '#fecc2a', border: 'none', borderRadius: 4, cursor: 'pointer' }}>Reset Name</button>
+            <button onClick={() => {
+              if (typeof clearBookedTrips === 'function') clearBookedTrips();
+              bookTrip({ status: 'completed', from: 'Hongqiao Airport T2', to: 'Puxi Riverside', driver: 'Wang Lei', vehicle: 'NIO ET7', price: 118, eta: 'Arrived' });
+              bookTrip({ status: 'upcoming', from: 'Jing\'an Temple', to: 'Century Avenue', driver: 'Chen Fang', vehicle: 'Li Auto L9', price: 64, eta: '14 min' });
+              const t3 = bookTrip({ status: 'in-progress', from: 'The Bund', to: 'Zhangjiang Hi-Tech', driver: 'Zhao Min', vehicle: 'BYD Seal', price: 71, eta: '9 min' });
+              addRecentAction(`Seeded 3 sample trips via bookTrip (latest active: ${t3.to})`);
+              addResult(`✅ Seeded 3 sample trips (bookedTrips +3 • active: ${t3.to})`);
+            }} style={{ fontSize: 11, padding: '4px 8px', marginTop: 4, background: '#0A0908', color: '#fecc2a', border: 'none', borderRadius: 4, cursor: 'pointer' }}>Seed 3 sample trips (bookTrip)</button>
           </div>
         </div>
 

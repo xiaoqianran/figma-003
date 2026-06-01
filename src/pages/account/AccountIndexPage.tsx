@@ -7,7 +7,7 @@ interface AccountIndexPageProps {
 }
 
 const AccountIndexPage: React.FC<AccountIndexPageProps> = ({ onNavigate }) => {
-  const { user, activeTrip, addRecentAction } = useDemoState();
+  const { user, activeTrip, bookedTrips, addRecentAction } = useDemoState();
   const navItems = [
     { label: 'Profile', id: 'account-profile', icon: '👤' },
     { label: 'Edit Account #1', id: 'account-edit1', icon: '✏️' },
@@ -25,7 +25,8 @@ const AccountIndexPage: React.FC<AccountIndexPageProps> = ({ onNavigate }) => {
       <div style={{ padding: '24px' }}>
         <h2 style={{ fontSize: 22, fontWeight: 600, color: '#49493d', marginBottom: 8 }}>GODY Account</h2>
         <div style={{ fontSize: 13, color: '#49493d', marginBottom: 4 }}>Logged in: <strong>{user.name}</strong></div>
-        {activeTrip && <div style={{ fontSize: 12, color: '#fecc2a', marginBottom: 16 }}>Active trip: {activeTrip.to}</div>}
+        {activeTrip && <div style={{ fontSize: 12, color: '#fecc2a', marginBottom: 4 }}>Active trip: {activeTrip.to}</div>}
+        {bookedTrips.length > 0 && <div style={{ fontSize: 11, color: '#959595', marginBottom: 16 }}>Booked trips: {bookedTrips.length} (see Test page or Trips hub for full lifecycle)</div>}
         <p style={{ color: '#959595', fontSize: 13, marginBottom: 24 }}>Manage your profile and settings</p>
 
         {navItems.map((item, idx) => (

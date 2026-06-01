@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StatusBar, HomeIndicator } from '../../components/mobile';
 import { useToast } from '../../components/ui';
+import { useDemoState } from '../../context/DemoStateContext';
 import styles from './Evaluate1Page.module.css';
 
 interface Evaluate1PageProps {
@@ -9,12 +10,30 @@ interface Evaluate1PageProps {
 
 const Evaluate1Page: React.FC<Evaluate1PageProps> = ({ onNavigate }) => {
   const { success } = useToast();
+  const { activeTrip, bookedTrips, completeTrip, updateTripStatus, addRecentAction } = useDemoState();
   const [rating, setRating] = useState(0);
 
   const rate = (r: number) => {
     setRating(r);
     setTimeout(() => {
       success('感谢评价', `您给出了 ${r} 星评价`);
+
+      // Integrate with full DemoState: complete active/latest booked trip on rating submit (post-ride review lifecycle)
+      const latest = activeTrip || (bookedTrips.length > 0 ? bookedTrips[bookedTrips.length - 1] : null);
+      if (latest) {
+        if (latest.status !== 'completed') {
+          completeTrip(latest.id);
+        } else {
+          updateTripStatus(latest.id, 'completed', { paid: true });
+        }
+        addRecentAction(`Submitted ${r}-star review + archived trip to ${latest.to}`);
+        success('Thanks! Trip archived.', `Review for trip to ${latest.to} saved • visible in bookedTrips + past trips`);
+        setTimeout(() => {
+          onNavigate?.('trips-past');
+        }, 650);
+      } else {
+        onNavigate?.('trips-past');
+      }
     }, 220);
   };
 

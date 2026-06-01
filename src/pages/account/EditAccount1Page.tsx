@@ -10,7 +10,7 @@ interface EditAccount1PageProps {
 
 const EditAccount1Page: React.FC<EditAccount1PageProps> = ({ onNavigate }) => {
   const { user, setUser, addRecentAction } = useDemoState();
-  const { info } = useToast_();
+  const { info, success } = useToast_();
 
   const [showPhoneModal, setShowPhoneModal] = useState(false);
   const [editingPhone, setEditingPhone] = useState('');
@@ -108,6 +108,7 @@ const EditAccount1Page: React.FC<EditAccount1PageProps> = ({ onNavigate }) => {
           if (val) {
             setUser({ phone: val });
             addRecentAction(`Updated phone to ${val}`);
+            success('Phone updated', `Demo phone set to ${val} (Profile + Home reflect instantly)`);
           }
           setShowPhoneModal(false);
         }}
@@ -133,6 +134,7 @@ const EditAccount1Page: React.FC<EditAccount1PageProps> = ({ onNavigate }) => {
               if (val) {
                 setUser({ phone: val });
                 addRecentAction(`Updated phone to ${val}`);
+                success('Phone updated', `Demo phone set to ${val} (Profile + Home reflect instantly)`);
               }
               setShowPhoneModal(false);
             }
