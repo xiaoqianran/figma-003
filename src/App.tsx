@@ -365,6 +365,39 @@ function LabView() {
     setTimeout(() => handleNavigate('trips-hub'), 650)
   }, [bookTrip, clearBookedTrips, addRecentAction, showToast, handleNavigate])
 
+  // === NEW: Quick Demo Scenarios (rich, realistic one-click states for stakeholder demos) ===
+  const loadScenario = useCallback((type: 'business-commute' | 'airport-family' | 'night-party' | 'multiple-trips') => {
+    if (typeof clearBookedTrips === 'function') clearBookedTrips();
+
+    if (type === 'business-commute') {
+      setUser({ name: 'Li Wei', phone: '+86 138 0013 8000', avatar: '👨‍💼' });
+      setSelectedPayment({ id: 'alipay-8888', type: 'alipay', label: '支付宝 ••••8888' });
+      bookTrip({ status: 'completed', from: '静安寺', to: '陆家嘴金融中心', driver: '张师傅', vehicle: '小鹏P7', price: 68, eta: 'Arrived', paid: true });
+      bookTrip({ status: 'in-progress', from: '静安寺', to: '陆家嘴金融中心', driver: '王师傅', vehicle: '小鹏G9', price: 72, eta: '6 min' });
+      addRecentAction('Loaded Business Commute scenario');
+    } else if (type === 'airport-family') {
+      setUser({ name: 'Wang Family', phone: '+86 139 1234 5678', avatar: '👨‍👩‍👧' });
+      setSelectedPayment({ id: 'visa-4242', type: 'visa', label: 'Visa •••• 4242' });
+      bookTrip({ status: 'upcoming', from: '浦东机场 T2', to: '外滩', driver: '李师傅', vehicle: '理想L9', price: 145, eta: '25 min' });
+      bookTrip({ status: 'completed', from: '虹桥机场 T1', to: '人民广场', driver: '赵师傅', vehicle: '特斯拉 Model Y', price: 98, eta: 'Arrived', paid: true });
+      addRecentAction('Loaded Airport Family scenario (with child seat note)');
+    } else if (type === 'night-party') {
+      setUser({ name: 'Chen Xiaoyu', phone: '+86 177 7777 7777', avatar: '🕺' });
+      setSelectedPayment({ id: 'wechat-6666', type: 'wechat', label: '微信支付 ••••6666' });
+      bookTrip({ status: 'in-progress', from: '新天地', to: '徐汇滨江', driver: '孙师傅', vehicle: '比亚迪汉', price: 45, eta: '11 min' });
+      addRecentAction('Loaded Nightlife / Party scenario');
+    } else if (type === 'multiple-trips') {
+      setUser({ name: 'Demo Power User', phone: '+1 555 123 4567', avatar: '🚀' });
+      bookTrip({ status: 'completed', from: 'Century Avenue', to: 'The Bund', price: 58, eta: 'Arrived', paid: true });
+      bookTrip({ status: 'upcoming', from: 'Jingan Temple', to: 'Pudong Airport', price: 132, eta: 'Tomorrow 07:40' });
+      bookTrip({ status: 'in-progress', from: 'Xintiandi', to: 'Zhangjiang', driver: 'Liu', vehicle: 'NIO ET5', price: 79, eta: '4 min' });
+      addRecentAction('Loaded Multi-trip power user scenario');
+    }
+
+    showToast({ type: 'success', title: 'Scenario loaded', message: `Rich demo state ready for ${type}` });
+    setTimeout(() => handleNavigate('trips-hub'), 420);
+  }, [clearBookedTrips, setUser, setSelectedPayment, bookTrip, addRecentAction, showToast, handleNavigate]);
+
   // === NEW: Export / Import Demo State (core of this task) ===
   // Robust, versioned, partial-tolerant, uses only existing context setters for restore.
   // Placed here after other quick-action helpers for logical grouping.
@@ -851,6 +884,28 @@ function LabView() {
           aria-hidden="true"
         />
 
+        {/* Quick Demo Scenarios — high-value for stakeholders to instantly load rich realistic states */}
+        {!isSimulating && (
+          <div style={{
+            margin: '0 0 10px',
+            padding: '8px 12px',
+            background: 'linear-gradient(180deg, #1F1E1B 0%, #151410 100%)',
+            border: '1px solid #3A3935',
+            borderRadius: 8,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            flexWrap: 'wrap'
+          }}>
+            <div style={{ color: '#fecc2a', fontSize: 11, fontWeight: 600, marginRight: 4 }}>QUICK SCENARIOS:</div>
+            <button onClick={() => loadScenario('business-commute')} className="tb-btn" style={{ fontSize: 10, padding: '2px 8px' }}>商务通勤</button>
+            <button onClick={() => loadScenario('airport-family')} className="tb-btn" style={{ fontSize: 10, padding: '2px 8px' }}>机场家庭</button>
+            <button onClick={() => loadScenario('night-party')} className="tb-btn" style={{ fontSize: 10, padding: '2px 8px' }}>夜生活</button>
+            <button onClick={() => loadScenario('multiple-trips')} className="tb-btn" style={{ fontSize: 10, padding: '2px 8px' }}>多行程混合</button>
+            <span style={{ fontSize: 9, color: '#6E6A61', marginLeft: 4 }}>一键加载完整演示状态</span>
+          </div>
+        )}
+
         {/* LIVE SIMULATOR CONTROLS — only visible while a flow preset is running. Full pause/resume/skip/speed support */}
         {isSimulating && (
           <div
@@ -932,7 +987,7 @@ function LabView() {
                 <input
                   ref={searchInputRef}
                   type="text"
-                  placeholder="Search... (/ focus) • cmds: random, reset, flow, home, popular, export, import"
+                  placeholder="Search... (/ focus) • cmds: random, reset, flow, scenario, export, import"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onKeyDown={(e) => {
@@ -962,6 +1017,10 @@ function LabView() {
                       } else if (cmd === 'import' || cmd === 'import state' || cmd === 'load state') {
                         handleImportDemoState()
                         executed = true
+                      } else if (cmd === 'scenario' || cmd === 'scenarios' || cmd === 'demo') {
+                        // Open scenarios hint or load default rich one
+                        loadScenario('multiple-trips');
+                        executed = true;
                       } else if (cmd.startsWith('go ')) {
                         const t = cmd.slice(3).trim()
                         const map: Record<string, string> = { home: 'core-home', search: 'core-search1', car: 'booking-choose-car', pickup: 'booking-confirm-pickup1', request: 'booking-requesting', trips: 'trips-hub', account: 'account-profile' }

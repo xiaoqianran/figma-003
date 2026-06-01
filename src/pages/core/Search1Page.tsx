@@ -9,7 +9,7 @@ interface Search1PageProps {
 }
 
 const Search1Page: React.FC<Search1PageProps> = ({ onNavigate }) => {
-  const { activeTrip, addRecentAction } = useDemoState();
+  const { activeTrip, addRecentAction, bookTrip } = useDemoState();
   const [searchInput, setSearchInput] = useState(activeTrip ? activeTrip.to : '');
   const [isShiftPressed, setIsShiftPressed] = useState(false);
   const [isListening, setIsListening] = useState(false);
@@ -111,9 +111,19 @@ const Search1Page: React.FC<Search1PageProps> = ({ onNavigate }) => {
 
   const submitSearch = () => {
     if (searchInput.trim()) {
-      addRecentAction(`Searched destination: ${searchInput}`);
-      success('搜索', `搜索：${searchInput} (demo)`);
-      console.log('搜索关键词:', searchInput);
+      const to = searchInput.trim();
+      // Create real upcoming trip using bookTrip (drives bookings from Search1)
+      const booked = bookTrip({
+        status: 'upcoming',
+        from: 'Apple Union Square',
+        to,
+        price: 18,
+        vehicle: 'GodyX',
+        eta: '8 min',
+      });
+      addRecentAction(`Searched destination: ${to} — created upcoming trip #${booked.id} via bookTrip`);
+      success('搜索完成', `已为 ${to} 创建真实预订 (price $${booked.price}, ${booked.vehicle})`);
+      console.log('搜索关键词:', searchInput, 'booked trip:', booked);
       onNavigate?.('booking-choose-car');
     } else {
       error('搜索', '请输入搜索关键词');
