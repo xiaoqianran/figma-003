@@ -25,38 +25,18 @@ export const Modal: React.FC<ModalProps> = ({
   const defaultFooter = hasConfirmFooter ? (
     <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
       <button
+        type="button"
         onClick={onClose}
-        style={{
-          padding: '9px 18px',
-          borderRadius: 10,
-          border: '1px solid #3A3935',
-          background: 'transparent',
-          color: '#B8B5B0',
-          fontSize: 13,
-          fontWeight: 500,
-          cursor: 'pointer',
-          minWidth: 72
-        }}
+        className="gody-modal-btn gody-modal-btn--ghost"
       >
         {cancelText || 'Cancel'}
       </button>
       <button
+        type="button"
         onClick={() => {
           if (onConfirm) onConfirm();
-          // parent usually closes via state change in onConfirm
         }}
-        style={{
-          padding: '9px 20px',
-          borderRadius: 10,
-          border: 'none',
-          background: destructive ? '#C53D3D' : '#fecc2a',
-          color: destructive ? '#fff' : '#0A0908',
-          fontSize: 13,
-          fontWeight: 600,
-          cursor: 'pointer',
-          minWidth: 72,
-          boxShadow: destructive ? 'none' : '0 1px 0 rgba(0,0,0,0.15)'
-        }}
+        className={`gody-modal-btn ${destructive ? 'gody-modal-btn--danger' : 'gody-modal-btn--primary'}`}
       >
         {confirmText || 'Confirm'}
       </button>
@@ -65,48 +45,29 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <div
+      className="gody-modal-backdrop"
       onClick={onClose}
-      style={{
-        position: 'fixed', inset: 0, background: 'rgba(10,9,8,0.72)',
-        zIndex: 99998, display: 'flex', alignItems: 'center', justifyContent: 'center'
-      }}
+      role="presentation"
     >
       <div
+        className="gody-modal-panel"
         onClick={e => e.stopPropagation()}
-        style={{
-          width,
-          background: '#1A1916',
-          border: '1px solid #2A2926',
-          borderRadius: 16,
-          boxShadow: '0 24px 70px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.05)',
-          color: '#EDEBE5',
-          overflow: 'hidden',
-          fontFamily: 'inherit'
-        }}
+        role="dialog"
+        aria-modal="true"
+        aria-label={title || 'Dialog'}
+        style={{ width }}
       >
         {title && (
-          <div style={{ 
-            padding: '15px 20px', 
-            borderBottom: '1px solid #2A2926', 
-            fontWeight: 600, 
-            fontSize: 15,
-            color: '#fecc2a',
-            letterSpacing: '0.3px'
-          }}>
+          <div className="gody-modal-title">
             {title}
           </div>
         )}
-        <div style={{ padding: title ? '18px 20px' : '20px 20px' }}>{children}</div>
+        <div className="gody-modal-body" style={title ? undefined : { padding: '20px' }}>
+          {children}
+        </div>
         
         {(footer || defaultFooter) && (
-          <div style={{ 
-            padding: '12px 18px 16px', 
-            borderTop: '1px solid #2A2926', 
-            display: 'flex', 
-            gap: 8, 
-            justifyContent: 'flex-end',
-            background: 'rgba(0,0,0,0.15)'
-          }}>
+          <div className="gody-modal-footer">
             {footer || defaultFooter}
           </div>
         )}

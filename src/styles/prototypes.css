@@ -83,12 +83,33 @@
 }
 
 .top-nav .back-arrow {
-  width: 16px;
-  height: 16px;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   font-size: 18px;
   color: #49493d;
   user-select: none;
+  border-radius: 8px;
+  transition: background 0.12s ease, color 0.12s ease, transform 0.1s ease;
+  outline: none;
+}
+
+.top-nav .back-arrow:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #0A0908;
+}
+
+.top-nav .back-arrow:active {
+  transform: scale(0.94);
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.top-nav .back-arrow:focus-visible {
+  outline: 2px solid #fecc2a;
+  outline-offset: 1px;
 }
 
 .top-nav .nav-title {
@@ -100,7 +121,7 @@
   margin-right: 16px;
 }
 
-/* Common button styles */
+/* Common button styles — hover / active / focus-visible */
 .primary-btn {
   background: #fecc2a;
   color: #0A0908;
@@ -109,12 +130,39 @@
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.1s ease, opacity 0.1s;
+  transition:
+    transform 0.12s cubic-bezier(0.2, 0, 0, 1),
+    opacity 0.12s ease,
+    background 0.12s ease,
+    box-shadow 0.12s ease;
+  outline: none;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+}
+
+.primary-btn:hover {
+  background: #e6b820;
+  box-shadow: 0 4px 14px rgba(254, 204, 42, 0.35);
 }
 
 .primary-btn:active {
   transform: scale(0.985);
-  opacity: 0.9;
+  background: #d4a818;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+  opacity: 0.95;
+}
+
+.primary-btn:focus-visible {
+  outline: 2px solid #0A0908;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(254, 204, 42, 0.45);
+}
+
+.primary-btn:disabled,
+.primary-btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 .secondary-btn {
@@ -125,6 +173,28 @@
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
+  transition:
+    transform 0.12s cubic-bezier(0.2, 0, 0, 1),
+    border-color 0.12s ease,
+    background 0.12s ease,
+    box-shadow 0.12s ease;
+  outline: none;
+}
+
+.secondary-btn:hover {
+  border-color: #fecc2a;
+  background: #fffdf5;
+  box-shadow: 0 2px 8px rgba(254, 204, 42, 0.12);
+}
+
+.secondary-btn:active {
+  transform: scale(0.985);
+  background: #fff8e1;
+}
+
+.secondary-btn:focus-visible {
+  outline: 2px solid #fecc2a;
+  outline-offset: 2px;
 }
 
 /* Vehicle Card base (for choose-car etc) */
@@ -136,13 +206,33 @@
   border: 1px solid #e8e8e8;
   background: #ffffff;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease,
+    transform 0.12s cubic-bezier(0.2, 0, 0, 1);
   margin-bottom: 12px;
+  outline: none;
+}
+
+.vehicle-card:hover {
+  border-color: rgba(254, 204, 42, 0.55);
+  box-shadow: 0 2px 10px rgba(254, 204, 42, 0.1);
+  background: #fffef8;
+}
+
+.vehicle-card:active {
+  transform: scale(0.99);
+}
+
+.vehicle-card:focus-visible {
+  outline: 2px solid #fecc2a;
+  outline-offset: 2px;
 }
 
 .vehicle-card.selected {
   border-color: #fecc2a;
-  box-shadow: 0 4px 12px rgba(254, 204, 42, 0.15);
+  box-shadow: 0 4px 12px rgba(254, 204, 42, 0.18);
   background: #fffdf5;
 }
 
@@ -212,9 +302,18 @@
   padding: 14px 20px;
   border-bottom: 1px solid #f0f0f0;
   cursor: pointer;
+  transition: background 0.12s ease;
+  outline: none;
+}
+.list-row:hover {
+  background: #faf9f6;
 }
 .list-row:active {
   background: #f9f9f7;
+}
+.list-row:focus-visible {
+  outline: 2px solid #fecc2a;
+  outline-offset: -2px;
 }
 .list-row:last-child {
   border-bottom: none;
@@ -250,11 +349,34 @@
   border: 1px solid #e8e8e8;
   border-radius: 12px;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition:
+    transform 0.12s cubic-bezier(0.2, 0, 0, 1),
+    border-color 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+  outline: none;
+  background: #fff;
+}
+
+.payment-card:hover {
+  border-color: rgba(254, 204, 42, 0.55);
+  background: #fffdf5;
+  box-shadow: 0 2px 8px rgba(254, 204, 42, 0.1);
+}
+
+.payment-card:active {
+  transform: scale(0.99);
+}
+
+.payment-card:focus-visible {
+  outline: 2px solid #fecc2a;
+  outline-offset: 2px;
 }
 
 .payment-card.selected {
   border-color: #fecc2a;
+  background: #fffdf5;
+  box-shadow: 0 0 0 3px rgba(254, 204, 42, 0.1);
 }
 
 /* Map mock area (simple gradient + grid used in several pages) */
@@ -332,14 +454,29 @@
   padding: 14px 16px;
   margin: 8px 24px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition:
+    box-shadow 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease,
+    transform 0.12s cubic-bezier(0.2, 0, 0, 1);
+  outline: none;
 }
 .trip-card:hover {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  border-color: rgba(254, 204, 42, 0.4);
+  background: #fffef8;
+}
+.trip-card:active {
+  transform: scale(0.99);
+}
+.trip-card:focus-visible {
+  outline: 2px solid #fecc2a;
+  outline-offset: 2px;
 }
 .trip-card.selected {
   border-color: #fecc2a;
-  box-shadow: 0 0 0 3px rgba(254,204,42,0.1);
+  box-shadow: 0 0 0 3px rgba(254, 204, 42, 0.12);
+  background: #fffdf5;
 }
 
 /* Status variants for badges inside cards */
@@ -632,6 +769,23 @@
   padding: 14px 16px;
   cursor: pointer;
   margin: 0 24px;
+  transition:
+    background 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.12s cubic-bezier(0.2, 0, 0, 1);
+  outline: none;
+}
+.search-pill:hover {
+  background: #ebe9e4;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+.search-pill:active {
+  transform: scale(0.99);
+  background: #e4e2dc;
+}
+.search-pill:focus-visible {
+  outline: 2px solid #fecc2a;
+  outline-offset: 2px;
 }
 .search-pill .icon { margin-right: 10px; font-size: 16px; }
 .search-pill .label { color: #6E6A61; font-size: 15px; }
@@ -644,7 +798,146 @@
   border-radius: 14px;
   cursor: pointer;
   background: #fff;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease,
+    transform 0.12s cubic-bezier(0.2, 0, 0, 1);
+  outline: none;
+}
+.quick-vehicle:hover {
+  border-color: rgba(254, 204, 42, 0.5);
+  background: #fffdf5;
+  box-shadow: 0 2px 10px rgba(254, 204, 42, 0.12);
+}
+.quick-vehicle:active {
+  transform: scale(0.98);
+}
+.quick-vehicle:focus-visible {
+  outline: 2px solid #fecc2a;
+  outline-offset: 2px;
 }
 .quick-vehicle .icon { font-size: 22px; margin-bottom: 4px; }
 .quick-vehicle .name { font-weight: 600; }
 .quick-vehicle .meta { font-size: 12px; color: #6E6A61; }
+
+/* Destination shortcut chips (home) */
+.dest-chip {
+  flex: 1;
+  padding: 12px 14px;
+  background: #f8f8f8;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.12s cubic-bezier(0.2, 0, 0, 1);
+  outline: none;
+}
+.dest-chip:hover {
+  background: #fffdf5;
+  border-color: rgba(254, 204, 42, 0.4);
+  box-shadow: 0 2px 8px rgba(254, 204, 42, 0.1);
+}
+.dest-chip:active {
+  transform: scale(0.98);
+}
+.dest-chip:focus-visible {
+  outline: 2px solid #fecc2a;
+  outline-offset: 2px;
+}
+
+/* Map floating action button */
+.map-fab {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  transition:
+    transform 0.12s cubic-bezier(0.2, 0, 0, 1),
+    box-shadow 0.15s ease;
+  outline: none;
+}
+.map-fab:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.16);
+  transform: translateY(-1px);
+}
+.map-fab:active {
+  transform: scale(0.94);
+}
+.map-fab:focus-visible {
+  outline: 2px solid #fecc2a;
+  outline-offset: 2px;
+}
+
+/* Icon button (menu, back, etc. on light surfaces) */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: #49493d;
+  font-size: 18px;
+  transition: background 0.12s ease, color 0.12s ease, transform 0.1s ease;
+  outline: none;
+  user-select: none;
+}
+.icon-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #0A0908;
+}
+.icon-btn:active {
+  transform: scale(0.94);
+  background: rgba(0, 0, 0, 0.08);
+}
+.icon-btn:focus-visible {
+  outline: 2px solid #fecc2a;
+  outline-offset: 1px;
+}
+
+/* Active trip banner (home) */
+.active-trip-banner {
+  margin: 8px 16px 0;
+  padding: 10px 14px;
+  background: #fff8e1;
+  border: 1px solid #fecc2a;
+  border-radius: 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    box-shadow 0.15s ease,
+    transform 0.12s cubic-bezier(0.2, 0, 0, 1),
+    background 0.15s ease;
+  outline: none;
+}
+.active-trip-banner:hover {
+  box-shadow: 0 2px 10px rgba(254, 204, 42, 0.2);
+  background: #fff3c4;
+}
+.active-trip-banner:active {
+  transform: scale(0.99);
+}
+.active-trip-banner:focus-visible {
+  outline: 2px solid #0A0908;
+  outline-offset: 2px;
+}
+
+/* Bottom sheet panel used by home / choose-car */
+.bottom-sheet {
+  background: #ffffff;
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.1);
+}

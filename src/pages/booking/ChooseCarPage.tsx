@@ -51,12 +51,16 @@ const ChooseCarPage: React.FC<ChooseCarPageProps> = ({ onNavigate }) => {
     <div className="mobile-frame mobile-frame-tall" style={{ height: 858 }}>
       <StatusBar dark />
 
-      {/* Map background (inline faithful recreation) */}
-      <div style={{ position: 'absolute', top: 0, left: 0, width: 375, height: 858, background: 'linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%)', zIndex: 0 }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+      {/* Map background */}
+      <div className="map-mock" style={{ position: 'absolute', top: 0, left: 0, width: 375, height: 858, zIndex: 0 }}>
+        <div className="map-mock-grid" />
         <div style={{ position: 'absolute', top: 180, left: 80, fontSize: 18, zIndex: 5 }}>📍</div>
         <div style={{ position: 'absolute', top: 260, left: 240, fontSize: 18, zIndex: 5 }}>🛤️</div>
-        <div style={{ position: 'absolute', top: 190, left: 120, background: '#fff', padding: '2px 8px', borderRadius: 999, fontSize: 11, boxShadow: '0 2px 6px rgba(0,0,0,0.1)', zIndex: 10 }}>
+        <div style={{
+          position: 'absolute', top: 190, left: 120, background: '#fff', padding: '4px 10px',
+          borderRadius: 999, fontSize: 11, boxShadow: '0 2px 8px rgba(0,0,0,0.1)', zIndex: 10,
+          border: '1px solid rgba(254,204,42,0.25)',
+        }}>
           {(activeTrip?.to || 'Apple Union Square')} <span style={{ fontSize: 10 }}>🕐</span>
         </div>
       </div>
@@ -64,21 +68,29 @@ const ChooseCarPage: React.FC<ChooseCarPageProps> = ({ onNavigate }) => {
       <TopNav onBack={() => onNavigate?.('core-home')} />
 
       {/* 定位按钮 */}
-      <div style={{ position: 'absolute', top: 220, right: 24, zIndex: 10, background: '#fff', width: 48, height: 48, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 40px rgba(0,0,0,0.1)', cursor: 'pointer' }}
-           onClick={() => info('重新定位', '当前位置已更新（演示）')}>
+      <button
+        type="button"
+        className="map-fab"
+        style={{ position: 'absolute', top: 220, right: 24, zIndex: 10 }}
+        aria-label="Relocate"
+        onClick={() => info('重新定位', '当前位置已更新（演示）')}
+      >
         🎯
-      </div>
+      </button>
 
       {/* 底部车辆选择面板 */}
-      <div style={{
-        position: 'absolute', top: 396, left: 0, width: 375, height: 462,
-        background: '#ffffff', borderRadius: '24px 24px 0 0',
-        boxShadow: '0 4px 40px rgba(0,0,0,0.1)', paddingTop: 32, zIndex: 5,
-        display: 'flex', flexDirection: 'column'
-      }}>
-        <div style={{ marginLeft: 24, color: '#49493d', fontSize: 14, fontWeight: 500, marginTop: 8 }}>选择您的出行方式</div>
+      <div
+        className="bottom-sheet"
+        style={{
+          position: 'absolute', top: 396, left: 0, width: 375, height: 462,
+          paddingTop: 28, zIndex: 5,
+          display: 'flex', flexDirection: 'column',
+        }}
+      >
+        <div style={{ marginLeft: 24, color: '#49493d', fontSize: 14, fontWeight: 500, marginTop: 4 }}>
+          选择您的出行方式
+        </div>
 
-        {/* 车辆卡片 - 使用共享 VehicleCard */}
         {vehicles.map(v => (
           <VehicleCard
             key={v.id}
@@ -91,10 +103,19 @@ const ChooseCarPage: React.FC<ChooseCarPageProps> = ({ onNavigate }) => {
           />
         ))}
 
-        {/* 支付卡片 (inline) - respects DemoState selectedPayment */}
+        {/* 支付卡片 — shared payment-card class for hover/focus */}
         <div
+          className={`payment-card${selectedPayment ? '' : ''}`}
+          role="button"
+          tabIndex={0}
           onClick={() => onNavigate?.('payment-select')}
-          style={{ margin: '20px 24px 0', padding: '14px 20px', border: '1px solid #e8e8e8', borderRadius: 12, display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              onNavigate?.('payment-select');
+            }
+          }}
+          style={{ margin: '20px 24px 0' }}
         >
           {selectedPayment.type === 'visa' ? (
             <div style={{ background: '#143c8a', color: '#fff', padding: '2px 6px', borderRadius: 3, fontSize: 10, fontWeight: 700 }}>VISA</div>
@@ -106,8 +127,10 @@ const ChooseCarPage: React.FC<ChooseCarPageProps> = ({ onNavigate }) => {
         </div>
 
         <button
+          type="button"
+          className="primary-btn"
           onClick={handleSchedule}
-          style={{ margin: '24px 24px 0', height: 48, background: '#fecc2a', border: 'none', borderRadius: 12, fontSize: 16, fontWeight: 600, cursor: 'pointer' }}
+          style={{ margin: '24px 24px 0', height: 48, width: 'calc(100% - 48px)' }}
         >
           Schedule {selected ? vehicles.find(v => v.id === selected)?.name : 'Ride'}
         </button>

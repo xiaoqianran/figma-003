@@ -1035,22 +1035,21 @@ function LabView() {
                       }
                     }
                   }}
-                  className="w-full bg-[#0A0908] border border-[#2A2926] text-sm px-3 py-2 pr-8 rounded-lg console-font placeholder:text-[#6E6A61] focus:outline-none focus:border-[#fecc2a]/60"
+                  className="console-search w-full bg-[#0A0908] border border-[#2A2926] text-sm px-3 py-2 pr-8 rounded-lg console-font placeholder:text-[#6E6A61] focus:outline-none focus:border-[#fecc2a]/60"
                 />
                 {searchTerm && (
                   <button onClick={() => setSearchTerm('')} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#6E6A61] hover:text-[#fecc2a] text-lg leading-none" title="Clear search">×</button>
                 )}
               </div>
 
-              {/* Category filters — now with counts for premium clarity */}
+              {/* Category filters — cat-chip tokens for hover/active/focus */}
               <div className="flex flex-wrap gap-1 px-2 pb-3">
                 {categories.map(cat => (
                   <button
                     key={cat}
+                    type="button"
                     onClick={() => setActiveCategory(cat)}
-                    className={`text-[10px] px-2.5 py-0.5 rounded-full border transition-colors console-font ${
-                      activeCategory === cat ? 'bg-[#fecc2a] text-[#0A0908] border-[#fecc2a]' : 'border-[#2A2926] text-[#B8B5B0] hover:text-[#EDEBE5]'
-                    }`}
+                    className={`cat-chip${activeCategory === cat ? ' active' : ''}`}
                   >
                     {cat} <span className="opacity-60">({categoryCounts[cat] || 0})</span>
                   </button>

@@ -35,14 +35,18 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
     if (container) container.style.borderColor = '#bdbdbd';
   };
 
+  const handlePhoneLogin = () => {
+    if (!phone.trim() || !onNavigate) return;
+    const formattedPhone = phone.startsWith('+') ? phone : `+44 ${phone}`;
+    setUser({ name: 'Alex Chen', phone: formattedPhone });
+    addRecentAction(`Logged in via phone: ${formattedPhone}`);
+    success('登录成功', '已通过手机号登录（演示）');
+    onNavigate('core-home');
+  };
+
   // Demo: pressing Enter on phone simulates login success -> set user + go to home
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && phone.trim() && onNavigate) {
-      const formattedPhone = phone.startsWith('+') ? phone : `+44 ${phone}`;
-      setUser({ name: 'Alex Chen', phone: formattedPhone });
-      addRecentAction(`Logged in via phone: ${formattedPhone}`);
-      onNavigate('core-home');
-    }
+    if (e.key === 'Enter') handlePhoneLogin();
   };
 
   return (
@@ -109,6 +113,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
           className={`${styles.socialButton} ${styles.facebook}`}
           onClick={() => handleSocialLogin('Facebook')}
           type="button"
+          aria-label="Continue with Facebook"
         >
           <span className={styles.socialIcon}>f</span>
         </button>
@@ -117,6 +122,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
           className={`${styles.socialButton} ${styles.twitter}`}
           onClick={() => handleSocialLogin('Twitter')}
           type="button"
+          aria-label="Continue with Twitter"
         >
           <span className={styles.socialIcon}>🐦</span>
         </button>
@@ -125,10 +131,20 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
           className={`${styles.socialButton} ${styles.google}`}
           onClick={() => handleSocialLogin('Google')}
           type="button"
+          aria-label="Continue with Google"
         >
           <span className={styles.socialIcon}>G+</span>
         </button>
       </div>
+
+      <button
+        type="button"
+        className={styles.continueBtn}
+        onClick={handlePhoneLogin}
+        disabled={!phone.trim()}
+      >
+        Continue
+      </button>
 
       <HomeIndicator />
     </div>
