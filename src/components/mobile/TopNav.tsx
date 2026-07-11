@@ -26,7 +26,15 @@ const TopNav: React.FC<TopNavProps> = ({
       {leftAction ? (
         <div onClick={onBack} style={{ display: 'flex', alignItems: 'center' }}>{leftAction}</div>
       ) : onBack ? (
-        <span className="back-arrow" onClick={onBack} role="button" aria-label="返回" style={{ color: textColor }}>←</span>
+        <span
+          className="back-arrow"
+          onClick={onBack}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onBack(); } }}
+          role="button"
+          tabIndex={0}
+          aria-label="返回"
+          style={{ color: textColor }}
+        >←</span>
       ) : (
         <span style={{ width: 16 }} />
       )}

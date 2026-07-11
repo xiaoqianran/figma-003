@@ -42,8 +42,10 @@ export const PageListItem: React.FC<Props> = ({
   return (
     <button
       onClick={handleSelect}
-      className={`w-full text-left px-3 py-1.5 rounded-lg transition-colors flex items-center gap-2 console-font group ${
-        selectedState ? 'bg-[#1F1E1B] text-[#fecc2a] border-l-2 border-[#fecc2a]' : 'hover:bg-[#1A1916] text-[#EDEBE5]'
+      className={`page-list-item w-full text-left px-3 py-1.5 rounded-lg transition-colors flex items-center gap-2 console-font group outline-none focus-visible:ring-2 focus-visible:ring-[#fecc2a] focus-visible:ring-offset-1 focus-visible:ring-offset-[#11110F] ${
+        selectedState
+          ? 'bg-[#1F1E1B] text-[#fecc2a] border-l-2 border-[#fecc2a]'
+          : 'hover:bg-[#1A1916] active:bg-[#22211D] text-[#EDEBE5]'
       }`}
       title={`${page.title} • ${page.category}`}
     >

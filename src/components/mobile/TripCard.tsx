@@ -26,11 +26,14 @@ const TripCard: React.FC<TripCardProps> = ({ status, title, time, from, to, pric
   return (
     <div
       onClick={onClick}
-      className={`trip-card ${className}`}
+      onKeyDown={onClick ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } } : undefined}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      className={`trip-card ${selected ? 'selected' : ''} ${className}`}
       style={{
         margin: '8px 24px',
         padding: '14px 16px',
-        background: '#fff',
+        background: selected ? '#fffdf5' : '#fff',
         borderRadius: 14,
         border: selected ? '2px solid #fecc2a' : '1px solid #eee',
         boxShadow: '0 1px 4px rgba(0,0,0,0.04)',

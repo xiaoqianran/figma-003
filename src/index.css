@@ -4,23 +4,52 @@
 
 /* =========================================
    GODY 黄控台 (Industrial Archive Aesthetic)
-   Design Tokens - Matching previous high-quality console
+   Design Tokens + Console shell polish
 ========================================= */
 :root {
+  /* Brand */
   --yellow: #fecc2a;
+  --yellow-hover: #e6b820;
+  --yellow-pressed: #d4a818;
+  --yellow-soft: rgba(254, 204, 42, 0.12);
+  --yellow-ring: rgba(254, 204, 42, 0.35);
+
+  /* Ink / paper */
   --ink: #0A0908;
   --paper: #F5F3ED;
   --steel: #B8B5B0;
+  --muted: #6E6A61;
+  --muted-soft: #95928A;
+
+  /* Metal surfaces */
   --metal-dark: #11110F;
   --metal: #1A1916;
   --metal-light: #22211D;
+  --metal-border: #2A2926;
+  --metal-border-lift: #3A3935;
+
+  /* Semantic */
   --alert: #C53D3D;
+  --alert-soft: rgba(197, 61, 61, 0.15);
+  --info: #5A7A9A;
+  --info-icon: #8BA4BE;
+  --success-border: #fecc2a;
+
+  /* Type / radius / motion */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 9999px;
+  --ease-press: cubic-bezier(0.2, 0, 0, 1);
+  --duration-fast: 0.12s;
+  --duration-ui: 0.18s;
 }
 
 body {
   font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
   background-color: var(--ink);
   color: #EDEBE5;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Console / Industrial fonts */
@@ -36,7 +65,7 @@ body {
 
 /* Lab grid background */
 .lab-grid {
-  background-image: 
+  background-image:
     linear-gradient(rgba(184, 181, 176, 0.035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(184, 181, 176, 0.035) 1px, transparent 1px);
   background-size: 24px 24px;
@@ -45,23 +74,24 @@ body {
 /* Metal card style */
 .metal {
   background: linear-gradient(var(--metal-dark), var(--metal));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
   border: 1px solid #22221F;
 }
 
-/* Hardware device styles (preserved from previous high-quality version) */
+/* Hardware device styles */
 .hardware-frame {
   width: 380px;
   height: 818px;
   background: #11110F;
   border-radius: 68px;
   padding: 14px;
-  box-shadow: 
+  box-shadow:
     0 0 0 1px #22221F,
     0 40px 80px -20px rgba(0, 0, 0, 0.6),
     0 20px 30px -10px rgba(0, 0, 0, 0.5),
     inset 0 0 0 1px #2A2926;
   position: relative;
+  transition: box-shadow var(--duration-ui) var(--ease-press);
 }
 
 .device-bevel {
@@ -71,9 +101,9 @@ body {
   background: #0C0C0A;
   border-radius: 54px;
   overflow: hidden;
-  box-shadow: 
-    inset 0 2px 4px rgba(255,255,255,0.06),
-    inset 0 -4px 8px rgba(0,0,0,0.5);
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.06),
+    inset 0 -4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .prototype-screen {
@@ -99,22 +129,47 @@ body {
   color: #B8B5B0;
 }
 
-/* Reusable metal buttons */
+/* =========================================
+   Reusable metal toolbar buttons
+   hover / active / focus-visible — not flat
+========================================= */
 .tb-btn {
   font-family: "IBM Plex Mono", monospace;
   font-size: 11px;
   padding: 4px 10px;
-  border-radius: 9999px;
+  border-radius: var(--radius-pill);
   background: #1A1916;
   border: 1px solid #2A2926;
   color: #B8B5B0;
-  transition: all 0.1s ease;
+  transition:
+    color var(--duration-fast) var(--ease-press),
+    border-color var(--duration-fast) var(--ease-press),
+    background var(--duration-fast) var(--ease-press),
+    box-shadow var(--duration-fast) var(--ease-press),
+    transform var(--duration-fast) var(--ease-press);
   white-space: nowrap;
+  cursor: pointer;
+  outline: none;
 }
 
 .tb-btn:hover {
   color: #fecc2a;
-  border-color: rgba(254, 204, 42, 0.4);
+  border-color: rgba(254, 204, 42, 0.45);
+  background: #1F1E1B;
+}
+
+.tb-btn:active {
+  transform: scale(0.97);
+  background: #151410;
+  border-color: rgba(254, 204, 42, 0.55);
+  color: #fecc2a;
+}
+
+.tb-btn:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 2px;
+  border-color: rgba(254, 204, 42, 0.6);
+  color: #fecc2a;
 }
 
 .tb-btn.active {
@@ -122,4 +177,336 @@ body {
   color: #0A0908;
   border-color: #fecc2a;
   font-weight: 600;
+}
+
+.tb-btn.active:hover {
+  background: var(--yellow-hover);
+  border-color: var(--yellow-hover);
+  color: #0A0908;
+}
+
+.tb-btn:disabled,
+.tb-btn[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  pointer-events: none;
+}
+
+/* Category filter chips (console sidebar) */
+.cat-chip {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid #2A2926;
+  color: #B8B5B0;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    color var(--duration-fast) var(--ease-press),
+    border-color var(--duration-fast) var(--ease-press),
+    background var(--duration-fast) var(--ease-press),
+    transform var(--duration-fast) var(--ease-press);
+  outline: none;
+}
+
+.cat-chip:hover {
+  color: #EDEBE5;
+  border-color: #3A3935;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.cat-chip:active {
+  transform: scale(0.96);
+}
+
+.cat-chip:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+.cat-chip.active {
+  background: #fecc2a;
+  color: #0A0908;
+  border-color: #fecc2a;
+  font-weight: 600;
+}
+
+.cat-chip.active:hover {
+  background: var(--yellow-hover);
+  border-color: var(--yellow-hover);
+  color: #0A0908;
+}
+
+/* =========================================
+   Toast system — readable on metal/yellow
+========================================= */
+.gody-toast-stack {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  width: min(300px, 88vw);
+  pointer-events: none;
+}
+
+.gody-toast {
+  background: #1A1916;
+  border-radius: 12px;
+  padding: 13px 16px;
+  color: #EDEBE5;
+  font-size: 13px;
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  pointer-events: auto;
+  border: 2px solid #fecc2a;
+  transition:
+    opacity var(--duration-ui) var(--ease-press),
+    transform var(--duration-ui) var(--ease-press),
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+  animation: gody-toast-in 0.22s var(--ease-press) both;
+  outline: none;
+}
+
+.gody-toast:hover {
+  box-shadow:
+    0 14px 36px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transform: translateY(-1px);
+}
+
+.gody-toast:active {
+  transform: scale(0.99);
+}
+
+.gody-toast:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+.gody-toast--success {
+  border-color: #fecc2a;
+}
+
+.gody-toast--error {
+  border-color: #C53D3D;
+}
+
+.gody-toast--info {
+  border-color: #5A7A9A;
+}
+
+.gody-toast--warning {
+  border-color: #fecc2a;
+}
+
+.gody-toast__icon {
+  font-weight: 700;
+  font-size: 16px;
+  margin-top: 1px;
+  line-height: 1;
+  flex-shrink: 0;
+  width: 18px;
+  text-align: center;
+}
+
+.gody-toast__title {
+  font-weight: 600;
+  margin-bottom: 0;
+  letter-spacing: 0.2px;
+  color: #EDEBE5;
+}
+
+.gody-toast--success .gody-toast__title,
+.gody-toast--warning .gody-toast__title {
+  color: #fecc2a;
+}
+
+.gody-toast--error .gody-toast__title {
+  color: #f0a0a0;
+}
+
+.gody-toast--info .gody-toast__title {
+  color: #B8CDE0;
+}
+
+.gody-toast__message {
+  opacity: 0.92;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #C9C6BE;
+  margin-top: 3px;
+}
+
+.gody-toast__dismiss {
+  opacity: 0.5;
+  font-size: 11px;
+  margin-left: 4px;
+  margin-top: 2px;
+  color: #B8B5B0;
+  transition: opacity var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.gody-toast:hover .gody-toast__dismiss {
+  opacity: 0.9;
+  color: #fecc2a;
+}
+
+@keyframes gody-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* =========================================
+   Modal — metal panel, readable CTAs
+========================================= */
+.gody-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 9, 8, 0.72);
+  z-index: 99998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: gody-backdrop-in 0.16s var(--ease-press) both;
+}
+
+.gody-modal-panel {
+  background: #1A1916;
+  border: 1px solid #2A2926;
+  border-radius: 16px;
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  color: #EDEBE5;
+  overflow: hidden;
+  font-family: inherit;
+  animation: gody-modal-in 0.2s var(--ease-press) both;
+}
+
+.gody-modal-title {
+  padding: 15px 20px;
+  border-bottom: 1px solid #2A2926;
+  font-weight: 600;
+  font-size: 15px;
+  color: #fecc2a;
+  letter-spacing: 0.3px;
+}
+
+.gody-modal-body {
+  padding: 18px 20px;
+}
+
+.gody-modal-footer {
+  padding: 12px 18px 16px;
+  border-top: 1px solid #2A2926;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.gody-modal-btn {
+  padding: 9px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  min-width: 72px;
+  transition:
+    background var(--duration-fast) var(--ease-press),
+    border-color var(--duration-fast) var(--ease-press),
+    color var(--duration-fast) var(--ease-press),
+    transform var(--duration-fast) var(--ease-press),
+    box-shadow var(--duration-fast) var(--ease-press);
+  outline: none;
+}
+
+.gody-modal-btn:active {
+  transform: scale(0.97);
+}
+
+.gody-modal-btn:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+.gody-modal-btn--ghost {
+  border: 1px solid #3A3935;
+  background: transparent;
+  color: #B8B5B0;
+}
+
+.gody-modal-btn--ghost:hover {
+  border-color: rgba(254, 204, 42, 0.4);
+  color: #fecc2a;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.gody-modal-btn--primary {
+  border: none;
+  background: #fecc2a;
+  color: #0A0908;
+  font-weight: 600;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.gody-modal-btn--primary:hover {
+  background: var(--yellow-hover);
+  box-shadow: 0 2px 8px rgba(254, 204, 42, 0.25);
+}
+
+.gody-modal-btn--danger {
+  border: none;
+  background: #C53D3D;
+  color: #fff;
+  font-weight: 600;
+}
+
+.gody-modal-btn--danger:hover {
+  background: #d44848;
+}
+
+@keyframes gody-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes gody-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Page list item focus (console) */
+.page-list-item:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 1px;
+}
+
+/* Console search input polish (supplements Tailwind) */
+.console-search:focus {
+  box-shadow: 0 0 0 3px var(--yellow-ring);
 }

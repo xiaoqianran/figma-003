@@ -34,11 +34,11 @@ export const useToast = () => {
 };
 
 // Industrial Yellow/Metal aesthetic - heavy use of #fecc2a primary + metal darks + semantic red
-const typeStyles: Record<ToastType, { bg: string; border: string; icon: string; iconColor: string }> = {
-  success: { bg: '#1A1916', border: '#fecc2a', icon: '✓', iconColor: '#fecc2a' },
-  error:   { bg: '#1A1916', border: '#C53D3D', icon: '✕', iconColor: '#C53D3D' },
-  info:    { bg: '#1A1916', border: '#5A7A9A', icon: 'ℹ', iconColor: '#8BA4BE' },
-  warning: { bg: '#1A1916', border: '#fecc2a', icon: '⚠', iconColor: '#fecc2a' },
+const typeMeta: Record<ToastType, { icon: string; iconColor: string }> = {
+  success: { icon: '✓', iconColor: '#fecc2a' },
+  error:   { icon: '✕', iconColor: '#C53D3D' },
+  info:    { icon: 'ℹ', iconColor: '#8BA4BE' },
+  warning: { icon: '⚠', iconColor: '#fecc2a' },
 };
 
 export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -89,66 +89,42 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     <ToastContext.Provider value={{ toasts, showToast, dismissToast, clearAll, success, error, info, warning, toast }}>
       {children}
 
-      {/* Toast Container - Moved to bottom-right to be far less intrusive while still visible for demo feedback */}
-      <div style={{
-        position: 'fixed',
-        bottom: '24px',
-        right: '24px',
-        zIndex: 99999,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-end',
-        gap: '6px',
-        width: 'min(300px, 88vw)',
-        pointerEvents: 'none'
-      }}>
+      {/* Toast Container - bottom-right, metal/yellow readable feedback */}
+      <div className="gody-toast-stack" aria-live="polite" aria-relevant="additions">
         {toasts.map((toastItem, index) => {
-          const s = typeStyles[toastItem.type];
+          const meta = typeMeta[toastItem.type];
           return (
             <div
               key={toastItem.id}
+              role="status"
+              tabIndex={0}
+              className={`gody-toast gody-toast--${toastItem.type}`}
               onClick={() => dismissToast(toastItem.id)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  dismissToast(toastItem.id);
+                }
+              }}
               style={{
-                background: s.bg,
-                border: `2px solid ${s.border}`,
-                borderRadius: '12px',
-                padding: '13px 16px',
-                color: '#EDEBE5',
-                fontSize: '13px',
-                boxShadow: '0 12px 32px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06)',
-                cursor: 'pointer',
-                display: 'flex',
-                gap: '12px',
-                alignItems: 'flex-start',
-                pointerEvents: 'auto',
-                opacity: 1 - Math.min(index * 0.06, 0.25), // subtle stack fade
-                transform: `translateY(${index * -1}px)`,
-                transition: 'all 0.2s cubic-bezier(0.2, 0.0, 0.0, 1)'
+                opacity: 1 - Math.min(index * 0.06, 0.25),
+                zIndex: 100 - index,
               }}
             >
-              <div style={{
-                color: s.iconColor,
-                fontWeight: 700,
-                fontSize: '16px',
-                marginTop: '1px',
-                lineHeight: 1,
-                flexShrink: 0,
-                width: '18px',
-                textAlign: 'center'
-              }}>
-                {s.icon}
+              <div className="gody-toast__icon" style={{ color: meta.iconColor }}>
+                {meta.icon}
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontWeight: 600, color: s.border === '#fecc2a' ? '#fecc2a' : '#EDEBE5', marginBottom: toastItem.message ? 3 : 0, letterSpacing: '0.2px' }}>
+                <div className="gody-toast__title">
                   {toastItem.title}
                 </div>
                 {toastItem.message && (
-                  <div style={{ opacity: 0.9, fontSize: '12px', lineHeight: 1.35, color: '#C9C6BE' }}>
+                  <div className="gody-toast__message">
                     {toastItem.message}
                   </div>
                 )}
               </div>
-              <div style={{ opacity: 0.5, fontSize: '11px', marginLeft: 4, marginTop: 2, color: '#B8B5B0' }}>×</div>
+              <div className="gody-toast__dismiss" aria-hidden="true">×</div>
             </div>
           );
         })}

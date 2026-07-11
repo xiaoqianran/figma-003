@@ -20,63 +20,94 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           width: 50, height: 50, borderRadius: '50%',
           background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 20, color: 'white', overflow: 'hidden'
+          fontSize: 20, color: 'white', overflow: 'hidden',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
         }}>{user.avatar}</div>
         <div style={{ marginLeft: 12, color: '#49493d', fontSize: 16, fontWeight: 500 }}>
           Good morning, {user.name.split(' ')[0]}
         </div>
-        <div style={{ marginLeft: 'auto', cursor: 'pointer' }} onClick={() => { addRecentAction('Opened account from home'); onNavigate?.('account-index'); }}>☰</div>
+        <button
+          type="button"
+          className="icon-btn"
+          style={{ marginLeft: 'auto' }}
+          aria-label="Open account"
+          onClick={() => { addRecentAction('Opened account from home'); onNavigate?.('account-index'); }}
+        >
+          ☰
+        </button>
       </div>
 
       {activeTrip && (
-        <div onClick={() => { addRecentAction('Viewed active from home'); onNavigate?.('trips-upcoming'); }} style={{ margin: '8px 16px 0', padding: '8px 12px', background: '#fff8e1', border: '1px solid #fecc2a', borderRadius: 10, fontSize: 13, cursor: 'pointer' }}>
+        <div
+          className="active-trip-banner"
+          role="button"
+          tabIndex={0}
+          onClick={() => { addRecentAction('Viewed active from home'); onNavigate?.('trips-upcoming'); }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              addRecentAction('Viewed active from home');
+              onNavigate?.('trips-upcoming');
+            }
+          }}
+        >
           🚕 Active trip to <strong>{activeTrip.to}</strong> — tap to view
         </div>
       )}
 
       {/* 地图区域 */}
-      <div style={{
-        position: 'relative',
-        marginTop: 24,
-        height: 380,
-        background: 'linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%)',
-        backgroundImage: `
-          radial-gradient(circle at 20% 30%, #d0d0d0 1px, transparent 1px),
-          radial-gradient(circle at 80% 70%, #d0d0d0 1px, transparent 1px),
-          radial-gradient(circle at 40% 80%, #d0d0d0 1px, transparent 1px)
-        `,
-        backgroundSize: '50px 50px, 30px 30px, 40px 40px'
-      }}>
-        {/* 地图上的车辆和地点标记 (简化视觉) */}
-        <div style={{ position: 'absolute', top: '28%', left: '22%', fontSize: 22 }}>🚗</div>
-        <div style={{ position: 'absolute', top: '41%', left: '61%', fontSize: 22 }}>🚙</div>
-        <div style={{ position: 'absolute', top: '55%', left: '33%', fontSize: 20 }}>🟡</div>
+      <div
+        className="map-mock"
+        style={{
+          position: 'relative',
+          marginTop: 24,
+          height: 380,
+          background: 'linear-gradient(145deg, #eef2ee 0%, #e4ebe4 45%, #dfe8e0 100%)',
+        }}
+      >
+        <div className="map-mock-grid" style={{ opacity: 0.7 }} />
+        {/* 地图上的车辆和地点标记 */}
+        <div style={{ position: 'absolute', top: '28%', left: '22%', fontSize: 22, filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.12))' }}>🚗</div>
+        <div style={{ position: 'absolute', top: '41%', left: '61%', fontSize: 22, filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.12))' }}>🚙</div>
+        <div style={{ position: 'absolute', top: '55%', left: '33%', fontSize: 20, filter: 'drop-shadow(0 2px 4px rgba(254,204,42,0.4))' }}>🟡</div>
 
         {/* 定位按钮 */}
-        <div
-          style={{
-            position: 'absolute', top: 167, right: 24, width: 48, height: 48,
-            borderRadius: '50%', background: '#fff', boxShadow: '0px 4px 40px rgba(0,0,0,0.1)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'
-          }}
+        <button
+          type="button"
+          className="map-fab"
+          style={{ position: 'absolute', top: 167, right: 24 }}
+          aria-label="Locate me"
           onClick={() => info('定位', '定位到当前位置 (demo)')}
         >
           🎯
-        </div>
+        </button>
       </div>
 
       {/* 底部操作面板 */}
-      <div style={{
-        position: 'absolute', bottom: 0, left: 0, width: 375, height: 417,
-        background: '#ffffff', borderRadius: '24px 24px 0 0',
-        paddingTop: 32, boxShadow: '0px -4px 20px rgba(0,0,0,0.1)',
-        display: 'flex', flexDirection: 'column'
-      }}>
+      <div
+        className="bottom-sheet"
+        style={{
+          position: 'absolute', bottom: 0, left: 0, width: 375, height: 417,
+          paddingTop: 28,
+          display: 'flex', flexDirection: 'column',
+        }}
+      >
         {/* 搜索框 */}
-        <div style={{ margin: '0 24px', padding: '14px 16px', background: '#f3f3f3', borderRadius: 12, display: 'flex', alignItems: 'center', cursor: 'pointer' }}
-             onClick={() => { addRecentAction('Search from home'); onNavigate?.('core-search1'); }}>
-          <span style={{ marginRight: 10 }}>🔍</span>
-          <span style={{ color: '#6E6A61' }}>Where are you going?</span>
+        <div
+          className="search-pill"
+          role="button"
+          tabIndex={0}
+          onClick={() => { addRecentAction('Search from home'); onNavigate?.('core-search1'); }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              addRecentAction('Search from home');
+              onNavigate?.('core-search1');
+            }
+          }}
+        >
+          <span className="icon">🔍</span>
+          <span className="label">Where are you going?</span>
         </div>
 
         {/* 快捷目的地 */}
@@ -85,10 +116,22 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             { label: 'Apple Store', sub: 'Union Square', icon: '🍎' },
             { label: 'Starbucks', sub: 'Market St', icon: '☕' },
           ].map((d, i) => (
-            <div key={i} style={{ flex: 1, padding: '12px 14px', background: '#f8f8f8', borderRadius: 12, cursor: 'pointer' }}
-                 onClick={() => { addRecentAction('Choose car from home'); onNavigate?.('booking-choose-car'); }}>
+            <div
+              key={i}
+              className="dest-chip"
+              role="button"
+              tabIndex={0}
+              onClick={() => { addRecentAction('Choose car from home'); onNavigate?.('booking-choose-car'); }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  addRecentAction('Choose car from home');
+                  onNavigate?.('booking-choose-car');
+                }
+              }}
+            >
               <div style={{ fontSize: 18 }}>{d.icon}</div>
-              <div style={{ fontSize: 13, fontWeight: 600, marginTop: 4 }}>{d.label}</div>
+              <div style={{ fontSize: 13, fontWeight: 600, marginTop: 4, color: '#0A0908' }}>{d.label}</div>
               <div style={{ fontSize: 11, color: '#959595' }}>{d.sub}</div>
             </div>
           ))}
@@ -102,11 +145,23 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             { name: 'GodyX', price: '$22', time: '2 min' },
             { name: 'Black SUV', price: '$17', time: '4 min' },
           ].map((v, idx) => (
-            <div key={idx} style={{ flex: 1, padding: 14, border: '1px solid #eee', borderRadius: 14, cursor: 'pointer' }}
-                 onClick={() => { addRecentAction('Choose car from home'); onNavigate?.('booking-choose-car'); }}>
-              <div style={{ fontSize: 22, marginBottom: 4 }}>{idx === 0 ? '🚗' : '🚙'}</div>
-              <div style={{ fontWeight: 600 }}>{v.name}</div>
-              <div style={{ fontSize: 12, color: '#6E6A61' }}>{v.price} · {v.time}</div>
+            <div
+              key={idx}
+              className="quick-vehicle"
+              role="button"
+              tabIndex={0}
+              onClick={() => { addRecentAction('Choose car from home'); onNavigate?.('booking-choose-car'); }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  addRecentAction('Choose car from home');
+                  onNavigate?.('booking-choose-car');
+                }
+              }}
+            >
+              <div className="icon">{idx === 0 ? '🚗' : '🚙'}</div>
+              <div className="name">{v.name}</div>
+              <div className="meta">{v.price} · {v.time}</div>
             </div>
           ))}
         </div>

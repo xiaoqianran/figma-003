@@ -31,6 +31,9 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
   return (
     <div
       onClick={onClick}
+      onKeyDown={onClick ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } } : undefined}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
       className={`vehicle-card ${selected ? 'selected' : ''} ${className}`}
       style={{
         margin: '12px 24px 0',
@@ -41,7 +44,6 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
         cursor: onClick ? 'pointer' : 'default',
         display: 'flex',
         alignItems: 'center',
-        transition: 'all 0.2s ease'
       }}
     >
       <div style={{ fontSize: 32, marginRight: 16 }}>{icon}</div>
