@@ -117,7 +117,7 @@ const PickupCountdownPage: React.FC<PickupCountdownPageProps> = ({ onNavigate })
     setMarkerColor('#00b894');
     setTimeout(() => {
       setMarkerColor('#fecc2a');
-      info('接机点', '已选择接机点：San Francisco International Airport (demo)');
+      info('接机点', '已选择接机点：旧金山国际机场（演示）');
     }, 220);
   };
 

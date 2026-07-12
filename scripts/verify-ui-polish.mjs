@@ -127,6 +127,15 @@ const BANNED_SNIPPETS = [
   'Add Payment methods', 'Add promo codes', 'I was involved in accident', 'Active trip to',
   'search prefilled', 'Current lead:', 'updating live', 'Gift to:', "Can't send",
   'Balance:', 'Gody Pass:', 'Promo:', 'Gifts:', 'Eats:',
+  // toast bodies that previously bypassed JSX-only scan
+  'Past (demo state',
+  'Past 列表',
+  'San Francisco International Airport',
+  'multi-trip state',
+  'paid flag',
+  'via updateTripStatus demo',
+  'demo state via completeTrip',
+  '将出现在 Past',
 ]
 const pagesDir = path.join(root, 'src/pages')
 const enNodes = []
@@ -231,6 +240,56 @@ function walk(dir) {
         })
         if (real) enNodes.push({ file: rel, text: `BANNED_SNIPPET: ${snip}` })
       }
+
+      // E) Toast title/message args (info/success/error/warning) — criterion 1 user-visible demo toasts
+      // Extract quoted / template-literal pieces from toast call sites (same line).
+      for (const line of t.split('\n')) {
+        if (!/\b(info|success|error|warning)\s*\(/.test(line)) continue
+        const call = line.match(/\b(info|success|error|warning)\s*\((.*)\)\s*;?\s*$/)
+        if (!call) continue
+        const args = call[2]
+        const pieces = []
+        const strRe = /(['"`])((?:\\.|(?!\1).)*)\1/g
+        let sm
+        while ((sm = strRe.exec(args))) {
+          pieces.push(sm[2].replace(/\\n/g, ' ').replace(/\$\{[^}]+\}/g, ' '))
+        }
+        for (let s of pieces) {
+          s = s.replace(/\s+/g, ' ').trim()
+          if (!s) continue
+          // CSS / style false positives
+          if (/^(#|rgba?\(|rotate\(|linear-gradient|[\d.]+px)/.test(s)) continue
+          if (s.includes('styles.') || s.includes('rgba(')) continue
+          // pure English toast body/title
+          if (!/[\u4e00-\u9fff]/.test(s) && isDisallowedUiText(s)) {
+            enNodes.push({ file: rel, text: `TOAST: ${s}` })
+            continue
+          }
+          // mixed Chinese+English: flag leftover product English words (not brand allowlist)
+          if (/[\u4e00-\u9fff]/.test(s)) {
+            const bannedToastEn = /\b(Past|Airport|International|multi-trip|paid flag|demo state|completeTrip|updateTripStatus|Top Driver|search prefilled|updating live|Gift to|Can't send|Add Payment|Confirm)\b/i
+            // allow technical API names only when fully Chinese-wrapped? still flag bare English product words
+            // Flag English product words; allow short API identifiers when surrounded by Chinese if we translate them
+            const leftover = s.match(/\b[A-Za-z][A-Za-z0-9 _().-]{2,}\b/g) || []
+            for (const w of leftover) {
+              const wt = w.trim()
+              if (ALLOW_EXACT.has(wt) || ALLOW_PREFIX.test(wt)) continue
+              if (/^(demo|Demo|Gody|GODY|GodyX|VISA|Pass|SUV|XL|min|sec|PM|AM)$/i.test(wt)) continue
+              // technical camelCase API ids OK only if full toast is mostly Chinese AND word is camelCase API
+              if (/^[a-z]+[A-Z]/.test(wt) || /TripStatus|bookTrip|cancelTrip|completeTrip|updateTrip/.test(wt)) continue
+              if (bannedToastEn.test(wt) || (/\s/.test(wt) && /[A-Za-z]{4,}/.test(wt))) {
+                enNodes.push({ file: rel, text: `TOAST_MIX: ${s.slice(0, 100)}` })
+                break
+              }
+              // Title Case multiword English residue
+              if (/^[A-Z][a-z]+(?:\s+[A-Za-z]+){1,}/.test(wt)) {
+                enNodes.push({ file: rel, text: `TOAST_MIX: ${s.slice(0, 100)}` })
+                break
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -269,6 +328,10 @@ assert(read('src/pages/core/Search2Page.tsx').includes('空格') && read('src/pa
 assert(read('src/pages/booking/RequestingPage.tsx').includes('当前领先司机') || read('src/pages/booking/RequestingPage.tsx').includes('实时更新'), 'Requesting live status Chinese')
 assert(read('src/pages/account/AccountIndexPage.tsx').includes('余额'), 'Account balance Chinese label')
 assert(read('src/pages/account/ProfilePage.tsx').includes('赠送给') || read('src/pages/account/ProfilePage.tsx').includes('余额'), 'Profile gift modal Chinese')
+assert(read('src/pages/trips/UpcomingTripPage.tsx').includes('历史') && !read('src/pages/trips/UpcomingTripPage.tsx').includes('Past 列表'), 'UpcomingTrip toast uses 历史 not Past')
+assert(read('src/pages/trips/PickupCountdownPage.tsx').includes('旧金山国际机场（演示）'), 'PickupCountdown toast Chinese airport')
+assert(read('src/pages/payment/ConfirmPaymentPage.tsx').includes('多行程状态') || read('src/pages/payment/ConfirmPaymentPage.tsx').includes('已支付标记'), 'ConfirmPayment toast Chinese')
+assert(read('src/pages/trips/TripDetailCompletedPage.tsx').includes('评价已提交') && !read('src/pages/trips/TripDetailCompletedPage.tsx').includes('via updateTripStatus demo'), 'TripDetailCompleted toast Chinese')
 
 const summary = { passed: passes.length, failed: failures.length, passes, failures, enNodesSample: enNodes.slice(0, 10) }
 console.log('=== ui-ux-pro-max GODY Studio verification ===')
