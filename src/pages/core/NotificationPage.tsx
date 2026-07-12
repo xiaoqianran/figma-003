@@ -20,7 +20,7 @@ const NotificationPage: React.FC<NotificationPageProps> = ({ onNavigate }) => {
   const animationIntervals = useRef<number[]>([]);
 
   const goBack = () => {
-    addRecentAction('Back from notifications');
+    addRecentAction('从通知中心返回');
     onNavigate?.('core-home');
   };
 
@@ -73,7 +73,7 @@ const NotificationPage: React.FC<NotificationPageProps> = ({ onNavigate }) => {
   const handleIllustrationClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = e.currentTarget;
     el.style.transform = 'scale(0.95)';
-    addRecentAction('Interacted with notification illustration');
+    addRecentAction('已与通知插画交互');
     setTimeout(() => {
       el.style.transform = 'scale(1)';
     }, 150);
@@ -86,7 +86,7 @@ const NotificationPage: React.FC<NotificationPageProps> = ({ onNavigate }) => {
     setButtonText('请求权限中...');
     setButtonDisabled(true);
 
-    if ('Notification' in window) {
+    if ('通知' in window) {
       try {
         const permission = await Notification.requestPermission();
 
@@ -103,7 +103,7 @@ const NotificationPage: React.FC<NotificationPageProps> = ({ onNavigate }) => {
               });
             } catch (_e) { // eslint-disable-line @typescript-eslint/no-unused-vars
               // Some browsers block auto notifications without user gesture
-              console.log('Notification shown in console (browser policy)');
+              console.log('通知已在控制台显示（浏览器策略）');
             }
           }, 1000);
 
@@ -169,7 +169,7 @@ const NotificationPage: React.FC<NotificationPageProps> = ({ onNavigate }) => {
       {/* Back navigation using shared TopNav (per migration spec) - visually faithful back arrow */}
       <TopNav onBack={goBack} />
 
-      {activeTrip && <div style={{ margin: '0 16px 8px', fontSize: 12, padding: '4px 10px', background: '#e8f4f8', borderRadius: 6 }}>Trip update: {activeTrip.to} ({activeTrip.status})</div>}
+      {activeTrip && <div style={{ margin: '0 16px 8px', fontSize: 12, padding: '4px 10px', background: '#e8f4f8', borderRadius: 6 }}>行程更新：{activeTrip.to}（{activeTrip.status}）</div>}
 
       {/* Dynamic recent trip notifications from bookedTrips (new) */}
       {bookedTrips.length > 0 && (
@@ -178,7 +178,7 @@ const NotificationPage: React.FC<NotificationPageProps> = ({ onNavigate }) => {
           {bookedTrips.slice(-3).reverse().map((t, idx) => (
             <div key={idx} style={{ padding: '6px 10px', background: '#fff', borderRadius: 6, marginBottom: 4, border: '1px solid #eee', cursor: 'pointer' }}
                  onClick={() => {
-                   addRecentAction(`Viewed notification for trip to ${t.to}`);
+                   addRecentAction(`查看了前往 ${t.to} 的行程通知`);
                    onNavigate?.(t.status === 'completed' ? 'trips-detail-completed' : 'trip-upcoming');
                  }}>
               {t.status === 'completed' ? '✅' : t.status === 'in-progress' ? '🚕' : '📅'} {t.from} → {t.to} · {t.status}
@@ -220,7 +220,7 @@ const NotificationPage: React.FC<NotificationPageProps> = ({ onNavigate }) => {
       </div>
 
       {/* 主要文本 */}
-      <p className={styles.content}>Relax with real- time&nbsp;&nbsp;trip updates</p>
+      <p className={styles.content}>实时行程更新，安心出行</p>
 
       {/* 副文本 */}
       <p className={styles.subContent}>请在提示时允许 Gody 推送通知</p>

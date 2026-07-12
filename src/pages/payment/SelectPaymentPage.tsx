@@ -18,7 +18,7 @@ const SelectPaymentPage: React.FC<SelectPaymentPageProps> = ({ onNavigate }) => 
       ? { id: 'visa-4242', type: 'visa' as const, label: 'Visa •••• 4242', last4: '4242' }
       : { id: 'gody-cash', type: 'gody' as const, label: 'Gody 现金', last4: undefined };
     setSelectedPayment(method);
-    addRecentAction(`Selected payment: ${method.label}`);
+    addRecentAction(`已选择支付方式：${method.label}`);
   };
 
   const usePayment = () => {
@@ -60,7 +60,7 @@ const SelectPaymentPage: React.FC<SelectPaymentPageProps> = ({ onNavigate }) => 
         </div>
 
         <div className={styles.discount}>
-          Save up to 15% on all routes when you ride with Gody and Pool in the San Francisco metropolitan area.
+          在旧金山都市区与 Gody 拼车出行时，所有路线最高可省 15%。
         </div>
 
         <div className={styles.promoTitle}>优惠码</div>
@@ -69,7 +69,7 @@ const SelectPaymentPage: React.FC<SelectPaymentPageProps> = ({ onNavigate }) => 
         </div>
 
         <button className={styles.useBtn} onClick={usePayment}>
-          Use payment method
+          使用此支付方式
         </button>
 
         <HomeIndicator />

@@ -15,7 +15,7 @@ const ChooseTrip1Page: React.FC<ChooseTrip1PageProps> = ({ onNavigate }) => {
 
   const handleSelect = (id: string, name: string, _price: number) => { // eslint-disable-line @typescript-eslint/no-unused-vars
     setSelectedId(id);
-    addRecentAction(`Chose trip option: ${name}`);
+    addRecentAction(`已选择出行选项：${name}`);
     // Visual feedback then navigate (matching original timeout behavior)
     setTimeout(() => {
       if (name === 'GodyX') {
@@ -79,7 +79,7 @@ const ChooseTrip1Page: React.FC<ChooseTrip1PageProps> = ({ onNavigate }) => {
             </div>
             <div className={styles.timeInfo}>
               <span className={styles.infoIcon}>🕐</span>
-              <span className={styles.infoText}>1-4 min</span>
+              <span className={styles.infoText}>1-4 分钟</span>
             </div>
           </div>
           <span className={styles.vehicleDescription}>经济实惠，专车独享</span>
@@ -100,7 +100,7 @@ const ChooseTrip1Page: React.FC<ChooseTrip1PageProps> = ({ onNavigate }) => {
             </div>
             <div className={styles.timeInfo}>
               <span className={styles.infoIcon}>🕐</span>
-              <span className={styles.infoText}>1-8 min</span>
+              <span className={styles.infoText}>1-8 分钟</span>
             </div>
           </div>
           <span className={styles.vehicleDescription}>经济实惠，专车独享</span>
@@ -132,7 +132,7 @@ const ChooseTrip1Page: React.FC<ChooseTrip1PageProps> = ({ onNavigate }) => {
             </div>
             <div className={styles.timeInfo}>
               <span className={styles.infoIcon}>🕐</span>
-              <span className={styles.infoText}>1-7 min</span>
+              <span className={styles.infoText}>1-7 分钟</span>
             </div>
           </div>
           <span className={styles.vehicleDescription}>经济实惠，专车独享</span>
@@ -153,7 +153,7 @@ const ChooseTrip1Page: React.FC<ChooseTrip1PageProps> = ({ onNavigate }) => {
             </div>
             <div className={styles.timeInfo}>
               <span className={styles.infoIcon}>🕐</span>
-              <span className={styles.infoText}>1-8 min</span>
+              <span className={styles.infoText}>1-8 分钟</span>
             </div>
           </div>
           <span className={styles.comfortDescription}>经济实惠，专车独享</span>

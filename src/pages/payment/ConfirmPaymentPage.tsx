@@ -13,13 +13,13 @@ const ConfirmPaymentPage: React.FC<ConfirmPaymentPageProps> = ({ onNavigate }) =
   const { success } = useToast();
 
   const confirm = () => {
-    addRecentAction(`Confirmed payment with ${selectedPayment.label} for trip`);
+    addRecentAction(`已使用 ${selectedPayment.label} 确认行程支付`);
     if (activeTrip) {
       // Use new state API: mark paid + in-progress
       updateTripStatus(activeTrip.id, 'in-progress', { paid: true });
     } else {
       // Allow standalone payment confirm to seed a demo trip (robustness)
-      bookTrip({ status: 'in-progress', from: 'Demo Pickup', to: 'Demo Dropoff', price: 18, paid: true, vehicle: 'GodyX' });
+      bookTrip({ status: 'in-progress', from: '演示上车点', to: '演示下车点', price: 18, paid: true, vehicle: 'GodyX' });
     }
     success('支付成功', '支付确认成功！行程已预订 (multi-trip state + paid flag)');
     onNavigate?.('trips-upcoming');
@@ -40,8 +40,8 @@ const ConfirmPaymentPage: React.FC<ConfirmPaymentPageProps> = ({ onNavigate }) =
 
           <div className={styles.confirmCard}>
             <div style={{ fontWeight: 500, fontSize: 16 }}>确认价格</div>
-            <div className={styles.price}>$3.00 to reserve</div>
-            <div style={{ fontSize: 13, color: '#49493d' }}>Save up to 15% on all routes when you ride with Gody and Pool in the San Francisco metropolitan area.</div>
+            <div className={styles.price}>预付 $3.00 锁定</div>
+            <div style={{ fontSize: 13, color: '#49493d' }}>与 Gody 及拼车在旧金山都会区出行时，全线路最高可省 15%。</div>
 
             <div className={styles.paymentRow} onClick={() => onNavigate?.('payment-select')}>
               {selectedPayment.type === 'visa' ? (

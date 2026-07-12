@@ -11,13 +11,13 @@ const SchedulingTripPage: React.FC<SchedulingTripPageProps> = ({ onNavigate }) =
   const { activeTrip, addRecentAction, bookTrip, updateTripStatus } = useDemoState();
   const { success } = useToast();
   const [currentStep, setCurrentStep] = useState(0);
-  const [statusText, setStatusText] = useState('Scheduling your trip');
+  const [statusText, setStatusText] = useState('正在安排您的行程');
   const [completed, setCompleted] = useState(false);
   const [showViewTripModal, setShowViewTripModal] = useState(false);
 
   const steps = [
-    'Connecting to drivers...',
-    'Finding best route...',
+    '正在连接司机...',
+    '正在规划最佳路线...',
     '正在确认可用性...',
     '行程预约成功！'
   ];
@@ -42,11 +42,11 @@ const SchedulingTripPage: React.FC<SchedulingTripPageProps> = ({ onNavigate }) =
             setCompleted(true);
             setStatusText('行程预约成功！');
             setTimeout(() => {
-              addRecentAction('Trip scheduling completed');
+              addRecentAction('行程安排完成');
               // Use bookTrip (new API) instead of manual setActiveTrip for full multi-trip integration + bookedTrips
               if (activeTrip?.id) {
-                updateTripStatus(activeTrip.id, 'upcoming', { eta: '3:50 PM (scheduled)', vehicle: activeTrip.vehicle || 'GodyX' });
-                addRecentAction(`Scheduling complete — updated existing via updateTripStatus (${activeTrip.to})`);
+                updateTripStatus(activeTrip.id, 'upcoming', { eta: '下午 3:50（已预约）', vehicle: activeTrip.vehicle || 'GodyX' });
+                addRecentAction(`预约完成 — 已通过 updateTripStatus 更新（${activeTrip.to}）`);
               } else {
                 const scheduled = bookTrip({
                   status: 'upcoming',
@@ -56,7 +56,7 @@ const SchedulingTripPage: React.FC<SchedulingTripPageProps> = ({ onNavigate }) =
                   price: 16,
                   vehicle: 'GodyX'
                 });
-                addRecentAction(`Scheduling complete — booked via bookTrip (id: ${scheduled.id})`);
+                addRecentAction(`预约完成 — 已通过 bookTrip 预订（id：${scheduled.id}）`);
               }
               success('行程已安排', '行程安排成功！');
               setShowViewTripModal(true);
@@ -74,9 +74,9 @@ const SchedulingTripPage: React.FC<SchedulingTripPageProps> = ({ onNavigate }) =
 
   const handleContainerClick = () => {
     // restart animation on tap (demo)
-    addRecentAction('Restarted trip scheduling animation');
+    addRecentAction('已重启行程安排动画');
     setCurrentStep(0);
-    setStatusText('Scheduling your trip');
+    setStatusText('正在安排您的行程');
     setCompleted(false);
   };
 
@@ -98,7 +98,7 @@ const SchedulingTripPage: React.FC<SchedulingTripPageProps> = ({ onNavigate }) =
           {statusText}
         </div>
         {activeTrip && (
-          <div style={{ marginTop: 12, fontSize: 12, opacity: 0.7 }}>Active: {activeTrip.to} ({activeTrip.status})</div>
+          <div style={{ marginTop: 12, fontSize: 12, opacity: 0.7 }}>进行中： {activeTrip.to} ({activeTrip.status})</div>
         )}
 
         {/* Progress dots */}

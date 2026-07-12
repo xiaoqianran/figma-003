@@ -28,7 +28,7 @@ const Search1Page: React.FC<Search1PageProps> = ({ onNavigate }) => {
   }, [searchInput]);
 
   const goBack = () => {
-    addRecentAction('Back from search1');
+    addRecentAction('从搜索 1 返回');
     onNavigate?.('core-home');
   };
 
@@ -46,7 +46,7 @@ const Search1Page: React.FC<Search1PageProps> = ({ onNavigate }) => {
       setIsListening(false);
       success('语音输入', '语音输入完成 (demo)');
       // Simulate some input from voice
-      const voiceText = 'Apple Park';
+      const voiceText = '苹果园区';
       setSearchInput(prev => prev + voiceText);
     }, 2000);
   };
@@ -78,7 +78,7 @@ const Search1Page: React.FC<Search1PageProps> = ({ onNavigate }) => {
         to,
         price: 42,
         vehicle: '黑金 SUV',
-        eta: '25 min',
+        eta: '25 分钟',
       });
       addRecentAction(`Airport selected as destination: ${to} — booked via bookTrip #${booked.id}`);
       success('已选择机场', `已为 ${to} 创建真实预订 ($${booked.price})`);
@@ -130,11 +130,11 @@ const Search1Page: React.FC<Search1PageProps> = ({ onNavigate }) => {
         to,
         price: 18,
         vehicle: 'GodyX',
-        eta: '8 min',
+        eta: '8 分钟',
       });
       addRecentAction(`Searched destination: ${to} — created upcoming trip #${booked.id} via bookTrip`);
-      success('搜索完成', `已为 ${to} 创建真实预订 (price $${booked.price}, ${booked.vehicle})`);
-      console.log('搜索关键词:', searchInput, 'booked trip:', booked);
+      success('搜索完成', `已为 ${to} 创建真实预订（价格 $${booked.price}，${booked.vehicle}）`);
+      console.log('搜索关键词:', searchInput, '已预订行程：', booked);
       onNavigate?.('booking-choose-car');
     } else {
       error('搜索', '请输入搜索关键词');
@@ -149,7 +149,7 @@ const Search1Page: React.FC<Search1PageProps> = ({ onNavigate }) => {
     info('语音', '开始语音听写 (demo)');
     // Simulate dictation adding text
     setTimeout(() => {
-      setSearchInput(prev => prev + 'Dictated text ');
+      setSearchInput(prev => prev + '语音输入文本 ');
     }, 800);
   };
 
@@ -195,7 +195,7 @@ const Search1Page: React.FC<Search1PageProps> = ({ onNavigate }) => {
         <div className={styles.locationContent}>
           <div className={styles.locationDot}></div>
           <div className={styles.locationInfo}>
-            <div className={styles.locationLabel}>You are here:</div>
+            <div className={styles.locationLabel}>您在这里：</div>
             <div className={styles.locationValue}>苹果联合广场</div>
           </div>
         </div>
@@ -248,7 +248,7 @@ const Search1Page: React.FC<Search1PageProps> = ({ onNavigate }) => {
           <div className={styles.airportIcon}>✈️</div>
           <div className={styles.airportName}>旧金山国际机场</div>
         </div>
-        <div className={styles.airportAddress}>348 Mc Donnell Rd, San Francisco</div>
+        <div className={styles.airportAddress}>旧金山 Mc Donnell 路 348 号</div>
       </div>
 
       {/* 虚拟键盘 - exact replica */}

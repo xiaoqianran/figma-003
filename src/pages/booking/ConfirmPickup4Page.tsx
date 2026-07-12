@@ -11,31 +11,31 @@ const ConfirmPickup4Page: React.FC<ConfirmPickup4PageProps> = ({ onNavigate }) =
   const { activeTrip, addRecentAction, bookTrip, updateTripStatus } = useDemoState();
   const { info } = useToast();
   const handleBack = () => {
-    addRecentAction('Back from pickup confirm 4');
+    addRecentAction('从确认上车点 4 返回');
     onNavigate?.('booking-confirm-pickup3');
   };
   const handleEdit = () => {
-    addRecentAction('Edit pickup (page4)');
+    addRecentAction('编辑上车点（页4）');
     if (activeTrip?.id) {
-      updateTripStatus(activeTrip.id, activeTrip.status || 'upcoming', { from: 'Pickup point edited' });
-      addRecentAction('Pickup edit (4) — via updateTripStatus');
+      updateTripStatus(activeTrip.id, activeTrip.status || 'upcoming', { from: '上车点已编辑' });
+      addRecentAction('编辑上车点（4）— 已更新');
     }
     info('上车点', '编辑上车点 (demo)');
   };
   const handleShare = () => {
-    addRecentAction('Share live loc (page4)');
-    if (activeTrip?.id) updateTripStatus(activeTrip.id, 'in-progress', { eta: 'Location shared' });
+    addRecentAction('共享实时位置（页4）');
+    if (activeTrip?.id) updateTripStatus(activeTrip.id, 'in-progress', { eta: '位置已共享' });
     info('分享', '分享实时位置给司机 (demo)');
   };
   const handleCall = () => {
-    addRecentAction('Call driver (page4)');
+    addRecentAction('呼叫司机（页4）');
     const tripId = activeTrip?.id;
     if (tripId) {
-      updateTripStatus(tripId, 'in-progress', { driver: 'Push • Camry', eta: '前往中' });
-      addRecentAction('Call (4) — driver via updateTripStatus');
+      updateTripStatus(tripId, 'in-progress', { driver: 'Push · 凯美瑞', eta: '前往中' });
+      addRecentAction('呼叫（4）— 已更新司机');
     } else {
-      bookTrip({ status: 'in-progress', from: 'SFO pickup', to: '苹果联合广场', driver: '推送', eta: '前往中' });
-      addRecentAction('Call (4) — via bookTrip');
+      bookTrip({ status: 'in-progress', from: 'SFO 上车点', to: '苹果联合广场', driver: '推送', eta: '前往中' });
+      addRecentAction('呼叫（4）— 已预订');
     }
     info('电话', '正在拨打司机电话... (demo)');
   };
@@ -91,7 +91,7 @@ const ConfirmPickup4Page: React.FC<ConfirmPickup4PageProps> = ({ onNavigate }) =
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '12px 105px 0', minWidth: 165 }}>
           <p style={{ fontSize: 14, color: '#49493d' }}>Push · 4.93</p>
           <span style={{ color: '#fecc2a', fontSize: 10, marginTop: 2 }}>⭐</span>
-          <p style={{ fontSize: 14, color: '#49493d' }}>- 3,375 trips</p>
+          <p style={{ fontSize: 14, color: '#49493d' }}>- 3,375 次行程</p>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 20, padding: '0 48px 0 0' }}>

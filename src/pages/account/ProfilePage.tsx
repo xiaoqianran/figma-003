@@ -57,7 +57,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
       setEatsChoice(null);
       setShowEatsModal(true);
     } else {
-      info('菜单', `打开 ${itemType} 功能 (demo)`);
+      info('菜单', `打开 ${itemType} 功能（演示）`);
     }
   };
 
@@ -111,10 +111,10 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
               opacity: 0.95
             }}>
               <span>💰 ¥{balance.toFixed(2)}</span>
-              {hasGodyPass && <span title={godyPassExpiry || ''}>🎫 Pass active</span>}
-              {promoCredits > 0 && <span>🆓 {promoCredits} credits</span>}
-              {giftsSent > 0 && <span>🎁 {giftsSent} sent</span>}
-              {eatsOrders > 0 && <span>🍽️ {eatsOrders} eats</span>}
+              {hasGodyPass && <span title={godyPassExpiry || ''}>🎫 通行证有效</span>}
+              {promoCredits > 0 && <span>🆓 {promoCredits} 积分</span>}
+              {giftsSent > 0 && <span>🎁 已送出 {giftsSent}</span>}
+              {eatsOrders > 0 && <span>🍽️ 外卖 {eatsOrders}</span>}
             </div>
 
             <div className={styles.menuItem} onClick={() => openMenuItem('trip')}>
@@ -149,7 +149,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
 
             <div className={styles.menuItem} onClick={() => openMenuItem('eats')}>
               <span>🍽️</span>
-              <p className={styles.menuText}>Eats</p>
+              <p className={styles.menuText}>外卖</p>
             </div>
 
             <div className={styles.menuItem} onClick={() => openMenuItem('settings')}>
@@ -169,7 +169,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
               <div className={styles.userAvatar}>
                 <div className={styles.avatarImage}>{user.avatar}</div>
               </div>
-              <p className={styles.userName}>{user.name} <span style={{ fontSize: 10, opacity: 0.6 }}>(tap to edit)</span></p>
+              <p className={styles.userName}>{user.name} <span style={{ fontSize: 10, opacity: 0.6 }}>（点击编辑）</span></p>
             </div>
 
             <div className={styles.sideMenuItem} onClick={() => openMenuItem('trip')}>
@@ -198,7 +198,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
             </div>
             <div className={styles.sideMenuItem} onClick={() => openMenuItem('eats')}>
               <span className={styles.sideMenuIcon}>🍽️</span>
-              <p className={styles.sideMenuText}>Eats</p>
+              <p className={styles.sideMenuText}>外卖</p>
             </div>
             <div className={styles.sideMenuItem} onClick={() => openMenuItem('settings')}>
               <span className={styles.sideMenuIcon}>⚙️</span>
@@ -216,13 +216,13 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
       <Modal
         open={showNameModal}
         onClose={() => setShowNameModal(false)}
-        title="Edit demo user name"
+        title="编辑演示用户名"
         confirmText="保存"
         onConfirm={() => {
           const trimmed = editingName.trim();
           if (trimmed) {
             setUser({ name: trimmed });
-            addRecentAction(`Updated profile name to ${trimmed}`);
+            addRecentAction(`资料姓名已更新为 ${trimmed}`);
           }
           setShowNameModal(false);
         }}
@@ -247,7 +247,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
               const trimmed = editingName.trim();
               if (trimmed) {
                 setUser({ name: trimmed });
-                addRecentAction(`Updated profile name to ${trimmed}`);
+                addRecentAction(`资料姓名已更新为 ${trimmed}`);
               }
               setShowNameModal(false);
             }
@@ -265,19 +265,19 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
         <div style={{ fontSize: 13, lineHeight: 1.5, color: '#C9C6BE' }}>
           {hasGodyPass ? (
             <div>
-              <div style={{ color: '#fecc2a', fontWeight: 600, marginBottom: 6 }}>✓ Active until {godyPassExpiry || 'soon'}</div>
-              <div>Benefits unlocked: 15% off rides • Priority pickup • Free cancellations</div>
+              <div style={{ color: '#fecc2a', fontWeight: 600, marginBottom: 6 }}>✓ 有效期至 {godyPassExpiry || '即将到期'}</div>
+              <div>已解锁权益：行程 15% 折扣 · 优先上车 · 免费取消</div>
             </div>
           ) : (
             <div>
-              Unlock premium perks for all your trips.<br />
-              • 15% off every ride<br />
-              • Priority driver matching<br />
-              • Free cancellations &amp; changes
+              解锁全部行程的高级权益。<br />
+              • 每次出行 15% 优惠<br />
+              • 优先匹配司机<br />
+              • 免费取消与改期
             </div>
           )}
           <div style={{ marginTop: 14, padding: '8px 10px', background: '#11110F', borderRadius: 8, fontSize: 12 }}>
-            Your balance: <strong>¥{balance.toFixed(2)}</strong>
+            当前余额： <strong>¥{balance.toFixed(2)}</strong>
           </div>
         </div>
         <div style={{ marginTop: 16, display: 'flex', gap: 10 }}>
@@ -290,12 +290,12 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
                   success('Gody 通行证', '已激活！解锁 15% 优惠。');
                   setShowGodyModal(false);
                 } else {
-                  error('余额不足', `Need ¥${cost}, have ¥${balance.toFixed(2)}`);
+                  error('余额不足', `需要 ¥${cost}，当前余额 ¥${balance.toFixed(2)}`);
                 }
               }}
               style={{ flex: 1, padding: '10px 14px', background: '#fecc2a', color: '#0A0908', border: 'none', borderRadius: 10, fontWeight: 600, cursor: 'pointer', fontSize: 13 }}
             >
-              Buy Monthly — ¥99
+              购买月卡 — ¥99
             </button>
           )}
           {hasGodyPass && (
@@ -304,41 +304,41 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
                 const cost = 89;
                 if (balance >= cost) {
                   buyGodyPass(cost);
-                  success('Gody 通行证', 'Renewed! Thanks.');
+                  success('Gody 通行证', '续费成功！谢谢。');
                   setShowGodyModal(false);
                 } else {
-                  error('余额不足', `Need ¥${cost}`);
+                  error('余额不足', `需要 ¥${cost}`);
                 }
               }}
               style={{ flex: 1, padding: '10px 14px', background: '#fecc2a', color: '#0A0908', border: 'none', borderRadius: 10, fontWeight: 600, cursor: 'pointer', fontSize: 13 }}
             >
-              Renew (¥89)
+              续费（¥89）
             </button>
           )}
           <button
             onClick={() => setShowGodyModal(false)}
             style={{ padding: '10px 18px', background: 'transparent', color: '#B8B5B0', border: '1px solid #3A3935', borderRadius: 10, fontSize: 13, cursor: 'pointer' }}
           >
-            Close
+            关闭
           </button>
         </div>
-        <div style={{ fontSize: 10, opacity: 0.6, marginTop: 8, textAlign: 'center' }}>Demo: deducts from balance • persists via DemoState</div>
+        <div style={{ fontSize: 10, opacity: 0.6, marginTop: 8, textAlign: 'center' }}>演示：从余额扣款 · 通过 DemoState 持久化</div>
       </Modal>
 
-      {/* Send a Gift mini modal - send to demo contacts, deducts balance */}
+      {/* 赠送礼物小弹窗 - send to demo contacts, deducts balance */}
       <Modal
         open={showGiftModal}
         onClose={() => setShowGiftModal(false)}
-        title="Send a Gift"
+        title="发送礼品"
         width={340}
       >
         <div style={{ fontSize: 13, color: '#C9C6BE', marginBottom: 10 }}>
-          Send ride credits to friends &amp; family. Deducts from your demo balance.
+          向亲友赠送行程积分。将从演示余额中扣除。
         </div>
 
         <div style={{ fontSize: 12, marginBottom: 6, color: '#EDEBE5' }}>最近联系人</div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 12 }}>
-          {['👩 Mom', '👨 Family', '🚗 Li (driver)', 'Sarah 👩‍💼', 'Alex friend'].map(c => (
+          {['👩 妈妈', '👨 家人', '🚗 李师傅（司机）', 'Sarah 👩‍💼', 'Alex friend'].map(c => (
             <button
               key={c}
               onClick={() => setSelectedContact(c)}
@@ -380,7 +380,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
         </div>
 
         <div style={{ fontSize: 12, marginBottom: 10, color: '#C9C6BE' }}>
-          Balance: ¥{balance.toFixed(2)} • Gift to: <strong>{selectedContact || '(select contact)'}</strong>
+          Balance: ¥{balance.toFixed(2)} • Gift to: <strong>{selectedContact || '（选择联系人）'}</strong>
         </div>
 
         <div style={{ display: 'flex', gap: 10 }}>
@@ -389,11 +389,11 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
             onClick={() => {
               if (!selectedContact) return;
               if (balance < giftAmount) {
-                error('Balance low', `Can't send ¥${giftAmount}`);
+                error('余额不足', `Can't send ¥${giftAmount}`);
                 return;
               }
               sendGift(selectedContact, giftAmount);
-              success('礼品已发送', `¥${giftAmount} ride credit sent to ${selectedContact}`);
+              success('礼品已发送', `已向 ${selectedContact} 赠送 ¥${giftAmount} 行程额度`);
               setShowGiftModal(false);
             }}
             style={{
@@ -408,10 +408,10 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
               fontSize: 13
             }}
           >
-            Send Gift
+            发送礼物
           </button>
           <button onClick={() => setShowGiftModal(false)} style={{ padding: '10px 16px', background: 'transparent', color: '#B8B5B0', border: '1px solid #3A3935', borderRadius: 10, fontSize: 13, cursor: 'pointer' }}>
-            Cancel
+            取消
           </button>
         </div>
       </Modal>
@@ -420,41 +420,41 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
       <Modal
         open={showFreeModal}
         onClose={() => setShowFreeModal(false)}
-        title="Free Trips & Promo"
+        title="免费行程与优惠"
         width={340}
       >
         <div style={{ fontSize: 13, color: '#C9C6BE', marginBottom: 12 }}>
-          Claim promo credits for future GODY rides. Credits are visible on your profile.
+          领取 GODY 行程促销积分。积分将显示在您的资料中。
         </div>
         <div style={{ padding: '12px 14px', background: '#11110F', borderRadius: 10, marginBottom: 14 }}>
           <div style={{ fontSize: 20, fontWeight: 700, color: '#fecc2a' }}>{promoCredits}</div>
-          <div style={{ fontSize: 12, color: '#EDEBE5' }}>promo credits available</div>
-          <div style={{ fontSize: 11, opacity: 0.7, marginTop: 4 }}>≈ ¥{promoCredits * 12} ride value (demo)</div>
+          <div style={{ fontSize: 12, color: '#EDEBE5' }}>可用优惠次数</div>
+          <div style={{ fontSize: 11, opacity: 0.7, marginTop: 4 }}>≈ ¥{promoCredits * 12} 行程额度（演示）</div>
         </div>
 
         <button
           onClick={() => {
             claimPromoCredit(1);
-            success('Promo claimed', '+1 free trip credit added to profile');
+            success('优惠已领取', '已向账户添加 1 次免费行程');
             // keep modal open for multiple claims in demo
           }}
           style={{ width: '100%', padding: '11px 0', background: '#fecc2a', color: '#0A0908', border: 'none', borderRadius: 10, fontWeight: 600, fontSize: 13, cursor: 'pointer', marginBottom: 8 }}
         >
-          Claim 1 Free Trip Credit
+          领取 1 次免费行程积分
         </button>
 
         <button
           onClick={() => {
             claimPromoCredit(3);
-            success('Promo bundle', '+3 credits added!');
+            success('优惠组合', '已添加 +3 次优惠！');
           }}
           style={{ width: '100%', padding: '9px 0', background: 'transparent', color: '#fecc2a', border: '1px solid #fecc2a', borderRadius: 10, fontWeight: 600, fontSize: 13, cursor: 'pointer' }}
         >
-          Claim 3-Credit Bundle (demo)
+          领取 3 次优惠组合（演示）
         </button>
 
         <div style={{ fontSize: 10, opacity: 0.55, marginTop: 10, textAlign: 'center' }}>
-          Use on your next booking (demo only — visible in perks bar)
+          可用于下次预订（仅演示 — 显示在权益栏）
         </div>
       </Modal>
 
@@ -462,19 +462,19 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
       <Modal
         open={showEatsModal}
         onClose={() => setShowEatsModal(false)}
-        title="Gody Eats"
+        title="Gody 外卖"
         width={340}
       >
         <div style={{ fontSize: 13, color: '#C9C6BE', marginBottom: 10 }}>
-          Quick demo food ordering. Orders update your eats count and can spawn a delivery trip.
+          快速演示点餐。订单会更新外卖计数，并可生成配送行程。
         </div>
 
         <div style={{ fontSize: 12, marginBottom: 6, color: '#EDEBE5' }}>附近热门</div>
         {[
-          { restaurant: 'Lucky Noodles', item: 'Beef Noodle Bowl', cost: 28 },
-          { restaurant: 'Pizza King', item: 'Margherita Pizza', cost: 42 },
-          { restaurant: 'Green Bowl', item: 'Avocado Chicken Salad', cost: 35 },
-          { restaurant: 'Street Wok', item: 'Kung Pao Chicken', cost: 31 },
+          { restaurant: '好运面馆', item: '牛肉面', cost: 28 },
+          { restaurant: '披萨王', item: '玛格丽特披萨', cost: 42 },
+          { restaurant: '轻食碗', item: '牛油果鸡肉沙拉', cost: 35 },
+          { restaurant: '街边小炒', item: '宫保鸡丁', cost: 31 },
         ].map((opt, i) => (
           <div
             key={i}
@@ -510,7 +510,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
             onClick={() => {
               if (!eatsChoice) return;
               if (balance < eatsChoice.cost) {
-                error('Low balance', 'Top up in demo?');
+                error('余额不足', '演示中充值？');
                 return;
               }
               // Place order + stats
@@ -518,14 +518,14 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
               // Parallel delivery trip (lightweight)
               bookTrip({
                 from: eatsChoice.restaurant,
-                to: 'Home (demo)',
-                driver: 'Delivery Rider',
-                vehicle: 'Scooter 🛵',
+                to: '家庭（演示）',
+                driver: '配送骑手',
+                vehicle: '电动车 🛵',
                 price: eatsChoice.cost,
                 status: 'upcoming',
-                eta: '18-25 min'
+                eta: '18-25 分钟'
               });
-              success('Order placed!', `${eatsChoice.item} • Delivery en route. Check trips hub.`);
+              success('下单成功！', `${eatsChoice.item} · 配送中。请在行程中心查看。`);
               setShowEatsModal(false);
             }}
             style={{
@@ -540,13 +540,13 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
               cursor: eatsChoice ? 'pointer' : 'not-allowed'
             }}
           >
-            Order &amp; Track
+            下单并跟踪
           </button>
           <button onClick={() => setShowEatsModal(false)} style={{ padding: '10px 14px', background: 'transparent', color: '#B8B5B0', border: '1px solid #3A3935', borderRadius: 10, fontSize: 13, cursor: 'pointer' }}>
-            Close
+            关闭
           </button>
         </div>
-        <div style={{ fontSize: 10, textAlign: 'center', opacity: 0.5, marginTop: 6 }}>Demo flow: +eats stat + delivery trip in bookedTrips</div>
+        <div style={{ fontSize: 10, textAlign: 'center', opacity: 0.5, marginTop: 6 }}>演示流程：增加外卖统计 + 配送行程写入 bookedTrips</div>
       </Modal>
 
       <HomeIndicator />

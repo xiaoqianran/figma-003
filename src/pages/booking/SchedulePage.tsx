@@ -54,7 +54,7 @@ const SchedulePage: React.FC<SchedulePageProps> = ({ onNavigate }) => {
     if (btn) btn.style.transform = 'scale(0.95)';
     setTimeout(() => {
       if (btn) btn.style.transform = 'scale(1)';
-      addRecentAction(`Scheduled trip for ${selectedDate} ${selectedTime}:${selectedAmPm}`);
+      addRecentAction(`已预约行程 ${selectedDate} ${selectedTime}:${selectedAmPm}`);
       // Use bookTrip for persistent multi-trip + active focus (new core feature)
       const booked = bookTrip({
         status: 'upcoming',
@@ -62,28 +62,28 @@ const SchedulePage: React.FC<SchedulePageProps> = ({ onNavigate }) => {
         to: activeTrip?.to || '苹果联合广场',
         eta: `${selectedTime}:00 ${selectedAmPm}`,
         price: activeTrip?.price || 18,
-        vehicle: activeTrip?.vehicle || 'Scheduled Ride'
+        vehicle: activeTrip?.vehicle || '预约行程'
       });
       // Stronger integration: immediately attach driver + confirm via updateTripStatus (defensive)
       if (booked.id) {
         updateTripStatus(booked.id, 'upcoming', {
-          driver: 'Scheduled Driver • GodyX',
-          eta: `${selectedTime}:00 ${selectedAmPm} (confirmed)`
+          driver: '预约司机 · GodyX',
+          eta: `${selectedTime}:00 ${selectedAmPm}（已确认）`
         });
       }
-      addRecentAction(`Continue scheduled + driver attached via updateTripStatus (${booked.to})`);
-      success('行程已安排', `日期: ${selectedDate} ${selectedDay} Sep · 时间: ${selectedTime}:00 ${selectedAmPm}`);
+      addRecentAction(`继续预约并已通过 updateTripStatus 绑定司机（${booked.to}）`);
+      success('行程已安排', `日期：${selectedDate} ${selectedDay} 月 · 时间：${selectedTime}:00 ${selectedAmPm}`);
       onNavigate?.('booking-requesting');
     }, 140);
   };
 
   const handleCarClick = (idx: number) => {
-    addRecentAction('Car picked on schedule map');
+    addRecentAction('已在预约地图选择车辆');
     info('车辆选择', `已选择车辆 ${idx + 1}（演示）`);
   };
 
   const handleCancel = () => {
-    addRecentAction('Cancelled scheduling');
+    addRecentAction('已取消预约');
     info('取消', '行程安排已取消 (demo)');
     onNavigate?.('core-home');
   };
@@ -118,7 +118,7 @@ const SchedulePage: React.FC<SchedulePageProps> = ({ onNavigate }) => {
         <div className={styles.datetimePicker}>
           {/* Date column */}
           <div className={styles.timeColumn}>
-            {['Sun 22 Sep', 'Mon 23 Sep', '今天', 'Wed 25 Sep', 'Thu 26 Sep'].map((d, idx) => (
+            {['9 月 22 日 周日', '9 月 23 日 周一', '今天', '9 月 25 日 周三', '9 月 26 日 周四'].map((d, idx) => (
               <div
                 key={idx}
                 className={`${styles.timeItem} ${d === selectedDate ? styles.selected + ' ' + styles.active : d === '今天' ? styles.active : ''}`}

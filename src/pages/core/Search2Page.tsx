@@ -20,7 +20,7 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
   const displaySearchValue = searchInput.trim() ? searchInput : '搜索您的位置';
 
   const goBack = () => {
-    addRecentAction('Back from search2');
+    addRecentAction('从搜索 2 返回');
     onNavigate?.('core-home');
   };
 
@@ -75,7 +75,7 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
         to: airportName,
         price: 55,
         vehicle: 'GodyX',
-        eta: '30 min',
+        eta: '30 分钟',
       });
       addRecentAction(`Airport result selected (Search2): ${airportName} — booked via bookTrip #${booked.id}`);
       success('已选择机场', `已为 ${airportName} 创建真实预订 ($${booked.price})`);
@@ -117,7 +117,7 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
       const advPriceMax = 45;
       const advVehicle = '黑金 SUV';
       const advPrice = Math.round((advPriceMin + advPriceMax) / 2);
-      const advEta = '12 min';
+      const advEta = '12 分钟';
       // Create real upcoming trip via bookTrip, using advanced filter values
       const booked = bookTrip({
         status: 'upcoming',
@@ -129,7 +129,7 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
       });
       addRecentAction(`Advanced search: ${to} (filters: $${advPriceMin}-${advPriceMax}, ${advVehicle}) — booked #${booked.id} via bookTrip`);
       success('高级搜索完成', `已为 ${to} 创建真实预订 ($${booked.price} via ${booked.vehicle} — 高级筛选影响)`);
-      console.log('搜索关键词:', searchInput, 'advanced filters applied, booked:', booked);
+      console.log('搜索关键词:', searchInput, '已应用高级筛选，已预订：', booked);
       onNavigate?.('booking-choose-car');
     } else {
       error('搜索', '请输入搜索关键词');
@@ -143,7 +143,7 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
   const startDictation = () => {
     info('语音', '开始语音听写 (demo)');
     setTimeout(() => {
-      setSearchInput(prev => prev + 'Dictation ');
+      setSearchInput(prev => prev + '语音输入 ');
     }, 600);
   };
 
@@ -165,7 +165,7 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
 
       <TopNav onBack={goBack} />
 
-      {activeTrip && <div style={{ margin: '4px 16px', fontSize: 11, padding: '4px 8px', background: '#fff8e1', borderRadius: 6 }}>Prefilled from active trip: {activeTrip.to}</div>}
+      {activeTrip && <div style={{ margin: '4px 16px', fontSize: 11, padding: '4px 8px', background: '#fff8e1', borderRadius: 6 }}>已从进行中行程预填：{activeTrip.to}</div>}
 
       {/* 搜索结果 */}
       <div className={styles.searchResults}>
@@ -174,7 +174,7 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
           <div className={styles.resultContent}>
             <div className={styles.resultDot}></div>
             <div className={styles.resultInfo}>
-              <div className={styles.resultLabel}>You are here:</div>
+              <div className={styles.resultLabel}>您在这里：</div>
               <div className={styles.resultValue}>苹果联合广场</div>
             </div>
           </div>
@@ -186,7 +186,7 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
           <div className={styles.resultContent}>
             <div className={styles.resultDot}></div>
             <div className={styles.resultInfo}>
-              <div className={styles.resultLabel}>You are here:</div>
+              <div className={styles.resultLabel}>您在这里：</div>
               <div className={styles.resultValue}>{displaySearchValue}</div>
             </div>
           </div>
@@ -219,7 +219,7 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
         <span className={styles.airportIcon}>🕐</span>
         <div className={styles.airportDetails}>
           <div className={styles.airportName}>旧金山国际机场</div>
-          <div className={styles.airportAddress}>348 Mc Donnell Rd, San Francisco</div>
+          <div className={styles.airportAddress}>旧金山 Mc Donnell 路 348 号</div>
         </div>
       </div>
 

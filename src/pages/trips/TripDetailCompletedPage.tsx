@@ -14,19 +14,19 @@ const TripDetailCompletedPage: React.FC<Props> = ({ onNavigate }) => {
   const goBack = () => onNavigate?.('trips-past');
 
   const handleHelp = () => {
-    addRecentAction('Requested help from completed trip detail');
+    addRecentAction('从已完成详情请求帮助');
     onNavigate?.('trips-detail-help');
   };
 
   const handlePayment = () => {
-    addRecentAction('Switched payment from trip detail');
+    addRecentAction('从行程详情切换支付');
     if (activeTrip?.id) updateTripStatus(activeTrip.id, 'completed', { paid: true });
     info('支付', '打开支付方式编辑页面 (demo)');
     onNavigate?.('payment-select');
   };
 
   const handleRate = () => {
-    addRecentAction('Opened rating for completed trip');
+    addRecentAction('打开已完成行程评价');
     // Enhanced: functional rate that ensures paid via mutation + toasts + nav
     if (activeTrip?.id) {
       updateTripStatus(activeTrip.id, 'completed', { paid: true });
@@ -40,16 +40,16 @@ const TripDetailCompletedPage: React.FC<Props> = ({ onNavigate }) => {
     const id = activeTrip?.id;
     if (id) {
       completeTrip(id);
-      addRecentAction('Re-completed via completeTrip API from detail');
-      success('完成', 'Trip marked completed + paid via completeTrip');
+      addRecentAction('从详情再次完成行程');
+      success('完成', '行程已标记完成并已支付');
     } else {
-      info('Demo', 'No active trip id');
+      info('演示', '无当前行程 ID');
     }
   };
 
   const handleCancelFromDetail = () => {
     const id = activeTrip?.id;
-    addRecentAction('Called cancelTrip from completed detail (demo)');
+    addRecentAction('从已完成详情调用取消（演示）');
     if (id) {
       cancelTrip(id);
     }
@@ -60,14 +60,14 @@ const TripDetailCompletedPage: React.FC<Props> = ({ onNavigate }) => {
     const id = activeTrip?.id;
     if (id) {
       updateTripStatus(id, 'completed', { paid: true });
-      addRecentAction('Marked paid via updateTripStatus');
-      success('支付', 'Marked as paid');
+      addRecentAction('已通过 updateTripStatus 标记已付');
+      success('支付', '已标记为已支付');
     }
   };
 
   // Log view naturally on render (demo only)
   React.useEffect(() => {
-    addRecentAction('Viewed completed trip detail');
+    addRecentAction('查看已完成行程详情');
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -88,7 +88,7 @@ const TripDetailCompletedPage: React.FC<Props> = ({ onNavigate }) => {
         </div>
 
         <div className={styles.tripRow}>
-          <div className={styles.tripTime}>Today, 3:45 pm&nbsp;</div>
+          <div className={styles.tripTime}>今天 下午 3:45 </div>
           <div className={styles.tripPrice}>${activeTrip?.price || 17}.00</div>
         </div>
         <div className={styles.vehicleInfo}>{activeTrip?.vehicle || '丰田凯美瑞'} - 9HTR789{activeTrip?.driver ? ` · ${activeTrip.driver}` : ''}</div>
@@ -121,28 +121,28 @@ const TripDetailCompletedPage: React.FC<Props> = ({ onNavigate }) => {
         <div className={styles.actionRow}>
           <div className={styles.actionCard} onClick={handlePayment}>
             <div className={styles.actionTitle}>切换支付方式</div>
-            <div className={styles.actionDesc}>I want to switch my payment method for this trip.</div>
+            <div className={styles.actionDesc}>我想更换本次行程的支付方式。</div>
             <div className={styles.actionLink}>编辑支付</div>
           </div>
           <div className={styles.actionCard} onClick={handleRate}>
             <div className={styles.actionTitle}>评价行程</div>
             <div className={styles.actionDesc}>分享您对司机的评价。</div>
-            <div className={styles.actionLink}>Rate now →</div>
+            <div className={styles.actionLink}>立即评价 →</div>
           </div>
         </div>
 
         {/* NEW: functional mutation action bar for Cancel / Complete / Rate (and paid) using DemoState APIs */}
         <div style={{ padding: '0 24px', marginTop: 16, marginBottom: 8 }}>
-          <div style={{ fontSize: 11, color: '#959595', marginBottom: 6 }}>Demo actions (update status via APIs):</div>
+          <div style={{ fontSize: 11, color: '#959595', marginBottom: 6 }}>演示操作（通过 API 更新状态）：</div>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <button onClick={handleMarkPaid} style={{ flex: 1, minWidth: 70, padding: '8px 10px', fontSize: 12, background: '#e3f2fd', border: 'none', borderRadius: 8, cursor: 'pointer' }}>标记已支付</button>
             <button onClick={handleCompleteAgain} style={{ flex: 1, minWidth: 70, padding: '8px 10px', fontSize: 12, background: '#e8f5e9', border: 'none', borderRadius: 8, cursor: 'pointer' }}>完成</button>
             <button onClick={handleCancelFromDetail} style={{ flex: 1, minWidth: 70, padding: '8px 10px', fontSize: 12, background: '#ffebee', border: 'none', borderRadius: 8, cursor: 'pointer', color: '#c62828' }}>取消</button>
-            <button onClick={() => { addRecentAction('Rate via action bar'); handleRate(); }} style={{ flex: 1, minWidth: 70, padding: '8px 10px', fontSize: 12, background: '#fff8e1', border: 'none', borderRadius: 8, cursor: 'pointer' }}>评分</button>
+            <button onClick={() => { addRecentAction('通过操作栏评价'); handleRate(); }} style={{ flex: 1, minWidth: 70, padding: '8px 10px', fontSize: 12, background: '#fff8e1', border: 'none', borderRadius: 8, cursor: 'pointer' }}>评分</button>
           </div>
-          {activeTrip && <div style={{ fontSize: 10, marginTop: 4, color: '#6E6A61' }}>Active: {activeTrip.id} ({activeTrip.status}, paid:{String(!!activeTrip.paid)})</div>}
+          {activeTrip && <div style={{ fontSize: 10, marginTop: 4, color: '#6E6A61' }}>进行中： {activeTrip.id} ({activeTrip.status}, paid: {String(!!activeTrip.paid)})</div>}
           {/* Also show count from booked for continuity */}
-          {bookedTrips.length > 0 && <div style={{ fontSize: 10, color: '#959595' }}>Total booked in state: {bookedTrips.length}</div>}
+          {bookedTrips.length > 0 && <div style={{ fontSize: 10, color: '#959595' }}>状态中已预订总数：{bookedTrips.length}</div>}
         </div>
 
         <HomeIndicator />

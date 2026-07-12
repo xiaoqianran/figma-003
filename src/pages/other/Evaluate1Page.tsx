@@ -26,8 +26,8 @@ const Evaluate1Page: React.FC<Evaluate1PageProps> = ({ onNavigate }) => {
         } else {
           updateTripStatus(latest.id, 'completed', { paid: true });
         }
-        addRecentAction(`Submitted ${r}-star review + archived trip to ${latest.to}`);
-        success('感谢评价！行程已归档。', `Review for trip to ${latest.to} saved • visible in bookedTrips + past trips`);
+        addRecentAction(`已提交 ${r} 星评价并归档前往 ${latest.to} 的行程`);
+        success('感谢评价！行程已归档。', `前往 ${latest.to} 的评价已保存 · 可见于已预订与历史行程`);
         setTimeout(() => {
           onNavigate?.('trips-past');
         }, 650);

@@ -32,18 +32,18 @@ const UpcomingTripPage: React.FC<UpcomingTripPageProps> = ({ onNavigate }) => {
     const btn = document.activeElement as HTMLButtonElement | null;
     if (btn) {
       btn.style.transform = 'scale(0.95)';
-      btn.textContent = 'Processing...';
+      btn.textContent = '处理中...';
     }
 
     setTimeout(() => {
       if (btn) {
         btn.style.transform = 'scale(1)';
-        btn.textContent = 'Completed!';
+        btn.textContent = '已完成！';
         btn.style.background = '#00b894';
         btn.style.color = '#fff';
       }
       setTimeout(() => {
-        addRecentAction(`Completed trip to ${trip.to} via completeTrip`);
+        addRecentAction(`已通过 completeTrip 完成前往 ${trip.to} 的行程`);
         if (currentTrip.id && currentTrip.id !== 'fallback-static') {
           completeTrip(currentTrip.id);
         } else if (activeTrip) {
@@ -60,7 +60,7 @@ const UpcomingTripPage: React.FC<UpcomingTripPageProps> = ({ onNavigate }) => {
   const handleCancel = () => {
     // Use cancelTrip mutation API (marks terminal)
     const id = currentTrip.id;
-    addRecentAction(`Cancelled upcoming trip to ${trip.to} via cancelTrip`);
+    addRecentAction(`已通过 cancelTrip 取消前往 ${trip.to} 的即将开始行程`);
     if (id && id !== 'fallback-static') {
       cancelTrip(id);
     } else if (activeTrip) {
@@ -72,7 +72,7 @@ const UpcomingTripPage: React.FC<UpcomingTripPageProps> = ({ onNavigate }) => {
 
   const switchToTrip = (t: DemoTrip) => {
     setActiveTrip(t);
-    addRecentAction(`Switched focus to trip ${t.to} in upcoming detail`);
+    addRecentAction(`在即将开始详情中切换到行程 ${t.to}`);
     info('切换', '已聚焦到该行程');
   };
 
@@ -103,36 +103,36 @@ const UpcomingTripPage: React.FC<UpcomingTripPageProps> = ({ onNavigate }) => {
         <div style={{ width: 40, height: 4, background: '#ddd', borderRadius: 2, margin: '0 auto 20px' }} />
 
         <h1 style={{ fontSize: 24, fontWeight: 600, color: '#49493d', marginBottom: 24, textAlign: 'center' }}>
-          Upcoming trip set
+          即将开始行程已设置
         </h1>
 
         {/* 行程信息 - populated from DemoState when available */}
         <div style={{ marginBottom: 24 }}>
           <div style={{ fontSize: 18, fontWeight: 600, color: '#49493d', marginBottom: 12 }}>
-            To {trip.to}
+            前往 {trip.to}
           </div>
           <div style={{ fontSize: 16, color: '#49493d', lineHeight: 1.6, marginBottom: 8 }}>
-            {trip.eta || 'Tue, 24 Sep at 3:50 PM'} {trip.vehicle ? `· ${trip.vehicle}` : ''}
+            {trip.eta || '9 月 24 日 周二 下午 3:50'} {trip.vehicle ? `· ${trip.vehicle}` : ''}
           </div>
-          <div style={{ fontSize: 16, color: '#49493d', marginBottom: 16 }}>From: {trip.from || '当前位置'}</div>
+          <div style={{ fontSize: 16, color: '#49493d', marginBottom: 16 }}>出发：{trip.from || '当前位置'}</div>
           <div style={{ fontSize: 18, fontWeight: 600, color: '#49493d', marginBottom: 16 }}>${trip.price || 16}.00</div>
         </div>
 
         {/* 折扣提示 */}
         <div style={{ fontSize: 14, color: '#959595', lineHeight: 1.5, marginBottom: 8 }}>
-          Save up to 15% on all routes when you ride with Gody and Pool in the San Francisco metropolitan area. Discounts may vary by trip.
+          在旧金山都市区与 Gody 拼车出行时，所有路线最高可省 15%。折扣可能因行程而异。
           <span
             onClick={showTerms}
             style={{ color: '#fecc2a', textDecoration: 'underline', cursor: 'pointer', marginLeft: 4 }}
           >
-            See terms
+            查看条款
           </span>
         </div>
 
         {/* Multiple trips support: quick switcher if other upcoming exist (minimal addition) */}
         {otherUpcoming.length > 0 && (
           <div style={{ marginBottom: 12 }}>
-            <div style={{ fontSize: 11, color: '#959595', marginBottom: 4 }}>Other upcoming ({otherUpcoming.length}):</div>
+            <div style={{ fontSize: 11, color: '#959595', marginBottom: 4 }}>其他即将开始（{otherUpcoming.length}）：</div>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               {otherUpcoming.slice(0, 3).map((t, i) => (
                 <button key={i} onClick={() => switchToTrip(t)} style={{ fontSize: 11, padding: '4px 10px', background: '#f0f0f0', border: 'none', borderRadius: 8, cursor: 'pointer' }}>
@@ -152,7 +152,7 @@ const UpcomingTripPage: React.FC<UpcomingTripPageProps> = ({ onNavigate }) => {
             fontSize: 18, fontWeight: 600, color: '#49493d', cursor: 'pointer', marginTop: 8, marginBottom: 8
           }}
         >
-          Finished
+          已完成
         </button>
 
         {/* New functional Cancel button using cancelTrip API */}
@@ -163,7 +163,7 @@ const UpcomingTripPage: React.FC<UpcomingTripPageProps> = ({ onNavigate }) => {
             fontSize: 16, fontWeight: 500, color: '#c62828', cursor: 'pointer', marginBottom: 16
           }}
         >
-          Cancel this trip
+          取消此行程
         </button>
 
         <HomeIndicator />

@@ -12,7 +12,7 @@ const PickupCountdownPage: React.FC<PickupCountdownPageProps> = ({ onNavigate })
   const { success, info } = useToast();
   const [minutes, setMinutes] = useState(8);
   const [seconds, setSeconds] = useState(39);
-  const [countdownText, setCountdownText] = useState('Pick up in 8m 39s');
+  const [countdownText, setCountdownText] = useState('预计 8 分 39 秒后上车');
   // seconds referenced below to satisfy TS (live countdown state)
   const [selectedCars, setSelectedCars] = useState<number[]>([]);
   const [markerColor, setMarkerColor] = useState('#fecc2a');
@@ -29,15 +29,15 @@ const PickupCountdownPage: React.FC<PickupCountdownPageProps> = ({ onNavigate })
           if (mins > 0 && mins < 30) {
             setMinutes(mins);
             setSeconds(Math.floor(Math.random() * 50) + 5);
-            setCountdownText(`Pick up in ${mins}m ${String(Math.floor(Math.random() * 50) + 5).padStart(2, '0')}s`);
+            setCountdownText(`预计上车 ${mins}m ${String(Math.floor(Math.random() * 50) + 5).padStart(2, '0')}s`);
           }
         } else if (activeTrip.eta.toLowerCase().includes('arriv')) {
           setMinutes(0);
           setSeconds(5);
-          setCountdownText('Driver arriving imminently');
+          setCountdownText('司机即将到达');
         }
       }
-      addRecentAction('Pickup countdown mounted — state synced from activeTrip (post-requesting)');
+      addRecentAction('上车倒计时已挂载 — 状态已同步');
     };
     const t = setTimeout(initCountdownFromTrip, 0);
     return () => clearTimeout(t);
@@ -46,7 +46,7 @@ const PickupCountdownPage: React.FC<PickupCountdownPageProps> = ({ onNavigate })
 
   // Log view for demo state propagation
   useEffect(() => {
-    addRecentAction('Viewed pickup countdown page');
+    addRecentAction('查看上车倒计时页');
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Live countdown with setInterval
@@ -64,23 +64,23 @@ const PickupCountdownPage: React.FC<PickupCountdownPageProps> = ({ onNavigate })
 
         if (newMin <= 0 && newSec <= 0) {
           clearInterval(interval);
-          const doneText = 'Driver arrived!';
+          const doneText = '司机已到达！';
           setCountdownText(doneText);
           // Key "arrived" action: prefer completeTrip (which uses update internally) + also call updateTripStatus directly for demo visibility of new APIs
           const tripId = activeTrip?.id;
           if (tripId) {
             completeTrip(tripId);
             // Extra: direct update for additional audit trail + status consistency in requesting->in-progress->completed flow
-            updateTripStatus(tripId, 'completed', { eta: '已到达', paid: true, driver: activeTrip?.driver || 'Arrived driver' });
+            updateTripStatus(tripId, 'completed', { eta: '已到达', paid: true, driver: activeTrip?.driver || '司机已到达' });
             addRecentAction(`Countdown reached arrived — completed via completeTrip + updateTripStatus (${activeTrip?.to || 'dest'})`);
           } else {
-            bookTrip({ status: 'completed', from: activeTrip?.from || '旧金山国际机场', to: activeTrip?.to || '苹果联合广场', driver: 'Arrived driver', vehicle: '丰田凯美瑞', eta: '已到达', price: activeTrip?.price || 16, paid: true });
-            addRecentAction('Countdown arrived (no prior trip) — seeded completed via bookTrip');
+            bookTrip({ status: 'completed', from: activeTrip?.from || '旧金山国际机场', to: activeTrip?.to || '苹果联合广场', driver: '司机已到达', vehicle: '丰田凯美瑞', eta: '已到达', price: activeTrip?.price || 16, paid: true });
+            addRecentAction('倒计时到达 — 已创建已完成行程');
           }
           return 0;
         }
 
-        const text = `Pick up in ${newMin}m ${newSec < 10 ? '0' : ''}${newSec}s`;
+        const text = `预计上车 ${newMin}m ${newSec < 10 ? '0' : ''}${newSec}s`;
         setCountdownText(text);
         return newSec;
       });
@@ -101,7 +101,7 @@ const PickupCountdownPage: React.FC<PickupCountdownPageProps> = ({ onNavigate })
 
   const handleCarClick = (id: number, e: React.MouseEvent) => {
     e.stopPropagation();
-    addRecentAction(`Selected car ${id} on pickup countdown`);
+    addRecentAction(`在上车倒计时页选择了车辆 ${id}`);
     const isSelected = selectedCars.includes(id);
     if (isSelected) {
       setSelectedCars(selectedCars.filter(c => c !== id));
@@ -113,7 +113,7 @@ const PickupCountdownPage: React.FC<PickupCountdownPageProps> = ({ onNavigate })
   };
 
   const handleMarkerClick = () => {
-    addRecentAction('Selected pickup marker on countdown map');
+    addRecentAction('在倒计时地图选择上车标记');
     setMarkerColor('#00b894');
     setTimeout(() => {
       setMarkerColor('#fecc2a');
@@ -122,17 +122,17 @@ const PickupCountdownPage: React.FC<PickupCountdownPageProps> = ({ onNavigate })
   };
 
   const handleInfoCardClick = () => {
-    addRecentAction('Tapped info card from pickup countdown');
+    addRecentAction('点击上车倒计时信息卡');
     // Stronger: if arrived state, ensure completed via API before nav (defensive)
     if (countdownText.includes('arrived')) {
       const tripId = activeTrip?.id;
       if (tripId) {
         completeTrip(tripId);
         updateTripStatus(tripId, 'completed', { eta: '已到达', paid: true });
-        addRecentAction('Manual arrived tap — force completeTrip + updateTripStatus');
+        addRecentAction('手动点击到达 — 强制完成行程');
       } else if (!activeTrip) {
         bookTrip({ status: 'completed', from: '旧金山国际机场', to: '苹果联合广场', eta: '已到达', paid: true });
-        addRecentAction('Manual arrived tap — completed via bookTrip');
+        addRecentAction('手动点击到达 — 已完成');
       }
       onNavigate?.('trips-detail-completed');
     } else {
@@ -222,12 +222,12 @@ const PickupCountdownPage: React.FC<PickupCountdownPageProps> = ({ onNavigate })
         }}
       >
         <div style={{ fontSize: 16, color: countdownText.includes('arrived') ? '#00b894' : '#fecc2a', fontWeight: 600, marginBottom: 8 }}>
-          {countdownText}<span style={{display:'none'}}>{seconds}</span>
+          {countdownText}<span style={{display:'无'}}>{seconds}</span>
         </div>
 
         <div style={{ marginBottom: 16 }}>
-          <div style={{ fontSize: 18, fontWeight: 600, color: '#49493d', marginBottom: 4 }}>To {activeTrip?.to || '苹果联合广场'}</div>
-          <div style={{ fontSize: 14, color: '#959595', marginBottom: 2 }}>At {activeTrip?.eta || '3:50 PM'} from {activeTrip?.from || '旧金山国际机场'}</div>
+          <div style={{ fontSize: 18, fontWeight: 600, color: '#49493d', marginBottom: 4 }}>前往 {activeTrip?.to || '苹果联合广场'}</div>
+          <div style={{ fontSize: 14, color: '#959595', marginBottom: 2 }}>时间 {activeTrip?.eta || '下午 3:50'} · 从 {activeTrip?.from || '旧金山国际机场'}</div>
         </div>
 
         <div style={{ fontSize: 18, fontWeight: 600, color: '#49493d' }}>${activeTrip?.price || 16}.00</div>

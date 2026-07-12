@@ -12,16 +12,16 @@ const TripDetailCancelledPage: React.FC<Props> = ({ onNavigate }) => {
   const goBack = () => onNavigate?.('trips-past');
 
   const goToPast = () => {
-    addRecentAction('Returned to past trips from cancelled detail');
+    addRecentAction('从已取消详情返回历史行程');
     onNavigate?.('trips-past');
   };
 
   // NEW: functional buttons using mutation APIs even on cancelled view (for demo, allows status changes + ensures appears in past)
   const handleUndoCancel = () => {
     const id = activeTrip?.id;
-    addRecentAction('Undo cancel via updateTripStatus (set upcoming)');
+    addRecentAction('撤销取消并设为即将开始');
     if (id) {
-      updateTripStatus(id, 'upcoming', { eta: 'Rescheduled' });
+      updateTripStatus(id, 'upcoming', { eta: '已改期' });
     } else {
       // create a demo one if none
       // but avoid book here; just toast
@@ -31,7 +31,7 @@ const TripDetailCancelledPage: React.FC<Props> = ({ onNavigate }) => {
 
   const handleCompleteFromCancelled = () => {
     const id = activeTrip?.id;
-    addRecentAction('Force complete from cancelled detail via completeTrip');
+    addRecentAction('从已取消详情强制完成');
     if (id) completeTrip(id);
     onNavigate?.('trips-past');
   };
@@ -39,12 +39,12 @@ const TripDetailCancelledPage: React.FC<Props> = ({ onNavigate }) => {
   const handleCancelAgain = () => {
     const id = activeTrip?.id;
     if (id) cancelTrip(id);
-    addRecentAction('Re-cancel via cancelTrip API');
+    addRecentAction('通过 cancelTrip 再次取消');
     onNavigate?.('trips-past');
   };
 
   React.useEffect(() => {
-    addRecentAction('Viewed cancelled trip detail');
+    addRecentAction('查看已取消行程详情');
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -72,7 +72,7 @@ const TripDetailCancelledPage: React.FC<Props> = ({ onNavigate }) => {
 
         {/* 第一条行程 - uses active if matches */}
         <div className={styles.tripRow}>
-          <div className={styles.tripTime}>Today, 3:45 pm&nbsp;</div>
+          <div className={styles.tripTime}>今天 下午 3:45 </div>
           <div className={styles.tripPrice}>${activeTrip?.price || 17}.00</div>
         </div>
 
@@ -92,7 +92,7 @@ const TripDetailCancelledPage: React.FC<Props> = ({ onNavigate }) => {
 
         {/* 第二条 (取消的) */}
         <div className={styles.tripRow} style={{ marginTop: 16 }}>
-          <div className={styles.tripTime}>Today, 3:41 pm&nbsp;</div>
+          <div className={styles.tripTime}>今天 下午 3:41 </div>
           <div className={styles.tripPrice}>$0.00</div>
         </div>
         <div className={styles.canceledLabel}>已取消</div>
@@ -104,19 +104,19 @@ const TripDetailCancelledPage: React.FC<Props> = ({ onNavigate }) => {
 
         {/* NEW functional Cancel/Complete mutation buttons (and undo) in cancelled detail */}
         <div style={{ padding: '12px 24px 8px', fontSize: 12 }}>
-          <div style={{ color: '#959595', marginBottom: 6 }}>Demo trip actions (use APIs, trip will move to Past lists on complete/cancel):</div>
+          <div style={{ color: '#959595', marginBottom: 6 }}>演示行程操作（完成/取消后进入历史列表）：</div>
           <div style={{ display: 'flex', gap: 8 }}>
-            <button onClick={handleUndoCancel} style={{ flex:1, padding:'8px 12px', background:'#e8f5e9', border:'none', borderRadius:8, fontSize:12, cursor:'pointer' }}>Undo Cancel → Upcoming</button>
+            <button onClick={handleUndoCancel} style={{ flex:1, padding:'8px 12px', background:'#e8f5e9', border:'none', borderRadius:8, fontSize:12, cursor:'pointer' }}>撤销取消 → 即将开始</button>
             <button onClick={handleCompleteFromCancelled} style={{ flex:1, padding:'8px 12px', background:'#e3f2fd', border:'none', borderRadius:8, fontSize:12, cursor:'pointer' }}>标记完成</button>
             <button onClick={handleCancelAgain} style={{ flex:1, padding:'8px 12px', background:'#ffebee', border:'none', borderRadius:8, fontSize:12, cursor:'pointer', color:'#c62828' }}>再次取消</button>
           </div>
-          {activeTrip && <div style={{ marginTop: 4, fontSize: 10, color: '#6E6A61' }}>Using: {activeTrip.from}→{activeTrip.to} ({activeTrip.status}) | booked:{bookedTrips.length}</div>}
+          {activeTrip && <div style={{ marginTop: 4, fontSize: 10, color: '#6E6A61' }}>当前：{activeTrip.from}→{activeTrip.to}（{activeTrip.status}）| 已预订：{bookedTrips.length}</div>}
           {/* Quick focus other booked completed for past continuity */}
           {bookedTrips.filter(t => t.status === 'completed').length > 0 && (
             <button onClick={() => {
               const pastOne = bookedTrips.find(t => t.status === 'completed');
               if (pastOne) { setActiveTrip(pastOne); onNavigate?.('trips-detail-completed'); }
-            }} style={{ marginTop: 6, fontSize: 10, padding: '4px 8px', background: '#f5f5f5', border: 'none', borderRadius: 4 }}>View a completed past trip →</button>
+            }} style={{ marginTop: 6, fontSize: 10, padding: '4px 8px', background: '#f5f5f5', border: 'none', borderRadius: 4 }}>查看已完成历史行程 →</button>
           )}
         </div>
 
