@@ -90,7 +90,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
 
           <div className={styles.bottomPanel}>
             <div className={styles.scheduleBtn} onClick={openSchedule}>
-              <p className={styles.scheduleText}>Schedule</p>
+              <p className={styles.scheduleText}>预约</p>
             </div>
 
             <div className={styles.divider} />
@@ -119,32 +119,32 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
 
             <div className={styles.menuItem} onClick={() => openMenuItem('trip')}>
               <span>🚗</span>
-              <p className={styles.menuText}>Your trip</p>
+              <p className={styles.menuText}>您的行程</p>
             </div>
 
             <div className={styles.menuItem} onClick={() => openMenuItem('payment')}>
               <span>💳</span>
-              <p className={styles.menuText}>Payment</p>
+              <p className={styles.menuText}>支付</p>
             </div>
 
             <div className={styles.menuItem} onClick={() => openMenuItem('help')}>
               <span>❓</span>
-              <p className={styles.menuText}>Help</p>
+              <p className={styles.menuText}>帮助</p>
             </div>
 
             <div className={styles.menuItem} onClick={() => openMenuItem('gody-pass')}>
               <span>🎫</span>
-              <p className={styles.menuText}>Gody pass</p>
+              <p className={styles.menuText}>Gody 通行证</p>
             </div>
 
             <div className={styles.menuItem} onClick={() => openMenuItem('gift')}>
               <span>🎁</span>
-              <p className={styles.menuText}>Send a gift</p>
+              <p className={styles.menuText}>发送礼品</p>
             </div>
 
             <div className={styles.menuItem} onClick={() => openMenuItem('free-trips')}>
               <span>🆓</span>
-              <p className={styles.menuText}>Free trips</p>
+              <p className={styles.menuText}>免费行程</p>
             </div>
 
             <div className={styles.menuItem} onClick={() => openMenuItem('eats')}>
@@ -154,7 +154,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
 
             <div className={styles.menuItem} onClick={() => openMenuItem('settings')}>
               <span>⚙️</span>
-              <p className={styles.menuText}>Settings</p>
+              <p className={styles.menuText}>设置</p>
             </div>
           </div>
         </div>
@@ -174,27 +174,27 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
 
             <div className={styles.sideMenuItem} onClick={() => openMenuItem('trip')}>
               <span className={styles.sideMenuIcon}>🚗</span>
-              <p className={styles.sideMenuText}>Your trip</p>
+              <p className={styles.sideMenuText}>您的行程</p>
             </div>
             <div className={styles.sideMenuItem} onClick={() => openMenuItem('payment')}>
               <span className={styles.sideMenuIcon}>💳</span>
-              <p className={styles.sideMenuText}>Payment</p>
+              <p className={styles.sideMenuText}>支付</p>
             </div>
             <div className={styles.sideMenuItem} onClick={() => openMenuItem('help')}>
               <span className={styles.sideMenuIcon}>❓</span>
-              <p className={styles.sideMenuText}>Help</p>
+              <p className={styles.sideMenuText}>帮助</p>
             </div>
             <div className={styles.sideMenuItem} onClick={() => openMenuItem('gody-pass')}>
               <span className={styles.sideMenuIcon}>🎫</span>
-              <p className={styles.sideMenuText}>Gody pass</p>
+              <p className={styles.sideMenuText}>Gody 通行证</p>
             </div>
             <div className={styles.sideMenuItem} onClick={() => openMenuItem('gift')}>
               <span className={styles.sideMenuIcon}>🎁</span>
-              <p className={styles.sideMenuText}>Send a gift</p>
+              <p className={styles.sideMenuText}>发送礼品</p>
             </div>
             <div className={styles.sideMenuItem} onClick={() => openMenuItem('free-trips')}>
               <span className={styles.sideMenuIcon}>🆓</span>
-              <p className={styles.sideMenuText}>Free trips</p>
+              <p className={styles.sideMenuText}>免费行程</p>
             </div>
             <div className={styles.sideMenuItem} onClick={() => openMenuItem('eats')}>
               <span className={styles.sideMenuIcon}>🍽️</span>
@@ -202,7 +202,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
             </div>
             <div className={styles.sideMenuItem} onClick={() => openMenuItem('settings')}>
               <span className={styles.sideMenuIcon}>⚙️</span>
-              <p className={styles.sideMenuText}>Settings</p>
+              <p className={styles.sideMenuText}>设置</p>
             </div>
 
             <div style={{ marginTop: 'auto', padding: '24px 0' }}>
@@ -217,7 +217,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
         open={showNameModal}
         onClose={() => setShowNameModal(false)}
         title="Edit demo user name"
-        confirmText="Save"
+        confirmText="保存"
         onConfirm={() => {
           const trimmed = editingName.trim();
           if (trimmed) {
@@ -259,7 +259,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
       <Modal
         open={showGodyModal}
         onClose={() => setShowGodyModal(false)}
-        title="Gody Pass"
+        title="Gody 通行证"
         width={340}
       >
         <div style={{ fontSize: 13, lineHeight: 1.5, color: '#C9C6BE' }}>
@@ -287,10 +287,10 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
                 const cost = 99;
                 if (balance >= cost) {
                   buyGodyPass(cost);
-                  success('Gody Pass', 'Activated! 15% off unlocked.');
+                  success('Gody 通行证', '已激活！解锁 15% 优惠。');
                   setShowGodyModal(false);
                 } else {
-                  error('Insufficient balance', `Need ¥${cost}, have ¥${balance.toFixed(2)}`);
+                  error('余额不足', `Need ¥${cost}, have ¥${balance.toFixed(2)}`);
                 }
               }}
               style={{ flex: 1, padding: '10px 14px', background: '#fecc2a', color: '#0A0908', border: 'none', borderRadius: 10, fontWeight: 600, cursor: 'pointer', fontSize: 13 }}
@@ -304,10 +304,10 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
                 const cost = 89;
                 if (balance >= cost) {
                   buyGodyPass(cost);
-                  success('Gody Pass', 'Renewed! Thanks.');
+                  success('Gody 通行证', 'Renewed! Thanks.');
                   setShowGodyModal(false);
                 } else {
-                  error('Insufficient balance', `Need ¥${cost}`);
+                  error('余额不足', `Need ¥${cost}`);
                 }
               }}
               style={{ flex: 1, padding: '10px 14px', background: '#fecc2a', color: '#0A0908', border: 'none', borderRadius: 10, fontWeight: 600, cursor: 'pointer', fontSize: 13 }}
@@ -336,7 +336,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
           Send ride credits to friends &amp; family. Deducts from your demo balance.
         </div>
 
-        <div style={{ fontSize: 12, marginBottom: 6, color: '#EDEBE5' }}>Recent contacts</div>
+        <div style={{ fontSize: 12, marginBottom: 6, color: '#EDEBE5' }}>最近联系人</div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 12 }}>
           {['👩 Mom', '👨 Family', '🚗 Li (driver)', 'Sarah 👩‍💼', 'Alex friend'].map(c => (
             <button
@@ -357,7 +357,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
           ))}
         </div>
 
-        <div style={{ fontSize: 12, marginBottom: 6, color: '#EDEBE5' }}>Gift amount</div>
+        <div style={{ fontSize: 12, marginBottom: 6, color: '#EDEBE5' }}>礼品金额</div>
         <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
           {[20, 50, 100].map(amt => (
             <button
@@ -393,7 +393,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
                 return;
               }
               sendGift(selectedContact, giftAmount);
-              success('Gift sent', `¥${giftAmount} ride credit sent to ${selectedContact}`);
+              success('礼品已发送', `¥${giftAmount} ride credit sent to ${selectedContact}`);
               setShowGiftModal(false);
             }}
             style={{
@@ -469,7 +469,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
           Quick demo food ordering. Orders update your eats count and can spawn a delivery trip.
         </div>
 
-        <div style={{ fontSize: 12, marginBottom: 6, color: '#EDEBE5' }}>Popular nearby</div>
+        <div style={{ fontSize: 12, marginBottom: 6, color: '#EDEBE5' }}>附近热门</div>
         {[
           { restaurant: 'Lucky Noodles', item: 'Beef Noodle Bowl', cost: 28 },
           { restaurant: 'Pizza King', item: 'Margherita Pizza', cost: 42 },

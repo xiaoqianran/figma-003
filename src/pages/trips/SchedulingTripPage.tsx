@@ -18,8 +18,8 @@ const SchedulingTripPage: React.FC<SchedulingTripPageProps> = ({ onNavigate }) =
   const steps = [
     'Connecting to drivers...',
     'Finding best route...',
-    'Confirming availability...',
-    'Trip scheduled successfully!'
+    '正在确认可用性...',
+    '行程预约成功！'
   ];
 
   const dots = [0, 1, 2];
@@ -40,7 +40,7 @@ const SchedulingTripPage: React.FC<SchedulingTripPageProps> = ({ onNavigate }) =
           if (next > steps.length) {
             clearInterval(interval);
             setCompleted(true);
-            setStatusText('Trip scheduled successfully!');
+            setStatusText('行程预约成功！');
             setTimeout(() => {
               addRecentAction('Trip scheduling completed');
               // Use bookTrip (new API) instead of manual setActiveTrip for full multi-trip integration + bookedTrips
@@ -50,8 +50,8 @@ const SchedulingTripPage: React.FC<SchedulingTripPageProps> = ({ onNavigate }) =
               } else {
                 const scheduled = bookTrip({
                   status: 'upcoming',
-                  from: 'Current location',
-                  to: 'Apple Union Square',
+                  from: '当前位置',
+                  to: '苹果联合广场',
                   eta: '3:50 PM',
                   price: 16,
                   vehicle: 'GodyX'

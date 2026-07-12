@@ -30,10 +30,10 @@ const ConfirmPickup3Page: React.FC<ConfirmPickup3PageProps> = ({ onNavigate }) =
     // Key driver call action: attach driver info + progress status (defensive if trip exists)
     const tripId = activeTrip?.id;
     if (tripId) {
-      updateTripStatus(tripId, 'in-progress', { driver: 'Jack (Toyota Camry 9HTR789)', eta: '2 min away' });
+      updateTripStatus(tripId, 'in-progress', { driver: 'Jack（丰田凯美瑞 9HTR789）', eta: '2 min away' });
       addRecentAction('Driver called — status + driver info via updateTripStatus');
     } else {
-      bookTrip({ status: 'in-progress', from: 'San Francisco International Airport', to: 'Apple Union Square', driver: 'Jack', vehicle: 'Toyota Camry', eta: '2 min' });
+      bookTrip({ status: 'in-progress', from: '旧金山国际机场', to: '苹果联合广场', driver: 'Jack', vehicle: '丰田凯美瑞', eta: '2 min' });
       addRecentAction('Driver called — seeded trip via bookTrip');
     }
     info('电话', '正在拨打司机电话... (demo)');
@@ -56,7 +56,7 @@ const ConfirmPickup3Page: React.FC<ConfirmPickup3PageProps> = ({ onNavigate }) =
         background: '#fed16c', borderRadius: 12, padding: '16px 16px 12px',
         display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', zIndex: 20
       }}>
-        <p style={{ width: 220, fontSize: 14, lineHeight: '20px', color: '#49493d' }}>Meet at the pickup point for San Francisco International Airport</p>
+        <p style={{ width: 220, fontSize: 14, lineHeight: '20px', color: '#49493d' }}>请在旧金山国际机场上车点会合</p>
         <span style={{ marginTop: 8, width: 20, height: 20, cursor: 'pointer', fontSize: 16 }} onClick={handleEdit}>✏️</span>
       </div>
 
@@ -76,8 +76,8 @@ const ConfirmPickup3Page: React.FC<ConfirmPickup3PageProps> = ({ onNavigate }) =
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 24px' }}>
           <div>
-            <p style={{ fontSize: 16, fontWeight: 500, color: '#49493d' }}>All drivers are screened</p>
-            <p style={{ marginTop: 7, width: 213, fontSize: 12, color: '#959595' }}>All drivers are screened before their first trip and on an ongoing basis.</p>
+            <p style={{ fontSize: 16, fontWeight: 500, color: '#49493d' }}>所有司机均经过审核</p>
+            <p style={{ marginTop: 7, width: 213, fontSize: 12, color: '#959595' }}>所有司机在首次接单前及之后都会持续接受审核。</p>
           </div>
           <div style={{ position: 'relative', width: 60, height: 60, background: '#fecc2a', borderRadius: '50%' }}>
             <span style={{ position: 'absolute', top: 18, left: 18, fontSize: 18 }}>👤</span>
@@ -92,7 +92,7 @@ const ConfirmPickup3Page: React.FC<ConfirmPickup3PageProps> = ({ onNavigate }) =
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 23, padding: '0 29px 0 24px' }}>
           <div style={{ width: 120, height: 61, background: 'linear-gradient(45deg,#f0f0f0,#e0e0e0)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>🚗</div>
           <div style={{ marginTop: 21 }}>
-            <p style={{ fontSize: 14, color: '#49493d' }}>Toyota Camry</p>
+            <p style={{ fontSize: 14, color: '#49493d' }}>丰田凯美瑞</p>
             <p style={{ fontSize: 16, fontWeight: 500, color: '#49493d', marginLeft: 19 }}>9HTR789</p>
           </div>
         </div>
@@ -108,7 +108,7 @@ const ConfirmPickup3Page: React.FC<ConfirmPickup3PageProps> = ({ onNavigate }) =
             <span style={{ fontSize: 14 }}>📞</span>
           </div>
           <div style={{ borderRadius: 24, background: '#f3f3f3', padding: '14px 73px 14px 16px' }}>
-            <p style={{ fontSize: 14, color: '#959595' }}>Any pick-up notes?</p>
+            <p style={{ fontSize: 14, color: '#959595' }}>有上车备注吗？</p>
           </div>
           <div style={{ width: 48, height: 48, borderRadius: '50%', background: '#f3f3f3', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }} onClick={handleSun}>
             <div style={{ background: '#fecc2a', width: 3, height: 2 }} />

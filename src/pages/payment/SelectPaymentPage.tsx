@@ -16,7 +16,7 @@ const SelectPaymentPage: React.FC<SelectPaymentPageProps> = ({ onNavigate }) => 
   const selectMethod = (type: 'visa' | 'gody') => {
     const method = type === 'visa'
       ? { id: 'visa-4242', type: 'visa' as const, label: 'Visa •••• 4242', last4: '4242' }
-      : { id: 'gody-cash', type: 'gody' as const, label: 'Gody Cash', last4: undefined };
+      : { id: 'gody-cash', type: 'gody' as const, label: 'Gody 现金', last4: undefined };
     setSelectedPayment(method);
     addRecentAction(`Selected payment: ${method.label}`);
   };
@@ -30,9 +30,9 @@ const SelectPaymentPage: React.FC<SelectPaymentPageProps> = ({ onNavigate }) => 
       <StatusBar />
 
       <div className={styles.container}>
-        <TopNav title="Select payment" onBack={() => onNavigate?.('core-home')} />
+        <TopNav title="选择支付" onBack={() => onNavigate?.('core-home')} />
 
-        <div className={styles.sectionTitle}>Payment methods</div>
+        <div className={styles.sectionTitle}>支付方式</div>
 
         {/* Gody Cash */}
         <div
@@ -40,7 +40,7 @@ const SelectPaymentPage: React.FC<SelectPaymentPageProps> = ({ onNavigate }) => 
           onClick={() => selectMethod('gody')}
         >
           <div className={styles.godyBadge}>Gody</div>
-          <span style={{ marginLeft: 12, fontWeight: 500 }}>Gody Cash</span>
+          <span style={{ marginLeft: 12, fontWeight: 500 }}>Gody 现金</span>
         </div>
 
         {/* VISA */}
@@ -63,7 +63,7 @@ const SelectPaymentPage: React.FC<SelectPaymentPageProps> = ({ onNavigate }) => 
           Save up to 15% on all routes when you ride with Gody and Pool in the San Francisco metropolitan area.
         </div>
 
-        <div className={styles.promoTitle}>Promo codes</div>
+        <div className={styles.promoTitle}>优惠码</div>
         <div className={styles.addCard} onClick={() => info('促销', '添加促销码 (demo)')}>
           + Add promo codes
         </div>

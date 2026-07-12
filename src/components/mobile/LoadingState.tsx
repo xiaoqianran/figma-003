@@ -9,7 +9,7 @@ export interface LoadingStateProps {
 }
 
 const LoadingState: React.FC<LoadingStateProps> = ({
-  message = 'Loading...',
+  message = '加载中...',
   fullScreen = false,
   size = 'md',
   className = '',

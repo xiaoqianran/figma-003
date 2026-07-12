@@ -12,10 +12,10 @@ interface SchedulePageProps {
 const SchedulePage: React.FC<SchedulePageProps> = ({ onNavigate }) => {
   const { activeTrip, addRecentAction, bookTrip, updateTripStatus } = useDemoState();
   const { success, info } = useToast();
-  const [selectedDate, setSelectedDate] = useState('Today');
+  const [selectedDate, setSelectedDate] = useState('今天');
   const [selectedDay, setSelectedDay] = useState('3');
   const [selectedTime, setSelectedTime] = useState('50');
-  const [selectedAmPm, setSelectedAmPm] = useState('PM');
+  const [selectedAmPm, setSelectedAmPm] = useState('下午');
 
   // Modal state (restored for build)
   const [showCancelModal, setShowCancelModal] = useState(false);
@@ -58,8 +58,8 @@ const SchedulePage: React.FC<SchedulePageProps> = ({ onNavigate }) => {
       // Use bookTrip for persistent multi-trip + active focus (new core feature)
       const booked = bookTrip({
         status: 'upcoming',
-        from: activeTrip?.from || 'Current location',
-        to: activeTrip?.to || 'Apple Union Square',
+        from: activeTrip?.from || '当前位置',
+        to: activeTrip?.to || '苹果联合广场',
         eta: `${selectedTime}:00 ${selectedAmPm}`,
         price: activeTrip?.price || 18,
         vehicle: activeTrip?.vehicle || 'Scheduled Ride'
@@ -94,7 +94,7 @@ const SchedulePage: React.FC<SchedulePageProps> = ({ onNavigate }) => {
 
       <div style={{ display: 'flex', alignItems: 'center', padding: '0 24px', marginTop: 24 }}>
         <div style={{ width: 50, height: 50, borderRadius: '50%', background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, color: 'white', border: '2px solid rgba(255,255,255,0.3)' }}>👨‍💼</div>
-        <p style={{ margin: '0 0 0 22px', fontSize: 16, fontWeight: 500, color: '#fff' }}>Good morning, John</p>
+        <p style={{ margin: '0 0 0 22px', fontSize: 16, fontWeight: 500, color: '#fff' }}>早上好，John</p>
         <div style={{ marginLeft: 'auto', width: 20, height: 20, cursor: 'pointer', fontSize: 18, color: '#fff' }} onClick={() => info('菜单', '打开菜单（演示）')}>☰</div>
       </div>
 
@@ -111,17 +111,17 @@ const SchedulePage: React.FC<SchedulePageProps> = ({ onNavigate }) => {
       <div className={styles.scheduleModal}>
         <div className={styles.dragHandle} onClick={() => info('提示', '拖拽手势提示（演示）')} />
 
-        <h2 className={styles.modalTitle}>Schedule a trip</h2>
+        <h2 className={styles.modalTitle}>预约行程</h2>
         <p className={styles.modalSubtitle}>Tue, 24 Sep</p>
         <p className={styles.modalTime}>{updateDisplay()}</p>
 
         <div className={styles.datetimePicker}>
           {/* Date column */}
           <div className={styles.timeColumn}>
-            {['Sun 22 Sep', 'Mon 23 Sep', 'Today', 'Wed 25 Sep', 'Thu 26 Sep'].map((d, idx) => (
+            {['Sun 22 Sep', 'Mon 23 Sep', '今天', 'Wed 25 Sep', 'Thu 26 Sep'].map((d, idx) => (
               <div
                 key={idx}
-                className={`${styles.timeItem} ${d === selectedDate ? styles.selected + ' ' + styles.active : d === 'Today' ? styles.active : ''}`}
+                className={`${styles.timeItem} ${d === selectedDate ? styles.selected + ' ' + styles.active : d === '今天' ? styles.active : ''}`}
                 onClick={(e) => handleSelectDate(d, e.currentTarget)}
               >{d}</div>
             ))}
@@ -155,10 +155,10 @@ const SchedulePage: React.FC<SchedulePageProps> = ({ onNavigate }) => {
 
           {/* AM/PM */}
           <div className={styles.ampmColumn}>
-            {['AM','PM'].map((a, idx) => (
+            {['上午','下午'].map((a, idx) => (
               <div
                 key={idx}
-                className={`${styles.ampmItem} ${a === selectedAmPm ? styles.selected + ' ' + styles.active : a === 'PM' ? styles.active : ''}`}
+                className={`${styles.ampmItem} ${a === selectedAmPm ? styles.selected + ' ' + styles.active : a === '下午' ? styles.active : ''}`}
                 onClick={(e) => handleSelectAmPm(a, e.currentTarget)}
               >{a}</div>
             ))}
@@ -166,8 +166,8 @@ const SchedulePage: React.FC<SchedulePageProps> = ({ onNavigate }) => {
         </div>
 
         <div className={styles.modalButtons}>
-          <button className={`${styles.btn} ${styles.btnCancel}`} onClick={handleCancel}>Cancel</button>
-          <button className={`${styles.btn} ${styles.btnContinue}`} onClick={handleContinue}>Continue</button>
+          <button className={`${styles.btn} ${styles.btnCancel}`} onClick={handleCancel}>取消</button>
+          <button className={`${styles.btn} ${styles.btnContinue}`} onClick={handleContinue}>继续</button>
         </div>
 
         <div className={styles.homeIndicator}>

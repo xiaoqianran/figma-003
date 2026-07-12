@@ -56,10 +56,10 @@ const TripDetailCancelledPage: React.FC<Props> = ({ onNavigate }) => {
         <div className={styles.titleBar}>
           <div className={styles.backGroup}>
             <span className={styles.backIcon} onClick={goBack}>←</span>
-            <span className={styles.title}>Your trips</span>
+            <span className={styles.title}>我的行程</span>
           </div>
           <div className={styles.filterBtn} onClick={goToPast}>
-            <span>Past</span>
+            <span>历史</span>
             <span>▼</span>
           </div>
         </div>
@@ -77,7 +77,7 @@ const TripDetailCancelledPage: React.FC<Props> = ({ onNavigate }) => {
         </div>
 
         <div className={styles.vehicleRow}>
-          <div className={styles.vehicleInfo}>{activeTrip?.vehicle || 'Toyota Camry'} - 9HTR789</div>
+          <div className={styles.vehicleInfo}>{activeTrip?.vehicle || '丰田凯美瑞'} - 9HTR789</div>
           <div className={styles.stars}>
             {Array.from({ length: 5 }).map((_, i) => <span key={i} className={styles.star}>★</span>)}
           </div>
@@ -95,7 +95,7 @@ const TripDetailCancelledPage: React.FC<Props> = ({ onNavigate }) => {
           <div className={styles.tripTime}>Today, 3:41 pm&nbsp;</div>
           <div className={styles.tripPrice}>$0.00</div>
         </div>
-        <div className={styles.canceledLabel}>Canceled</div>
+        <div className={styles.canceledLabel}>已取消</div>
 
         {/* 地图2 */}
         <div className={styles.secondaryMap}>
@@ -107,8 +107,8 @@ const TripDetailCancelledPage: React.FC<Props> = ({ onNavigate }) => {
           <div style={{ color: '#959595', marginBottom: 6 }}>Demo trip actions (use APIs, trip will move to Past lists on complete/cancel):</div>
           <div style={{ display: 'flex', gap: 8 }}>
             <button onClick={handleUndoCancel} style={{ flex:1, padding:'8px 12px', background:'#e8f5e9', border:'none', borderRadius:8, fontSize:12, cursor:'pointer' }}>Undo Cancel → Upcoming</button>
-            <button onClick={handleCompleteFromCancelled} style={{ flex:1, padding:'8px 12px', background:'#e3f2fd', border:'none', borderRadius:8, fontSize:12, cursor:'pointer' }}>Mark Complete</button>
-            <button onClick={handleCancelAgain} style={{ flex:1, padding:'8px 12px', background:'#ffebee', border:'none', borderRadius:8, fontSize:12, cursor:'pointer', color:'#c62828' }}>Re-cancel</button>
+            <button onClick={handleCompleteFromCancelled} style={{ flex:1, padding:'8px 12px', background:'#e3f2fd', border:'none', borderRadius:8, fontSize:12, cursor:'pointer' }}>标记完成</button>
+            <button onClick={handleCancelAgain} style={{ flex:1, padding:'8px 12px', background:'#ffebee', border:'none', borderRadius:8, fontSize:12, cursor:'pointer', color:'#c62828' }}>再次取消</button>
           </div>
           {activeTrip && <div style={{ marginTop: 4, fontSize: 10, color: '#6E6A61' }}>Using: {activeTrip.from}→{activeTrip.to} ({activeTrip.status}) | booked:{bookedTrips.length}</div>}
           {/* Quick focus other booked completed for past continuity */}

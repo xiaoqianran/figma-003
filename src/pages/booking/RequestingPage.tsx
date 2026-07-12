@@ -42,8 +42,8 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
       if (!activeTrip) {
         const seeded = bookTrip({
           status: 'upcoming',
-          from: '51 Sharon St',
-          to: 'Apple Union Square',
+          from: 'Sharon 街 51 号',
+          to: '苹果联合广场',
           price: 15,
           eta: '12 min',
           vehicle: 'GodyX'
@@ -85,8 +85,8 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
           driver,
           eta: etaStr,
           vehicle,
-          from: activeTrip?.from || '51 Sharon St',
-          to: activeTrip?.to || 'Apple Union Square',
+          from: activeTrip?.from || 'Sharon 街 51 号',
+          to: activeTrip?.to || '苹果联合广场',
           price: activeTrip?.price || 15
         });
       }
@@ -144,8 +144,8 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
     const driver = liveDriver || 'Li Ming';
     const eta = liveEta || '4 min';
     const vehicle = activeTrip?.vehicle || 'GodyX';
-    const from = activeTrip?.from || '51 Sharon St';
-    const to = activeTrip?.to || 'Apple Union Square';
+    const from = activeTrip?.from || 'Sharon 街 51 号';
+    const to = activeTrip?.to || '苹果联合广场';
     const price = activeTrip?.price || 15;
 
     if (tripId) {
@@ -219,7 +219,7 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
 
       <div style={{ display: 'flex', justifyContent: 'space-between', padding: '24px 217px 32px 24px' }}>
         <span style={{ width: 16, height: 16, cursor: 'pointer', fontSize: 16, color: '#49493d' }} onClick={() => onNavigate?.('booking-confirm-pickup3')}>↑</span>
-        <span style={{ fontSize: 20, fontWeight: 500, color: '#49493d' }}>Requesting</span>
+        <span style={{ fontSize: 20, fontWeight: 500, color: '#49493d' }}>请求司机中</span>
       </div>
 
       <div className={styles.tripInfoCard}>
@@ -227,8 +227,8 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
           <span>Pick up in&nbsp;</span>
           <span className={styles.timeValue}>{countdown.min}m {countdown.sec}s</span>
         </p>
-        <p className={styles.destination}>To {activeTrip?.to || 'Apple Union Square'}</p>
-        <p className={styles.departureInfo}>At {liveEta || activeTrip?.eta || '3:50 PM'} from {activeTrip?.from || '51 Sharon St'}</p>
+        <p className={styles.destination}>To {activeTrip?.to || '苹果联合广场'}</p>
+        <p className={styles.departureInfo}>At {liveEta || activeTrip?.eta || '3:50 PM'} from {activeTrip?.from || 'Sharon 街 51 号'}</p>
         <p className={styles.priceRange}>${activeTrip?.price || '13'}-{activeTrip?.price ? Math.round(activeTrip.price + 3) : '16'}</p>
         {/* Live driver indicator (appears after first ping for visual feedback) */}
         {(liveDriver || activeTrip?.driver) && (
@@ -242,7 +242,7 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
       <div className={styles.liveUpdatesCard}>
         <div className={styles.liveHeader}>
           <span className={styles.liveDot} />
-          <span>LIVE DRIVER PINGS — {progress > 5 ? `${Math.floor(progress)}% matched` : 'Broadcasting to nearby drivers...'}</span>
+          <span>LIVE DRIVER PINGS — {progress > 5 ? `${Math.floor(progress)}% matched` : '正在向附近司机广播...'}</span>
         </div>
         <div className={styles.progressBar}>
           <div className={styles.progressFill} style={{ width: `${progress}%` }} />
@@ -254,7 +254,7 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
             ))}
           </div>
         ) : (
-          <div style={{ fontSize: 11, color: '#959595', paddingTop: 2 }}>Waiting for driver responses (simulated every ~3s)...</div>
+          <div style={{ fontSize: 11, color: '#959595', paddingTop: 2 }}>等待司机响应（约每 3 秒模拟一次）...</div>
         )}
         {liveDriver && liveEta && (
           <div style={{ marginTop: 6, fontSize: 11, color: '#49493d', fontWeight: 500 }}>
@@ -267,8 +267,8 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
         <div className={styles.actionItem} onClick={() => handleAction('dest')}>
           <div className={styles.actionContent}>
             <span className={styles.actionIcon}>📍</span>
-            <span className={styles.actionText}>Apple Union Square</span>
-            <span className={styles.actionLink}>Add or change</span>
+            <span className={styles.actionText}>苹果联合广场</span>
+            <span className={styles.actionLink}>添加或更改</span>
           </div>
           <div className={styles.divider} />
         </div>
@@ -277,7 +277,7 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
           <div className={styles.actionContent}>
             <span className={styles.actionIcon}>💳</span>
             <span className={styles.actionText}>{_selectedPayment.label}</span>
-            <span className={`${styles.actionLink} ${styles.actionLink}`}>Change</span>
+            <span className={`${styles.actionLink} ${styles.actionLink}`}>更改</span>
           </div>
           <div className={styles.divider} />
         </div>
@@ -285,8 +285,8 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
         <div className={styles.actionItem} onClick={() => handleAction('split')}>
           <div className={styles.actionContent}>
             <span className={styles.actionIcon}>📶</span>
-            <span className={styles.actionText}>Riding with someone?</span>
-            <span className={styles.actionLink}>Split fare</span>
+            <span className={styles.actionText}>与人同行？</span>
+            <span className={styles.actionLink}>分摊车费</span>
           </div>
           <div className={styles.divider} />
         </div>
@@ -294,14 +294,14 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
         <div className={styles.actionItem} onClick={() => handleAction('share')}>
           <div className={styles.actionContent}>
             <span className={styles.actionIcon}>👤</span>
-            <span className={styles.actionText}>Share trips status</span>
-            <span className={styles.actionLink}>Share</span>
+            <span className={styles.actionText}>分享行程状态</span>
+            <span className={styles.actionLink}>分享</span>
           </div>
           <div className={styles.divider} />
         </div>
 
         <button className={styles.cancelButton} onClick={handleCancel}>
-          <span className={styles.cancelText}>Cancel</span>
+          <span className={styles.cancelText}>取消</span>
         </button>
 
         {/* Improved: Uses shared trigger (live state + new APIs). Auto-fires on built-in timer=0 too. */}
@@ -316,8 +316,8 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
         </button>
       </div>
 
-      <p className={styles.promoInfo}>Visa local offers for Sep 19 - 25</p>
-      <p className={styles.promoDetail}>Get Gody Cash buy using your Visa card around town</p>
+      <p className={styles.promoInfo}>Visa 本地优惠：9 月 19–25 日</p>
+      <p className={styles.promoDetail}>在市区使用 Visa 卡可获得 Gody 现金</p>
 
       <div style={{ display: 'flex', marginTop: 95, padding: '21px 121px 8px 120px' }}>
         <div style={{ borderRadius: 100, background: '#49493d', width: 134, height: 5 }} />

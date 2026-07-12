@@ -77,7 +77,7 @@ const TripDetailCompletedPage: React.FC<Props> = ({ onNavigate }) => {
       <div className={styles.container}>
         <div className={styles.titleBar}>
           <span className={styles.backIcon} onClick={goBack}>←</span>
-          <span className={styles.title}>Trips detail</span>
+          <span className={styles.title}>行程详情</span>
         </div>
 
         {/* Map */}
@@ -91,7 +91,7 @@ const TripDetailCompletedPage: React.FC<Props> = ({ onNavigate }) => {
           <div className={styles.tripTime}>Today, 3:45 pm&nbsp;</div>
           <div className={styles.tripPrice}>${activeTrip?.price || 17}.00</div>
         </div>
-        <div className={styles.vehicleInfo}>{activeTrip?.vehicle || 'Toyota Camry'} - 9HTR789{activeTrip?.driver ? ` · ${activeTrip.driver}` : ''}</div>
+        <div className={styles.vehicleInfo}>{activeTrip?.vehicle || '丰田凯美瑞'} - 9HTR789{activeTrip?.driver ? ` · ${activeTrip.driver}` : ''}</div>
 
         {/* Locations */}
         <div className={styles.locationSection}>
@@ -101,32 +101,32 @@ const TripDetailCompletedPage: React.FC<Props> = ({ onNavigate }) => {
             <div className={styles.locationPin}>📍</div>
           </div>
           <div className={styles.locationInputs}>
-            <div className={styles.locInput}>{activeTrip?.to || 'Apple Union Square'}</div>
-            <div className={styles.locInput}>{activeTrip?.from || 'San Francisco International Airport'}</div>
+            <div className={styles.locInput}>{activeTrip?.to || '苹果联合广场'}</div>
+            <div className={styles.locInput}>{activeTrip?.from || '旧金山国际机场'}</div>
           </div>
         </div>
 
         {/* Rating */}
         <div className={styles.ratingRow}>
           <div className={styles.avatar}>👤</div>
-          <div className={styles.ratingLabel}>You rated Push</div>
+          <div className={styles.ratingLabel}>您已评价 Push</div>
           <div className={styles.ratingStars}>
             {Array.from({ length: 5 }).map((_, i) => <span key={i} style={{ color: '#fecc2a', fontSize: 16 }}>★</span>)}
           </div>
         </div>
 
-        <div className={styles.helpLink} onClick={handleHelp}>Need help with this trip?</div>
+        <div className={styles.helpLink} onClick={handleHelp}>需要本次行程的帮助吗？</div>
 
         {/* Action cards */}
         <div className={styles.actionRow}>
           <div className={styles.actionCard} onClick={handlePayment}>
-            <div className={styles.actionTitle}>Switch payment method</div>
+            <div className={styles.actionTitle}>切换支付方式</div>
             <div className={styles.actionDesc}>I want to switch my payment method for this trip.</div>
-            <div className={styles.actionLink}>Edit payment</div>
+            <div className={styles.actionLink}>编辑支付</div>
           </div>
           <div className={styles.actionCard} onClick={handleRate}>
-            <div className={styles.actionTitle}>Rate your trip</div>
-            <div className={styles.actionDesc}>Share your experience with the driver.</div>
+            <div className={styles.actionTitle}>评价行程</div>
+            <div className={styles.actionDesc}>分享您对司机的评价。</div>
             <div className={styles.actionLink}>Rate now →</div>
           </div>
         </div>
@@ -135,10 +135,10 @@ const TripDetailCompletedPage: React.FC<Props> = ({ onNavigate }) => {
         <div style={{ padding: '0 24px', marginTop: 16, marginBottom: 8 }}>
           <div style={{ fontSize: 11, color: '#959595', marginBottom: 6 }}>Demo actions (update status via APIs):</div>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            <button onClick={handleMarkPaid} style={{ flex: 1, minWidth: 70, padding: '8px 10px', fontSize: 12, background: '#e3f2fd', border: 'none', borderRadius: 8, cursor: 'pointer' }}>Mark Paid</button>
-            <button onClick={handleCompleteAgain} style={{ flex: 1, minWidth: 70, padding: '8px 10px', fontSize: 12, background: '#e8f5e9', border: 'none', borderRadius: 8, cursor: 'pointer' }}>Complete</button>
-            <button onClick={handleCancelFromDetail} style={{ flex: 1, minWidth: 70, padding: '8px 10px', fontSize: 12, background: '#ffebee', border: 'none', borderRadius: 8, cursor: 'pointer', color: '#c62828' }}>Cancel</button>
-            <button onClick={() => { addRecentAction('Rate via action bar'); handleRate(); }} style={{ flex: 1, minWidth: 70, padding: '8px 10px', fontSize: 12, background: '#fff8e1', border: 'none', borderRadius: 8, cursor: 'pointer' }}>Rate</button>
+            <button onClick={handleMarkPaid} style={{ flex: 1, minWidth: 70, padding: '8px 10px', fontSize: 12, background: '#e3f2fd', border: 'none', borderRadius: 8, cursor: 'pointer' }}>标记已支付</button>
+            <button onClick={handleCompleteAgain} style={{ flex: 1, minWidth: 70, padding: '8px 10px', fontSize: 12, background: '#e8f5e9', border: 'none', borderRadius: 8, cursor: 'pointer' }}>完成</button>
+            <button onClick={handleCancelFromDetail} style={{ flex: 1, minWidth: 70, padding: '8px 10px', fontSize: 12, background: '#ffebee', border: 'none', borderRadius: 8, cursor: 'pointer', color: '#c62828' }}>取消</button>
+            <button onClick={() => { addRecentAction('Rate via action bar'); handleRate(); }} style={{ flex: 1, minWidth: 70, padding: '8px 10px', fontSize: 12, background: '#fff8e1', border: 'none', borderRadius: 8, cursor: 'pointer' }}>评分</button>
           </div>
           {activeTrip && <div style={{ fontSize: 10, marginTop: 4, color: '#6E6A61' }}>Active: {activeTrip.id} ({activeTrip.status}, paid:{String(!!activeTrip.paid)})</div>}
           {/* Also show count from booked for continuity */}

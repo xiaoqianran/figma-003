@@ -71,10 +71,10 @@ const PickupCountdownPage: React.FC<PickupCountdownPageProps> = ({ onNavigate })
           if (tripId) {
             completeTrip(tripId);
             // Extra: direct update for additional audit trail + status consistency in requesting->in-progress->completed flow
-            updateTripStatus(tripId, 'completed', { eta: 'Arrived', paid: true, driver: activeTrip?.driver || 'Arrived driver' });
+            updateTripStatus(tripId, 'completed', { eta: '已到达', paid: true, driver: activeTrip?.driver || 'Arrived driver' });
             addRecentAction(`Countdown reached arrived — completed via completeTrip + updateTripStatus (${activeTrip?.to || 'dest'})`);
           } else {
-            bookTrip({ status: 'completed', from: activeTrip?.from || 'San Francisco International Airport', to: activeTrip?.to || 'Apple Union Square', driver: 'Arrived driver', vehicle: 'Toyota Camry', eta: 'Arrived', price: activeTrip?.price || 16, paid: true });
+            bookTrip({ status: 'completed', from: activeTrip?.from || '旧金山国际机场', to: activeTrip?.to || '苹果联合广场', driver: 'Arrived driver', vehicle: '丰田凯美瑞', eta: '已到达', price: activeTrip?.price || 16, paid: true });
             addRecentAction('Countdown arrived (no prior trip) — seeded completed via bookTrip');
           }
           return 0;
@@ -128,10 +128,10 @@ const PickupCountdownPage: React.FC<PickupCountdownPageProps> = ({ onNavigate })
       const tripId = activeTrip?.id;
       if (tripId) {
         completeTrip(tripId);
-        updateTripStatus(tripId, 'completed', { eta: 'Arrived', paid: true });
+        updateTripStatus(tripId, 'completed', { eta: '已到达', paid: true });
         addRecentAction('Manual arrived tap — force completeTrip + updateTripStatus');
       } else if (!activeTrip) {
-        bookTrip({ status: 'completed', from: 'San Francisco International Airport', to: 'Apple Union Square', eta: 'Arrived', paid: true });
+        bookTrip({ status: 'completed', from: '旧金山国际机场', to: '苹果联合广场', eta: '已到达', paid: true });
         addRecentAction('Manual arrived tap — completed via bookTrip');
       }
       onNavigate?.('trips-detail-completed');
@@ -206,8 +206,8 @@ const PickupCountdownPage: React.FC<PickupCountdownPageProps> = ({ onNavigate })
           background: '#fff', borderRadius: 12, padding: '12px 16px',
           boxShadow: '0 4px 12px rgba(0,0,0,0.15)', minWidth: 160
         }}>
-          <div style={{ fontSize: 12, color: '#959595', marginBottom: 4 }}>Pick up</div>
-          <div style={{ fontSize: 14, color: '#49493d', fontWeight: 500 }}>{activeTrip?.from || 'San Francisco International Airport'}</div>
+          <div style={{ fontSize: 12, color: '#959595', marginBottom: 4 }}>上车</div>
+          <div style={{ fontSize: 14, color: '#49493d', fontWeight: 500 }}>{activeTrip?.from || '旧金山国际机场'}</div>
         </div>
       </div>
 
@@ -226,8 +226,8 @@ const PickupCountdownPage: React.FC<PickupCountdownPageProps> = ({ onNavigate })
         </div>
 
         <div style={{ marginBottom: 16 }}>
-          <div style={{ fontSize: 18, fontWeight: 600, color: '#49493d', marginBottom: 4 }}>To {activeTrip?.to || 'Apple Union Square'}</div>
-          <div style={{ fontSize: 14, color: '#959595', marginBottom: 2 }}>At {activeTrip?.eta || '3:50 PM'} from {activeTrip?.from || 'San Francisco International Airport'}</div>
+          <div style={{ fontSize: 18, fontWeight: 600, color: '#49493d', marginBottom: 4 }}>To {activeTrip?.to || '苹果联合广场'}</div>
+          <div style={{ fontSize: 14, color: '#959595', marginBottom: 2 }}>At {activeTrip?.eta || '3:50 PM'} from {activeTrip?.from || '旧金山国际机场'}</div>
         </div>
 
         <div style={{ fontSize: 18, fontWeight: 600, color: '#49493d' }}>${activeTrip?.price || 16}.00</div>

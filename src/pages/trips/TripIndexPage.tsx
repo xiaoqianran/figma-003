@@ -19,7 +19,7 @@ const TripIndexPage: React.FC<Props> = ({ onNavigate }) => {
       <StatusBar />
 
       <div style={{ padding: 20 }}>
-        <h2 style={{ textAlign: 'center', color: '#49493d', marginBottom: 20 }}>Trip Pages</h2>
+        <h2 style={{ textAlign: 'center', color: '#49493d', marginBottom: 20 }}>行程页面</h2>
 
         {items.map((item, i) => (
           <div key={i} onClick={() => {

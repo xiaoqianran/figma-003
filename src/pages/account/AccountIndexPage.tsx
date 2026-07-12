@@ -16,37 +16,37 @@ const AccountIndexPage: React.FC<AccountIndexPageProps> = ({ onNavigate }) => {
   const { success, info } = useToast();
 
   const navItems = [
-    { label: 'Profile', id: 'account-profile', icon: '👤' },
+    { label: '个人资料', id: 'account-profile', icon: '👤' },
     { label: 'Edit Account #1', id: 'account-edit1', icon: '✏️' },
     { label: 'Edit Account #2 (Keyboard)', id: 'account-edit2', icon: '⌨️' },
     { label: 'Test Pages', id: 'account-test', icon: '🧪' },
-    { label: 'Home', id: 'core-home', icon: '🏠' },
+    { label: '首页', id: 'core-home', icon: '🏠' },
   ];
 
   return (
     <div className="mobile-frame">
       <StatusBar />
 
-      <TopNav title="Account" onBack={() => { addRecentAction('Back to home from account index'); onNavigate?.('core-home'); }} />
+      <TopNav title="账户" onBack={() => { addRecentAction('Back to home from account index'); onNavigate?.('core-home'); }} />
 
       <div style={{ padding: '24px' }}>
-        <h2 style={{ fontSize: 22, fontWeight: 600, color: '#49493d', marginBottom: 8 }}>GODY Account</h2>
+        <h2 style={{ fontSize: 22, fontWeight: 600, color: '#49493d', marginBottom: 8 }}>GODY 账户</h2>
         <div style={{ fontSize: 13, color: '#49493d', marginBottom: 4 }}>Logged in: <strong>{user.name}</strong></div>
         {activeTrip && <div style={{ fontSize: 12, color: '#fecc2a', marginBottom: 4 }}>Active trip: {activeTrip.to}</div>}
         {bookedTrips.length > 0 && <div style={{ fontSize: 11, color: '#959595', marginBottom: 16 }}>Booked trips: {bookedTrips.length} (see Test page or Trips hub for full lifecycle)</div>}
-        <p style={{ color: '#959595', fontSize: 13, marginBottom: 24 }}>Manage your profile and settings</p>
+        <p style={{ color: '#959595', fontSize: 13, marginBottom: 24 }}>管理您的资料与设置</p>
 
         {/* Demo feature status + quick actions (now functional via DemoState) */}
         <div style={{ background: '#fffdf5', border: '1px solid #f3e8c8', borderRadius: 12, padding: '14px 16px', marginBottom: 20 }}>
           <div style={{ fontSize: 12, fontWeight: 600, color: '#49493d', marginBottom: 8 }}>Demo Perks &amp; Features</div>
           <div style={{ fontSize: 12, color: '#49493d', marginBottom: 10, lineHeight: 1.4 }}>
-            Balance: <strong>¥{balance.toFixed(2)}</strong> • Gody Pass: {hasGodyPass ? '🎫 Active' : 'Inactive'} • Promo: 🆓{promoCredits} • Gifts: 🎁{giftsSent} • Eats: 🍽️{eatsOrders}
+            Balance: <strong>¥{balance.toFixed(2)}</strong> • Gody Pass: {hasGodyPass ? '🎫 Active' : '未激活'} • Promo: 🆓{promoCredits} • Gifts: 🎁{giftsSent} • Eats: 🍽️{eatsOrders}
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-            <button onClick={() => { buyGodyPass(99); success('Gody Pass', 'Quick buy from account index'); }} style={{ fontSize: 11, padding: '5px 10px', background: '#0A0908', color: '#fecc2a', border: 'none', borderRadius: 6, cursor: 'pointer' }}>Buy Pass ¥99</button>
-            <button onClick={() => { claimPromoCredit(1); success('Free trips', '+1 credit claimed'); }} style={{ fontSize: 11, padding: '5px 10px', background: '#0A0908', color: '#fecc2a', border: 'none', borderRadius: 6, cursor: 'pointer' }}>Claim Promo</button>
+            <button onClick={() => { buyGodyPass(99); success('Gody 通行证', 'Quick buy from account index'); }} style={{ fontSize: 11, padding: '5px 10px', background: '#0A0908', color: '#fecc2a', border: 'none', borderRadius: 6, cursor: 'pointer' }}>Buy Pass ¥99</button>
+            <button onClick={() => { claimPromoCredit(1); success('免费行程', '+1 credit claimed'); }} style={{ fontSize: 11, padding: '5px 10px', background: '#0A0908', color: '#fecc2a', border: 'none', borderRadius: 6, cursor: 'pointer' }}>领取优惠</button>
             <button onClick={() => { sendGift('Quick Demo', 30); success('Gift', 'Sent ¥30 demo gift'); }} style={{ fontSize: 11, padding: '5px 10px', background: '#0A0908', color: '#fecc2a', border: 'none', borderRadius: 6, cursor: 'pointer' }}>Send ¥30 Gift</button>
-            <button onClick={() => { placeEatsOrder('Demo Wok', 'Lunch Special', 25); info('Eats', 'Quick order placed'); }} style={{ fontSize: 11, padding: '5px 10px', background: '#0A0908', color: '#fecc2a', border: 'none', borderRadius: 6, cursor: 'pointer' }}>Quick Eats Order</button>
+            <button onClick={() => { placeEatsOrder('Demo Wok', 'Lunch Special', 25); info('Eats', 'Quick order placed'); }} style={{ fontSize: 11, padding: '5px 10px', background: '#0A0908', color: '#fecc2a', border: 'none', borderRadius: 6, cursor: 'pointer' }}>快捷外卖下单</button>
           </div>
           <div style={{ fontSize: 10, color: '#959595', marginTop: 6 }}>Actions update shared DemoState (visible on Profile too)</div>
         </div>

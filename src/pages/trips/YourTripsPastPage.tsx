@@ -44,10 +44,10 @@ const YourTripsPastPage: React.FC<Props> = ({ onNavigate }) => {
         <div className={styles.titleBar}>
           <div className={styles.backGroup}>
             <span className={styles.backIcon} onClick={goBack}>←</span>
-            <span className={styles.title}>Your trips</span>
+            <span className={styles.title}>我的行程</span>
           </div>
           <div className={styles.filterBtn} onClick={switchToUpcoming}>
-            <span>Past</span> <span>▼</span>
+            <span>历史</span> <span>▼</span>
           </div>
         </div>
 
@@ -69,8 +69,8 @@ const YourTripsPastPage: React.FC<Props> = ({ onNavigate }) => {
                 key={trip.id || idx}
                 status="completed"
                 title={`${trip.vehicle || 'Ride'} to ${trip.to}`}
-                time={`${trip.eta || 'Today'} · ${trip.from || ''} → ${trip.to}`}
-                from={trip.from || 'Pickup'}
+                time={`${trip.eta || '今天'} · ${trip.from || ''} → ${trip.to}`}
+                from={trip.from || '上车点'}
                 to={trip.to}
                 price={trip.price ? String(trip.price) : undefined}
                 driver={trip.driver}
@@ -102,7 +102,7 @@ const YourTripsPastPage: React.FC<Props> = ({ onNavigate }) => {
           <div className={styles.tripPrice}>${(pastTrips[0]?.price || activeTrip?.price || 17)}.00</div>
         </div>
         <div className={styles.vehicleRow}>
-          <div className={styles.vehicleInfo}>{(pastTrips[0]?.vehicle || activeTrip?.vehicle || 'Toyota Camry')} - 9HTR789{pastTrips[0]?.driver ? ` · ${pastTrips[0].driver}` : ''}</div>
+          <div className={styles.vehicleInfo}>{(pastTrips[0]?.vehicle || activeTrip?.vehicle || '丰田凯美瑞')} - 9HTR789{pastTrips[0]?.driver ? ` · ${pastTrips[0].driver}` : ''}</div>
           <div className={styles.stars}>{Array.from({length:5}).map((_,i)=><span key={i} className={styles.star}>★</span>)}</div>
         </div>
 
@@ -125,7 +125,7 @@ const YourTripsPastPage: React.FC<Props> = ({ onNavigate }) => {
           <div className={styles.tripTime}>Today, 3:41 pm&nbsp;</div>
           <div className={styles.tripPrice}>$0.00</div>
         </div>
-        <div className={styles.canceled}>Canceled</div>
+        <div className={styles.canceled}>已取消</div>
 
         <div className={styles.mapArea} style={{marginTop:16}}>
           <div className={styles.mapGrid} />

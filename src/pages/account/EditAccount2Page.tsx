@@ -11,7 +11,7 @@ interface EditAccount2PageProps {
 const EditAccount2Page: React.FC<EditAccount2PageProps> = ({ onNavigate }) => {
   const { user, setUser, addRecentAction } = useDemoState();
   const { error, success, info } = useToast();
-  const [firstName, setFirstName] = useState(user.name.split(' ')[0] || 'Push');
+  const [firstName, setFirstName] = useState(user.name.split(' ')[0] || '推送');
   const [isShift, setIsShift] = useState(false);
 
   const addChar = (char: string) => {
@@ -54,13 +54,13 @@ const EditAccount2Page: React.FC<EditAccount2PageProps> = ({ onNavigate }) => {
 
       <div className={styles.editContainer}>
         <TopNav
-          title="Edit account"
+          title="编辑账户"
           onBack={() => { addRecentAction('Back from edit account 2'); onNavigate?.('account-edit1'); }}
           rightAction={<span onClick={() => { addRecentAction('Closed edit account 2'); onNavigate?.('account-edit1'); }} style={{ cursor: 'pointer' }}>✕</span>}
         />
 
         <div className={styles.inputSection}>
-          <div className={styles.fieldLabel}>First name</div>
+          <div className={styles.fieldLabel}>名</div>
           <div className={styles.inputContainer}>
             <input
               className={styles.inputValue}

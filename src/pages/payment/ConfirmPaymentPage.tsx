@@ -35,11 +35,11 @@ const ConfirmPaymentPage: React.FC<ConfirmPaymentPageProps> = ({ onNavigate }) =
 
           <div className={styles.header}>
             <div onClick={() => onNavigate?.('payment-select')} style={{ fontSize: 22, cursor: 'pointer' }}>←</div>
-            <div className={styles.helpBtn}>Help</div>
+            <div className={styles.helpBtn}>帮助</div>
           </div>
 
           <div className={styles.confirmCard}>
-            <div style={{ fontWeight: 500, fontSize: 16 }}>Confirm price</div>
+            <div style={{ fontWeight: 500, fontSize: 16 }}>确认价格</div>
             <div className={styles.price}>$3.00 to reserve</div>
             <div style={{ fontSize: 13, color: '#49493d' }}>Save up to 15% on all routes when you ride with Gody and Pool in the San Francisco metropolitan area.</div>
 
@@ -50,7 +50,7 @@ const ConfirmPaymentPage: React.FC<ConfirmPaymentPageProps> = ({ onNavigate }) =
                 <div style={{ background: '#fecc2a', color: '#0A0908', padding: '2px 8px', borderRadius: 3, fontSize: 10, fontWeight: 700 }}>GODY</div>
               )}
               <div style={{ marginLeft: 12, fontWeight: 700 }}>{selectedPayment.label}</div>
-              <div style={{ marginLeft: 'auto', color: '#fecc2a', fontSize: 14 }}>Change</div>
+              <div style={{ marginLeft: 'auto', color: '#fecc2a', fontSize: 14 }}>更改</div>
             </div>
 
             <button className={styles.confirmBtn} onClick={confirm}>

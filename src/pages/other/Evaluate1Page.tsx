@@ -27,7 +27,7 @@ const Evaluate1Page: React.FC<Evaluate1PageProps> = ({ onNavigate }) => {
           updateTripStatus(latest.id, 'completed', { paid: true });
         }
         addRecentAction(`Submitted ${r}-star review + archived trip to ${latest.to}`);
-        success('Thanks! Trip archived.', `Review for trip to ${latest.to} saved • visible in bookedTrips + past trips`);
+        success('感谢评价！行程已归档。', `Review for trip to ${latest.to} saved • visible in bookedTrips + past trips`);
         setTimeout(() => {
           onNavigate?.('trips-past');
         }, 650);
@@ -43,7 +43,7 @@ const Evaluate1Page: React.FC<Evaluate1PageProps> = ({ onNavigate }) => {
 
       <div style={{ padding: '24px 24px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <span style={{ fontSize: 20, cursor: 'pointer' }} onClick={() => onNavigate?.('trips-hub')}>←</span>
-        <span style={{ fontSize: 18, fontWeight: 500 }}>Tuesday to Apple Union Square</span>
+        <span style={{ fontSize: 18, fontWeight: 500 }}>周二 · 苹果联合广场</span>
       </div>
 
       <div className={styles.ratingCard}>
@@ -63,7 +63,7 @@ const Evaluate1Page: React.FC<Evaluate1PageProps> = ({ onNavigate }) => {
         </div>
 
         <div className={styles.complimentBtn} onClick={() => success('赞美', '打开赞美选项（演示）')}>
-          👥 <span>Give a compliment</span>
+          👥 <span>给予好评</span>
         </div>
       </div>
 

@@ -56,7 +56,7 @@ const TripDetailHelpPage: React.FC<Props> = ({ onNavigate }) => {
       <div className={styles.container}>
         <div className={styles.titleBar}>
           <span className={styles.backIcon} onClick={goBack}>←</span>
-          <span className={styles.title}>Trips detail</span>
+          <span className={styles.title}>行程详情</span>
         </div>
 
         <div className={styles.locationSection}>
@@ -66,44 +66,44 @@ const TripDetailHelpPage: React.FC<Props> = ({ onNavigate }) => {
             <span style={{ fontSize: 16 }}>📍</span>
           </div>
           <div>
-            <div className={styles.locInput}>{activeTrip?.to || 'Apple Union Square'}</div>
-            <div className={styles.locInput}>{activeTrip?.from || 'San Francisco International Airport'}</div>
+            <div className={styles.locInput}>{activeTrip?.to || '苹果联合广场'}</div>
+            <div className={styles.locInput}>{activeTrip?.from || '旧金山国际机场'}</div>
           </div>
         </div>
 
         <div className={styles.ratingRow}>
           <div className={styles.avatar}>👤</div>
-          <div className={styles.ratingLabel}>You rated Push</div>
+          <div className={styles.ratingLabel}>您已评价 Push</div>
           <div className={styles.ratingStars}>{Array.from({length:5}).map((_,i)=><span key={i} style={{color:'#fecc2a'}}>★</span>)}</div>
         </div>
 
-        <div className={styles.helpLink} onClick={() => info('帮助', '打开帮助中心 (demo)')}>Need help with this trip?</div>
+        <div className={styles.helpLink} onClick={() => info('帮助', '打开帮助中心 (demo)')}>需要本次行程的帮助吗？</div>
 
         <div className={styles.actionRow}>
           <div className={styles.actionCard} onClick={() => { addRecentAction('Switched payment from help page'); success('支付', 'Switch payment (demo)'); }}>
-            <div style={{fontWeight:500}}>Switch payment method</div>
+            <div style={{fontWeight:500}}>切换支付方式</div>
             <div style={{fontSize:14,color:'#959595',marginTop:12}}>I want to switch my payment method for this trip.</div>
           </div>
           <div className={styles.actionCard} onClick={() => { addRecentAction('Opened payment from help'); onNavigate?.('payment-select'); }}>
-            <div style={{fontWeight:500}}>Switch payment method</div>
+            <div style={{fontWeight:500}}>切换支付方式</div>
             <div style={{fontSize:14,color:'#959595',marginTop:12}}>I want to switch my payment method for this trip.</div>
           </div>
         </div>
 
         {/* Help / Receipt */}
         <div className={styles.helpReceiptRow}>
-          <div className={styles.helpBtn} onClick={() => { addRecentAction('Opened help center from trip'); info('帮助中心', 'Help center opened (demo)'); }}>Help</div>
-          <div className={styles.receiptBtn} onClick={() => { addRecentAction('Downloaded receipt'); success('收据', 'Receipt downloaded (demo)'); }}>Receipt</div>
+          <div className={styles.helpBtn} onClick={() => { addRecentAction('Opened help center from trip'); info('帮助中心', 'Help center opened (demo)'); }}>帮助</div>
+          <div className={styles.receiptBtn} onClick={() => { addRecentAction('Downloaded receipt'); success('收据', 'Receipt downloaded (demo)'); }}>收据</div>
         </div>
 
         {/* Help options */}
-        <div className={styles.helpOption} onClick={() => handleHelpOption('I was involved in accident')}>
+        <div className={styles.helpOption} onClick={() => handleHelpOption('发生了事故')}>
           I was involved in accident <span>→</span>
         </div>
-        <div className={styles.helpOption} onClick={() => handleHelpOption('Review my fare or fees')}>Review my fare or fees</div>
-        <div className={styles.helpOption} onClick={() => handleHelpOption('I lost an item')}>I lost an item</div>
-        <div className={styles.helpOption} onClick={() => handleHelpOption('My driver was unprofessional')}>My driver was unprofessional</div>
-        <div className={styles.helpOption} onClick={() => handleHelpOption('My vehicle wasn\'t what I expected')}>My vehicle wasn't what I expected</div>
+        <div className={styles.helpOption} onClick={() => handleHelpOption('查看车费明细')}>查看车费明细</div>
+        <div className={styles.helpOption} onClick={() => handleHelpOption('我遗失了物品')}>我遗失了物品</div>
+        <div className={styles.helpOption} onClick={() => handleHelpOption('司机态度不专业')}>司机态度不专业</div>
+        <div className={styles.helpOption} onClick={() => handleHelpOption('My vehicle wasn\'t what I expected')}>车辆与预期不符</div>
 
         {/* NEW: functional Cancel/Complete/Status mutation buttons in Help detail (leverage APIs, ensure past list population) */}
         <div style={{ padding: '16px 24px 8px', background: '#fafaf8', margin: '12px 0 0' }}>
@@ -111,8 +111,8 @@ const TripDetailHelpPage: React.FC<Props> = ({ onNavigate }) => {
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <button onClick={handleCompleteFromHelp} style={{ flex: '1 1 45%', padding: '10px 12px', fontSize: 13, background: '#4caf50', color: '#fff', border: 'none', borderRadius: 10, cursor: 'pointer' }}>✓ Complete trip</button>
             <button onClick={handleCancelFromHelp} style={{ flex: '1 1 45%', padding: '10px 12px', fontSize: 13, background: '#c62828', color: '#fff', border: 'none', borderRadius: 10, cursor: 'pointer' }}>✕ Cancel trip</button>
-            <button onClick={() => handleUpdateStatusFromHelp('in-progress')} style={{ flex: '1 1 45%', padding: '8px 12px', fontSize: 12, background: '#fff', border: '1px solid #fecc2a', borderRadius: 10, cursor: 'pointer' }}>Set In-Progress</button>
-            <button onClick={() => handleUpdateStatusFromHelp('upcoming')} style={{ flex: '1 1 45%', padding: '8px 12px', fontSize: 12, background: '#fff', border: '1px solid #fecc2a', borderRadius: 10, cursor: 'pointer' }}>Set Upcoming</button>
+            <button onClick={() => handleUpdateStatusFromHelp('in-progress')} style={{ flex: '1 1 45%', padding: '8px 12px', fontSize: 12, background: '#fff', border: '1px solid #fecc2a', borderRadius: 10, cursor: 'pointer' }}>设为进行中</button>
+            <button onClick={() => handleUpdateStatusFromHelp('upcoming')} style={{ flex: '1 1 45%', padding: '8px 12px', fontSize: 12, background: '#fff', border: '1px solid #fecc2a', borderRadius: 10, cursor: 'pointer' }}>设为即将开始</button>
           </div>
           {activeTrip && <div style={{ fontSize: 10, marginTop: 6, color: '#6E6A61' }}>Current: {activeTrip.to} ({activeTrip.status}) | total booked: {bookedTrips.length}</div>}
           {bookedTrips.filter(t=>t.status==='completed').length > 0 && (

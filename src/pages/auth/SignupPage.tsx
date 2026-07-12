@@ -43,14 +43,14 @@ const SignupPage: React.FC<SignupPageProps> = ({ onNavigate }) => {
     const original = btn?.innerHTML;
 
     if (btn) {
-      btn.innerHTML = '<span class="send-text">Sending...</span>';
+      btn.innerHTML = '<span class="send-text">发送中...</span>';
       btn.setAttribute('disabled', 'true');
     }
 
     setTimeout(() => {
       _success('验证码已发送', `已发送到 +44 ${formatPhone(digits)}`);
       if (btn) {
-        btn.innerHTML = original || '<span class="send-text">Send</span>';
+        btn.innerHTML = original || '<span class="send-text">发送</span>';
         btn.removeAttribute('disabled');
       }
       // Demo integration: set user from signup phone + log + auto-nav to home
@@ -97,11 +97,11 @@ const SignupPage: React.FC<SignupPageProps> = ({ onNavigate }) => {
       {/* 头部导航 */}
       <div className={styles.header}>
         <div className={styles.backButton} onClick={handleBack} role="button">←</div>
-        <div className={styles.headerTitle}>Sign up</div>
+        <div className={styles.headerTitle}>注册</div>
       </div>
 
       {/* 提示文字 */}
-      <p className={styles.instructionText}>Enter your mobile number</p>
+      <p className={styles.instructionText}>请输入手机号</p>
 
       {/* 手机号输入区域 (display only, controlled by custom keyboard) */}
       <div className={styles.phoneInputSection}>
@@ -120,7 +120,7 @@ const SignupPage: React.FC<SignupPageProps> = ({ onNavigate }) => {
 
       {/* 发送按钮 */}
       <button className={styles.sendButton} onClick={sendVerification} type="button">
-        <span className={styles.sendText}>Send</span>
+        <span className={styles.sendText}>发送</span>
       </button>
 
       {/* 提示信息 */}
@@ -160,7 +160,7 @@ const SignupPage: React.FC<SignupPageProps> = ({ onNavigate }) => {
             className={`${styles.key} ${styles.keyWide}`}
             onClick={deleteNumber}
             role="button"
-            aria-label="Delete"
+            aria-label="删除"
           >
             <div className={styles.keyDelete}>⌫</div>
           </div>
