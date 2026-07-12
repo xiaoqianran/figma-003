@@ -112,7 +112,7 @@ const SchedulePage: React.FC<SchedulePageProps> = ({ onNavigate }) => {
         <div className={styles.dragHandle} onClick={() => info('提示', '拖拽手势提示（演示）')} />
 
         <h2 className={styles.modalTitle}>预约行程</h2>
-        <p className={styles.modalSubtitle}>Tue, 24 Sep</p>
+        <p className={styles.modalSubtitle}>9 月 24 日 周二</p>
         <p className={styles.modalTime}>{updateDisplay()}</p>
 
         <div className={styles.datetimePicker}>

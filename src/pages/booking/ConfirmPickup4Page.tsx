@@ -89,7 +89,7 @@ const ConfirmPickup4Page: React.FC<ConfirmPickup4PageProps> = ({ onNavigate }) =
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '12px 105px 0', minWidth: 165 }}>
-          <p style={{ fontSize: 14, color: '#49493d' }}>Push - 4.93</p>
+          <p style={{ fontSize: 14, color: '#49493d' }}>Push · 4.93</p>
           <span style={{ color: '#fecc2a', fontSize: 10, marginTop: 2 }}>⭐</span>
           <p style={{ fontSize: 14, color: '#49493d' }}>- 3,375 trips</p>
         </div>

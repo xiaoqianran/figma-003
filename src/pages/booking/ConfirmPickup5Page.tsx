@@ -72,7 +72,7 @@ const ConfirmPickup5Page: React.FC<ConfirmPickup5PageProps> = ({ onNavigate }) =
       </div>
 
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', margin: '12px 105px 0', minWidth: 165 }}>
-        <p style={{ fontSize: 14, color: '#49493d' }}>Push - 4.93</p>
+        <p style={{ fontSize: 14, color: '#49493d' }}>Push · 4.93</p>
         <span style={{ color: '#fecc2a', fontSize: 10, marginTop: 2 }}>⭐</span>
         <p style={{ fontSize: 14, color: '#49493d' }}>- 3,375 trips</p>
       </div>
@@ -116,7 +116,7 @@ const ConfirmPickup5Page: React.FC<ConfirmPickup5PageProps> = ({ onNavigate }) =
         <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'linear-gradient(45deg, #667eea, #764ba2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, color: '#fff' }}>👩‍💼</div>
         <div style={{ marginLeft: 12, marginTop: 5 }}>
           <p style={{ fontSize: 16, fontWeight: 500, color: '#49493d' }}>Push Puttichai</p>
-          <p style={{ fontSize: 12, color: '#49493d' }}>Toyota Camry - 9HTR789</p>
+          <p style={{ fontSize: 12, color: '#49493d' }}>丰田凯美瑞 · 9HTR789</p>
         </div>
         <div style={{ marginLeft: 85, width: 48, height: 48, borderRadius: '50%', background: '#f3f3f3', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }} onClick={handleCall}><span style={{ fontSize: 14 }}>📞</span></div>
       </div>
