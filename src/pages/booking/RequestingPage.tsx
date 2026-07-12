@@ -45,12 +45,12 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
           from: 'Sharon 街 51 号',
           to: '苹果联合广场',
           price: 15,
-          eta: '12 min',
+          eta: '12 分钟',
           vehicle: 'GodyX'
         });
-        addRecentAction(`Entered requesting — seeded upcoming trip (id: ${seeded.id})`);
+        addRecentAction(`进入请求司机 — 已植入即将开始行程（id：${seeded.id}）`);
       } else {
-        addRecentAction('Entered requesting page (live driver match simulation active)');
+        addRecentAction('进入请求页（司机匹配模拟中）');
       }
     };
     // Defer to next tick to avoid sync setState in effect
@@ -74,7 +74,7 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
       const driver = driverPool[pingCount % driverPool.length];
       // Realistic approaching: ETA steadily decreases toward pickup
       const baseEta = Math.max(3, 13 - Math.floor(pingCount * 1.7));
-      const etaStr = `${baseEta} min`;
+      const etaStr = `${baseEta} 分钟`;
       const vehicle = 'GodyX';
 
       if (tripId) {
@@ -100,7 +100,7 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
       setCountdown({ min: baseEta, sec: (59 - (pingCount % 35)) });
 
       const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      const pingMsg = `🟢 ${driver} • ${etaStr} away • ${timeStr.slice(0, 8)}`;
+      const pingMsg = `🟢 ${driver} · 距您 ${etaStr} · ${timeStr.slice(0, 8)}`;
       setLivePings(prev => [pingMsg, ...prev].slice(0, 4));
 
       // Visual progress feedback (realistic fill rate for requesting phase)
@@ -142,7 +142,7 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
 
     const tripId = activeTrip?.id;
     const driver = liveDriver || 'Li Ming';
-    const eta = liveEta || '4 min';
+    const eta = liveEta || '4 分钟';
     const vehicle = activeTrip?.vehicle || 'GodyX';
     const from = activeTrip?.from || 'Sharon 街 51 号';
     const to = activeTrip?.to || '苹果联合广场';
@@ -155,8 +155,8 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
     }
 
     const action = isManual
-      ? 'Driver matched — user tapped button (live pings + ETA updates active)'
-      : 'Driver matched — built-in timer reached 0 or pings simulation complete';
+      ? '已匹配司机 — 用户点击确认'
+      : '已匹配司机 — 计时结束或模拟响应完成';
     addRecentAction(action);
     success('司机已接单', `${driver} 正在前往上车点 · ETA ${eta}`);
 
@@ -197,7 +197,7 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
     if (type === 'payment') onNavigate?.('payment-select');
     else {
       // Use only recentActions for secondary actions (non-intrusive observability)
-      addRecentAction(`Action: ${type}`);
+      addRecentAction(`操作：${type}`);
     }
   };
 
@@ -208,7 +208,7 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
   const confirmCancel = () => {
     setShowCancelModal(false);
     setActiveTrip(null);
-    addRecentAction('Cancelled ride request');
+    addRecentAction('已取消叫车请求');
     success('行程已取消', '请求已取消，返回首页');
     onNavigate?.('core-home');
   };
@@ -224,16 +224,16 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
 
       <div className={styles.tripInfoCard}>
         <p className={styles.pickupTime}>
-          <span>Pick up in&nbsp;</span>
+          <span>预计上车&nbsp;</span>
           <span className={styles.timeValue}>{countdown.min}m {countdown.sec}s</span>
         </p>
-        <p className={styles.destination}>To {activeTrip?.to || '苹果联合广场'}</p>
-        <p className={styles.departureInfo}>At {liveEta || activeTrip?.eta || '3:50 PM'} from {activeTrip?.from || 'Sharon 街 51 号'}</p>
+        <p className={styles.destination}>前往 {activeTrip?.to || '苹果联合广场'}</p>
+        <p className={styles.departureInfo}>时间 {liveEta || activeTrip?.eta || '下午 3:50'} · 从 {activeTrip?.from || 'Sharon 街 51 号'}</p>
         <p className={styles.priceRange}>${activeTrip?.price || '13'}-{activeTrip?.price ? Math.round(activeTrip.price + 3) : '16'}</p>
         {/* Live driver indicator (appears after first ping for visual feedback) */}
         {(liveDriver || activeTrip?.driver) && (
           <p style={{ margin: '8px 0 0', fontSize: 12, color: '#00b894', fontWeight: 500 }}>
-            🚕 {(liveDriver || activeTrip?.driver)} en route — live update
+            🚕 {(liveDriver || activeTrip?.driver)} 正在赶来 — 实时更新
           </p>
         )}
       </div>
@@ -242,7 +242,7 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
       <div className={styles.liveUpdatesCard}>
         <div className={styles.liveHeader}>
           <span className={styles.liveDot} />
-          <span>LIVE DRIVER PINGS — {progress > 5 ? `${Math.floor(progress)}% matched` : '正在向附近司机广播...'}</span>
+          <span>实时司机响应 — {progress > 5 ? `${Math.floor(progress)}% 已匹配` : '正在向附近司机广播...'}</span>
         </div>
         <div className={styles.progressBar}>
           <div className={styles.progressFill} style={{ width: `${progress}%` }} />
@@ -312,7 +312,7 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
             border: '1px solid #fecc2a', borderRadius: 999, fontSize: 13, fontWeight: 600, cursor: 'pointer'
           }}
         >
-          ✓ 模拟司机接单 (Driver matched)
+          ✓ 模拟司机接单 (Driver 已匹配)
         </button>
       </div>
 

@@ -29,7 +29,7 @@ export const Modal: React.FC<ModalProps> = ({
         onClick={onClose}
         className="gody-modal-btn gody-modal-btn--ghost"
       >
-        {cancelText || 'Cancel'}
+        {cancelText || '取消'}
       </button>
       <button
         type="button"
@@ -38,7 +38,7 @@ export const Modal: React.FC<ModalProps> = ({
         }}
         className={`gody-modal-btn ${destructive ? 'gody-modal-btn--danger' : 'gody-modal-btn--primary'}`}
       >
-        {confirmText || 'Confirm'}
+        {confirmText || '确认'}
       </button>
     </div>
   ) : null;
@@ -54,7 +54,7 @@ export const Modal: React.FC<ModalProps> = ({
         onClick={e => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
-        aria-label={title || 'Dialog'}
+        aria-label={title || '对话框'}
         style={{ width }}
       >
         {title && (

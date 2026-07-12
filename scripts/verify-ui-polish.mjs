@@ -108,7 +108,97 @@ assert(trips.includes('TripCard'), 'Trips TripCard')
 const main = read('src/main.tsx')
 assert(main.includes('ToastProvider') && main.includes('HashRouter'), 'main providers')
 
-const summary = { passed: passes.length, failed: failures.length, passes, failures }
+// --- 6. Pages: no stray English UI text nodes (allow brand/name tokens only) ---
+const ALLOW_EXACT = new Set([
+  'GodyX', 'GODY', 'Gody', 'VISA', 'Visa', 'Gody Black', 'Comfort XL', 'Gody Cash', 'Gody pass', 'Gody Pass',
+  'Push Puttichai', 'Alex Chen', 'Wi-Fi', 'Wi‑Fi', 'Facebook', 'Twitter', 'Google', 'Eats', 'Pool',
+  'Push · 4.93', 'Jack · 4.93', '9HTR789', 'Push', 'Jack', 'John', 'Sarah',
+  'Gody Eats', 'demo.user@gody.example',
+  '🚗 GodyX', '🍽️ Eats', '🚗 Trips',
+])
+const ALLOW_PREFIX = /^(Push|Jack|Alex|John|Sarah|Gody|GODY|VISA|Visa|NIO|XPeng|Tesla|BYD|Wi|Li |Wang |Chen |Zhao |Sun |Liu )/
+const BANNED_SNIPPETS = [
+  'Schedule a trip',
+  'Need help with this trip',
+  'Manage your profile',
+  'Where are you going',
+  'Good morning',
+  'Welcome back',
+  'Confirm your pick-up',
+  'Requesting',
+  'Your trips',
+  'Book a ride',
+  'Choose a trip',
+  'Switch payment method',
+  'I want to switch my payment',
+  'Relax with real',
+  'You are here',
+  'Logged in:',
+  'Demo Perks',
+  'Seed 3 sample trips',
+  'Create Test Active',
+  'Mark paid',
+  'view in upcoming',
+  'Tap to view',
+  'My Trips Hub',
+]
+const pagesDir = path.join(root, 'src/pages')
+const enNodes = []
+function walk(dir) {
+  for (const name of fs.readdirSync(dir)) {
+    const fp = path.join(dir, name)
+    const st = fs.statSync(fp)
+    if (st.isDirectory()) walk(fp)
+    else if (name.endsWith('.tsx')) {
+      const t = fs.readFileSync(fp, 'utf8')
+      const re = />([^<>{\n]{2,160})</g
+      let m
+      while ((m = re.exec(t))) {
+        let s = m[1].replace(/&nbsp;|&amp;|&lt;|&gt;/g, ' ').replace(/\s+/g, ' ').trim()
+        if (!s || /[\u4e00-\u9fff]/.test(s)) continue
+        if (!/[A-Za-z]{3,}/.test(s)) continue
+        if (/^[\d\s:.\-+%$,¥×·~m]+$/i.test(s)) continue
+        if (ALLOW_EXACT.has(s) || ALLOW_PREFIX.test(s)) continue
+        const core = s.replace(/^[\W\d🚗🍽🎫]+/, '').trim()
+        if (ALLOW_EXACT.has(core) || (core && ALLOW_PREFIX.test(core))) continue
+        if (s.includes('status===') || s.includes('t.status') || s.includes('activeTrip')) continue
+        if (s.startsWith('0 &&')) continue
+        if (s.includes('@') && s.includes('.')) continue // email
+        enNodes.push({ file: path.relative(root, fp), text: s })
+      }
+      for (const snip of BANNED_SNIPPETS) {
+        // Flag only UI contexts on a single line (quoted string or JSX text node).
+        // Skip identifiers (RequestingPage) and comments.
+        const esc = snip.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+        const asQuote = new RegExp("['\"`]" + esc + "(?:['\"`]|[^A-Za-z])", 'i')
+        const asJsx = new RegExp('>[^<{\\n]*' + esc + '[^<{\\n]*<', 'i')
+        const real = t.split('\n').some((line) => {
+          const code = line.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/, '')
+          return asQuote.test(code) || asJsx.test(code)
+        })
+        if (real) enNodes.push({ file: path.relative(root, fp), text: `BANNED_SNIPPET: ${snip}` })
+      }
+    }
+  }
+}
+if (fs.existsSync(pagesDir)) walk(pagesDir)
+assert(enNodes.length === 0, `pages have no disallowed English UI nodes (found ${enNodes.length})`)
+if (enNodes.length) {
+  enNodes.slice(0, 20).forEach((n) => failures.push(`${n.file}: ${n.text}`))
+}
+// status enums must remain English technical values
+const sampleTrip = read('src/pages/trips/YourTripsUpcomingPage.tsx')
+assert(sampleTrip.includes("status === 'upcoming'") || sampleTrip.includes("status === 'in-progress'"), 'trip status enums remain English technical values')
+assert(sampleTrip.includes('我的行程'), 'YourTripsUpcoming uses Chinese title')
+assert(read('src/pages/core/HomePage.tsx').includes('早上好') || read('src/pages/core/HomePage.tsx').includes('您要去哪里'), 'Home Chinese labels')
+assert(read('src/pages/auth/LoginPage.tsx').includes('欢迎回来') || read('src/pages/auth/LoginPage.tsx').includes('继续'), 'Login Chinese labels')
+assert(read('src/pages/booking/ChooseCarPage.tsx').includes('选择出行方式') || read('src/pages/booking/ChooseCarPage.tsx').includes('预约'), 'ChooseCar Chinese labels')
+assert(read('src/pages/booking/RequestingPage.tsx').includes('请求司机') || read('src/pages/booking/RequestingPage.tsx').includes('预计上车'), 'Requesting Chinese labels')
+assert(read('src/pages/account/AccountIndexPage.tsx').includes('账户') || read('src/pages/account/AccountIndexPage.tsx').includes('已登录'), 'Account Chinese labels')
+assert(read('src/pages/payment/SelectPaymentPage.tsx').length > 100, 'SelectPayment page present')
+assert(read('src/pages/map/MapHomePage.tsx').includes('进行中') || read('src/pages/map/MapHomePage.tsx').includes('行程'), 'MapHome Chinese labels')
+
+const summary = { passed: passes.length, failed: failures.length, passes, failures, enNodesSample: enNodes.slice(0, 10) }
 console.log('=== ui-ux-pro-max GODY Studio verification ===')
 console.log(`PASS: ${passes.length}`)
 console.log(`FAIL: ${failures.length}`)

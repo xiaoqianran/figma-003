@@ -24,7 +24,7 @@ const Evaluate2Page: React.FC<Evaluate2PageProps> = ({ onNavigate }) => {
         } else {
           updateTripStatus(latest.id, 'completed', { paid: true });
         }
-        addRecentAction(`Submitted ${r}-star review for trip to ${latest.to} (Evaluate2)`);
+        addRecentAction(`已为前往 ${latest.to} 的行程提交 ${r} 星评价（评价页 2）`);
       }
 
       if (r >= 4) {
@@ -36,7 +36,7 @@ const Evaluate2Page: React.FC<Evaluate2PageProps> = ({ onNavigate }) => {
       } else {
         success('感谢反馈', `您给出了 ${r} 星评价，感谢您的反馈！`);
         if (latest) {
-          success('感谢评价！行程已归档。', `Trip to ${latest.to} archived via review`);
+          success('感谢评价！行程已归档。', `前往 ${latest.to} 的行程已通过评价归档`);
         }
         setTimeout(() => {
           onNavigate?.('trips-past');

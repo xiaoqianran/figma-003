@@ -39,8 +39,8 @@ const EditAccount2Page: React.FC<EditAccount2PageProps> = ({ onNavigate }) => {
     }
     const newFull = `${firstName.trim()} ${user.name.split(' ').slice(1).join(' ') || 'Chen'}`.trim();
     setUser({ name: newFull });
-    addRecentAction(`Updated name to ${newFull}`);
-    success('名字已更新', `名字已更新为: ${firstName} (demo state synced)`);
+    addRecentAction(`姓名已更新为 ${newFull}`);
+    success('名字已更新', `名字已更新为：${firstName}（演示状态已同步）`);
     onNavigate?.('account-edit1');
   };
 
@@ -55,8 +55,8 @@ const EditAccount2Page: React.FC<EditAccount2PageProps> = ({ onNavigate }) => {
       <div className={styles.editContainer}>
         <TopNav
           title="编辑账户"
-          onBack={() => { addRecentAction('Back from edit account 2'); onNavigate?.('account-edit1'); }}
-          rightAction={<span onClick={() => { addRecentAction('Closed edit account 2'); onNavigate?.('account-edit1'); }} style={{ cursor: 'pointer' }}>✕</span>}
+          onBack={() => { addRecentAction('从编辑账户 2 返回'); onNavigate?.('account-edit1'); }}
+          rightAction={<span onClick={() => { addRecentAction('已关闭编辑账户 2'); onNavigate?.('account-edit1'); }} style={{ cursor: 'pointer' }}>✕</span>}
         />
 
         <div className={styles.inputSection}>
@@ -66,7 +66,7 @@ const EditAccount2Page: React.FC<EditAccount2PageProps> = ({ onNavigate }) => {
               className={styles.inputValue}
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              placeholder="Enter name"
+              placeholder="输入姓名"
             />
             <span className={styles.clearBtn} onClick={clearInput}>✕</span>
           </div>
@@ -74,7 +74,7 @@ const EditAccount2Page: React.FC<EditAccount2PageProps> = ({ onNavigate }) => {
         </div>
 
         <div className={styles.updateBtn} onClick={updateName}>
-          Update first name
+          更新名字
         </div>
 
         {/* Virtual Keyboard */}
@@ -101,8 +101,8 @@ const EditAccount2Page: React.FC<EditAccount2PageProps> = ({ onNavigate }) => {
 
           <div className={styles.specialRow}>
             <div className={styles.specialKey} onClick={() => info('键盘', '数字键盘 (demo)')}>123</div>
-            <div className={`${styles.specialKey} ${styles.space}`} onClick={() => setFirstName(p => p + ' ')}>space</div>
-            <div className={`${styles.specialKey} ${styles.return}`} onClick={updateName}>return</div>
+            <div className={`${styles.specialKey} ${styles.space}`} onClick={() => setFirstName(p => p + ' ')}>空格</div>
+            <div className={`${styles.specialKey} ${styles.return}`} onClick={updateName}>回车</div>
           </div>
         </div>
 

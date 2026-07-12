@@ -14,12 +14,12 @@ const ConfirmPickup1Page: React.FC<ConfirmPickup1PageProps> = ({ onNavigate }) =
   const [addressOpacity, setAddressOpacity] = useState(1);
 
   const handleBack = () => {
-    addRecentAction('Back from confirm pickup 1');
+    addRecentAction('从确认上车点 1 返回');
     onNavigate?.('booking-choose-trip1');
   };
 
   const handleSearch = () => {
-    addRecentAction('Search location in pickup confirm');
+    addRecentAction('在确认上车中搜索位置');
     setAddressOpacity(0.5);
     setTimeout(() => {
       setAddressOpacity(1);
@@ -28,7 +28,7 @@ const ConfirmPickup1Page: React.FC<ConfirmPickup1PageProps> = ({ onNavigate }) =
   };
 
   const handleConfirm = () => {
-    addRecentAction('Confirmed pickup point');
+    addRecentAction('已确认上车点');
     setConfirming(true);
     setTimeout(() => {
       setConfirming(false);
@@ -37,18 +37,18 @@ const ConfirmPickup1Page: React.FC<ConfirmPickup1PageProps> = ({ onNavigate }) =
       if (tripId) {
         updateTripStatus(tripId, activeTrip?.status || 'upcoming', {
           from: 'Sharon 街 51 号（已确认上车点）',
-          eta: activeTrip?.eta ? `${activeTrip.eta} • pickup locked` : '上车点已确认'
+          eta: activeTrip?.eta ? `${activeTrip.eta} · 上车点已锁定` : '上车点已确认'
         });
-        addRecentAction('Confirmed pickup location — updated via updateTripStatus');
+        addRecentAction('已确认上车位置 — 状态已更新');
       } else {
         bookTrip({
           status: 'upcoming',
-          from: '51 Sharon St (confirmed)',
+          from: 'Sharon 街 51 号（已确认）',
           to: '苹果联合广场',
           eta: '3:50 PM',
           price: 16
         });
-        addRecentAction('Confirmed pickup location — seeded via bookTrip (no prior active)');
+        addRecentAction('已确认上车位置 — 已创建行程');
       }
       onNavigate?.('booking-confirm-pickup2');
     }, 1450);

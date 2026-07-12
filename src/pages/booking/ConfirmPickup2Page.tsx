@@ -11,20 +11,20 @@ const ConfirmPickup2Page: React.FC<ConfirmPickup2PageProps> = ({ onNavigate }) =
   const { activeTrip, addRecentAction, bookTrip, updateTripStatus } = useDemoState();
   const { info } = useToast_();
   const handleBack = () => {
-    addRecentAction('Back from pickup confirm 2');
+    addRecentAction('从确认上车点 2 返回');
     onNavigate?.('booking-confirm-pickup1');
   };
 
   const handleSelect = (type: string) => {
-    addRecentAction(`Selected pickup option: ${type}`);
+    addRecentAction(`已选择上车选项：${type}`);
     // Drive state on selection/confirm in pickup2
     const tripId = activeTrip?.id;
     if (tripId) {
-      updateTripStatus(tripId, activeTrip.status || 'upcoming', { eta: type === 'ride-pack' ? '已选择行程包' : '$14 no-ride option' });
-      addRecentAction(`Pickup2 selection — mutated via updateTripStatus (${type})`);
+      updateTripStatus(tripId, activeTrip.status || 'upcoming', { eta: type === 'ride-pack' ? '已选择行程包' : '$14 不叫车选项' });
+      addRecentAction(`上车选项 2 — 已通过 updateTripStatus 更新（${type}）`);
     } else if (type === 'ride-pack') {
       bookTrip({ status: 'upcoming', from: 'Sharon 街 51 号', to: '苹果联合广场', eta: '行程包', price: 13 });
-      addRecentAction('Pickup2 ride-pack selected — via bookTrip');
+      addRecentAction('已选择行程包');
     }
     if (type === 'ride-pack') {
       onNavigate?.('booking-confirm-pickup3');

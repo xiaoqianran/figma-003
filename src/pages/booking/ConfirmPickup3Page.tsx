@@ -11,30 +11,30 @@ const ConfirmPickup3Page: React.FC<ConfirmPickup3PageProps> = ({ onNavigate }) =
   const { activeTrip, addRecentAction, bookTrip, updateTripStatus } = useDemoState();
   const { info } = useToast();
   const handleBack = () => {
-    addRecentAction('Back from pickup confirm 3');
+    addRecentAction('从确认上车点 3 返回');
     onNavigate?.('booking-confirm-pickup2');
   };
 
-  const handleEdit = () => { addRecentAction('Edit pickup point'); info('上车点', '编辑上车点 (demo)'); };
+  const handleEdit = () => { addRecentAction('编辑上车点'); info('上车点', '编辑上车点 (demo)'); };
   const handleLocate = () => {
-    addRecentAction('Locate on pickup confirm');
+    addRecentAction('在确认上车页定位');
     // Mutate state on locate (confirm location action)
     if (activeTrip?.id) {
-      updateTripStatus(activeTrip.id, activeTrip.status || 'upcoming', { eta: 'Locating • ETA updated' });
-      addRecentAction('Pickup location confirmed via locate — updateTripStatus');
+      updateTripStatus(activeTrip.id, activeTrip.status || 'upcoming', { eta: '定位中 · ETA 已更新' });
+      addRecentAction('通过定位确认上车位置');
     }
     info('定位', '正在获取当前位置... (demo)');
   };
   const handleCall = () => {
-    addRecentAction('Call driver from pickup');
+    addRecentAction('从上车页呼叫司机');
     // Key driver call action: attach driver info + progress status (defensive if trip exists)
     const tripId = activeTrip?.id;
     if (tripId) {
-      updateTripStatus(tripId, 'in-progress', { driver: 'Jack（丰田凯美瑞 9HTR789）', eta: '2 min away' });
-      addRecentAction('Driver called — status + driver info via updateTripStatus');
+      updateTripStatus(tripId, 'in-progress', { driver: 'Jack（丰田凯美瑞 9HTR789）', eta: '约 2 分钟' });
+      addRecentAction('已呼叫司机 — 状态与司机信息已更新');
     } else {
-      bookTrip({ status: 'in-progress', from: '旧金山国际机场', to: '苹果联合广场', driver: 'Jack', vehicle: '丰田凯美瑞', eta: '2 min' });
-      addRecentAction('Driver called — seeded trip via bookTrip');
+      bookTrip({ status: 'in-progress', from: '旧金山国际机场', to: '苹果联合广场', driver: 'Jack', vehicle: '丰田凯美瑞', eta: '2 分钟' });
+      addRecentAction('已呼叫司机 — 已创建行程');
     }
     info('电话', '正在拨打司机电话... (demo)');
   };
@@ -100,7 +100,7 @@ const ConfirmPickup3Page: React.FC<ConfirmPickup3PageProps> = ({ onNavigate }) =
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '12px 105px 0', minWidth: 165, height: 20 }}>
           <p style={{ fontSize: 14, color: '#49493d' }}>Jack · 4.93</p>
           <span style={{ color: '#fecc2a', fontSize: 10 }}>⭐</span>
-          <p style={{ fontSize: 14, color: '#49493d' }}>- 3,375 trips</p>
+          <p style={{ fontSize: 14, color: '#49493d' }}>- 3,375 次行程</p>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 20, padding: '0 24px' }}>

@@ -13,39 +13,39 @@ const ConfirmPickup5Page: React.FC<ConfirmPickup5PageProps> = ({ onNavigate }) =
   const { info, success } = useToast();
   const [showCancelModal, setShowCancelModal] = useState(false);
 
-  const handleBack = () => { addRecentAction('Back from confirm pickup 5'); onNavigate?.('booking-confirm-pickup4'); };
+  const handleBack = () => { addRecentAction('从确认上车点 5 返回'); onNavigate?.('booking-confirm-pickup4'); };
   const handleCall = () => {
-    addRecentAction('Called driver from pickup 5');
+    addRecentAction('已呼叫司机（上车 5）');
     // Driver call: attach driver + progress the trip state (defensive)
     const tripId = activeTrip?.id;
     if (tripId) {
-      updateTripStatus(tripId, 'in-progress', { driver: 'Push Puttichai · 丰田凯美瑞', eta: '1 min' });
-      addRecentAction('Driver call from Confirm5 — driver/ETA via updateTripStatus');
+      updateTripStatus(tripId, 'in-progress', { driver: 'Push Puttichai · 丰田凯美瑞', eta: '1 分钟' });
+      addRecentAction('从确认5呼叫司机 — 已更新司机/ETA');
     } else {
-      bookTrip({ status: 'in-progress', from: 'Pickup 5', to: '苹果联合广场', driver: '推送', vehicle: '丰田凯美瑞', eta: '1 min', price: 14 });
-      addRecentAction('Driver call from Confirm5 — seeded via bookTrip');
+      bookTrip({ status: 'in-progress', from: '上车确认 5', to: '苹果联合广场', driver: '推送', vehicle: '丰田凯美瑞', eta: '1 分钟', price: 14 });
+      addRecentAction('从确认 5 呼叫司机 — 已创建行程');
     }
     info('拨打司机', '正在拨打司机电话...（演示）');
   };
-  const handleSun = () => { addRecentAction('Toggled sunlight mode'); info('日光模式', '已切换日光模式（演示）'); };
-  const handleOption = (label: string) => { addRecentAction(`Pickup option: ${label}`); info(label, `${label}（演示）`); };
-  const handleCancel = () => { addRecentAction('Opened cancel from pickup 5'); setShowCancelModal(true); };
+  const handleSun = () => { addRecentAction('已切换日照模式'); info('日光模式', '已切换日光模式（演示）'); };
+  const handleOption = (label: string) => { addRecentAction(`上车选项：${label}`); info(label, `${label}（演示）`); };
+  const handleCancel = () => { addRecentAction('从上车确认 5 打开取消'); setShowCancelModal(true); };
   const handleSafety = () => {
-    addRecentAction('Opened safety from pickup 5');
+    addRecentAction('从上车确认 5 打开安全');
     // Key safety confirm action: mark progress + safety note via update (or book fallback)
     const tripId = activeTrip?.id;
     if (tripId) {
       updateTripStatus(tripId, activeTrip?.status || 'in-progress', { eta: '安全确认 · 行程中' });
-      addRecentAction('Safety confirmed — trip status mutated via updateTripStatus');
+      addRecentAction('安全已确认 — 行程状态已更新');
     } else {
-      bookTrip({ status: 'in-progress', from: 'Current pickup', to: '苹果联合广场', eta: 'Safety confirmed', paid: false });
-      addRecentAction('Safety confirmed — trip created via bookTrip');
+      bookTrip({ status: 'in-progress', from: '当前上车点', to: '苹果联合广场', eta: '安全已确认', paid: false });
+      addRecentAction('安全已确认 — 已创建行程');
     }
     info('安全', '打开安全功能（演示）');
   };
 
   const confirmCancel = () => {
-    addRecentAction('Confirmed cancel from pickup 5');
+    addRecentAction('已确认取消（上车 5）');
     setShowCancelModal(false);
     success('行程已取消', '返回首页');
     onNavigate?.('core-home');
@@ -57,7 +57,7 @@ const ConfirmPickup5Page: React.FC<ConfirmPickup5PageProps> = ({ onNavigate }) =
 
       <div style={{ display: 'flex', justifyContent: 'space-between', padding: '24px 228px 32px 24px' }}>
         <span style={{ width: 16, height: 16, cursor: 'pointer', fontSize: 16, color: '#49493d' }} onClick={handleBack}>↑</span>
-        <p style={{ fontSize: 20, fontWeight: 500, color: '#49493d' }}>2 min way</p>
+        <p style={{ fontSize: 20, fontWeight: 500, color: '#49493d' }}>约 2 分钟</p>
       </div>
 
       <p style={{ margin: '12px 0 0 113px', fontSize: 14, fontWeight: 500, color: '#49493d' }}>所有司机均经过审核</p>
@@ -74,7 +74,7 @@ const ConfirmPickup5Page: React.FC<ConfirmPickup5PageProps> = ({ onNavigate }) =
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', margin: '12px 105px 0', minWidth: 165 }}>
         <p style={{ fontSize: 14, color: '#49493d' }}>Push · 4.93</p>
         <span style={{ color: '#fecc2a', fontSize: 10, marginTop: 2 }}>⭐</span>
-        <p style={{ fontSize: 14, color: '#49493d' }}>- 3,375 trips</p>
+        <p style={{ fontSize: 14, color: '#49493d' }}>- 3,375 次行程</p>
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 20, padding: '0 16px 0 24px' }}>
@@ -86,7 +86,7 @@ const ConfirmPickup5Page: React.FC<ConfirmPickup5PageProps> = ({ onNavigate }) =
       {/* Options */}
       {[
         { icon: '🏠', text: '添加家庭地址', action: '添加或更改', onClick: () => handleOption('添加家庭地址') },
-        { icon: '👤', text: '$14', action: '更改', onClick: () => handleOption('Change price') },
+        { icon: '👤', text: '$14', action: '更改', onClick: () => handleOption('更改价格') },
         { icon: '📡', text: '与人同行？', action: '分摊车费', onClick: () => handleOption('分摊车费') },
         { icon: '📍', text: '分享行程状态', action: '分享', onClick: () => handleOption('分享状态') }
       ].map((opt, i) => (

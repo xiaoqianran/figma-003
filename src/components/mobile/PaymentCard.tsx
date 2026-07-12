@@ -6,7 +6,7 @@ export interface PaymentCardProps {
   label?: string;
   selected?: boolean;
   onClick?: () => void;
-  showAdd?: boolean; // for "add payment" variant
+  showAdd?: boolean; // for "添加支付" variant
   children?: React.ReactNode;
   className?: string;
 }
@@ -34,7 +34,7 @@ const PaymentCard: React.FC<PaymentCardProps> = ({
         }}
       >
         <div style={{ color: '#bdbdbd', fontSize: 14, fontWeight: 500 }}>
-          {label || 'Add Payment methods'}
+          {label || '添加支付方式'}
         </div>
       </div>
     );
@@ -56,7 +56,7 @@ const PaymentCard: React.FC<PaymentCardProps> = ({
     return <div style={{ fontSize: 14, color: '#6E6A61' }}>{type.toUpperCase()}</div>;
   };
 
-  const displayLabel = label || (type === 'gody' ? 'Gody Cash' : `···· ${lastDigits}`);
+  const displayLabel = label || (type === 'gody' ? 'Gody 现金' : `···· ${lastDigits}`);
 
   return (
     <div

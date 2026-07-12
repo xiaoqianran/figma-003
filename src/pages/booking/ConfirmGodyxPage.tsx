@@ -12,12 +12,12 @@ const ConfirmGodyxPage: React.FC<ConfirmGodyxPageProps> = ({ onNavigate }) => {
   const [confirming, setConfirming] = useState(false);
 
   const handleBack = () => {
-    addRecentAction('Back from confirm GodyX');
+    addRecentAction('从确认 GodyX 返回');
     onNavigate?.('booking-choose-trip1');
   };
 
   const handlePayment = () => {
-    addRecentAction('Change payment from GodyX confirm');
+    addRecentAction('从 GodyX 确认页更改支付');
     const card = document.querySelector(`.${styles.paymentCard}`) as HTMLElement;
     if (card) {
       card.style.transform = 'scale(0.95)';
@@ -32,7 +32,7 @@ const ConfirmGodyxPage: React.FC<ConfirmGodyxPageProps> = ({ onNavigate }) => {
 
   const handleConfirm = () => {
     setConfirming(true);
-    addRecentAction('Confirmed GodyX premium');
+    addRecentAction('已确认 GodyX 高端服务');
     const btn = document.querySelector(`.${styles.confirmButton}`) as HTMLElement;
     if (btn) {
       btn.style.transform = 'scale(0.95)';
@@ -76,7 +76,7 @@ const ConfirmGodyxPage: React.FC<ConfirmGodyxPageProps> = ({ onNavigate }) => {
                 <p className={styles.ratingText}>4</p>
               </div>
             </div>
-            <p className={styles.vehicleDetails}>4:04pm drop-off</p>
+            <p className={styles.vehicleDetails}>下午 4:04 下车</p>
             <p className={styles.vehicleDescription}>经济实惠，专车独享</p>
           </div>
           <p className={styles.priceInfo}>$17.00</p>
@@ -99,7 +99,7 @@ const ConfirmGodyxPage: React.FC<ConfirmGodyxPageProps> = ({ onNavigate }) => {
 
         {/* 确认按钮 */}
         <div className={styles.confirmButton} onClick={handleConfirm}>
-          <p className={styles.confirmText}>{confirming ? '确认中...' : 'Confirm GodyX'}</p>
+          <p className={styles.confirmText}>{confirming ? '确认中...' : '确认 GodyX'}</p>
         </div>
 
         {/* 底部指示器 */}

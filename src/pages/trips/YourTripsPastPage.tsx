@@ -12,7 +12,7 @@ const YourTripsPastPage: React.FC<Props> = ({ onNavigate }) => {
   const { activeTrip, bookedTrips, setActiveTrip, addRecentAction, updateTripStatus } = useDemoState();
   const goBack = () => onNavigate?.('trips-hub');
   const switchToUpcoming = () => {
-    addRecentAction('Switched to upcoming trips view');
+    addRecentAction('切换到即将开始行程视图');
     onNavigate?.('trips-upcoming');
   };
 
@@ -22,14 +22,14 @@ const YourTripsPastPage: React.FC<Props> = ({ onNavigate }) => {
   const pastTrips = [...pastFromBooked, ...fallbackPast];
 
   const openDetail = (variant: 'completed' | 'cancelled') => {
-    addRecentAction(`Viewed past trip (${variant})`);
+    addRecentAction(`查看了历史行程（${variant}）`);
     if (variant === 'completed') onNavigate?.('trips-detail-completed');
     else onNavigate?.('trips-detail-cancelled');
   };
 
   const viewActiveIfAny = () => {
     if (activeTrip) {
-      addRecentAction('Viewed active trip from past page');
+      addRecentAction('从历史页查看进行中行程');
       onNavigate?.(activeTrip.status === 'completed' ? 'trips-detail-completed' : 'trip-upcoming');
     } else {
       onNavigate?.('trips-upcoming');
@@ -54,7 +54,7 @@ const YourTripsPastPage: React.FC<Props> = ({ onNavigate }) => {
         {/* Live demo state hint */}
         {activeTrip && (
           <div style={{ margin: '0 16px 12px', padding: '8px 12px', background: '#fff8e1', borderRadius: 8, fontSize: 12, color: '#49493d', border: '1px solid #fecc2a' }}>
-            Live: Active trip to <strong>{activeTrip.to}</strong> ({activeTrip.status}) — <span onClick={viewActiveIfAny} style={{ color: '#fecc2a', cursor: 'pointer', textDecoration: 'underline' }}>view in upcoming</span>
+            实时：进行中行程前往 <strong>{activeTrip.to}</strong> ({activeTrip.status}) — <span onClick={viewActiveIfAny} style={{ color: '#fecc2a', cursor: 'pointer', textDecoration: 'underline' }}>查看即将开始</span>
           </div>
         )}
 
@@ -62,13 +62,13 @@ const YourTripsPastPage: React.FC<Props> = ({ onNavigate }) => {
         {pastTrips.length > 0 && (
           <div style={{ padding: '0 8px', marginBottom: 8 }}>
             <div style={{ fontSize: 11, color: '#6E6A61', margin: '0 16px 4px', textAlign: 'center' }}>
-              Your booked past trips ({pastTrips.length}) — tap to view detail
+              您的历史行程（{pastTrips.length}）— 点击查看详情
             </div>
             {pastTrips.map((trip, idx) => (
               <TripCard
                 key={trip.id || idx}
                 status="completed"
-                title={`${trip.vehicle || 'Ride'} to ${trip.to}`}
+                title={`${trip.vehicle || '行程'} 前往 ${trip.to}`}
                 time={`${trip.eta || '今天'} · ${trip.from || ''} → ${trip.to}`}
                 from={trip.from || '上车点'}
                 to={trip.to}
@@ -76,7 +76,7 @@ const YourTripsPastPage: React.FC<Props> = ({ onNavigate }) => {
                 driver={trip.driver}
                 onClick={() => {
                   setActiveTrip(trip);
-                  addRecentAction(`Viewed past trip ${trip.to} from dynamic list`);
+                  addRecentAction(`从动态列表查看了历史行程 ${trip.to}`);
                   onNavigate?.('trips-detail-completed');
                 }}
               />
@@ -86,8 +86,8 @@ const YourTripsPastPage: React.FC<Props> = ({ onNavigate }) => {
               <button onClick={() => {
                 const t = pastTrips[0];
                 if (t.id) updateTripStatus(t.id, 'completed', { paid: true });
-                addRecentAction('Re-confirmed past trip paid via update');
-              }} style={{ margin: '4px 16px', fontSize: 10, padding: '2px 8px', background: '#e8f5e9', border: 'none', borderRadius: 4, cursor: 'pointer' }}>Mark paid (demo)</button>
+                addRecentAction('已再次确认历史行程已付');
+              }} style={{ margin: '4px 16px', fontSize: 10, padding: '2px 8px', background: '#e8f5e9', border: 'none', borderRadius: 4, cursor: 'pointer' }}>标记已支付（演示）</button>
             )}
           </div>
         )}
@@ -98,7 +98,7 @@ const YourTripsPastPage: React.FC<Props> = ({ onNavigate }) => {
           if (t) setActiveTrip(t);
           openDetail('completed');
         }}>
-          <div className={styles.tripTime}>Today, 3:45 pm&nbsp;</div>
+          <div className={styles.tripTime}>今天 下午 3:45 </div>
           <div className={styles.tripPrice}>${(pastTrips[0]?.price || activeTrip?.price || 17)}.00</div>
         </div>
         <div className={styles.vehicleRow}>
@@ -122,7 +122,7 @@ const YourTripsPastPage: React.FC<Props> = ({ onNavigate }) => {
             openDetail('cancelled');
           }
         }} style={{marginTop:16}}>
-          <div className={styles.tripTime}>Today, 3:41 pm&nbsp;</div>
+          <div className={styles.tripTime}>今天 下午 3:41 </div>
           <div className={styles.tripPrice}>$0.00</div>
         </div>
         <div className={styles.canceled}>已取消</div>

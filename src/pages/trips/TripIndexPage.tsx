@@ -9,9 +9,9 @@ interface Props {
 const TripIndexPage: React.FC<Props> = ({ onNavigate }) => {
   const { activeTrip, addRecentAction } = useDemoState();
   const items = [
-    { id: 'trip-upcoming', title: 'Upcoming trip set', desc: '显示已安排的行程详情，包括目的地、时间、价格' },
-    { id: 'trip-pickup-countdown', title: 'Pick up countdown', desc: '实时显示接机倒计时，包含地图与车辆位置' },
-    { id: 'trip-scheduling', title: 'Scheduling your trip', desc: '行程安排加载页面，进度动画与状态更新' },
+    { id: 'trip-upcoming', title: '已设置即将开始行程', desc: '显示已安排的行程详情，包括目的地、时间、价格' },
+    { id: 'trip-pickup-countdown', title: '上车倒计时', desc: '实时显示接机倒计时，包含地图与车辆位置' },
+    { id: 'trip-scheduling', title: '正在安排您的行程', desc: '行程安排加载页面，进度动画与状态更新' },
   ];
 
   return (
@@ -23,7 +23,7 @@ const TripIndexPage: React.FC<Props> = ({ onNavigate }) => {
 
         {items.map((item, i) => (
           <div key={i} onClick={() => {
-            addRecentAction(`Opened trip page: ${item.title}`);
+            addRecentAction(`打开行程页：${item.title}`);
             onNavigate?.(item.id);
           }} style={{
             background: '#f8f9fa', borderRadius: 16, padding: 18, marginBottom: 14,
@@ -31,19 +31,19 @@ const TripIndexPage: React.FC<Props> = ({ onNavigate }) => {
           }}>
             <div style={{ fontWeight: 600, color: '#49493d', marginBottom: 6 }}>{item.title}</div>
             <div style={{ fontSize: 13, color: '#959595' }}>{item.desc}</div>
-            <div style={{ color: '#fecc2a', fontSize: 12, marginTop: 8 }}>Open →</div>
+            <div style={{ color: '#fecc2a', fontSize: 12, marginTop: 8 }}>打开 →</div>
           </div>
         ))}
 
         {activeTrip && (
           <div style={{ marginTop: 16, padding: 10, background: '#fffde7', borderRadius: 8, fontSize: 12 }}>
-            Current active: <strong>{activeTrip.to}</strong> — <span onClick={() => { addRecentAction('Jumped to active from trip index'); onNavigate?.('trip-upcoming'); }} style={{color:'#fecc2a', cursor:'pointer'}}>view details</span>
+            当前进行中：<strong>{activeTrip.to}</strong> — <span onClick={() => { addRecentAction('从行程入口跳转到进行中'); onNavigate?.('trip-upcoming'); }} style={{color:'#fecc2a', cursor:'pointer'}}>查看详情</span>
           </div>
         )}
 
         <div style={{ textAlign: 'center', marginTop: 24 }}>
-          <button onClick={() => { addRecentAction('Opened full trips hub'); onNavigate?.('trips-hub'); }} style={{ padding: '10px 22px', background: '#fecc2a', border: 'none', borderRadius: 10, fontWeight: 600, cursor: 'pointer' }}>
-            Go to Full Trips Hub
+          <button onClick={() => { addRecentAction('打开完整行程中心'); onNavigate?.('trips-hub'); }} style={{ padding: '10px 22px', background: '#fecc2a', border: 'none', borderRadius: 10, fontWeight: 600, cursor: 'pointer' }}>
+            进入完整行程中心
           </button>
         </div>
       </div>

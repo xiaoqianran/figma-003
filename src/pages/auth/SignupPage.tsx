@@ -56,10 +56,10 @@ const SignupPage: React.FC<SignupPageProps> = ({ onNavigate }) => {
       // Demo integration: set user from signup phone + log + auto-nav to home
       const fullPhone = `+44 ${formatPhone(digits)}`;
       setUser({ name: 'Alex Chen', phone: fullPhone });
-      addRecentAction(`Signed up with phone: ${fullPhone}`);
+      addRecentAction(`已使用手机号注册：${fullPhone}`);
       if (onNavigate) {
         // In real app this would go to OTP screen; here we simulate success
-        console.log('Verification sent - demo navigation to home');
+        console.log('验证码已发送 - 演示跳转首页');
         onNavigate('core-home');
       }
     }, 1200);
@@ -125,7 +125,7 @@ const SignupPage: React.FC<SignupPageProps> = ({ onNavigate }) => {
 
       {/* 提示信息 */}
       <p className={styles.verificationNotice}>
-        Buy continuing you may receive an SMS for verification. Message and data rates may apply.
+        继续操作即表示您可能收到验证短信。可能产生短信与流量费用。
       </p>
 
       {/* 自定义数字键盘 */}

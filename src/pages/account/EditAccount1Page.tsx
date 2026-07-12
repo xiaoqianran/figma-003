@@ -22,7 +22,7 @@ const EditAccount1Page: React.FC<EditAccount1PageProps> = ({ onNavigate }) => {
       setEditingPhone(user.phone);
       setShowPhoneModal(true);
     } else {
-      info('编辑', `编辑 ${field} (demo)`);
+      info('编辑', `编辑 ${field}（演示）`);
     }
   };
 
@@ -78,7 +78,7 @@ const EditAccount1Page: React.FC<EditAccount1PageProps> = ({ onNavigate }) => {
         <div className={styles.textField}>
           <div className={styles.fieldLabel}>邮箱</div>
           <div className={styles.fieldInput} onClick={() => editField('email')}>
-            <span className={styles.fieldValue} style={{ fontSize: 13 }}>pushputtichai789@gmail.com</span>
+            <span className={styles.fieldValue} style={{ fontSize: 13 }}>demo.user@gody.example</span>
             <span className={styles.unverified}>未验证</span>
             <span className={styles.fieldArrow}>→</span>
           </div>
@@ -101,14 +101,14 @@ const EditAccount1Page: React.FC<EditAccount1PageProps> = ({ onNavigate }) => {
       <Modal
         open={showPhoneModal}
         onClose={() => setShowPhoneModal(false)}
-        title="Update demo phone"
+        title="更新演示手机号"
         confirmText="保存"
         onConfirm={() => {
           const val = editingPhone.trim();
           if (val) {
             setUser({ phone: val });
-            addRecentAction(`Updated phone to ${val}`);
-            success('Phone updated', `Demo phone set to ${val} (Profile + Home reflect instantly)`);
+            addRecentAction(`手机号已更新为 ${val}`);
+            success('手机号已更新', `演示手机号设为 ${val}（资料与首页即时同步）`);
           }
           setShowPhoneModal(false);
         }}
@@ -133,8 +133,8 @@ const EditAccount1Page: React.FC<EditAccount1PageProps> = ({ onNavigate }) => {
               const val = editingPhone.trim();
               if (val) {
                 setUser({ phone: val });
-                addRecentAction(`Updated phone to ${val}`);
-                success('Phone updated', `Demo phone set to ${val} (Profile + Home reflect instantly)`);
+                addRecentAction(`手机号已更新为 ${val}`);
+                success('手机号已更新', `演示手机号设为 ${val}（资料与首页即时同步）`);
               }
               setShowPhoneModal(false);
             }

@@ -13,41 +13,41 @@ const ConfirmPickup6Page: React.FC<ConfirmPickup6PageProps> = ({ onNavigate }) =
   const { info, success } = useToast();
   const [showCancelModal, setShowCancelModal] = useState(false);
 
-  const handleBack = () => { addRecentAction('Back from confirm pickup 6'); onNavigate?.('booking-confirm-pickup5'); };
-  const handleShare = () => { addRecentAction('Shared trip status from pickup 6'); info('分享', '分享行程状态给联系人（演示）'); };
+  const handleBack = () => { addRecentAction('从确认上车点 6 返回'); onNavigate?.('booking-confirm-pickup5'); };
+  const handleShare = () => { addRecentAction('已分享行程状态（上车 6）'); info('分享', '分享行程状态给联系人（演示）'); };
   const handleCall = () => {
-    addRecentAction('Called driver from pickup 6');
+    addRecentAction('已呼叫司机（上车 6）');
     // Driver call mutation
     const tripId = activeTrip?.id;
     if (tripId) {
       updateTripStatus(tripId, 'in-progress', { driver: 'Push Puttichai · 丰田凯美瑞', eta: '即将到达' });
-      addRecentAction('Driver call (page6) — driver attached via updateTripStatus');
+      addRecentAction('呼叫司机（页6）— 已绑定司机');
     } else {
-      bookTrip({ status: 'in-progress', from: 'Pickup 6 loc', to: '苹果联合广场', driver: '推送', vehicle: '丰田凯美瑞', eta: '即将到达' });
-      addRecentAction('Driver call (page6) — booked via bookTrip');
+      bookTrip({ status: 'in-progress', from: '上车确认 6 位置', to: '苹果联合广场', driver: '推送', vehicle: '丰田凯美瑞', eta: '即将到达' });
+      addRecentAction('呼叫司机（页6）— 已预订');
     }
     info('拨打', '正在拨打司机电话...（演示）');
   };
-  const handleCancel = () => { addRecentAction('Opened cancel from pickup 6'); setShowCancelModal(true); };
+  const handleCancel = () => { addRecentAction('从上车确认 6 打开取消'); setShowCancelModal(true); };
   const handleSafety = () => {
-    addRecentAction('Opened safety from pickup 6');
+    addRecentAction('从上车确认 6 打开安全');
     // Safety confirm key action
     const tripId = activeTrip?.id;
     if (tripId) {
-      updateTripStatus(tripId, activeTrip.status || 'in-progress', { eta: 'Safety checklist passed' });
-      addRecentAction('Safety confirmed (page6) — mutated via updateTripStatus');
+      updateTripStatus(tripId, activeTrip.status || 'in-progress', { eta: '安全检查已通过' });
+      addRecentAction('安全已确认（页6）');
     } else {
-      bookTrip({ status: 'in-progress', from: 'Apple Union Square area', to: '目的地', eta: 'Safety confirmed' });
-      addRecentAction('Safety confirmed (page6) — via bookTrip');
+      bookTrip({ status: 'in-progress', from: '苹果联合广场一带', to: '目的地', eta: '安全已确认' });
+      addRecentAction('安全已确认（页6）— 已预订');
     }
     info('安全', '打开安全功能（演示）');
   };
-  const handleLearn = () => { addRecentAction('Learned about top driver'); info('详情', '打开Top Driver详情页面（演示）'); };
-  const handleSave = () => { addRecentAction('Saved location from pickup 6'); success('已保存', '已添加到我的保存地点'); };
-  const handleTrusted = () => { addRecentAction('Set trusted contact'); info('设置', '设置可信联系人（演示）'); };
+  const handleLearn = () => { addRecentAction('已了解金牌司机'); info('详情', '打开Top Driver详情页面（演示）'); };
+  const handleSave = () => { addRecentAction('已保存地点（上车 6）'); success('已保存', '已添加到我的保存地点'); };
+  const handleTrusted = () => { addRecentAction('设置紧急联系人'); info('设置', '设置可信联系人（演示）'); };
 
   const confirmCancel = () => {
-    addRecentAction('Confirmed cancel from pickup 6');
+    addRecentAction('已确认取消（上车 6）');
     setShowCancelModal(false);
     success('行程已取消', '返回首页');
     onNavigate?.('core-home');
@@ -59,7 +59,7 @@ const ConfirmPickup6Page: React.FC<ConfirmPickup6PageProps> = ({ onNavigate }) =
 
       <div style={{ display: 'flex', justifyContent: 'space-between', padding: '24px 190px 32px 24px' }}>
         <span style={{ width: 16, height: 16, cursor: 'pointer', fontSize: 16, color: '#49493d' }} onClick={handleBack}>↑</span>
-        <p style={{ fontSize: 20, fontWeight: 500, color: '#49493d' }}>4:08pm arrival</p>
+        <p style={{ fontSize: 20, fontWeight: 500, color: '#49493d' }}>下午 4:08 到达</p>
       </div>
 
       <div style={{ padding: '8px 21px 19px 24px', cursor: 'pointer' }} onClick={handleShare}>
@@ -97,7 +97,7 @@ const ConfirmPickup6Page: React.FC<ConfirmPickup6PageProps> = ({ onNavigate }) =
         {[0,1].map(i => (
           <div key={i} style={{ width: 150, background: '#fff', borderRadius: 12, padding: 16, boxShadow: '0 4px 40px rgba(0,0,0,0.05)' }}>
             <p style={{ fontSize: 16, fontWeight: 500, color: '#49493d' }}>金牌司机</p>
-            <p style={{ marginTop: 12, width: 248, fontSize: 14, color: '#49493d', lineHeight: '20px' }}>Save up to 15% on all routes when you ride with Gody and Pool in the San Francisco metropolitan area. Discounts may vary by trip.</p>
+            <p style={{ marginTop: 12, width: 248, fontSize: 14, color: '#49493d', lineHeight: '20px' }}>与 Gody 及拼车在旧金山都会区出行时，全线路最高可省 15%。优惠可能因行程而异。</p>
             <p style={{ marginTop: 12, fontSize: 12, color: '#fecc2a', textDecoration: 'underline', cursor: 'pointer' }} onClick={i === 0 ? handleLearn : handleLearn}>了解更多</p>
           </div>
         ))}
@@ -105,14 +105,14 @@ const ConfirmPickup6Page: React.FC<ConfirmPickup6PageProps> = ({ onNavigate }) =
 
       <p style={{ margin: '16px 0 0 24px', fontSize: 12, color: '#959595' }}>保存此目的地</p>
       <p style={{ margin: '12px 0 0 24px', fontSize: 20, fontWeight: 500, color: '#49493d' }}>苹果联合广场</p>
-      <p style={{ margin: '8px 0 0 24px', fontSize: 12, color: '#959595', fontWeight: 500 }}>300 Pos St, San Francisco</p>
+      <p style={{ margin: '8px 0 0 24px', fontSize: 12, color: '#959595', fontWeight: 500 }}>旧金山 Pos 街 300 号</p>
       <p style={{ margin: '12px 0 0 24px', fontSize: 12, color: '#fecc2a', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleSave}>添加到收藏地点</p>
 
       {/* Trusted */}
       <div style={{ margin: '24px 24px 0', background: '#fff', borderRadius: 12, padding: 16, boxShadow: '0 4px 40px rgba(0,0,0,0.05)' }}>
         <p style={{ fontSize: 12, color: '#959595' }}>紧急联系人</p>
         <p style={{ marginTop: 8, fontSize: 20, fontWeight: 500, color: '#49493d' }}>苹果联合广场</p>
-        <p style={{ marginTop: 16, width: 295, fontSize: 14, color: '#49493d', lineHeight: '20px' }}>Save up to 15% on all routes when you ride with Gody and Pool in the San Francisco metropolitan area. Discounts may vary by trip.</p>
+        <p style={{ marginTop: 16, width: 295, fontSize: 14, color: '#49493d', lineHeight: '20px' }}>与 Gody 及拼车在旧金山都会区出行时，全线路最高可省 15%。优惠可能因行程而异。</p>
         <div style={{ marginTop: 12, background: '#f3f3f3', width: 295, height: 1 }} />
         <p style={{ marginTop: 11, fontSize: 14, color: '#49493d', cursor: 'pointer' }} onClick={handleTrusted}>设置紧急联系人</p>
       </div>
