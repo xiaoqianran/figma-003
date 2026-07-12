@@ -59,10 +59,10 @@ const TripTestPage: React.FC<Props> = ({ onNavigate }) => {
             const t = { id: 'test-trip-' + Date.now(), status: 'upcoming' as const, from: '测试出发地', to: '测试目的地', price: 25, eta: '现在', vehicle: 'TestCar' };
             setActiveTrip(t);
             addRecentAction('已创建测试进行中行程');
-            addResult('✅ Set activeTrip: ' + t.to);
+            addResult('✅ 已设置进行中行程：' + t.to);
           }} style={{ background: '#28a745', color: '#fff', padding: '6px 10px', border: 'none', borderRadius: 4, marginRight: 6, fontSize: 12 }}>创建测试进行中行程</button>
           <button onClick={() => { setActiveTrip(null); addRecentAction('已清除进行中行程'); addResult('✅ 已清除当前行程'); }} style={{ background: '#dc3545', color: '#fff', padding: '6px 10px', border: 'none', borderRadius: 4, fontSize: 12 }}>清除进行中行程</button>
-          <button onClick={() => { clearBookedTrips?.(); addRecentAction('清空全部已预订行程（调试）'); addResult('✅ 已通过 clearBookedTrips 清空'); }} style={{ background: '#6c757d', color: '#fff', padding: '6px 10px', border: 'none', borderRadius: 4, fontSize: 12, marginLeft: 4 }}>清除全部行程</button>
+          <button onClick={() => { clearBookedTrips?.(); addRecentAction('清空全部已预订行程（调试）'); addResult('✅ 已清空全部已预订行程'); }} style={{ background: '#6c757d', color: '#fff', padding: '6px 10px', border: 'none', borderRadius: 4, fontSize: 12, marginLeft: 4 }}>清除全部行程</button>
           <div style={{ fontSize: 11, marginTop: 6, color: '#666' }}>进行中： {activeTrip ? `${activeTrip.to} (${activeTrip.status})` : '无'} | 已预订：{bookedTrips.length}</div>
         </div>
 

@@ -74,8 +74,10 @@ function isAllowedToken(tok) {
 /**
  * Extract Latin tokens from a UI string (after removing ${...} template holes).
  * Returns list of disallowed tokens / banned phrases.
+ * @param {string} s
+ * @param {{strictApi?: boolean}} [opts] strictApi: ban camelCase API ids (for addResult panels)
  */
-function scanUiString(s) {
+function scanUiString(s, opts = {}) {
   const hits = []
   if (!s || !/[A-Za-z]/.test(s)) return hits
 
@@ -100,8 +102,13 @@ function scanUiString(s) {
   // Latin letter sequences (words)
   const words = body.match(/[A-Za-z][A-Za-z0-9._-]*/g) || []
   for (const w of words) {
-    // skip pure style/class fragments
-    if (/^(px|em|rem|vh|vw|rgb|rgba|var|calc|deg|ms|fr)$/i.test(w)) continue
+    // skip pure style/class fragments / CSS keywords
+    if (/^(px|em|rem|vh|vw|rgb|rgba|var|calc|deg|ms|fr|none|auto|pointer|flex|center|absolute|relative|fixed|solid|hidden|block|inline|bold|normal)$/i.test(w)) continue
+    // on-page result logs: do not allow camelCase API names (clearBookedTrips, activeTrip, …)
+    if (opts.strictApi && /^[a-z]+[A-Z][A-Za-z0-9]*$/.test(w)) {
+      hits.push(w)
+      continue
+    }
     if (isAllowedToken(w)) continue
     // skip very short technical
     if (w.length <= 2) continue
@@ -115,21 +122,40 @@ function extractStrings(src) {
   const out = []
   const lines = src.split('\n')
 
-  // 1) Toast call args on each line
+  // 1) Toast + on-page result log call args (info/success/error/warning/addResult/setResults)
+  // Extract each call's argument span with balanced parentheses — never whole-line style props.
+  const CALLEE = /\b(info|success|error|warning|addResult|setResults)\s*\(/g
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
-    if (!/\b(info|success|error|warning)\s*\(/.test(line)) continue
-    const m = line.match(/\b(info|success|error|warning)\s*\((.*)\)\s*;?\s*$/)
-    if (!m) continue
-    const args = m[2]
-    const strRe = /(['"`])((?:\\.|(?!\1).)*)\1/g
-    let sm
-    while ((sm = strRe.exec(args))) {
-      const text = sm[2].replace(/\\n/g, ' ')
-      // skip pure CSS
-      if (/^(#|rgba?\(|rotate\(|linear-gradient|[\d.]+px)/.test(text)) continue
-      if (text.includes('styles.') || text.includes('rgba(')) continue
-      out.push({ kind: 'toast', text, line: i + 1 })
+    if (!/\b(info|success|error|warning|addResult|setResults)\s*\(/.test(line)) continue
+    let cm
+    CALLEE.lastIndex = 0
+    while ((cm = CALLEE.exec(line))) {
+      const name = cm[1]
+      const kind = /addResult|setResults/.test(name) ? 'result' : 'toast'
+      let depth = 1
+      let j = cm.index + cm[0].length
+      let args = ''
+      while (j < line.length && depth > 0) {
+        const ch = line[j]
+        if (ch === '(') depth++
+        else if (ch === ')') {
+          depth--
+          if (depth === 0) break
+        }
+        if (depth >= 1) args += ch
+        j++
+      }
+      const strRe = /(['"`])((?:\\.|(?!\1).)*)\1/g
+      let sm
+      while ((sm = strRe.exec(args))) {
+        const text = sm[2].replace(/\\n/g, ' ')
+        if (/^(#|rgba?\(|rotate\(|linear-gradient|[\d.]+px)/.test(text)) continue
+        if (text.includes('styles.') || text.includes('rgba(')) continue
+        // pure CSS keyword values sometimes still slip if mis-parsed — skip common ones
+        if (/^(none|auto|pointer|flex|center|absolute|relative|fixed|solid|hidden|block|inline)$/i.test(text)) continue
+        out.push({ kind, text, line: i + 1 })
+      }
     }
   }
 
@@ -202,7 +228,7 @@ export function scanSource(src, fileLabel = 'fixture') {
   const strings = extractStrings(clean)
   const hits = []
   for (const { kind, text, line } of strings) {
-    const bad = scanUiString(text)
+    const bad = scanUiString(text, { strictApi: kind === 'result' })
     for (const b of bad) {
       hits.push({ file: fileLabel, line, kind, token: b, text: text.slice(0, 120) })
     }
@@ -238,21 +264,27 @@ function selfTest() {
   const bad = `
     const X = () => {
       info('测试', '编辑上车点 (demo)');
+      addResult('✅ Profile 页面结构正常');
+      addResult('✅ Set activeTrip: dest');
+      addResult('✅ 已通过 clearBookedTrips 清空');
       return <div>Confirm</div>;
     };
   `
   const good = `
     const X = () => {
       info('测试', '编辑上车点（演示）');
+      addResult('✅ 资料页面结构正常');
+      addResult('✅ 已设置进行中行程：目的地');
+      addResult('✅ 已清空全部已预订行程');
       return <div>确认</div>;
     };
   `
   const h1 = scanSource(bad, 'self-bad')
   const h2 = scanSource(good, 'self-good')
-  const ok1 = h1.some((h) => String(h.token).includes('demo') || h.token === 'Confirm' || h.token === 'BANNED:(demo)')
+  const ok1 = h1.some((h) => String(h.token).includes('demo') || h.token === 'Confirm' || h.token === 'BANNED:(demo)' || h.token === 'Profile' || h.token === 'Set' || h.token === 'activeTrip' || h.token === 'clearBookedTrips')
   const ok2 = h2.length === 0
-  console.log('self-test inject (demo):', ok1 ? 'FAIL as expected (' + h1.length + ' hits)' : 'UNEXPECTED PASS')
-  console.log('self-test （演示）:', ok2 ? 'PASS' : 'UNEXPECTED FAIL ' + JSON.stringify(h2.slice(0, 5)))
+  console.log('self-test inject EN:', ok1 ? 'FAIL as expected (' + h1.length + ' hits)' : 'UNEXPECTED PASS', h1.map(h=>h.token).slice(0,8))
+  console.log('self-test clean ZH:', ok2 ? 'PASS' : 'UNEXPECTED FAIL ' + JSON.stringify(h2.slice(0, 5)))
   if (!ok1 || !ok2) {
     process.exit(1)
   }
