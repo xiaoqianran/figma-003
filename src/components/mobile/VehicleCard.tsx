@@ -36,17 +36,17 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
       tabIndex={onClick ? 0 : undefined}
       className={`vehicle-card ${selected ? 'selected' : ''} ${className}`}
       style={{
-        margin: '12px 24px 0',
-        padding: '16px 20px',
-        borderRadius: 16,
-        border: selected ? '2px solid #fecc2a' : '1px solid #e8e8e8',
-        background: selected ? '#fffdf5' : '#ffffff',
+        margin: '8px 20px 0',
+        padding: '12px 16px',
+        borderRadius: 14,
+        border: selected ? '2px solid #f0b429' : '1px solid #e8e8e8',
+        background: selected ? '#fffbeb' : '#ffffff',
         cursor: onClick ? 'pointer' : 'default',
         display: 'flex',
         alignItems: 'center',
       }}
     >
-      <div style={{ fontSize: 32, marginRight: 16 }}>{icon}</div>
+      <div style={{ fontSize: 28, marginRight: 12 }}>{icon}</div>
       <div style={{ flex: 1 }}>
         <div style={{ fontWeight: 600, fontSize: 15, color: '#0A0908' }}>{name}</div>
         {description && (

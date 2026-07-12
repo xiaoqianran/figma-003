@@ -10,28 +10,43 @@ interface HomePageProps {
 const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const { user, activeTrip, addRecentAction } = useDemoState();
   const { info } = useToast();
+  const firstName = user.name.split(' ')[0] || user.name;
+
+  // Entire layout designed to fit 375×812 with all CTAs fully visible (no clip by device frame)
   return (
-    <div className="mobile-frame" style={{ height: 812, overflow: 'hidden' }}>
+    <div className="mobile-frame" data-testid="home-page" style={{ background: '#f7f6f3' }}>
       <StatusBar />
 
-      {/* 顶部用户栏 */}
-      <div style={{ display: 'flex', alignItems: 'center', marginTop: 16, padding: '0 24px' }}>
-        <div className="avatar" style={{
-          width: 50, height: 50, borderRadius: '50%',
-          background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 20, color: 'white', overflow: 'hidden',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-        }}>{user.avatar}</div>
-        <div style={{ marginLeft: 12, color: '#49493d', fontSize: 16, fontWeight: 500 }}>
-          Good morning, {user.name.split(' ')[0]}
+      <div style={{ display: 'flex', alignItems: 'center', padding: '2px 16px 0', flexShrink: 0 }}>
+        <div
+          style={{
+            width: 42,
+            height: 42,
+            borderRadius: 14,
+            background: 'linear-gradient(145deg, #6b9dff, #8b7cf6)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: 18,
+            color: 'white',
+            boxShadow: '0 4px 14px rgba(107, 157, 255, 0.28)',
+          }}
+        >
+          {user.avatar}
+        </div>
+        <div style={{ marginLeft: 10, minWidth: 0 }}>
+          <div style={{ fontSize: 11, color: '#9b9aa3', fontWeight: 500 }}>Good morning</div>
+          <div style={{ fontSize: 16, fontWeight: 650, color: '#111318', letterSpacing: '-0.02em' }}>{firstName}</div>
         </div>
         <button
           type="button"
           className="icon-btn"
-          style={{ marginLeft: 'auto' }}
+          style={{ marginLeft: 'auto', background: '#fff', border: '1px solid #ebe9e4', borderRadius: 12, width: 36, height: 36 }}
           aria-label="Open account"
-          onClick={() => { addRecentAction('Opened account from home'); onNavigate?.('account-index'); }}
+          onClick={() => {
+            addRecentAction('Opened account from home');
+            onNavigate?.('account-index');
+          }}
         >
           ☰
         </button>
@@ -42,7 +57,11 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           className="active-trip-banner"
           role="button"
           tabIndex={0}
-          onClick={() => { addRecentAction('Viewed active from home'); onNavigate?.('trips-upcoming'); }}
+          style={{ margin: '8px 16px 0', padding: '10px 12px' }}
+          onClick={() => {
+            addRecentAction('Viewed active from home');
+            onNavigate?.('trips-upcoming');
+          }}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
@@ -51,53 +70,67 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             }
           }}
         >
-          🚕 Active trip to <strong>{activeTrip.to}</strong> — tap to view
+          🚕 Active trip to <strong>{activeTrip.to}</strong>
+          <span style={{ opacity: 0.7 }}> · tap to view</span>
         </div>
       )}
 
-      {/* 地图区域 */}
+      {/* Flex map grows; bottom sheet fixed height so vehicles always fully visible */}
       <div
         className="map-mock"
         style={{
           position: 'relative',
-          marginTop: 24,
-          height: 380,
-          background: 'linear-gradient(145deg, #eef2ee 0%, #e4ebe4 45%, #dfe8e0 100%)',
+          margin: '12px 16px 0',
+          flex: '1 1 auto',
+          minHeight: 160,
+          maxHeight: 240,
+          borderRadius: 20,
+          overflow: 'hidden',
+          border: '1px solid #ebe9e4',
+          boxShadow: '0 8px 28px rgba(17, 19, 24, 0.06)',
         }}
       >
-        <div className="map-mock-grid" style={{ opacity: 0.7 }} />
-        {/* 地图上的车辆和地点标记 */}
-        <div style={{ position: 'absolute', top: '28%', left: '22%', fontSize: 22, filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.12))' }}>🚗</div>
-        <div style={{ position: 'absolute', top: '41%', left: '61%', fontSize: 22, filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.12))' }}>🚙</div>
-        <div style={{ position: 'absolute', top: '55%', left: '33%', fontSize: 20, filter: 'drop-shadow(0 2px 4px rgba(254,204,42,0.4))' }}>🟡</div>
+        <div className="map-mock-grid" />
+        <div style={{ position: 'absolute', top: '26%', left: '20%', fontSize: 22, filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.12))' }}>🚗</div>
+        <div style={{ position: 'absolute', top: '48%', left: '58%', fontSize: 22, filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.12))' }}>🚙</div>
+        <div style={{ position: 'absolute', top: '62%', left: '34%', width: 12, height: 12, borderRadius: '50%', background: '#f0b429', boxShadow: '0 0 0 5px rgba(240,180,41,0.25)' }} />
 
-        {/* 定位按钮 */}
         <button
           type="button"
           className="map-fab"
-          style={{ position: 'absolute', top: 167, right: 24 }}
+          style={{ position: 'absolute', top: 12, right: 12, width: 42, height: 42 }}
           aria-label="Locate me"
           onClick={() => info('定位', '定位到当前位置 (demo)')}
         >
-          🎯
+          ◎
         </button>
       </div>
 
-      {/* 底部操作面板 */}
+      {/* Bottom panel — not absolute overflow; sits in flow so it never clips past 812 */}
       <div
-        className="bottom-sheet"
+        data-testid="home-bottom-panel"
         style={{
-          position: 'absolute', bottom: 0, left: 0, width: 375, height: 417,
-          paddingTop: 28,
-          display: 'flex', flexDirection: 'column',
+          flexShrink: 0,
+          width: 375,
+          background: '#fff',
+          borderRadius: '24px 24px 0 0',
+          boxShadow: '0 -8px 28px rgba(17, 19, 24, 0.08)',
+          paddingTop: 16,
+          display: 'flex',
+          flexDirection: 'column',
+          marginTop: 12,
         }}
       >
-        {/* 搜索框 */}
         <div
           className="search-pill"
           role="button"
           tabIndex={0}
-          onClick={() => { addRecentAction('Search from home'); onNavigate?.('core-search1'); }}
+          data-testid="home-search"
+          style={{ margin: '0 16px', padding: '12px 14px' }}
+          onClick={() => {
+            addRecentAction('Search from home');
+            onNavigate?.('core-search1');
+          }}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
@@ -106,22 +139,25 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             }
           }}
         >
-          <span className="icon">🔍</span>
+          <span className="icon">⌕</span>
           <span className="label">Where are you going?</span>
         </div>
 
-        {/* 快捷目的地 */}
-        <div style={{ margin: '20px 24px 0', display: 'flex', gap: 12 }}>
+        <div style={{ margin: '12px 16px 0', display: 'flex', gap: 8 }}>
           {[
             { label: 'Apple Store', sub: 'Union Square', icon: '🍎' },
             { label: 'Starbucks', sub: 'Market St', icon: '☕' },
-          ].map((d, i) => (
+          ].map((d) => (
             <div
-              key={i}
+              key={d.label}
               className="dest-chip"
               role="button"
               tabIndex={0}
-              onClick={() => { addRecentAction('Choose car from home'); onNavigate?.('booking-choose-car'); }}
+              style={{ padding: '10px 12px' }}
+              onClick={() => {
+                addRecentAction('Choose car from home');
+                onNavigate?.('booking-choose-car');
+              }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
@@ -130,27 +166,36 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 }
               }}
             >
-              <div style={{ fontSize: 18 }}>{d.icon}</div>
-              <div style={{ fontSize: 13, fontWeight: 600, marginTop: 4, color: '#0A0908' }}>{d.label}</div>
-              <div style={{ fontSize: 11, color: '#959595' }}>{d.sub}</div>
+              <div style={{ fontSize: 16, marginBottom: 2 }}>{d.icon}</div>
+              <div style={{ fontSize: 12, fontWeight: 650, color: '#111318', letterSpacing: '-0.01em' }}>{d.label}</div>
+              <div style={{ fontSize: 10, color: '#9b9aa3', marginTop: 1 }}>{d.sub}</div>
             </div>
           ))}
         </div>
 
-        {/* 车辆类型快速入口 */}
-        <div style={{ margin: '24px 24px 0', fontSize: 13, fontWeight: 600, color: '#49493d' }}>Available now near you</div>
+        <div
+          data-testid="home-available-label"
+          style={{ margin: '12px 16px 0', fontSize: 12, fontWeight: 650, color: '#3a3942', letterSpacing: '-0.01em' }}
+        >
+          Available near you
+        </div>
 
-        <div style={{ display: 'flex', gap: 12, margin: '12px 24px 0' }}>
+        <div data-testid="home-vehicles" style={{ display: 'flex', gap: 8, margin: '8px 16px 0' }}>
           {[
-            { name: 'GodyX', price: '$22', time: '2 min' },
-            { name: 'Black SUV', price: '$17', time: '4 min' },
-          ].map((v, idx) => (
+            { name: 'GodyX', price: '$22', time: '2 min', icon: '🚗' },
+            { name: 'Black SUV', price: '$17', time: '4 min', icon: '🚙' },
+          ].map((v) => (
             <div
-              key={idx}
+              key={v.name}
               className="quick-vehicle"
               role="button"
               tabIndex={0}
-              onClick={() => { addRecentAction('Choose car from home'); onNavigate?.('booking-choose-car'); }}
+              data-testid={`home-vehicle-${v.name}`}
+              style={{ padding: '12px' }}
+              onClick={() => {
+                addRecentAction('Choose car from home');
+                onNavigate?.('booking-choose-car');
+              }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
@@ -159,8 +204,8 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 }
               }}
             >
-              <div className="icon">{idx === 0 ? '🚗' : '🚙'}</div>
-              <div className="name">{v.name}</div>
+              <div className="icon" style={{ fontSize: 20, marginBottom: 2 }}>{v.icon}</div>
+              <div className="name" style={{ fontSize: 13 }}>{v.name}</div>
               <div className="meta">{v.price} · {v.time}</div>
             </div>
           ))}

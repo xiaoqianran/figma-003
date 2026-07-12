@@ -10,40 +10,65 @@ interface InfoPanelProps {
   onCopyLink?: (page: PageDefinition) => void;
   onCopyStandaloneLink?: (page: PageDefinition) => void;
   onStartFlow?: (page: PageDefinition) => void;
-  // legacy
   page?: PageDefinition | null;
   onNavigate?: (id: string) => void;
 }
 
-export const InfoPanel: React.FC<InfoPanelProps> = ({ 
-  selectedPage, page, onSelectPage, onNavigate, onToggleFavorite, onCopyLink, onCopyStandaloneLink, onStartFlow 
+export const InfoPanel: React.FC<InfoPanelProps> = ({
+  selectedPage,
+  page,
+  onSelectPage,
+  onNavigate,
+  onToggleFavorite,
+  onCopyLink,
+  onCopyStandaloneLink,
+  onStartFlow,
 }) => {
   const current = selectedPage || page || null;
-  if (!current) return <div style={{ color: '#6E6A61', fontSize: 12 }}>Select a prototype from the list</div>;
+
+  if (!current) {
+    return (
+      <div className="lab-meta-card">
+        <div className="lab-meta-empty">
+          Select a prototype from the list to inspect details, copy links, or start a demo flow.
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div>
-      <div style={{ color: '#0A0908', fontSize: 16, fontWeight: 600, marginBottom: 6 }}>{current.title}</div>
-      <div style={{ fontSize: 11, color: '#3F3D37', lineHeight: 1.3 }}>{current.description}</div>
-      <div style={{ marginTop: 10, fontSize: 10, color: '#6E6A61' }}>Category: {current.category}</div>
-      <div style={{ marginTop: 12, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+    <div className="lab-meta-card">
+      <div className="lab-meta-title">{current.title}</div>
+      <div className="lab-meta-desc">{current.description}</div>
+      <span className="lab-meta-tag">{current.category}</span>
+
+      <div className="lab-meta-actions">
         <button
-          onClick={() => (onSelectPage || onNavigate) ? (onSelectPage ? onSelectPage(current) : onNavigate?.(current.id)) : null}
-          className="tb-btn"
-          style={{ fontSize: 11 }}
+          type="button"
+          onClick={() => (onSelectPage ? onSelectPage(current) : onNavigate?.(current.id))}
+          className="lab-btn lab-btn--primary"
         >
           Open
         </button>
         {onToggleFavorite && (
-          <button onClick={() => onToggleFavorite(current.id)} className="tb-btn" style={{ fontSize: 11 }}>★ Fav</button>
+          <button type="button" onClick={() => onToggleFavorite(current.id)} className="lab-btn">
+            ★ Favorite
+          </button>
         )}
         {onCopyLink && (
-          <button onClick={() => onCopyLink(current)} className="tb-btn" style={{ fontSize: 11 }}>Copy Link</button>
+          <button type="button" onClick={() => onCopyLink(current)} className="lab-btn">
+            Copy link
+          </button>
         )}
         {onCopyStandaloneLink && (
-          <button onClick={() => onCopyStandaloneLink(current)} className="tb-btn" style={{ fontSize: 11, borderColor: 'rgba(254,204,42,0.35)' }}>Copy Standalone</button>
+          <button type="button" onClick={() => onCopyStandaloneLink(current)} className="lab-btn">
+            Standalone
+          </button>
         )}
         {onStartFlow && (
-          <button onClick={() => onStartFlow(current)} className="tb-btn" style={{ fontSize: 11 }}>Start Flow</button>
+          <button type="button" onClick={() => onStartFlow(current)} className="lab-btn">
+            Start flow
+          </button>
         )}
       </div>
     </div>

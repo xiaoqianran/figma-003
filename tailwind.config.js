@@ -7,19 +7,25 @@ export default {
   theme: {
     extend: {
       colors: {
-        // GODY 黄控台 (Industrial Archive) design tokens
-        ink: '#0A0908',
-        paper: '#F5F3ED',
-        steel: '#B8B5B0',
-        yellow: '#fecc2a',
-        'metal-dark': '#11110F',
-        'metal': '#1A1916',
-        'metal-light': '#22211D',
+        ink: '#111318',
+        paper: '#f7f6f3',
+        amber: '#f0b429',
+        'lab-bg': '#08090d',
+        'lab-surface': '#141722',
+        yellow: '#f0b429',
+        steel: '#a8a6b0',
+        'metal-dark': '#0e1016',
+        metal: '#141722',
+        'metal-light': '#1a1e2b',
       },
       fontFamily: {
-        console: ['"IBM Plex Mono"', 'SF Mono', 'Menlo', 'monospace'],
-        display: ['"Playfair Display"', 'Georgia', '"Songti SC"', 'serif'],
-      }
+        console: ['"JetBrains Mono"', 'SF Mono', 'Menlo', 'monospace'],
+        display: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
+      borderRadius: {
+        lab: '16px',
+      },
     },
   },
   plugins: [],

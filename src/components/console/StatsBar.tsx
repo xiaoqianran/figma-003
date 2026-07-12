@@ -8,9 +8,34 @@ interface StatsBarProps {
   flowLength?: number;
 }
 
-export const StatsBar: React.FC<StatsBarProps> = () => (
-  <div style={{ fontSize: 10, color: '#6E6A61', display: 'flex', gap: 12 }}>
-    <span>44 PROTOTYPES</span>
-    <span>100% REACT</span>
+export const StatsBar: React.FC<StatsBarProps> = ({
+  total = 0,
+  migrated = 0,
+  favoritesCount = 0,
+  recentCount = 0,
+  flowLength = 0,
+}) => (
+  <div className="lab-header-stats" aria-label="Console stats">
+    <span className="lab-stat-pill">
+      <strong>{total}</strong> prototypes
+    </span>
+    <span className="lab-stat-pill lab-stat-pill--accent">
+      <strong>{migrated}/{total}</strong> React
+    </span>
+    {favoritesCount > 0 && (
+      <span className="lab-stat-pill">
+        <strong>{favoritesCount}</strong> favs
+      </span>
+    )}
+    {recentCount > 0 && (
+      <span className="lab-stat-pill">
+        <strong>{recentCount}</strong> recent
+      </span>
+    )}
+    {flowLength > 0 && (
+      <span className="lab-stat-pill">
+        <strong>{flowLength}</strong> flow
+      </span>
+    )}
   </div>
 );
