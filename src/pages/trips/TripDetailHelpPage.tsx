@@ -77,7 +77,7 @@ const TripDetailHelpPage: React.FC<Props> = ({ onNavigate }) => {
           <div className={styles.ratingStars}>{Array.from({length:5}).map((_,i)=><span key={i} style={{color:'#fecc2a'}}>★</span>)}</div>
         </div>
 
-        <div className={styles.helpLink} onClick={() => info('帮助', '打开帮助中心 (demo)')}>需要本次行程的帮助吗？</div>
+        <div className={styles.helpLink} onClick={() => info('帮助', '打开帮助中心 （演示）')}>需要本次行程的帮助吗？</div>
 
         <div className={styles.actionRow}>
           <div className={styles.actionCard} onClick={() => { addRecentAction('从帮助页切换支付'); success('支付', '切换支付（演示）'); }}>

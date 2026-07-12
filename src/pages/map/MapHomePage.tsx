@@ -43,7 +43,7 @@ const MapHomePage: React.FC<MapHomePageProps> = ({ onNavigate }) => {
         <div className={styles.car} style={{ top: 257, left: 212 }} onClick={selectCar}>🚕</div>
         <div className={styles.car} style={{ top: 240, left: 348, transform: 'rotate(90deg)' }} onClick={selectCar}>🚕</div>
 
-        <div className={styles.locationBtn} onClick={() => { addRecentAction('在地图主页使用定位'); info('定位', '定位成功 (demo)'); }}>🎯</div>
+        <div className={styles.locationBtn} onClick={() => { addRecentAction('在地图主页使用定位'); info('定位', '定位成功 （演示）'); }}>🎯</div>
       </div>
 
       <div className={styles.bottomPanel}>

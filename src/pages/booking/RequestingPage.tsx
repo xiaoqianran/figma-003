@@ -42,7 +42,7 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
       if (!activeTrip) {
         const seeded = bookTrip({
           status: 'upcoming',
-          from: 'Sharon 街 51 号',
+          from: '莎伦街 51 号',
           to: '苹果联合广场',
           price: 15,
           eta: '12 分钟',
@@ -85,7 +85,7 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
           driver,
           eta: etaStr,
           vehicle,
-          from: activeTrip?.from || 'Sharon 街 51 号',
+          from: activeTrip?.from || '莎伦街 51 号',
           to: activeTrip?.to || '苹果联合广场',
           price: activeTrip?.price || 15
         });
@@ -144,7 +144,7 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
     const driver = liveDriver || 'Li Ming';
     const eta = liveEta || '4 分钟';
     const vehicle = activeTrip?.vehicle || 'GodyX';
-    const from = activeTrip?.from || 'Sharon 街 51 号';
+    const from = activeTrip?.from || '莎伦街 51 号';
     const to = activeTrip?.to || '苹果联合广场';
     const price = activeTrip?.price || 15;
 
@@ -158,7 +158,7 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
       ? '已匹配司机 — 用户点击确认'
       : '已匹配司机 — 计时结束或模拟响应完成';
     addRecentAction(action);
-    success('司机已接单', `${driver} 正在前往上车点 · ETA ${eta}`);
+    success('司机已接单', `${driver} 正在前往上车点 · 预计 ${eta}`);
 
     // Intelligent navigation to improved PickupCountdownPage (picks up live driver/eta from state)
     onNavigate?.('trip-pickup-countdown');
@@ -228,7 +228,7 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
           <span className={styles.timeValue}>{countdown.min}m {countdown.sec}s</span>
         </p>
         <p className={styles.destination}>前往 {activeTrip?.to || '苹果联合广场'}</p>
-        <p className={styles.departureInfo}>时间 {liveEta || activeTrip?.eta || '下午 3:50'} · 从 {activeTrip?.from || 'Sharon 街 51 号'}</p>
+        <p className={styles.departureInfo}>时间 {liveEta || activeTrip?.eta || '下午 3:50'} · 从 {activeTrip?.from || '莎伦街 51 号'}</p>
         <p className={styles.priceRange}>${activeTrip?.price || '13'}-{activeTrip?.price ? Math.round(activeTrip.price + 3) : '16'}</p>
         {/* Live driver indicator (appears after first ping for visual feedback) */}
         {(liveDriver || activeTrip?.driver) && (
@@ -312,7 +312,7 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
             border: '1px solid #fecc2a', borderRadius: 999, fontSize: 13, fontWeight: 600, cursor: 'pointer'
           }}
         >
-          ✓ 模拟司机接单 (Driver 已匹配)
+          ✓ 模拟司机接单（司机已匹配）
         </button>
       </div>
 

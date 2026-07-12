@@ -138,7 +138,7 @@ const SignupPage: React.FC<SignupPageProps> = ({ onNavigate }) => {
                 className={styles.key}
                 onClick={() => inputNumber(key.n)}
                 role="button"
-                aria-label={`Key ${key.n}`}
+                aria-label={`按键 ${key.n}`}
               >
                 <div className={styles.keyNumber}>{key.n}</div>
                 {key.l && <div className={styles.keyLetters}>{key.l}</div>}

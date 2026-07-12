@@ -73,7 +73,7 @@ const SchedulingTripPage: React.FC<SchedulingTripPageProps> = ({ onNavigate }) =
   }, [onNavigate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleContainerClick = () => {
-    // restart animation on tap (demo)
+    // restart animation on tap （演示）
     addRecentAction('已重启行程安排动画');
     setCurrentStep(0);
     setStatusText('正在安排您的行程');

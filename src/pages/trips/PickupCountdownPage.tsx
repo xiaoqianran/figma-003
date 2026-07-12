@@ -108,7 +108,7 @@ const PickupCountdownPage: React.FC<PickupCountdownPageProps> = ({ onNavigate })
     } else {
       const newSel = [...selectedCars, id];
       setSelectedCars(newSel);
-      success('车辆选择', '已选择车辆，司机正在赶来 (demo)');
+      success('车辆选择', '已选择车辆，司机正在赶来 （演示）');
     }
   };
 

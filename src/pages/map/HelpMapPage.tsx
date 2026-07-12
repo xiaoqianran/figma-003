@@ -24,8 +24,8 @@ const HelpMapPage: React.FC<HelpMapPageProps> = ({ onNavigate }) => {
         <div style={{ position: 'absolute', top: 305, right: 57, width: 10, height: 10, background: '#fecc2a', borderRadius: '50%' }} />
 
         <div style={{ position: 'absolute', top: 280, right: 24, display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <div onClick={() => { addRecentAction('帮助地图缩放'); info('地图', '地图缩放 (demo)'); }} style={{ background: '#fff', padding: 22, borderRadius: '50%', boxShadow: '0 4px 40px rgba(0,0,0,0.1)', cursor: 'pointer' }}>🔍</div>
-          <div onClick={() => { addRecentAction('帮助地图定位'); info('定位', '已定位 (demo)'); }} style={{ background: '#fff', padding: 14, borderRadius: '50%', boxShadow: '0 4px 40px rgba(0,0,0,0.1)', cursor: 'pointer' }}>🎯</div>
+          <div onClick={() => { addRecentAction('帮助地图缩放'); info('地图', '地图缩放 （演示）'); }} style={{ background: '#fff', padding: 22, borderRadius: '50%', boxShadow: '0 4px 40px rgba(0,0,0,0.1)', cursor: 'pointer' }}>🔍</div>
+          <div onClick={() => { addRecentAction('帮助地图定位'); info('定位', '已定位 （演示）'); }} style={{ background: '#fff', padding: 14, borderRadius: '50%', boxShadow: '0 4px 40px rgba(0,0,0,0.1)', cursor: 'pointer' }}>🎯</div>
           <div onClick={() => { addRecentAction('在帮助地图确认'); onNavigate?.('map-route'); }} style={{ background: '#fff', padding: 14, borderRadius: '50%', boxShadow: '0 4px 40px rgba(0,0,0,0.1)', cursor: 'pointer' }}>✅</div>
         </div>
       </div>

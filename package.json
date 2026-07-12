@@ -8,7 +8,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test:ui": "node scripts/verify-ui-polish.mjs"
+    "test:ui": "node scripts/scan-pages-zh.mjs && node scripts/verify-ui-polish.mjs",
+    "test:zh": "node scripts/scan-pages-zh.mjs",
+    "test:zh:self": "node scripts/scan-pages-zh.mjs --self-test"
   },
   "dependencies": {
     "react": "^19.2.6",

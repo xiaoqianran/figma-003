@@ -48,7 +48,7 @@ const AccountIndexPage: React.FC<AccountIndexPageProps> = ({ onNavigate }) => {
             <button onClick={() => { sendGift('快速演示', 30); success('礼品', '已发送 ¥30 演示礼品'); }} style={{ fontSize: 11, padding: '5px 10px', background: '#0A0908', color: '#fecc2a', border: 'none', borderRadius: 6, cursor: 'pointer' }}>发送 ¥30 礼品</button>
             <button onClick={() => { placeEatsOrder('演示小炒', '午间特惠', 25); info('外卖', '快捷下单成功'); }} style={{ fontSize: 11, padding: '5px 10px', background: '#0A0908', color: '#fecc2a', border: 'none', borderRadius: 6, cursor: 'pointer' }}>快捷外卖下单</button>
           </div>
-          <div style={{ fontSize: 10, color: '#959595', marginTop: 6 }}>操作会更新共享 DemoState（个人资料页同步可见）</div>
+          <div style={{ fontSize: 10, color: '#959595', marginTop: 6 }}>操作会更新共享演示状态（个人资料页同步可见）</div>
         </div>
 
         {navItems.map((item, idx) => (
