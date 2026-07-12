@@ -140,7 +140,7 @@ const TripDetailCompletedPage: React.FC<Props> = ({ onNavigate }) => {
             <button onClick={handleCancelFromDetail} style={{ flex: 1, minWidth: 70, padding: '8px 10px', fontSize: 12, background: '#ffebee', border: 'none', borderRadius: 8, cursor: 'pointer', color: '#c62828' }}>取消</button>
             <button onClick={() => { addRecentAction('通过操作栏评价'); handleRate(); }} style={{ flex: 1, minWidth: 70, padding: '8px 10px', fontSize: 12, background: '#fff8e1', border: 'none', borderRadius: 8, cursor: 'pointer' }}>评分</button>
           </div>
-          {activeTrip && <div style={{ fontSize: 10, marginTop: 4, color: '#6E6A61' }}>进行中： {activeTrip.id} ({activeTrip.status}, paid: {String(!!activeTrip.paid)})</div>}
+          {activeTrip && <div style={{ fontSize: 10, marginTop: 4, color: '#6E6A61' }}>进行中：{activeTrip.id}（{activeTrip.status}，已支付：{activeTrip.paid ? '是' : '否'}）</div>}
           {/* Also show count from booked for continuity */}
           {bookedTrips.length > 0 && <div style={{ fontSize: 10, color: '#959595' }}>状态中已预订总数：{bookedTrips.length}</div>}
         </div>

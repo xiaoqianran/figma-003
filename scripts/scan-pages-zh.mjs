@@ -84,6 +84,14 @@ function scanUiString(s, opts = {}) {
   for (const ban of BANNED_LATIN) {
     if (s.includes(ban)) hits.push(`BANNED:${ban}`)
   }
+  // page-registry slugs in user-visible result logs (check raw, including ${p.id} if id string is inline)
+  if (/\b(trips|booking|account|payment|core|map|auth|other)-[a-z0-9-]+\b/.test(s)) {
+    hits.push('BANNED:page-id-slug')
+  }
+  // also flag result templates that interpolate .id (page-registry id dump)
+  if (opts.strictApi && /\$\{[^}]*\bid\b[^}]*\}/.test(s) && /可访问|accessible|OK|link/i.test(s)) {
+    hits.push('BANNED:page-id-interp')
+  }
 
   // remove template expressions for token scan
   let body = s.replace(/\$\{[^}]*\}/g, ' ')
@@ -170,7 +178,7 @@ function extractStrings(src) {
     }
   }
 
-  // 3) JSX text nodes multiline
+  // 3) JSX text nodes multiline (full >text<)
   const re = />([^<>{]{1,240})</gs
   let m
   while ((m = re.exec(src))) {
@@ -183,6 +191,48 @@ function extractStrings(src) {
     if (/^[\d\s:.\-+%$,¥×·~m/]+$/i.test(text)) continue
     const line = src.slice(0, m.index).split('\n').length
     out.push({ kind: 'jsx', text, line })
+  }
+
+  // 3b) UI labels glued to JSX expressions (same line only):
+  //   Demo active: {x}   /   paid: {y}
+  // Covers both ">Label: {" and indented "Label: {" children without same-line >.
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i]
+    if (!line.includes('{')) continue
+    // prefix after tag close: >Label: {
+    const beforeRe = />(\s*[A-Za-z][A-Za-z0-9 +.'’!?:%\-]{1,50}?)\s*\{/g
+    let bm
+    while ((bm = beforeRe.exec(line))) {
+      const text = bm[1].replace(/\s+/g, ' ').trim()
+      if (!text || !/[A-Za-z]{3,}/.test(text)) continue
+      if (/[=();]|on[A-Z]|=>|\?\.|style|className|onClick|onNavigate|use[A-Z]/.test(text)) continue
+      out.push({ kind: 'jsx-prefix', text, line: i + 1 })
+    }
+    // indented JSX text child:   Demo active: {expr}
+    // Must look like a UI label (contains space or ends with :), not `const {` / `return {`.
+    const childRe = /^\s+([A-Za-z][A-Za-z0-9 +.'’!?:%\-]{2,50}?)\s*\{/
+    const cm = line.match(childRe)
+    if (cm) {
+      const text = cm[1].replace(/\s+/g, ' ').trim()
+      if (!/[A-Za-z]{3,}/.test(text)) continue
+      if (/^(const|let|var|return|if|else|for|while|switch|try|catch|function|class|import|export|type|interface|throw|await|new|typeof|delete|void|yield)$/i.test(text.split(/\s/)[0])) continue
+      if (/[=();]|on[A-Z]|=>|style|className|onClick|onNavigate/.test(text)) continue
+      // UI labels almost always end with : or contain a space ("Demo active:")
+      if (!/[:：]$/.test(text) && !/\s/.test(text)) continue
+      out.push({ kind: 'jsx-prefix', text, line: i + 1 })
+    }
+    // mid between expressions: }, paid: {  — not JS control keywords (} else {)
+    const midRe = /[})]\s*([,，]?\s*[A-Za-z][A-Za-z0-9 +.'’!?:%\-]{1,30}?)\s*\{/g
+    let mm
+    while ((mm = midRe.exec(line))) {
+      const text = mm[1].replace(/\s+/g, ' ').trim().replace(/^[,，]+\s*/, '')
+      if (!text || !/[A-Za-z]{3,}/.test(text)) continue
+      if (/[=();]|on[A-Z]|=>|\?\.|style|className|onClick|onNavigate/.test(text)) continue
+      if (/^(else|else if|catch|finally|try|do|while|for|if|switch|case|default|return|throw|await|yield)$/i.test(text)) continue
+      // require UI-label shape: ends with : or contains space
+      if (!/[:：]/.test(text) && !/\s/.test(text)) continue
+      out.push({ kind: 'jsx-mid', text, line: i + 1 })
+    }
   }
 
   // 4) Standalone pure-text UI lines (keyboard keys, CTAs) — not prop identifiers
@@ -267,7 +317,14 @@ function selfTest() {
       addResult('✅ Profile 页面结构正常');
       addResult('✅ Set activeTrip: dest');
       addResult('✅ 已通过 clearBookedTrips 清空');
-      return <div>Confirm</div>;
+      addResult('✅ trips-upcoming - 可访问');
+      return (
+        <div>
+          <span>Demo active: {x}</span>
+          <span>({s}, paid: {p})</span>
+          Confirm
+        </div>
+      );
     };
   `
   const good = `
@@ -281,7 +338,7 @@ function selfTest() {
   `
   const h1 = scanSource(bad, 'self-bad')
   const h2 = scanSource(good, 'self-good')
-  const ok1 = h1.some((h) => String(h.token).includes('demo') || h.token === 'Confirm' || h.token === 'BANNED:(demo)' || h.token === 'Profile' || h.token === 'Set' || h.token === 'activeTrip' || h.token === 'clearBookedTrips')
+  const ok1 = h1.some((h) => String(h.token).includes('demo') || h.token === 'Confirm' || h.token === 'BANNED:(demo)' || h.token === 'Profile' || h.token === 'Set' || h.token === 'activeTrip' || h.token === 'clearBookedTrips' || h.token === 'Demo' || h.token === 'active' || h.token === 'paid' || String(h.token).includes('trips'))
   const ok2 = h2.length === 0
   console.log('self-test inject EN:', ok1 ? 'FAIL as expected (' + h1.length + ' hits)' : 'UNEXPECTED PASS', h1.map(h=>h.token).slice(0,8))
   console.log('self-test clean ZH:', ok2 ? 'PASS' : 'UNEXPECTED FAIL ' + JSON.stringify(h2.slice(0, 5)))
