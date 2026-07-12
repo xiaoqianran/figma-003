@@ -98,7 +98,7 @@ const TripDetailHelpPage: React.FC<Props> = ({ onNavigate }) => {
 
         {/* Help options */}
         <div className={styles.helpOption} onClick={() => handleHelpOption('发生了事故')}>
-          I was involved in accident <span>→</span>
+          我遭遇了事故 <span>→</span>
         </div>
         <div className={styles.helpOption} onClick={() => handleHelpOption('查看车费明细')}>查看车费明细</div>
         <div className={styles.helpOption} onClick={() => handleHelpOption('我遗失了物品')}>我遗失了物品</div>

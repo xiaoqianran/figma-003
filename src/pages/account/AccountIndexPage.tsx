@@ -40,7 +40,7 @@ const AccountIndexPage: React.FC<AccountIndexPageProps> = ({ onNavigate }) => {
         <div style={{ background: '#fffdf5', border: '1px solid #f3e8c8', borderRadius: 12, padding: '14px 16px', marginBottom: 20 }}>
           <div style={{ fontSize: 12, fontWeight: 600, color: '#49493d', marginBottom: 8 }}>演示权益与功能</div>
           <div style={{ fontSize: 12, color: '#49493d', marginBottom: 10, lineHeight: 1.4 }}>
-            Balance: <strong>¥{balance.toFixed(2)}</strong> • Gody Pass: {hasGodyPass ? '🎫 已激活' : '未激活'} • Promo: 🆓{promoCredits} • Gifts: 🎁{giftsSent} • Eats: 🍽️{eatsOrders}
+            余额：<strong>¥{balance.toFixed(2)}</strong> · Gody 通行证：{hasGodyPass ? '🎫 已激活' : '未激活'} · 优惠：🆓{promoCredits} · 礼品：🎁{giftsSent} · 外卖：🍽️{eatsOrders}
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
             <button onClick={() => { buyGodyPass(99); success('Gody 通行证', '从账户入口快速购买'); }} style={{ fontSize: 11, padding: '5px 10px', background: '#0A0908', color: '#fecc2a', border: 'none', borderRadius: 6, cursor: 'pointer' }}>购买通行证 ¥99</button>

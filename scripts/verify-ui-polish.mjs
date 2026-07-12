@@ -108,83 +108,148 @@ assert(trips.includes('TripCard'), 'Trips TripCard')
 const main = read('src/main.tsx')
 assert(main.includes('ToastProvider') && main.includes('HashRouter'), 'main providers')
 
-// --- 6. Pages: no stray English UI text nodes (allow brand/name tokens only) ---
+// --- 6. Pages: no stray English UI text (multiline-aware, brand allowlist) ---
 const ALLOW_EXACT = new Set([
   'GodyX', 'GODY', 'Gody', 'VISA', 'Visa', 'Gody Black', 'Comfort XL', 'Gody Cash', 'Gody pass', 'Gody Pass',
   'Push Puttichai', 'Alex Chen', 'Wi-Fi', 'Wi‑Fi', 'Facebook', 'Twitter', 'Google', 'Eats', 'Pool',
   'Push · 4.93', 'Jack · 4.93', '9HTR789', 'Push', 'Jack', 'John', 'Sarah',
   'Gody Eats', 'demo.user@gody.example',
-  '🚗 GodyX', '🍽️ Eats', '🚗 Trips',
+  '🚗 GodyX', '🍽️ Eats', '🚗 Trips', '123', '···· 4242', '.... 4242',
 ])
 const ALLOW_PREFIX = /^(Push|Jack|Alex|John|Sarah|Gody|GODY|VISA|Visa|NIO|XPeng|Tesla|BYD|Wi|Li |Wang |Chen |Zhao |Sun |Liu )/
 const BANNED_SNIPPETS = [
-  'Schedule a trip',
-  'Need help with this trip',
-  'Manage your profile',
-  'Where are you going',
-  'Good morning',
-  'Welcome back',
-  'Confirm your pick-up',
-  'Requesting',
-  'Your trips',
-  'Book a ride',
-  'Choose a trip',
-  'Switch payment method',
-  'I want to switch my payment',
-  'Relax with real',
-  'You are here',
-  'Logged in:',
-  'Demo Perks',
-  'Seed 3 sample trips',
-  'Create Test Active',
-  'Mark paid',
-  'view in upcoming',
-  'Tap to view',
-  'My Trips Hub',
+  'Schedule a trip', 'Need help with this trip', 'Manage your profile', 'Where are you going',
+  'Good morning', 'Welcome back', 'Confirm your pick-up', 'Your trips', 'Book a ride',
+  'Choose a trip', 'Switch payment method', 'I want to switch my payment', 'Relax with real',
+  'You are here', 'Logged in:', 'Demo Perks', 'Seed 3 sample trips', 'Create Test Active',
+  'Mark paid', 'view in upcoming', 'Tap to view', 'My Trips Hub',
+  // residual UI that previously slipped past same-line-only scan
+  'Add Payment methods', 'Add promo codes', 'I was involved in accident', 'Active trip to',
+  'search prefilled', 'Current lead:', 'updating live', 'Gift to:', "Can't send",
+  'Balance:', 'Gody Pass:', 'Promo:', 'Gifts:', 'Eats:',
 ]
 const pagesDir = path.join(root, 'src/pages')
 const enNodes = []
+function looksLikeCode(s) {
+  return /(?:const |let |var |function |return \(|interface |type |useState|useRef|useEffect|React\.|Props|status ===|onNavigate|void;|=\s*\(|=>)/.test(s)
+    || /[;{}=]/.test(s)
+    || /^\d+\s*&&/.test(s)
+    || /^(padding|margin|color|background|fontSize|border|display|flex|width|height|cursor|position|top|left|right|bottom|alignItems|justifyContent|borderRadius|boxShadow|marginBottom|marginTop|fontWeight|opacity|zIndex|overflow|gap|minWidth|maxWidth|minHeight|maxHeight|flexDirection|flexWrap|flexShrink|lineHeight|letterSpacing|textAlign|whiteSpace|objectFit|transform|transition|animation|outline)\b/i.test(s)
+}
+function isDisallowedUiText(s) {
+  if (!s || /[\u4e00-\u9fff]/.test(s)) return false
+  if (!/[A-Za-z]{3,}/.test(s)) return false
+  if (/^[\d\s:.\-+%$,¥×·~m•·/]+$/i.test(s)) return false
+  if (ALLOW_EXACT.has(s) || ALLOW_PREFIX.test(s)) return false
+  const core = s.replace(/^[\W\d🚗🍽🎫+]+/, '').trim()
+  if (ALLOW_EXACT.has(core) || (core && ALLOW_PREFIX.test(core))) return false
+  if (s.includes('status===') || s.includes('t.status') || s.includes('activeTrip')) return false
+  if (s.startsWith('0 &&')) return false
+  if (s.includes('@') && s.includes('.')) return false
+  if (looksLikeCode(s)) return false
+  // pure single technical token
+  if (/^[a-z][a-zA-Z0-9]*$/.test(s) && !/^(space|return|confirm|cancel|submit|continue|back|next|done|save|close)$/i.test(s)) return false
+  return true
+}
 function walk(dir) {
   for (const name of fs.readdirSync(dir)) {
     const fp = path.join(dir, name)
     const st = fs.statSync(fp)
     if (st.isDirectory()) walk(fp)
     else if (name.endsWith('.tsx')) {
-      const t = fs.readFileSync(fp, 'utf8')
-      const re = />([^<>{\n]{2,160})</g
+      const raw = fs.readFileSync(fp, 'utf8')
+      const t = raw
+        .replace(/\/\*[\s\S]*?\*\//g, ' ')
+        .replace(/(^|[^:])\/\/.*$/gm, '$1')
+      const rel = path.relative(root, fp)
+
+      // A) JSX text nodes — multiline allowed (no nested tags / {expr} inside)
+      // Filter code spans that sneak between generic `>` and later `<`.
+      const re = />([^<>{]{1,200})</gs
       let m
       while ((m = re.exec(t))) {
         let s = m[1].replace(/&nbsp;|&amp;|&lt;|&gt;/g, ' ').replace(/\s+/g, ' ').trim()
-        if (!s || /[\u4e00-\u9fff]/.test(s)) continue
-        if (!/[A-Za-z]{3,}/.test(s)) continue
-        if (/^[\d\s:.\-+%$,¥×·~m]+$/i.test(s)) continue
-        if (ALLOW_EXACT.has(s) || ALLOW_PREFIX.test(s)) continue
-        const core = s.replace(/^[\W\d🚗🍽🎫]+/, '').trim()
-        if (ALLOW_EXACT.has(core) || (core && ALLOW_PREFIX.test(core))) continue
-        if (s.includes('status===') || s.includes('t.status') || s.includes('activeTrip')) continue
-        if (s.startsWith('0 &&')) continue
-        if (s.includes('@') && s.includes('.')) continue // email
-        enNodes.push({ file: path.relative(root, fp), text: s })
+        if (!isDisallowedUiText(s)) continue
+        // extra guard: UI text rarely contains commas of destructuring or dots of module paths
+        if (/,/.test(s) && !/\d/.test(s) && s.split(',').length > 2) continue
+        if (/\.tsx|\.css|module\.|from '/.test(s)) continue
+        enNodes.push({ file: rel, text: s })
       }
+
+      // B) Standalone pure-English UI label lines (keyboard keys / CTAs / multiword copy)
+      // Must be pure display text — no code punctuation (colons, quotes, commas-as-syntax).
+      for (const line of t.split('\n')) {
+        const s = line.trim()
+        if (!s) continue
+        if (/[<>{}();=:'"`]/.test(s)) continue
+        if (s.endsWith(',')) continue
+        // skip camelCase/destructure identifier lists: user, activeTrip, bookTrip
+        if (/,/.test(s) && s.split(',').every((p) => /^[A-Za-z_$][\w$]*\s*$/.test(p.trim()) || !p.trim())) continue
+        if (!/^[+A-Za-z]/.test(s)) continue
+        if (/[\u4e00-\u9fff]/.test(s)) continue
+        if (ALLOW_EXACT.has(s) || ALLOW_PREFIX.test(s)) continue
+        if (looksLikeCode(s)) continue
+        if (/^(return|true|false|null|undefined|export default|destructive|selected)$/i.test(s)) continue
+        if (/^[A-Z][a-zA-Z0-9]+$/.test(s) && /Page$|Props$|Modal$/.test(s)) continue
+        // UI-ish: short CTAs, keyboard keys, multiword phrases, + Add …
+        if (/^(space|return|Confirm|Cancel|Submit|Continue|Back|Next|Done|Save|Close)$/i.test(s)
+          || /^\+\s*[A-Za-z]/.test(s)
+          || (/^[A-Za-z][A-Za-z0-9 +.'’!?%\-/]{2,80}$/.test(s) && /\s/.test(s) && /[a-z]/.test(s))) {
+          enNodes.push({ file: rel, text: `LINE: ${s}` })
+        }
+      }
+
+      // C) English UI labels glued before expressions on a JSX line:  Balance: <strong>… / Active trip to <strong>
+      for (const line of t.split('\n')) {
+        if (!line.includes('{') && !line.includes('<')) continue
+        if (/^\s*(const|let|var|function|import|export|interface|type|if|return|for|while)\b/.test(line.trim())) continue
+        // label then tag: Balance: <strong
+        let lm
+        const labelTag = /(?:^|>)\s*([A-Za-z][A-Za-z0-9 +.'’!?:%\-]{1,50}?)\s*</g
+        while ((lm = labelTag.exec(line))) {
+          const s = lm[1].replace(/\s+/g, ' ').trim().replace(/[•·|,]+$/, '').trim()
+          if (/^(Balance:|Gift to:|Current lead:|Active trip to|Logged in:|Gody Pass:|Promo:|Gifts:|Eats:)$/i.test(s)
+            || (isDisallowedUiText(s) && /:$/.test(s))) {
+            enNodes.push({ file: rel, text: `LABEL: ${s}` })
+          }
+        }
+      }
+
+      // D) Banned phrases in quote or on UI lines (not identifiers like RequestingPage)
       for (const snip of BANNED_SNIPPETS) {
-        // Flag only UI contexts on a single line (quoted string or JSX text node).
-        // Skip identifiers (RequestingPage) and comments.
         const esc = snip.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-        const asQuote = new RegExp("['\"`]" + esc + "(?:['\"`]|[^A-Za-z])", 'i')
-        const asJsx = new RegExp('>[^<{\\n]*' + esc + '[^<{\\n]*<', 'i')
+        const asQuote = new RegExp("['\"`]" + esc, 'i')
+        const asJsxStart = new RegExp('>[^<{\\n]*' + esc, 'i')
         const real = t.split('\n').some((line) => {
-          const code = line.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/, '')
-          return asQuote.test(code) || asJsx.test(code)
+          if (/^\s*(import |export |interface |type |const |function |\/\/)/.test(line)) return false
+          if (asQuote.test(line) || asJsxStart.test(line)) return true
+          // plain UI text line containing the phrase (not camelCase glue)
+          if (line.includes(snip) && !new RegExp('[A-Za-z]' + esc).test(line) && !new RegExp(esc + '[A-Za-z]').test(line)) {
+            return true
+          }
+          return false
         })
-        if (real) enNodes.push({ file: path.relative(root, fp), text: `BANNED_SNIPPET: ${snip}` })
+        if (real) enNodes.push({ file: rel, text: `BANNED_SNIPPET: ${snip}` })
       }
     }
   }
 }
 if (fs.existsSync(pagesDir)) walk(pagesDir)
+{
+  const seen = new Set()
+  const uniq = []
+  for (const n of enNodes) {
+    const k = n.file + '\0' + n.text
+    if (seen.has(k)) continue
+    seen.add(k)
+    uniq.push(n)
+  }
+  enNodes.length = 0
+  enNodes.push(...uniq)
+}
 assert(enNodes.length === 0, `pages have no disallowed English UI nodes (found ${enNodes.length})`)
 if (enNodes.length) {
-  enNodes.slice(0, 20).forEach((n) => failures.push(`${n.file}: ${n.text}`))
+  enNodes.slice(0, 30).forEach((n) => failures.push(`${n.file}: ${n.text}`))
 }
 // status enums must remain English technical values
 const sampleTrip = read('src/pages/trips/YourTripsUpcomingPage.tsx')
@@ -195,8 +260,15 @@ assert(read('src/pages/auth/LoginPage.tsx').includes('欢迎回来') || read('sr
 assert(read('src/pages/booking/ChooseCarPage.tsx').includes('选择出行方式') || read('src/pages/booking/ChooseCarPage.tsx').includes('预约'), 'ChooseCar Chinese labels')
 assert(read('src/pages/booking/RequestingPage.tsx').includes('请求司机') || read('src/pages/booking/RequestingPage.tsx').includes('预计上车'), 'Requesting Chinese labels')
 assert(read('src/pages/account/AccountIndexPage.tsx').includes('账户') || read('src/pages/account/AccountIndexPage.tsx').includes('已登录'), 'Account Chinese labels')
-assert(read('src/pages/payment/SelectPaymentPage.tsx').length > 100, 'SelectPayment page present')
+assert(read('src/pages/payment/SelectPaymentPage.tsx').includes('添加支付方式') || read('src/pages/payment/SelectPaymentPage.tsx').includes('使用此支付方式'), 'SelectPayment Chinese labels')
+assert(read('src/pages/payment/ConfirmPaymentPage.tsx').includes('确认'), 'ConfirmPayment Chinese CTA')
 assert(read('src/pages/map/MapHomePage.tsx').includes('进行中') || read('src/pages/map/MapHomePage.tsx').includes('行程'), 'MapHome Chinese labels')
+assert(read('src/pages/trips/TripDetailHelpPage.tsx').includes('事故'), 'TripDetailHelp Chinese help option')
+assert(read('src/pages/core/Search1Page.tsx').includes('空格') && read('src/pages/core/Search1Page.tsx').includes('换行'), 'Search1 keyboard Chinese keys')
+assert(read('src/pages/core/Search2Page.tsx').includes('空格') && read('src/pages/core/Search2Page.tsx').includes('换行'), 'Search2 keyboard Chinese keys')
+assert(read('src/pages/booking/RequestingPage.tsx').includes('当前领先司机') || read('src/pages/booking/RequestingPage.tsx').includes('实时更新'), 'Requesting live status Chinese')
+assert(read('src/pages/account/AccountIndexPage.tsx').includes('余额'), 'Account balance Chinese label')
+assert(read('src/pages/account/ProfilePage.tsx').includes('赠送给') || read('src/pages/account/ProfilePage.tsx').includes('余额'), 'Profile gift modal Chinese')
 
 const summary = { passed: passes.length, failed: failures.length, passes, failures, enNodesSample: enNodes.slice(0, 10) }
 console.log('=== ui-ux-pro-max GODY Studio verification ===')

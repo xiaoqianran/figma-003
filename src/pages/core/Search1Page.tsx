@@ -186,7 +186,7 @@ const Search1Page: React.FC<Search1PageProps> = ({ onNavigate }) => {
 
       {activeTrip && (
         <div style={{ margin: '0 16px 8px', padding: '6px 10px', background: '#fff8e1', borderRadius: 8, fontSize: 12 }}>
-          Active trip to <strong>{activeTrip.to}</strong> — search prefilled
+          进行中行程前往 <strong>{activeTrip.to}</strong> — 搜索已预填
         </div>
       )}
 
@@ -330,7 +330,7 @@ const Search1Page: React.FC<Search1PageProps> = ({ onNavigate }) => {
             onTouchStart={handleKeyTouchStart}
             onTouchEnd={(e) => handleKeyTouchEnd(e)}
           >
-            space
+            空格
           </div>
           <div
             className={`${styles.key} ${styles.keyReturn}`}
@@ -338,7 +338,7 @@ const Search1Page: React.FC<Search1PageProps> = ({ onNavigate }) => {
             onTouchStart={handleKeyTouchStart}
             onTouchEnd={(e) => handleKeyTouchEnd(e)}
           >
-            return
+            换行
           </div>
         </div>
 

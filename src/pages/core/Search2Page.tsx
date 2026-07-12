@@ -302,7 +302,7 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
             onTouchStart={handleKeyDownStyle}
             onTouchEnd={(e) => handleKeyUpStyle(e)}
           >
-            space
+            空格
           </div>
           <div
             className={`${styles.key} ${styles.keyReturn}`}
@@ -310,7 +310,7 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
             onTouchStart={handleKeyDownStyle}
             onTouchEnd={(e) => handleKeyUpStyle(e)}
           >
-            return
+            换行
           </div>
         </div>
 

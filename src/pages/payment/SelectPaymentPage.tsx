@@ -56,7 +56,7 @@ const SelectPaymentPage: React.FC<SelectPaymentPageProps> = ({ onNavigate }) => 
         </div>
 
         <div className={styles.addCard} onClick={() => info('支付', '添加支付方式 (demo)')}>
-          + Add Payment methods
+          + 添加支付方式
         </div>
 
         <div className={styles.discount}>
@@ -65,7 +65,7 @@ const SelectPaymentPage: React.FC<SelectPaymentPageProps> = ({ onNavigate }) => 
 
         <div className={styles.promoTitle}>优惠码</div>
         <div className={styles.addCard} onClick={() => info('促销', '添加促销码 (demo)')}>
-          + Add promo codes
+          + 添加优惠码
         </div>
 
         <button className={styles.useBtn} onClick={usePayment}>
