@@ -258,7 +258,7 @@ const RequestingPage: React.FC<RequestingPageProps> = ({ onNavigate }) => {
         )}
         {liveDriver && liveEta && (
           <div style={{ marginTop: 6, fontSize: 11, color: '#49493d', fontWeight: 500 }}>
-            Current lead: <strong>{liveDriver}</strong> • {liveEta} • updating live
+            当前领先司机：<strong>{liveDriver}</strong> · {liveEta} · 实时更新中
           </div>
         )}
       </div>

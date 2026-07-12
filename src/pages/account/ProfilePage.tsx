@@ -380,7 +380,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
         </div>
 
         <div style={{ fontSize: 12, marginBottom: 10, color: '#C9C6BE' }}>
-          Balance: ¥{balance.toFixed(2)} • Gift to: <strong>{selectedContact || '（选择联系人）'}</strong>
+          余额：¥{balance.toFixed(2)} · 赠送给：<strong>{selectedContact || '（选择联系人）'}</strong>
         </div>
 
         <div style={{ display: 'flex', gap: 10 }}>
@@ -389,7 +389,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
             onClick={() => {
               if (!selectedContact) return;
               if (balance < giftAmount) {
-                error('余额不足', `Can't send ¥${giftAmount}`);
+                error('余额不足', `无法发送 ¥${giftAmount}`);
                 return;
               }
               sendGift(selectedContact, giftAmount);
@@ -501,7 +501,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
         ))}
 
         <div style={{ margin: '10px 0 8px', fontSize: 12, color: '#C9C6BE' }}>
-          Balance: ¥{balance.toFixed(2)} {eatsChoice ? `• ${eatsChoice.item} ¥${eatsChoice.cost}` : ''}
+          余额：¥{balance.toFixed(2)} {eatsChoice ? `· ${eatsChoice.item} ¥${eatsChoice.cost}` : ''}
         </div>
 
         <div style={{ display: 'flex', gap: 8 }}>

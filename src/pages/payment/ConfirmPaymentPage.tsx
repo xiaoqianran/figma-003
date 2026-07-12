@@ -54,7 +54,7 @@ const ConfirmPaymentPage: React.FC<ConfirmPaymentPageProps> = ({ onNavigate }) =
             </div>
 
             <button className={styles.confirmBtn} onClick={confirm}>
-              Confirm
+              确认
             </button>
           </div>
         </div>
