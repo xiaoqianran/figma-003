@@ -9,11 +9,11 @@ interface Props {
 const TripsIndexPage: React.FC<Props> = ({ onNavigate }) => {
   const { activeTrip, bookedTrips, setActiveTrip, addRecentAction, clearBookedTrips } = useDemoState();
   const cards = [
-    { id: 'trips-upcoming', title: 'Your trips - Upcoming', desc: '即将到来的行程页面，展示用户暂无即将到来的行程的空状态。', label: 'Upcoming' },
-    { id: 'trips-past', title: 'Your trips - Past', desc: '历史行程页面，展示用户过去完成的行程记录。', label: 'Past' },
-    { id: 'trips-detail-cancelled', title: 'Trips detail #1 (Cancelled)', desc: '取消行程详情页面，展示被取消的行程信息。', label: 'Cancelled' },
-    { id: 'trips-detail-completed', title: 'Trips detail #2 (Completed)', desc: '完成行程详情页面，包含完整信息与评价入口。', label: 'Completed' },
-    { id: 'trips-detail-help', title: 'Trips detail #3 (Help)', desc: '帮助和支持页面，包含多种帮助选项与问题分类。', label: 'Help' },
+    { id: 'trips-upcoming', title: '我的行程 - 即将开始', desc: '即将到来的行程页面，展示用户暂无即将到来的行程的空状态。', label: '即将开始' },
+    { id: 'trips-past', title: '我的行程 - 历史', desc: '历史行程页面，展示用户过去完成的行程记录。', label: '历史' },
+    { id: 'trips-detail-cancelled', title: 'Trips detail #1 (Cancelled)', desc: '取消行程详情页面，展示被取消的行程信息。', label: '已取消' },
+    { id: 'trips-detail-completed', title: 'Trips detail #2 (Completed)', desc: '完成行程详情页面，包含完整信息与评价入口。', label: '已完成' },
+    { id: 'trips-detail-help', title: 'Trips detail #3 (Help)', desc: '帮助和支持页面，包含多种帮助选项与问题分类。', label: '帮助' },
   ];
 
   return (
@@ -51,17 +51,17 @@ const TripsIndexPage: React.FC<Props> = ({ onNavigate }) => {
           {activeTrip ? (
             <div>
               {activeTrip.from} → {activeTrip.to} <span style={{ color: '#fecc2a' }}>({activeTrip.status})</span>
-              <button onClick={() => { addRecentAction('Viewed active trip from trips hub'); onNavigate?.('trip-upcoming'); }} style={{ marginLeft: 8, padding: '2px 8px', fontSize: 11, background: '#fecc2a', border: 'none', borderRadius: 4, cursor: 'pointer' }}>View</button>
+              <button onClick={() => { addRecentAction('Viewed active trip from trips hub'); onNavigate?.('trip-upcoming'); }} style={{ marginLeft: 8, padding: '2px 8px', fontSize: 11, background: '#fecc2a', border: 'none', borderRadius: 4, cursor: 'pointer' }}>查看</button>
             </div>
           ) : (
-            <div style={{ color: '#6E6A61' }}>No active trip. Book from Home or Choose Car.</div>
+            <div style={{ color: '#6E6A61' }}>暂无进行中行程。请从首页或选车页预约。</div>
           )}
           <div style={{ marginTop: 8, fontSize: 12 }}>
             Booked: <strong>{bookedTrips.length}</strong> total &nbsp;
             <span style={{color:'#2e7d32'}}>↑{bookedTrips.filter(t=>t.status==='upcoming'||t.status==='in-progress').length} upcoming</span> &nbsp;
             <span style={{color:'#1565c0'}}>✓{bookedTrips.filter(t=>t.status==='completed').length} past</span>
             {bookedTrips.length > 0 && (
-              <button onClick={() => { clearBookedTrips?.(); addRecentAction('Cleared booked trips from hub'); }} style={{ marginLeft: 8, padding: '1px 6px', fontSize: 10, background: '#eee', border: 'none', borderRadius: 3, cursor: 'pointer' }}>Clear all</button>
+              <button onClick={() => { clearBookedTrips?.(); addRecentAction('Cleared booked trips from hub'); }} style={{ marginLeft: 8, padding: '1px 6px', fontSize: 10, background: '#eee', border: 'none', borderRadius: 3, cursor: 'pointer' }}>全部清除</button>
             )}
           </div>
           {/* Mini list render from booked for hub view (filtered) */}

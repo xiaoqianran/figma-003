@@ -36,15 +36,15 @@ const ConfirmPickup1Page: React.FC<ConfirmPickup1PageProps> = ({ onNavigate }) =
       const tripId = activeTrip?.id;
       if (tripId) {
         updateTripStatus(tripId, activeTrip?.status || 'upcoming', {
-          from: '51 Sharon St (confirmed pickup)',
-          eta: activeTrip?.eta ? `${activeTrip.eta} • pickup locked` : 'Pickup confirmed'
+          from: 'Sharon 街 51 号（已确认上车点）',
+          eta: activeTrip?.eta ? `${activeTrip.eta} • pickup locked` : '上车点已确认'
         });
         addRecentAction('Confirmed pickup location — updated via updateTripStatus');
       } else {
         bookTrip({
           status: 'upcoming',
           from: '51 Sharon St (confirmed)',
-          to: 'Apple Union Square',
+          to: '苹果联合广场',
           eta: '3:50 PM',
           price: 16
         });
@@ -81,12 +81,12 @@ const ConfirmPickup1Page: React.FC<ConfirmPickup1PageProps> = ({ onNavigate }) =
         background: '#fff', borderRadius: '24px 24px 0 0',
         boxShadow: '0 4px 40px rgba(0,0,0,0.05)', zIndex: 20, paddingTop: 32
       }}>
-        <p style={{ margin: '0 0 0 24px', fontSize: 20, fontWeight: 500, color: '#49493d' }}>Confirm your pick-up spot</p>
+        <p style={{ margin: '0 0 0 24px', fontSize: 20, fontWeight: 500, color: '#49493d' }}>确认您的上车地点</p>
 
         <div style={{ marginTop: 16, marginLeft: 24, background: '#bdbdbd', width: 327, height: 1 }} />
 
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginTop: 13, padding: '0 24px' }}>
-          <p style={{ margin: '3px 0 0 0', fontSize: 16, fontWeight: 500, color: '#49493d', opacity: addressOpacity }}>51 Sharon St</p>
+          <p style={{ margin: '3px 0 0 0', fontSize: 16, fontWeight: 500, color: '#49493d', opacity: addressOpacity }}>Sharon 街 51 号</p>
           <span style={{ width: 24, height: 24, cursor: 'pointer', fontSize: 18, color: '#49493d' }} onClick={handleSearch}>🔍</span>
         </div>
 
@@ -99,7 +99,7 @@ const ConfirmPickup1Page: React.FC<ConfirmPickup1PageProps> = ({ onNavigate }) =
           }}
         >
           <p style={{ lineHeight: '20px', fontSize: 16, fontWeight: 500, color: '#49493d' }}>
-            {confirming ? '确认中...' : 'Confirm pick-up'}
+            {confirming ? '确认中...' : '确认上车点'}
           </p>
         </div>
 

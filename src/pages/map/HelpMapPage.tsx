@@ -16,7 +16,7 @@ const HelpMapPage: React.FC<HelpMapPageProps> = ({ onNavigate }) => {
 
       <div style={{ padding: '12px 24px', display: 'flex', justifyContent: 'space-between' }}>
         <span style={{ fontSize: 22, cursor: 'pointer' }} onClick={() => { addRecentAction('Back from help map'); onNavigate?.('map-home'); }}>←</span>
-        <div style={{ background: '#fff', padding: '8px 24px', borderRadius: 12, boxShadow: '0 4px 30px rgba(0,0,0,0.1)' }} onClick={() => addRecentAction('Tapped help header')}>Help</div>
+        <div style={{ background: '#fff', padding: '8px 24px', borderRadius: 12, boxShadow: '0 4px 30px rgba(0,0,0,0.1)' }} onClick={() => addRecentAction('Tapped help header')}>帮助</div>
       </div>
       {activeTrip && <div style={{ textAlign: 'center', fontSize: 11, paddingBottom: 4 }}>Live: trip to {activeTrip.to}</div>}
 

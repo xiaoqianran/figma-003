@@ -55,13 +55,13 @@ const ChooseTrip1Page: React.FC<ChooseTrip1PageProps> = ({ onNavigate }) => {
       <div className={styles.topNav}>
         <div className={styles.navContent}>
           <span className={styles.backArrow} onClick={() => onNavigate?.('booking-choose-car')} role="button" aria-label="返回">←</span>
-          <span className={styles.navTitle}>Choose a trip</span>
+          <span className={styles.navTitle}>选择行程</span>
         </div>
-        <span className={styles.navSubtitle}>Economy</span>
+        <span className={styles.navSubtitle}>经济</span>
       </div>
 
       {/* See all 链接 */}
-      <span className={styles.seeAll} onClick={handleSeeAllEconomy}>See all</span>
+      <span className={styles.seeAll} onClick={handleSeeAllEconomy}>查看全部</span>
 
       {/* 经济型车辆 */}
       <div className={styles.economySection}>
@@ -82,17 +82,17 @@ const ChooseTrip1Page: React.FC<ChooseTrip1PageProps> = ({ onNavigate }) => {
               <span className={styles.infoText}>1-4 min</span>
             </div>
           </div>
-          <span className={styles.vehicleDescription}>Affordable rides, all to yourself</span>
+          <span className={styles.vehicleDescription}>经济实惠，专车独享</span>
           <span className={styles.vehiclePrice}>$22.00</span>
         </div>
 
         {/* Black SUV 卡片 */}
         <div
           className={`${styles.vehicleCard} ${selectedId === 'suv1' ? styles.selected : ''}`}
-          onClick={() => handleSelect('suv1', 'Black SUV', 17.00)}
+          onClick={() => handleSelect('suv1', '黑金 SUV', 17.00)}
         >
           <div className={`${styles.vehicleImage} ${styles.vehicleImageSuv}`}>🚙</div>
-          <span className={styles.vehicleName}>Black SUV</span>
+          <span className={styles.vehicleName}>黑金 SUV</span>
           <div className={styles.vehicleInfo}>
             <div className={styles.seatsInfo}>
               <span className={styles.infoIcon}>👤</span>
@@ -103,15 +103,15 @@ const ChooseTrip1Page: React.FC<ChooseTrip1PageProps> = ({ onNavigate }) => {
               <span className={styles.infoText}>1-8 min</span>
             </div>
           </div>
-          <span className={styles.vehicleDescription}>Affordable rides, all to yourself</span>
+          <span className={styles.vehicleDescription}>经济实惠，专车独享</span>
           <span className={styles.vehiclePrice}>$17.00</span>
         </div>
       </div>
 
       {/* 高级型标题 */}
       <div className={styles.premiumSection}>
-        <span className={styles.premiumTitle}>Premium</span>
-        <span className={styles.seeAllPremium} onClick={handleSeeAllPremium}>See all</span>
+        <span className={styles.premiumTitle}>高端</span>
+        <span className={styles.seeAllPremium} onClick={handleSeeAllPremium}>查看全部</span>
       </div>
 
       {/* 高级型车辆 */}
@@ -119,11 +119,11 @@ const ChooseTrip1Page: React.FC<ChooseTrip1PageProps> = ({ onNavigate }) => {
         {/* Gody Black 卡片 */}
         <div
           className={`${styles.premiumCard} ${selectedId === 'godyblack1' ? styles.selected : ''}`}
-          onClick={() => handleSelect('godyblack1', 'Gody Black', 12.00)}
+          onClick={() => handleSelect('godyblack1', 'Gody 黑金', 12.00)}
         >
           <div className={styles.premiumVehicleImage}>
             <div className={`${styles.vehicleImage} ${styles.vehicleImageSuv}`}>🚙</div>
-            <span className={styles.premiumVehicleName}>Gody Black</span>
+            <span className={styles.premiumVehicleName}>Gody 黑金</span>
           </div>
           <div className={styles.premiumInfo}>
             <div className={styles.seatsInfo}>
@@ -135,17 +135,17 @@ const ChooseTrip1Page: React.FC<ChooseTrip1PageProps> = ({ onNavigate }) => {
               <span className={styles.infoText}>1-7 min</span>
             </div>
           </div>
-          <span className={styles.vehicleDescription}>Affordable rides, all to yourself</span>
+          <span className={styles.vehicleDescription}>经济实惠，专车独享</span>
           <span className={styles.vehiclePrice}>$12.00</span>
         </div>
 
         {/* Comfort XL 卡片 */}
         <div
           className={`${styles.comfortCard} ${selectedId === 'comfort1' ? styles.selected : ''}`}
-          onClick={() => handleSelect('comfort1', 'Comfort XL', 24.00)}
+          onClick={() => handleSelect('comfort1', '舒适加大', 24.00)}
         >
           <div className={styles.comfortImage}>🚗</div>
-          <span className={styles.comfortName}>Comfort XL</span>
+          <span className={styles.comfortName}>舒适加大</span>
           <div className={styles.comfortInfo}>
             <div className={styles.seatsInfo}>
               <span className={styles.infoIcon}>👤</span>
@@ -156,7 +156,7 @@ const ChooseTrip1Page: React.FC<ChooseTrip1PageProps> = ({ onNavigate }) => {
               <span className={styles.infoText}>1-8 min</span>
             </div>
           </div>
-          <span className={styles.comfortDescription}>Affordable rides, all to yourself</span>
+          <span className={styles.comfortDescription}>经济实惠，专车独享</span>
           <span className={styles.comfortPrice}>$24.00</span>
         </div>
       </div>

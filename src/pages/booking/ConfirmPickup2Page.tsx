@@ -20,10 +20,10 @@ const ConfirmPickup2Page: React.FC<ConfirmPickup2PageProps> = ({ onNavigate }) =
     // Drive state on selection/confirm in pickup2
     const tripId = activeTrip?.id;
     if (tripId) {
-      updateTripStatus(tripId, activeTrip.status || 'upcoming', { eta: type === 'ride-pack' ? 'Ride pack selected' : '$14 no-ride option' });
+      updateTripStatus(tripId, activeTrip.status || 'upcoming', { eta: type === 'ride-pack' ? '已选择行程包' : '$14 no-ride option' });
       addRecentAction(`Pickup2 selection — mutated via updateTripStatus (${type})`);
     } else if (type === 'ride-pack') {
-      bookTrip({ status: 'upcoming', from: '51 Sharon St', to: 'Apple Union Square', eta: 'Ride pack', price: 13 });
+      bookTrip({ status: 'upcoming', from: 'Sharon 街 51 号', to: '苹果联合广场', eta: '行程包', price: 13 });
       addRecentAction('Pickup2 ride-pack selected — via bookTrip');
     }
     if (type === 'ride-pack') {
@@ -58,8 +58,8 @@ const ConfirmPickup2Page: React.FC<ConfirmPickup2PageProps> = ({ onNavigate }) =
         boxShadow: '0 4px 40px rgba(0,0,0,0.05)', zIndex: 20, paddingTop: 32
       }}>
         <div style={{ margin: '0 0 0 24px' }}>
-          <p style={{ lineHeight: '32px', fontSize: 28, fontWeight: 700, color: '#49493d' }}>Get this trip for $13.00</p>
-          <p style={{ margin: '12px 0 0 24px', fontSize: 14, color: '#959595' }}>Buy a ride pack and save on this trip</p>
+          <p style={{ lineHeight: '32px', fontSize: 28, fontWeight: 700, color: '#49493d' }}>本单仅需 $13.00</p>
+          <p style={{ margin: '12px 0 0 24px', fontSize: 14, color: '#959595' }}>购买行程包，本单更省钱</p>
         </div>
 
         <div
@@ -69,7 +69,7 @@ const ConfirmPickup2Page: React.FC<ConfirmPickup2PageProps> = ({ onNavigate }) =
             padding: '11px 109px 11px 108px', cursor: 'pointer'
           }}
         >
-          <p style={{ fontSize: 16, fontWeight: 500, color: '#fecc2a' }}>No ride for $14</p>
+          <p style={{ fontSize: 16, fontWeight: 500, color: '#fecc2a' }}>暂不选择 $14 行程</p>
         </div>
 
         <div
@@ -79,7 +79,7 @@ const ConfirmPickup2Page: React.FC<ConfirmPickup2PageProps> = ({ onNavigate }) =
             padding: '12px 110px 12px 109px', cursor: 'pointer'
           }}
         >
-          <p style={{ fontSize: 16, fontWeight: 500, color: '#49493d' }}>Get a ride pack</p>
+          <p style={{ fontSize: 16, fontWeight: 500, color: '#49493d' }}>购买行程包</p>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'flex-start', marginTop: 24, padding: '21px 121px 8px 120px' }}>

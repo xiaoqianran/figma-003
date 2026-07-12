@@ -31,10 +31,10 @@ const ConfirmPickup4Page: React.FC<ConfirmPickup4PageProps> = ({ onNavigate }) =
     addRecentAction('Call driver (page4)');
     const tripId = activeTrip?.id;
     if (tripId) {
-      updateTripStatus(tripId, 'in-progress', { driver: 'Push • Camry', eta: 'En route' });
+      updateTripStatus(tripId, 'in-progress', { driver: 'Push • Camry', eta: '前往中' });
       addRecentAction('Call (4) — driver via updateTripStatus');
     } else {
-      bookTrip({ status: 'in-progress', from: 'SFO pickup', to: 'Apple Union Square', driver: 'Push', eta: 'En route' });
+      bookTrip({ status: 'in-progress', from: 'SFO pickup', to: '苹果联合广场', driver: '推送', eta: '前往中' });
       addRecentAction('Call (4) — via bookTrip');
     }
     info('电话', '正在拨打司机电话... (demo)');
@@ -54,7 +54,7 @@ const ConfirmPickup4Page: React.FC<ConfirmPickup4PageProps> = ({ onNavigate }) =
       {/* pickup card with divider */}
       <div style={{ position: 'relative', marginLeft: 24, width: 327, height: 68, zIndex: 20 }}>
         <div style={{ display: 'flex', position: 'absolute', top: 0, left: 0, alignItems: 'flex-start', justifyContent: 'space-between', borderRadius: 12, background: '#fed16c', padding: '16px 16px 12px', width: 327, height: 68 }}>
-          <p style={{ width: 199, fontSize: 14, lineHeight: '20px', color: '#49493d' }}>Meet at the pickup point for San Francisco International Airport</p>
+          <p style={{ width: 199, fontSize: 14, lineHeight: '20px', color: '#49493d' }}>请在旧金山国际机场上车点会合</p>
           <span style={{ marginTop: 8, width: 20, height: 20, cursor: 'pointer', fontSize: 16 }} onClick={handleEdit}>✏️</span>
         </div>
         <div style={{ position: 'absolute', top: 34, left: 259, background: '#959595', width: 32, height: 1, transform: 'rotate(90deg)' }} />
@@ -65,8 +65,8 @@ const ConfirmPickup4Page: React.FC<ConfirmPickup4PageProps> = ({ onNavigate }) =
         <div style={{ padding: '12px 16px 32px', width: 271, background: 'rgba(255,255,255,0.95)', borderRadius: 8, boxShadow: '0 4px 40px rgba(0,0,0,0.05)' }}>
           <span style={{ marginTop: 4, fontSize: 32 }}>🚕</span>
           <div style={{ position: 'relative', width: 172, height: 40, marginLeft: 12 }}>
-            <p style={{ fontSize: 14, fontWeight: 500, color: '#49493d' }}>Help drivers finds you more quickly</p>
-            <p style={{ position: 'absolute', bottom: -16, fontSize: 12, color: '#49493d' }}>Share live location for pick-ups</p>
+            <p style={{ fontSize: 14, fontWeight: 500, color: '#49493d' }}>帮助司机更快找到您</p>
+            <p style={{ position: 'absolute', bottom: -16, fontSize: 12, color: '#49493d' }}>上车时共享实时位置</p>
           </div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -77,26 +77,26 @@ const ConfirmPickup4Page: React.FC<ConfirmPickup4PageProps> = ({ onNavigate }) =
 
       {/* Bottom info card */}
       <div style={{ position: 'absolute', top: 509, left: 0, width: 375, height: 303, background: '#fff', borderRadius: '24px 24px 0 0', zIndex: 25, paddingTop: 32 }}>
-        <p style={{ fontSize: 14, fontWeight: 500, color: '#49493d', paddingLeft: 24 }}>All drivers are screened</p>
+        <p style={{ fontSize: 14, fontWeight: 500, color: '#49493d', paddingLeft: 24 }}>所有司机均经过审核</p>
         <div style={{ margin: '16px 0 0 24px', background: '#f3f3f3', width: 327, height: 1 }} />
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 23, padding: '0 48px 0 0' }}>
           <div style={{ width: 120, height: 61, background: 'linear-gradient(45deg,#f0f0f0,#e0e0e0)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, marginLeft: 24 }}>🚗</div>
           <div>
-            <p style={{ fontSize: 14, color: '#49493d' }}>Toyota Camry</p>
+            <p style={{ fontSize: 14, color: '#49493d' }}>丰田凯美瑞</p>
             <p style={{ fontSize: 16, fontWeight: 500, color: '#49493d', marginLeft: 19 }}>9HTR789</p>
           </div>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '12px 105px 0', minWidth: 165 }}>
-          <p style={{ fontSize: 14, color: '#49493d' }}>Push - 4.93</p>
+          <p style={{ fontSize: 14, color: '#49493d' }}>Push · 4.93</p>
           <span style={{ color: '#fecc2a', fontSize: 10, marginTop: 2 }}>⭐</span>
           <p style={{ fontSize: 14, color: '#49493d' }}>- 3,375 trips</p>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 20, padding: '0 48px 0 0' }}>
           <div style={{ width: 48, height: 48, borderRadius: '50%', background: '#f3f3f3', marginLeft: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }} onClick={handleCall}><span style={{ fontSize: 14 }}>📞</span></div>
-          <div style={{ borderRadius: 24, background: '#f3f3f3', padding: '14px 73px 14px 16px' }}><p style={{ fontSize: 14, color: '#959595' }}>Any pick-up notes?</p></div>
+          <div style={{ borderRadius: 24, background: '#f3f3f3', padding: '14px 73px 14px 16px' }}><p style={{ fontSize: 14, color: '#959595' }}>有上车备注吗？</p></div>
           <div style={{ width: 48, height: 48, borderRadius: '50%', background: '#f3f3f3', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }} onClick={handleSun}><div style={{ background: '#fecc2a', width: 3, height: 2 }} /></div>
         </div>
 

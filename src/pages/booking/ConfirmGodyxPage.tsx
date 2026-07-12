@@ -77,7 +77,7 @@ const ConfirmGodyxPage: React.FC<ConfirmGodyxPageProps> = ({ onNavigate }) => {
               </div>
             </div>
             <p className={styles.vehicleDetails}>4:04pm drop-off</p>
-            <p className={styles.vehicleDescription}>Affordable rides, all to yourself</p>
+            <p className={styles.vehicleDescription}>经济实惠，专车独享</p>
           </div>
           <p className={styles.priceInfo}>$17.00</p>
         </div>

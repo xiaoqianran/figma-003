@@ -36,7 +36,7 @@ const EditAccount1Page: React.FC<EditAccount1PageProps> = ({ onNavigate }) => {
 
       <div className={styles.editContainer}>
         <TopNav
-          title="Edit account"
+          title="编辑账户"
           onBack={() => onNavigate?.('account-profile')}
           rightAction={<span onClick={() => onNavigate?.('account-profile')} style={{ cursor: 'pointer', fontSize: 18 }}>✕</span>}
         />
@@ -51,7 +51,7 @@ const EditAccount1Page: React.FC<EditAccount1PageProps> = ({ onNavigate }) => {
 
         {/* Fields */}
         <div className={styles.textField}>
-          <div className={styles.fieldLabel}>First name</div>
+          <div className={styles.fieldLabel}>名</div>
           <div className={styles.fieldInput} onClick={() => editField('firstName')}>
             <span className={styles.fieldValue}>{user.name.split(' ')[0] || 'Alex'}</span>
             <span className={styles.fieldArrow}>→</span>
@@ -59,7 +59,7 @@ const EditAccount1Page: React.FC<EditAccount1PageProps> = ({ onNavigate }) => {
         </div>
 
         <div className={styles.textField}>
-          <div className={styles.fieldLabel}>Last name</div>
+          <div className={styles.fieldLabel}>姓</div>
           <div className={styles.fieldInput} onClick={() => editField('lastName')}>
             <span className={styles.fieldValue}>{user.name.split(' ').slice(1).join(' ') || 'Chen'}</span>
             <span className={styles.fieldArrow}>→</span>
@@ -67,25 +67,25 @@ const EditAccount1Page: React.FC<EditAccount1PageProps> = ({ onNavigate }) => {
         </div>
 
         <div className={styles.textField}>
-          <div className={styles.fieldLabel}>Phone number</div>
+          <div className={styles.fieldLabel}>手机号码</div>
           <div className={styles.fieldInput} onClick={() => editField('phone')}>
             <span className={styles.fieldValue}>{user.phone.replace(/^\+\d+\s?/, '')}</span>
-            <span className={styles.verified}>Verified</span>
+            <span className={styles.verified}>已验证</span>
             <span className={styles.fieldArrow}>→</span>
           </div>
         </div>
 
         <div className={styles.textField}>
-          <div className={styles.fieldLabel}>Email</div>
+          <div className={styles.fieldLabel}>邮箱</div>
           <div className={styles.fieldInput} onClick={() => editField('email')}>
             <span className={styles.fieldValue} style={{ fontSize: 13 }}>pushputtichai789@gmail.com</span>
-            <span className={styles.unverified}>Unverified</span>
+            <span className={styles.unverified}>未验证</span>
             <span className={styles.fieldArrow}>→</span>
           </div>
         </div>
 
         <div className={styles.textField}>
-          <div className={styles.fieldLabel}>Password</div>
+          <div className={styles.fieldLabel}>密码</div>
           <div className={styles.fieldInput} onClick={() => editField('password')}>
             <span className={`${styles.fieldValue} ${styles.password}`}>..........</span>
             <span className={styles.fieldArrow}>→</span>
@@ -102,7 +102,7 @@ const EditAccount1Page: React.FC<EditAccount1PageProps> = ({ onNavigate }) => {
         open={showPhoneModal}
         onClose={() => setShowPhoneModal(false)}
         title="Update demo phone"
-        confirmText="Save"
+        confirmText="保存"
         onConfirm={() => {
           const val = editingPhone.trim();
           if (val) {

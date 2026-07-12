@@ -48,14 +48,14 @@ const MapHomePage: React.FC<MapHomePageProps> = ({ onNavigate }) => {
 
       <div className={styles.bottomPanel}>
         <div className={styles.searchBox} onClick={() => { addRecentAction('Opened search from map'); onNavigate?.('core-search1'); }}>
-          🔍 <span style={{ marginLeft: 8, color: '#959595' }}>Search your location</span>
-          <span style={{ marginLeft: 'auto', fontSize: 12, textDecoration: 'underline', cursor: 'pointer' }} onClick={e => { e.stopPropagation(); addRecentAction('Schedule from map'); onNavigate?.('booking-schedule'); }}>Schedule</span>
+          🔍 <span style={{ marginLeft: 8, color: '#959595' }}>搜索您的位置</span>
+          <span style={{ marginLeft: 'auto', fontSize: 12, textDecoration: 'underline', cursor: 'pointer' }} onClick={e => { e.stopPropagation(); addRecentAction('Schedule from map'); onNavigate?.('booking-schedule'); }}>预约</span>
         </div>
 
         <div style={{ marginTop: 22 }}>
-          <div onClick={() => { addRecentAction('Viewed saved places'); info('地点', 'Saved places (demo)'); }} style={{ display: 'flex', alignItems: 'center', padding: '6px 0' }}>⭐ <span style={{ marginLeft: 8 }}>Saved places</span></div>
+          <div onClick={() => { addRecentAction('Viewed saved places'); info('地点', 'Saved places (demo)'); }} style={{ display: 'flex', alignItems: 'center', padding: '6px 0' }}>⭐ <span style={{ marginLeft: 8 }}>收藏地点</span></div>
           <div style={{ height: 1, background: '#f3f3f3', margin: '6px 0 12px' }} />
-          <div onClick={() => { addRecentAction('Set location on map'); info('地图', 'Set location on map (demo)'); }} style={{ display: 'flex', alignItems: 'center' }}>📍 <span style={{ marginLeft: 8 }}>Set location on map</span></div>
+          <div onClick={() => { addRecentAction('在地图上设置位置'); info('地图', 'Set location on map (demo)'); }} style={{ display: 'flex', alignItems: 'center' }}>📍 <span style={{ marginLeft: 8 }}>在地图上设置位置</span></div>
         </div>
 
         <div className={styles.actionRow}>
@@ -63,7 +63,7 @@ const MapHomePage: React.FC<MapHomePageProps> = ({ onNavigate }) => {
           <div className={`${styles.actionBtn} ${styles.eatsBtn}`} onClick={() => {
             addRecentAction('Opened eats demo');
             placeEatsOrder('Map QuickBite', 'Street Bao', 18);
-            bookTrip({ from: 'Map QuickBite', to: 'Current location', driver: 'Rider', vehicle: 'Bike', price: 18, status: 'upcoming', eta: '12 min' });
+            bookTrip({ from: 'Map QuickBite', to: '当前位置', driver: 'Rider', vehicle: '自行车', price: 18, status: 'upcoming', eta: '12 min' });
             success('Eats', 'Order placed! ¥18 Bao • Delivery trip logged in DemoState');
           }}>🍽️ Eats</div>
         </div>

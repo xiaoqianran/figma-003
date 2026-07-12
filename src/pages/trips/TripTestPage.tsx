@@ -42,8 +42,8 @@ const TripTestPage: React.FC<Props> = ({ onNavigate }) => {
         </div>
 
         <div style={{ marginBottom: 16 }}>
-          <button onClick={() => { addRecentAction('Test nav: upcoming'); onNavigate?.('trips-upcoming'); }} style={{ margin: 4, background: '#007bff', color: '#fff', padding: '8px 14px', border: 'none', borderRadius: 6 }}>Your trips - Upcoming</button>
-          <button onClick={() => { addRecentAction('Test nav: past'); onNavigate?.('trips-past'); }} style={{ margin: 4, background: '#007bff', color: '#fff', padding: '8px 14px', border: 'none', borderRadius: 6 }}>Your trips - Past</button>
+          <button onClick={() => { addRecentAction('Test nav: upcoming'); onNavigate?.('trips-upcoming'); }} style={{ margin: 4, background: '#007bff', color: '#fff', padding: '8px 14px', border: 'none', borderRadius: 6 }}>我的行程 - 即将开始</button>
+          <button onClick={() => { addRecentAction('Test nav: past'); onNavigate?.('trips-past'); }} style={{ margin: 4, background: '#007bff', color: '#fff', padding: '8px 14px', border: 'none', borderRadius: 6 }}>我的行程 - 历史</button>
           <button onClick={() => { addRecentAction('Test nav: cancelled'); onNavigate?.('trips-detail-cancelled'); }} style={{ margin: 4, background: '#007bff', color: '#fff', padding: '8px 14px', border: 'none', borderRadius: 6 }}>Detail #1 Cancelled</button>
           <button onClick={() => { addRecentAction('Test nav: completed'); onNavigate?.('trips-detail-completed'); }} style={{ margin: 4, background: '#007bff', color: '#fff', padding: '8px 14px', border: 'none', borderRadius: 6 }}>Detail #2 Completed</button>
           <button onClick={() => { addRecentAction('Test nav: help'); onNavigate?.('trips-detail-help'); }} style={{ margin: 4, background: '#007bff', color: '#fff', padding: '8px 14px', border: 'none', borderRadius: 6 }}>Detail #3 Help</button>
@@ -56,13 +56,13 @@ const TripTestPage: React.FC<Props> = ({ onNavigate }) => {
         <div style={{ marginTop: 16, padding: 12, background: '#fff', borderRadius: 8 }}>
           <div style={{ fontWeight: 600, marginBottom: 6, fontSize: 13 }}>DemoState Controls (live)</div>
           <button onClick={() => {
-            const t = { id: 'test-trip-' + Date.now(), status: 'upcoming' as const, from: 'Test From', to: 'Test Destination', price: 25, eta: 'Now', vehicle: 'TestCar' };
+            const t = { id: 'test-trip-' + Date.now(), status: 'upcoming' as const, from: 'Test From', to: 'Test Destination', price: 25, eta: '现在', vehicle: 'TestCar' };
             setActiveTrip(t);
             addRecentAction('Created test active trip');
             addResult('✅ Set activeTrip: ' + t.to);
-          }} style={{ background: '#28a745', color: '#fff', padding: '6px 10px', border: 'none', borderRadius: 4, marginRight: 6, fontSize: 12 }}>Create Test Active Trip</button>
-          <button onClick={() => { setActiveTrip(null); addRecentAction('Cleared active trip'); addResult('✅ Cleared activeTrip'); }} style={{ background: '#dc3545', color: '#fff', padding: '6px 10px', border: 'none', borderRadius: 4, fontSize: 12 }}>Clear Active Trip</button>
-          <button onClick={() => { clearBookedTrips?.(); addRecentAction('Cleared all booked trips (debug)'); addResult('✅ Cleared all bookedTrips via clearBookedTrips'); }} style={{ background: '#6c757d', color: '#fff', padding: '6px 10px', border: 'none', borderRadius: 4, fontSize: 12, marginLeft: 4 }}>Clear all trips</button>
+          }} style={{ background: '#28a745', color: '#fff', padding: '6px 10px', border: 'none', borderRadius: 4, marginRight: 6, fontSize: 12 }}>创建测试进行中行程</button>
+          <button onClick={() => { setActiveTrip(null); addRecentAction('Cleared active trip'); addResult('✅ Cleared activeTrip'); }} style={{ background: '#dc3545', color: '#fff', padding: '6px 10px', border: 'none', borderRadius: 4, fontSize: 12 }}>清除进行中行程</button>
+          <button onClick={() => { clearBookedTrips?.(); addRecentAction('Cleared all booked trips (debug)'); addResult('✅ Cleared all bookedTrips via clearBookedTrips'); }} style={{ background: '#6c757d', color: '#fff', padding: '6px 10px', border: 'none', borderRadius: 4, fontSize: 12, marginLeft: 4 }}>清除全部行程</button>
           <div style={{ fontSize: 11, marginTop: 6, color: '#666' }}>Active: {activeTrip ? `${activeTrip.to} (${activeTrip.status})` : 'none'} | Booked: {bookedTrips.length}</div>
         </div>
 

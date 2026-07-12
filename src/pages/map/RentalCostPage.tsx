@@ -16,7 +16,7 @@ const RentalCostPage: React.FC<RentalCostPageProps> = ({ onNavigate }) => {
 
       <div style={{ padding: '12px 24px', display: 'flex', justifyContent: 'space-between' }}>
         <span style={{ fontSize: 22, cursor: 'pointer' }} onClick={() => { addRecentAction('Back from rental cost'); onNavigate?.('map-home'); }}>←</span>
-        <div style={{ background: '#fff', padding: '8px 24px', borderRadius: 12, boxShadow: '0 4px 30px rgba(0,0,0,0.1)' }} onClick={() => addRecentAction('Help from rental')}>Help</div>
+        <div style={{ background: '#fff', padding: '8px 24px', borderRadius: 12, boxShadow: '0 4px 30px rgba(0,0,0,0.1)' }} onClick={() => addRecentAction('Help from rental')}>帮助</div>
       </div>
       {activeTrip && <div style={{ padding: '0 24px 4px', fontSize: 11 }}>For active trip to {activeTrip.to} • Using {selectedPayment.label}</div>}
 
@@ -30,19 +30,19 @@ const RentalCostPage: React.FC<RentalCostPageProps> = ({ onNavigate }) => {
 
         <div style={{ position: 'absolute', top: 154, left: 76, background: '#fecc2a', borderRadius: 12, padding: '6px 12px', display: 'flex', alignItems: 'center', width: 110, cursor: 'pointer' }} onClick={() => { addRecentAction('GodyX selected in rental'); info('车辆', 'GodyX (demo)'); }}>
           <div style={{ background: '#fff', padding: '4px 14px', borderRadius: '12px 0 0 12px' }}>🚗 GodyX</div>
-          <div style={{ fontSize: 12, paddingLeft: 8, lineHeight: 1 }}>10<br/>min</div>
+          <div style={{ fontSize: 12, paddingLeft: 8, lineHeight: 1 }}>10<br/>分钟</div>
         </div>
 
         {/* Cost Card */}
         <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: '#fff', borderRadius: '24px 24px 0 0', padding: '28px 24px 40px', boxShadow: '0 -4px 40px rgba(0,0,0,0.1)' }}>
-          <div style={{ fontSize: 20, fontWeight: 500, marginBottom: 18 }}>Rental cost</div>
+          <div style={{ fontSize: 20, fontWeight: 500, marginBottom: 18 }}>租车费用</div>
 
           <div style={{ display: 'flex', justifyContent: 'space-between', margin: '12px 0' }}>
-            <div>Minimum fare</div>
+            <div>最低车费</div>
             <div style={{ fontWeight: 500 }}>$2.20</div>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', margin: '12px 0' }}>
-            <div>Additional time</div>
+            <div>额外时间</div>
             <div style={{ fontWeight: 500 }}>$2.70</div>
           </div>
 

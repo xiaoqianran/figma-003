@@ -19,10 +19,10 @@ const ConfirmPickup5Page: React.FC<ConfirmPickup5PageProps> = ({ onNavigate }) =
     // Driver call: attach driver + progress the trip state (defensive)
     const tripId = activeTrip?.id;
     if (tripId) {
-      updateTripStatus(tripId, 'in-progress', { driver: 'Push Puttichai • Toyota Camry', eta: '1 min' });
+      updateTripStatus(tripId, 'in-progress', { driver: 'Push Puttichai · 丰田凯美瑞', eta: '1 min' });
       addRecentAction('Driver call from Confirm5 — driver/ETA via updateTripStatus');
     } else {
-      bookTrip({ status: 'in-progress', from: 'Pickup 5', to: 'Apple Union Square', driver: 'Push', vehicle: 'Toyota Camry', eta: '1 min', price: 14 });
+      bookTrip({ status: 'in-progress', from: 'Pickup 5', to: '苹果联合广场', driver: '推送', vehicle: '丰田凯美瑞', eta: '1 min', price: 14 });
       addRecentAction('Driver call from Confirm5 — seeded via bookTrip');
     }
     info('拨打司机', '正在拨打司机电话...（演示）');
@@ -35,10 +35,10 @@ const ConfirmPickup5Page: React.FC<ConfirmPickup5PageProps> = ({ onNavigate }) =
     // Key safety confirm action: mark progress + safety note via update (or book fallback)
     const tripId = activeTrip?.id;
     if (tripId) {
-      updateTripStatus(tripId, activeTrip?.status || 'in-progress', { eta: 'Safety confirmed • en route' });
+      updateTripStatus(tripId, activeTrip?.status || 'in-progress', { eta: '安全确认 · 行程中' });
       addRecentAction('Safety confirmed — trip status mutated via updateTripStatus');
     } else {
-      bookTrip({ status: 'in-progress', from: 'Current pickup', to: 'Apple Union Square', eta: 'Safety confirmed', paid: false });
+      bookTrip({ status: 'in-progress', from: 'Current pickup', to: '苹果联合广场', eta: 'Safety confirmed', paid: false });
       addRecentAction('Safety confirmed — trip created via bookTrip');
     }
     info('安全', '打开安全功能（演示）');
@@ -60,35 +60,35 @@ const ConfirmPickup5Page: React.FC<ConfirmPickup5PageProps> = ({ onNavigate }) =
         <p style={{ fontSize: 20, fontWeight: 500, color: '#49493d' }}>2 min way</p>
       </div>
 
-      <p style={{ margin: '12px 0 0 113px', fontSize: 14, fontWeight: 500, color: '#49493d' }}>All drivers are screened</p>
+      <p style={{ margin: '12px 0 0 113px', fontSize: 14, fontWeight: 500, color: '#49493d' }}>所有司机均经过审核</p>
       <div style={{ margin: '16px 0 0 24px', background: '#f3f3f3', width: 327, height: 1 }} />
 
       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 23, padding: '0 24px' }}>
         <div style={{ width: 120, height: 61, background: 'linear-gradient(45deg,#f0f0f0,#e0e0e0)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>🚗</div>
         <div style={{ marginTop: 21 }}>
-          <p style={{ fontSize: 14, color: '#49493d' }}>Toyota Camry</p>
+          <p style={{ fontSize: 14, color: '#49493d' }}>丰田凯美瑞</p>
           <p style={{ fontSize: 16, fontWeight: 500, color: '#49493d', marginLeft: 19 }}>9HTR789</p>
         </div>
       </div>
 
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', margin: '12px 105px 0', minWidth: 165 }}>
-        <p style={{ fontSize: 14, color: '#49493d' }}>Push - 4.93</p>
+        <p style={{ fontSize: 14, color: '#49493d' }}>Push · 4.93</p>
         <span style={{ color: '#fecc2a', fontSize: 10, marginTop: 2 }}>⭐</span>
         <p style={{ fontSize: 14, color: '#49493d' }}>- 3,375 trips</p>
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 20, padding: '0 16px 0 24px' }}>
         <div style={{ width: 48, height: 48, borderRadius: '50%', background: '#f3f3f3', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }} onClick={handleCall}><span style={{ fontSize: 14 }}>📞</span></div>
-        <div style={{ borderRadius: 24, background: '#fbfbfb', padding: '14px 73px 14px 16px' }}><p style={{ fontSize: 14, color: '#959595' }}>Any pick-up notes?</p></div>
+        <div style={{ borderRadius: 24, background: '#fbfbfb', padding: '14px 73px 14px 16px' }}><p style={{ fontSize: 14, color: '#959595' }}>有上车备注吗？</p></div>
         <div style={{ width: 48, height: 48, borderRadius: '50%', background: '#f3f3f3', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }} onClick={handleSun}><div style={{ background: '#fecc2a', width: 3, height: 2 }} /></div>
       </div>
 
       {/* Options */}
       {[
-        { icon: '🏠', text: 'Add home', action: 'Add or change', onClick: () => handleOption('Add home') },
-        { icon: '👤', text: '$14', action: 'Change', onClick: () => handleOption('Change price') },
-        { icon: '📡', text: 'Riding with someone?', action: 'Split fare', onClick: () => handleOption('Split fare') },
-        { icon: '📍', text: 'Share trips status', action: 'Share', onClick: () => handleOption('Share status') }
+        { icon: '🏠', text: '添加家庭地址', action: '添加或更改', onClick: () => handleOption('添加家庭地址') },
+        { icon: '👤', text: '$14', action: '更改', onClick: () => handleOption('Change price') },
+        { icon: '📡', text: '与人同行？', action: '分摊车费', onClick: () => handleOption('分摊车费') },
+        { icon: '📍', text: '分享行程状态', action: '分享', onClick: () => handleOption('分享状态') }
       ].map((opt, i) => (
         <div key={i} style={{ padding: '8px 21px 19px 24px', cursor: 'pointer' }} onClick={opt.onClick}>
           <div style={{ display: 'flex', justifyContent: 'space-between', paddingRight: 3 }}>
@@ -104,10 +104,10 @@ const ConfirmPickup5Page: React.FC<ConfirmPickup5PageProps> = ({ onNavigate }) =
 
       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 16, padding: '0 24px' }}>
         <div style={{ border: '1px solid #fecc2a', borderRadius: 12, padding: '13px 52px', cursor: 'pointer' }} onClick={handleCancel}>
-          <p style={{ fontSize: 16, fontWeight: 500, color: '#fecc2a' }}>Cancel</p>
+          <p style={{ fontSize: 16, fontWeight: 500, color: '#fecc2a' }}>取消</p>
         </div>
         <div style={{ borderRadius: 12, background: '#fecc2a', padding: '14px 56px 14px 54px', cursor: 'pointer' }} onClick={handleSafety}>
-          <p style={{ fontSize: 16, fontWeight: 500, color: '#49493d' }}>Safety</p>
+          <p style={{ fontSize: 16, fontWeight: 500, color: '#49493d' }}>安全</p>
         </div>
       </div>
 
@@ -116,7 +116,7 @@ const ConfirmPickup5Page: React.FC<ConfirmPickup5PageProps> = ({ onNavigate }) =
         <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'linear-gradient(45deg, #667eea, #764ba2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, color: '#fff' }}>👩‍💼</div>
         <div style={{ marginLeft: 12, marginTop: 5 }}>
           <p style={{ fontSize: 16, fontWeight: 500, color: '#49493d' }}>Push Puttichai</p>
-          <p style={{ fontSize: 12, color: '#49493d' }}>Toyota Camry - 9HTR789</p>
+          <p style={{ fontSize: 12, color: '#49493d' }}>丰田凯美瑞 · 9HTR789</p>
         </div>
         <div style={{ marginLeft: 85, width: 48, height: 48, borderRadius: '50%', background: '#f3f3f3', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }} onClick={handleCall}><span style={{ fontSize: 14 }}>📞</span></div>
       </div>

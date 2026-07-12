@@ -16,8 +16,8 @@ const UpcomingTripPage: React.FC<UpcomingTripPageProps> = ({ onNavigate }) => {
   const fallbackTrip: DemoTrip = {
     id: 'fallback-static',
     status: 'upcoming',
-    to: 'Apple Union Square',
-    from: '51 Sharon St',
+    to: '苹果联合广场',
+    from: 'Sharon 街 51 号',
     eta: '3:50 PM',
     price: 16,
     vehicle: 'GodyX',
@@ -48,7 +48,7 @@ const UpcomingTripPage: React.FC<UpcomingTripPageProps> = ({ onNavigate }) => {
           completeTrip(currentTrip.id);
         } else if (activeTrip) {
           // fallback path
-          setActiveTrip({ ...activeTrip, status: 'completed', paid: true, eta: 'Arrived' });
+          setActiveTrip({ ...activeTrip, status: 'completed', paid: true, eta: '已到达' });
         }
         success('行程完成', '行程已完成并记录到 Past (demo state via completeTrip)');
         // After complete, navigate to Past lists so it appears there
@@ -114,7 +114,7 @@ const UpcomingTripPage: React.FC<UpcomingTripPageProps> = ({ onNavigate }) => {
           <div style={{ fontSize: 16, color: '#49493d', lineHeight: 1.6, marginBottom: 8 }}>
             {trip.eta || 'Tue, 24 Sep at 3:50 PM'} {trip.vehicle ? `· ${trip.vehicle}` : ''}
           </div>
-          <div style={{ fontSize: 16, color: '#49493d', marginBottom: 16 }}>From: {trip.from || 'Current location'}</div>
+          <div style={{ fontSize: 16, color: '#49493d', marginBottom: 16 }}>From: {trip.from || '当前位置'}</div>
           <div style={{ fontSize: 18, fontWeight: 600, color: '#49493d', marginBottom: 16 }}>${trip.price || 16}.00</div>
         </div>
 

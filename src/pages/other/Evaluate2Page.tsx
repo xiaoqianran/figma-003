@@ -29,14 +29,14 @@ const Evaluate2Page: React.FC<Evaluate2PageProps> = ({ onNavigate }) => {
 
       if (r >= 4) {
         success('感谢好评', `感谢您的 ${r} 星好评！`);
-        success('Thanks! Trip archived.', 'Review saved • Trip moved to completed in bookedTrips');
+        success('感谢评价！行程已归档。', '评价已保存 · 行程已移至已完成');
         setTimeout(() => {
           onNavigate?.(latest ? 'trips-detail-completed' : 'trips-past');
         }, 700);
       } else {
         success('感谢反馈', `您给出了 ${r} 星评价，感谢您的反馈！`);
         if (latest) {
-          success('Thanks! Trip archived.', `Trip to ${latest.to} archived via review`);
+          success('感谢评价！行程已归档。', `Trip to ${latest.to} archived via review`);
         }
         setTimeout(() => {
           onNavigate?.('trips-past');
@@ -55,8 +55,8 @@ const Evaluate2Page: React.FC<Evaluate2PageProps> = ({ onNavigate }) => {
 
       <div className={styles.ratingCard}>
         <div className={styles.avatar}>👩‍💼</div>
-        <div className={styles.title}>How was your trip with Push Puttichai?</div>
-        <div className={styles.subtitle}>Tuesday to Apple Union Square</div>
+        <div className={styles.title}>与 Push Puttichai 的行程体验如何？</div>
+        <div className={styles.subtitle}>周二 · 苹果联合广场</div>
 
         <div className={styles.stars}>
           {[1,2,3,4,5].map(n => (

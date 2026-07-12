@@ -70,14 +70,14 @@ const Search1Page: React.FC<Search1PageProps> = ({ onNavigate }) => {
     setAirportHighlight(true);
     setTimeout(() => {
       setAirportHighlight(false);
-      const to = 'San Francisco International Airport';
+      const to = '旧金山国际机场';
       // Result selection also creates real booking via bookTrip (Search1)
       const booked = bookTrip({
         status: 'upcoming',
-        from: 'Apple Union Square',
+        from: '苹果联合广场',
         to,
         price: 42,
-        vehicle: 'Black SUV',
+        vehicle: '黑金 SUV',
         eta: '25 min',
       });
       addRecentAction(`Airport selected as destination: ${to} — booked via bookTrip #${booked.id}`);
@@ -126,7 +126,7 @@ const Search1Page: React.FC<Search1PageProps> = ({ onNavigate }) => {
       // Create real upcoming trip using bookTrip (drives bookings from Search1)
       const booked = bookTrip({
         status: 'upcoming',
-        from: 'Apple Union Square',
+        from: '苹果联合广场',
         to,
         price: 18,
         vehicle: 'GodyX',
@@ -196,7 +196,7 @@ const Search1Page: React.FC<Search1PageProps> = ({ onNavigate }) => {
           <div className={styles.locationDot}></div>
           <div className={styles.locationInfo}>
             <div className={styles.locationLabel}>You are here:</div>
-            <div className={styles.locationValue}>Apple Union Square</div>
+            <div className={styles.locationValue}>苹果联合广场</div>
           </div>
         </div>
         <div className={styles.locationAction} onClick={editCurrentLocation}>✏️</div>
@@ -209,7 +209,7 @@ const Search1Page: React.FC<Search1PageProps> = ({ onNavigate }) => {
           ref={searchFieldRef}
           type="text"
           className={styles.searchField}
-          placeholder="Search your location"
+          placeholder="搜索您的位置"
           value={searchInput}
           onChange={handleSearchChange}
           onKeyPress={handleKeyPress}
@@ -226,15 +226,15 @@ const Search1Page: React.FC<Search1PageProps> = ({ onNavigate }) => {
       <div className={styles.locationOptions}>
         <div className={styles.locationOption} onClick={addHome}>
           <div className={styles.optionIcon}>🏠</div>
-          <div className={styles.optionText}>Add home</div>
+          <div className={styles.optionText}>添加家庭地址</div>
         </div>
         <div className={styles.locationOption} onClick={addWork}>
           <div className={styles.optionIcon}>💼</div>
-          <div className={styles.optionText}>Add work</div>
+          <div className={styles.optionText}>添加公司地址</div>
         </div>
         <div className={styles.locationOption} onClick={showSavedPlaces}>
           <div className={styles.optionIcon}>⭐</div>
-          <div className={styles.optionText}>Saved places</div>
+          <div className={styles.optionText}>收藏地点</div>
           <div className={styles.optionArrow}>›</div>
         </div>
       </div>
@@ -246,7 +246,7 @@ const Search1Page: React.FC<Search1PageProps> = ({ onNavigate }) => {
       >
         <div className={styles.airportHeader}>
           <div className={styles.airportIcon}>✈️</div>
-          <div className={styles.airportName}>San Francisco International Airport</div>
+          <div className={styles.airportName}>旧金山国际机场</div>
         </div>
         <div className={styles.airportAddress}>348 Mc Donnell Rd, San Francisco</div>
       </div>

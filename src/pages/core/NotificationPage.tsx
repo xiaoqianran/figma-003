@@ -174,7 +174,7 @@ const NotificationPage: React.FC<NotificationPageProps> = ({ onNavigate }) => {
       {/* Dynamic recent trip notifications from bookedTrips (new) */}
       {bookedTrips.length > 0 && (
         <div style={{ margin: '0 16px 12px', fontSize: 12 }}>
-          <div style={{ color: '#6E6A61', marginBottom: 4, paddingLeft: 4 }}>Recent trip updates</div>
+          <div style={{ color: '#6E6A61', marginBottom: 4, paddingLeft: 4 }}>最近行程更新</div>
           {bookedTrips.slice(-3).reverse().map((t, idx) => (
             <div key={idx} style={{ padding: '6px 10px', background: '#fff', borderRadius: 6, marginBottom: 4, border: '1px solid #eee', cursor: 'pointer' }}
                  onClick={() => {
@@ -223,7 +223,7 @@ const NotificationPage: React.FC<NotificationPageProps> = ({ onNavigate }) => {
       <p className={styles.content}>Relax with real- time&nbsp;&nbsp;trip updates</p>
 
       {/* 副文本 */}
-      <p className={styles.subContent}>Please enable push notifications from Gody when prompted</p>
+      <p className={styles.subContent}>请在提示时允许 Gody 推送通知</p>
 
       {/* 启用通知按钮 - fully interactive with states */}
       <button

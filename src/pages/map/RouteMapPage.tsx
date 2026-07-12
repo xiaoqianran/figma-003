@@ -16,7 +16,7 @@ const RouteMapPage: React.FC<RouteMapPageProps> = ({ onNavigate }) => {
 
       <div style={{ padding: '12px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={{ fontSize: 22, cursor: 'pointer' }} onClick={() => { addRecentAction('Back from route map'); onNavigate?.('map-home'); }}>←</span>
-        <div style={{ background: '#fff', padding: '8px 26px', borderRadius: 12, boxShadow: '0 4px 30px rgba(0,0,0,0.1)' }} onClick={() => { addRecentAction('Help on route map'); }}>Help</div>
+        <div style={{ background: '#fff', padding: '8px 26px', borderRadius: 12, boxShadow: '0 4px 30px rgba(0,0,0,0.1)' }} onClick={() => { addRecentAction('Help on route map'); }}>帮助</div>
       </div>
       {activeTrip && <div style={{ padding: '4px 24px', fontSize: 11, color: '#6E6A61' }}>Live trip: {activeTrip.from} → {activeTrip.to}</div>}
 
@@ -31,7 +31,7 @@ const RouteMapPage: React.FC<RouteMapPageProps> = ({ onNavigate }) => {
 
         <div onClick={() => { addRecentAction('Chose car from route map'); onNavigate?.('booking-choose-car'); }} style={{ position: 'absolute', top: 154, left: 76, background: '#fecc2a', borderRadius: 12, padding: '6px 12px', display: 'flex', alignItems: 'center', width: 110, cursor: 'pointer' }}>
           <div style={{ background: '#fff', padding: '4px 14px', borderRadius: '12px 0 0 12px' }}>🚗 GodyX</div>
-          <div style={{ fontSize: 12, paddingLeft: 8, lineHeight: 1 }}>10<br/>min</div>
+          <div style={{ fontSize: 12, paddingLeft: 8, lineHeight: 1 }}>10<br/>分钟</div>
         </div>
       </div>
 

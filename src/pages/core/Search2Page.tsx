@@ -17,7 +17,7 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
   const { info, success, error } = useToast();
 
   // The display value shown in the destination result row (updates live with typing)
-  const displaySearchValue = searchInput.trim() ? searchInput : 'Search your location';
+  const displaySearchValue = searchInput.trim() ? searchInput : '搜索您的位置';
 
   const goBack = () => {
     addRecentAction('Back from search2');
@@ -64,14 +64,14 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
     // Deselect others (though only one in this layout)
     setSelectedAirport(true);
 
-    const airportName = 'San Francisco International Airport';
+    const airportName = '旧金山国际机场';
 
     setTimeout(() => {
       setSelectedAirport(false);
       // Result selection in Search2 also drives real booking (advanced path)
       const booked = bookTrip({
         status: 'upcoming',
-        from: 'Apple Union Square',
+        from: '苹果联合广场',
         to: airportName,
         price: 55,
         vehicle: 'GodyX',
@@ -115,13 +115,13 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
       // Search2 advanced filters (price range + vehicle type) influence the created trip
       const advPriceMin = 20;
       const advPriceMax = 45;
-      const advVehicle = 'Black SUV';
+      const advVehicle = '黑金 SUV';
       const advPrice = Math.round((advPriceMin + advPriceMax) / 2);
       const advEta = '12 min';
       // Create real upcoming trip via bookTrip, using advanced filter values
       const booked = bookTrip({
         status: 'upcoming',
-        from: 'Apple Union Square',
+        from: '苹果联合广场',
         to,
         price: advPrice,
         vehicle: advVehicle,
@@ -175,7 +175,7 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
             <div className={styles.resultDot}></div>
             <div className={styles.resultInfo}>
               <div className={styles.resultLabel}>You are here:</div>
-              <div className={styles.resultValue}>Apple Union Square</div>
+              <div className={styles.resultValue}>苹果联合广场</div>
             </div>
           </div>
           <div className={styles.resultAction} onClick={() => editLocation('current')}>✏️</div>
@@ -198,15 +198,15 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
       <div className={styles.locationOptions}>
         <div className={styles.locationOption} onClick={addHome}>
           <span className={styles.locationIcon}>⭐</span>
-          <span className={styles.locationText}>Add home</span>
+          <span className={styles.locationText}>添加家庭地址</span>
         </div>
         <div className={styles.locationOption} onClick={addWork}>
           <span className={styles.locationIcon}>🏢</span>
-          <span className={styles.locationText}>Add work</span>
+          <span className={styles.locationText}>添加公司地址</span>
         </div>
         <div className={styles.locationOption} onClick={showSavedPlaces}>
           <span className={styles.locationIcon}>⭐</span>
-          <span className={styles.locationText}>Saved places</span>
+          <span className={styles.locationText}>收藏地点</span>
           <span className={styles.locationArrow}>→</span>
         </div>
       </div>
@@ -218,7 +218,7 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
       >
         <span className={styles.airportIcon}>🕐</span>
         <div className={styles.airportDetails}>
-          <div className={styles.airportName}>San Francisco International Airport</div>
+          <div className={styles.airportName}>旧金山国际机场</div>
           <div className={styles.airportAddress}>348 Mc Donnell Rd, San Francisco</div>
         </div>
       </div>
