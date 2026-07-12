@@ -18,7 +18,7 @@ const AccountTestPage: React.FC<AccountTestPageProps> = ({ onNavigate }) => {
     setResults([]);
     addRecentAction('已运行账户测试');
     addResult('开始账户页面测试...');
-    setTimeout(() => addResult('✅ Profile 页面结构正常'), 200);
+    setTimeout(() => addResult('✅ 资料页面结构正常'), 200);
     setTimeout(() => addResult('✅ 编辑账户表单字段完整'), 400);
     setTimeout(() => addResult('✅ 虚拟键盘交互已实现'), 600);
     setTimeout(() => addResult('✅ 侧边菜单动画 & 导航连通'), 800);
