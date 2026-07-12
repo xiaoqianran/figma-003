@@ -22,12 +22,12 @@ const YourTripsUpcomingPage: React.FC<Props> = ({ onNavigate }) => {
 
       <div style={{ padding: '8px 16px 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-          <button type="button" className="icon-btn" aria-label="Back" onClick={goBack} style={{ background: '#fff', border: '1px solid #ebe9e4' }}>
+          <button type="button" className="icon-btn" aria-label="返回" onClick={goBack} style={{ background: '#fff', border: '1px solid #ebe9e4' }}>
             ←
           </button>
           <div>
-            <div style={{ fontSize: 18, fontWeight: 700, color: '#111318', letterSpacing: '-0.02em' }}>Your trips</div>
-            <div style={{ fontSize: 11, color: '#9b9aa3', marginTop: 1 }}>Upcoming & in progress</div>
+            <div style={{ fontSize: 18, fontWeight: 700, color: '#111318', letterSpacing: '-0.02em' }}>我的行程</div>
+            <div style={{ fontSize: 11, color: '#9b9aa3', marginTop: 1 }}>即将开始与进行中</div>
           </div>
         </div>
         <button
@@ -45,14 +45,14 @@ const YourTripsUpcomingPage: React.FC<Props> = ({ onNavigate }) => {
             boxShadow: '0 2px 10px rgba(17,19,24,0.04)',
           }}
         >
-          Upcoming <span style={{ fontSize: 10, opacity: 0.6 }}>▼</span>
+          即将开始 <span style={{ fontSize: 10, opacity: 0.6 }}>▼</span>
         </button>
       </div>
 
       {hasUpcoming ? (
         <div className="page-scroll" style={{ paddingBottom: 8 }}>
           <div style={{ margin: '4px 20px 12px', fontSize: 12, color: '#6b6a73' }}>
-            Live from demo state · <strong style={{ color: '#111318' }}>{count}</strong> active
+            来自演示状态 · <strong style={{ color: '#111318' }}>{count}</strong> 条进行中
           </div>
 
           {activeTrip && (activeTrip.status === 'upcoming' || activeTrip.status === 'in-progress') && (
@@ -68,13 +68,13 @@ const YourTripsUpcomingPage: React.FC<Props> = ({ onNavigate }) => {
                   textTransform: 'uppercase',
                 }}
               >
-                Current focus
+                当前焦点
               </div>
               <TripCard
                 status={activeTrip.status === 'in-progress' ? 'in-progress' : 'upcoming'}
-                title={`${activeTrip.vehicle || 'Ride'} to ${activeTrip.to}`}
-                time={`${activeTrip.eta || 'Today'} · ${activeTrip.from || ''} → ${activeTrip.to}`}
-                from={activeTrip.from || 'Current location'}
+                title={`${activeTrip.vehicle || '行程'} 前往 ${activeTrip.to}`}
+                time={`${activeTrip.eta || '今天'} · ${activeTrip.from || ''} → ${activeTrip.to}`}
+                from={activeTrip.from || '当前位置'}
                 to={activeTrip.to}
                 price={activeTrip.price ? String(activeTrip.price) : undefined}
                 driver={activeTrip.driver}
@@ -90,8 +90,8 @@ const YourTripsUpcomingPage: React.FC<Props> = ({ onNavigate }) => {
               <div key={trip.id} style={{ marginBottom: 2 }}>
                 <TripCard
                   status={trip.status === 'in-progress' ? 'in-progress' : 'upcoming'}
-                  title={`${trip.vehicle || 'Ride'} to ${trip.to}`}
-                  time={`${trip.eta || 'Scheduled'} · ${trip.from} → ${trip.to}`}
+                  title={`${trip.vehicle || '行程'} 前往 ${trip.to}`}
+                  time={`${trip.eta || '已预约'} · ${trip.from} → ${trip.to}`}
                   from={trip.from}
                   to={trip.to}
                   price={trip.price ? String(trip.price) : undefined}
@@ -105,12 +105,12 @@ const YourTripsUpcomingPage: React.FC<Props> = ({ onNavigate }) => {
             type="button"
             className="primary-btn"
             onClick={() => {
-              addRecentAction('Viewed upcoming trip details');
+              addRecentAction('查看即将开始行程详情');
               onNavigate?.('trip-upcoming');
             }}
             style={{ margin: '14px 20px 20px', width: 'calc(100% - 40px)', height: 50 }}
           >
-            View active trip details
+            查看当前行程详情
           </button>
         </div>
       ) : (
@@ -131,21 +131,21 @@ const YourTripsUpcomingPage: React.FC<Props> = ({ onNavigate }) => {
           </div>
 
           <p style={{ margin: '28px 0 0', fontSize: 18, fontWeight: 700, color: '#111318', textAlign: 'center', letterSpacing: '-0.02em' }}>
-            No upcoming trips
+            暂无即将开始的行程
           </p>
           <p style={{ textAlign: 'center', fontSize: 13, color: '#9b9aa3', marginTop: 8, lineHeight: 1.45, maxWidth: 260 }}>
-            Book a ride from Home or Choose Car — it will show up here with live demo state.
+            从首页或选车页预约行程后，将显示在这里并同步演示状态。
           </p>
           <button
             type="button"
             className="primary-btn"
             onClick={() => {
-              addRecentAction('Book from empty upcoming trips');
+              addRecentAction('从空行程页去叫车');
               onNavigate?.('core-home');
             }}
             style={{ marginTop: 24, width: '100%', height: 50 }}
           >
-            Book a ride
+            去叫车
           </button>
         </div>
       )}

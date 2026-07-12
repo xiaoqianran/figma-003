@@ -64,14 +64,14 @@ export const ConsoleToolbar: React.FC<Props> = ({
         type="button"
         onClick={onSimulateFlow}
         className="lab-btn lab-btn--primary"
-        title="Run the flagship Standard Booking Flow"
+        title="运行旗舰标准叫车流程"
       >
-        ▶ Simulate booking
+        ▶ 模拟叫车
       </button>
 
       {onOpenFlowPresets && (
-        <button type="button" onClick={onOpenFlowPresets} className="lab-btn" title="Open flow presets">
-          Presets
+        <button type="button" onClick={onOpenFlowPresets} className="lab-btn" title="打开流程预设">
+          预设
         </button>
       )}
 
@@ -80,9 +80,9 @@ export const ConsoleToolbar: React.FC<Props> = ({
           type="button"
           onClick={() => setShowQuick((v) => !v)}
           className="lab-btn"
-          title="Quick lab utilities"
+          title="实验室快捷工具"
         >
-          Actions {showQuick ? '▴' : '▾'}
+          操作 {showQuick ? '▴' : '▾'}
         </button>
 
         {showQuick && (
@@ -96,15 +96,15 @@ export const ConsoleToolbar: React.FC<Props> = ({
             onClick={(e) => e.stopPropagation()}
           >
             {[
-              { fn: onReset, label: 'Reset everything', icon: '↺' },
-              { fn: onLoadDemoTrip, label: 'Load demo trip', icon: '🚕' },
-              { fn: onSeedMultiTrips, label: 'Seed 3 sample trips', icon: '📦' },
-              { fn: onExportDemoState, label: 'Export demo state', icon: '↓' },
-              { fn: onImportDemoState, label: 'Import demo state', icon: '↑' },
-              { fn: onJumpPopular, label: 'Jump to Choose Car', icon: '★' },
-              { fn: onSimulateFlow, label: 'Simulate booking flow', icon: '▶' },
-              { fn: onOpenFlowPresets, label: 'Browse flow presets', icon: '☰' },
-              { fn: onRandom, label: 'Random prototype', icon: '🎲' },
+              { fn: onReset, label: '全部重置', icon: '↺' },
+              { fn: onLoadDemoTrip, label: '加载演示行程', icon: '🚕' },
+              { fn: onSeedMultiTrips, label: '填充 3 条示例行程', icon: '📦' },
+              { fn: onExportDemoState, label: '导出演示状态', icon: '↓' },
+              { fn: onImportDemoState, label: '导入演示状态', icon: '↑' },
+              { fn: onJumpPopular, label: '跳转到选车页', icon: '★' },
+              { fn: onSimulateFlow, label: '模拟叫车流程', icon: '▶' },
+              { fn: onOpenFlowPresets, label: '浏览流程预设', icon: '☰' },
+              { fn: onRandom, label: '随机原型', icon: '🎲' },
             ].map((item) => (
               <button
                 key={item.label}
@@ -119,7 +119,7 @@ export const ConsoleToolbar: React.FC<Props> = ({
 
             {onZoomChange && typeof zoom === 'number' && (
               <div className="px-3 py-2 flex items-center gap-2 text-[var(--lab-text-muted)] border-t border-white/5 mt-1">
-                <span className="text-[10px]">Zoom</span>
+                <span className="text-[10px]">缩放</span>
                 <button type="button" onClick={() => { onZoomChange(Math.max(0.55, zoom - 0.1)); closeQuick(); }} className="lab-btn" style={{ padding: '2px 8px' }}>−</button>
                 <span className="text-[11px] tabular-nums">{zoom.toFixed(1)}×</span>
                 <button type="button" onClick={() => { onZoomChange(Math.min(1.9, zoom + 0.1)); closeQuick(); }} className="lab-btn" style={{ padding: '2px 8px' }}>+</button>
@@ -127,33 +127,33 @@ export const ConsoleToolbar: React.FC<Props> = ({
             )}
             {onRotate && (
               <button type="button" onClick={() => runQuick(onRotate)} className="w-full text-left px-3 py-2 rounded-xl hover:bg-white/5">
-                {isRotated ? '↩︎' : '⟲'} Toggle rotation
+                {isRotated ? '↩︎' : '⟲'} 切换旋转
               </button>
             )}
           </div>
         )}
       </div>
 
-      <button type="button" onClick={onRandom} className="lab-btn">Random</button>
-      <button type="button" onClick={onReset} className="lab-btn">Reset</button>
+      <button type="button" onClick={onRandom} className="lab-btn">随机</button>
+      <button type="button" onClick={onReset} className="lab-btn">重置</button>
       {onExportDemoState && (
-        <button type="button" onClick={onExportDemoState} className="lab-btn">Export</button>
+        <button type="button" onClick={onExportDemoState} className="lab-btn">导出</button>
       )}
       {onImportDemoState && (
-        <button type="button" onClick={onImportDemoState} className="lab-btn">Import</button>
+        <button type="button" onClick={onImportDemoState} className="lab-btn">导入</button>
       )}
       <button type="button" onClick={toggle} className="lab-btn">
-        {showFrame ? 'Hide frame' : 'Show frame'}
+        {showFrame ? '隐藏边框' : '显示边框'}
       </button>
 
       {onCopyCurrentLink && (
-        <button type="button" onClick={onCopyCurrentLink} className="lab-btn" title={selectedTitle ? `Copy lab link for ${selectedTitle}` : 'Copy link'}>
-          Copy link
+        <button type="button" onClick={onCopyCurrentLink} className="lab-btn" title={selectedTitle ? `复制实验室链接：${selectedTitle}` : '复制链接'}>
+          复制链接
         </button>
       )}
       {onCopyStandaloneLink && (
-        <button type="button" onClick={onCopyStandaloneLink} className="lab-btn" title="Copy standalone link">
-          Standalone
+        <button type="button" onClick={onCopyStandaloneLink} className="lab-btn" title="复制独立预览链接">
+          独立预览
         </button>
       )}
 

@@ -13,8 +13,8 @@ const ChooseCarPage: React.FC<ChooseCarPageProps> = ({ onNavigate }) => {
   const [selected, setSelected] = useState<string | null>('godyx');
 
   const vehicles = [
-    { id: 'godyx', name: 'GodyX', desc: 'Affordable · 4 seats · quiet EV', price: 22.0, icon: '🚗' },
-    { id: 'suv', name: 'Black SUV', desc: 'Spacious · premium comfort', price: 17.0, icon: '🚙' },
+    { id: 'godyx', name: 'GodyX', desc: '经济实惠 · 4 座 · 静音电动', price: 22.0, icon: '🚗' },
+    { id: 'suv', name: '黑金 SUV', desc: '宽敞空间 · 高端舒适', price: 17.0, icon: '🚙' },
   ];
 
   const handleSchedule = () => {
@@ -25,18 +25,18 @@ const ChooseCarPage: React.FC<ChooseCarPageProps> = ({ onNavigate }) => {
     const v = vehicles.find((x) => x.id === selected);
     if (!v) return;
 
-    const destTo = activeTrip?.to || 'Apple Union Square';
-    const destFrom = activeTrip?.from || '51 Sharon St';
+    const destTo = activeTrip?.to || '苹果联合广场';
+    const destFrom = activeTrip?.from || '当前定位';
     const booked = bookTrip({
       status: 'upcoming',
       from: destFrom,
       to: destTo,
       vehicle: v.name,
       price: v.price,
-      eta: '3:50 PM',
+      eta: '下午 3:50',
     });
-    addRecentAction(`Booked ${v.name} to ${booked.to} ($${v.price}) via ChooseCar`);
-    success('车辆已选择', `${v.name} · $${v.price}（演示）`);
+    addRecentAction(`通过选车页预订 ${v.name} 前往 ${booked.to}（¥${v.price}）`);
+    success('车辆已选择', `${v.name} · ¥${v.price}（演示）`);
     onNavigate?.('booking-confirm-pickup1');
   };
 
@@ -62,7 +62,7 @@ const ChooseCarPage: React.FC<ChooseCarPageProps> = ({ onNavigate }) => {
             color: '#111318',
           }}
         >
-          {activeTrip?.to || 'Apple Union Square'}
+          {activeTrip?.to || '苹果联合广场'}
         </div>
       </div>
 
@@ -75,7 +75,7 @@ const ChooseCarPage: React.FC<ChooseCarPageProps> = ({ onNavigate }) => {
         type="button"
         className="map-fab"
         style={{ position: 'absolute', top: 200, right: 20, zIndex: 10 }}
-        aria-label="Relocate"
+        aria-label="重新定位"
         onClick={() => info('重新定位', '当前位置已更新（演示）')}
       >
         ◎
@@ -105,10 +105,10 @@ const ChooseCarPage: React.FC<ChooseCarPageProps> = ({ onNavigate }) => {
       >
         <div style={{ width: 40, height: 4, borderRadius: 999, background: '#e4e2dc', margin: '0 auto 10px', flexShrink: 0 }} />
         <div style={{ margin: '0 20px 2px', color: '#111318', fontSize: 16, fontWeight: 700, letterSpacing: '-0.02em', flexShrink: 0 }}>
-          Choose your ride
+          选择出行方式
         </div>
         <div style={{ margin: '0 20px 8px', fontSize: 11, color: '#9b9aa3', flexShrink: 0 }}>
-          Prices include taxes · ETA from your pin
+          价格含税 · 预计到达时间基于您的位置
         </div>
 
         <div style={{ flex: '0 1 auto', overflow: 'hidden' }}>
@@ -145,12 +145,12 @@ const ChooseCarPage: React.FC<ChooseCarPageProps> = ({ onNavigate }) => {
               VISA
             </div>
           ) : (
-            <div style={{ background: '#f0b429', color: '#14110a', padding: '3px 7px', borderRadius: 5, fontSize: 10, fontWeight: 700 }}>
+            <div style={{ background: '#ca8a04', color: '#14110a', padding: '3px 7px', borderRadius: 5, fontSize: 10, fontWeight: 700 }}>
               GODY
             </div>
           )}
           <div style={{ marginLeft: 12, fontSize: 13, fontWeight: 550 }}>{selectedPayment.label}</div>
-          <div style={{ marginLeft: 'auto', color: '#6b6a73', fontSize: 12, fontWeight: 500 }}>Change →</div>
+          <div style={{ marginLeft: 'auto', color: '#6b6a73', fontSize: 12, fontWeight: 500 }}>更改 →</div>
         </div>
 
         <button
@@ -160,7 +160,7 @@ const ChooseCarPage: React.FC<ChooseCarPageProps> = ({ onNavigate }) => {
           onClick={handleSchedule}
           style={{ margin: '12px 20px 0', height: 48, width: 'calc(100% - 40px)', flexShrink: 0 }}
         >
-          Schedule {selected ? vehicles.find((v) => v.id === selected)?.name : 'Ride'}
+          预约 {selected ? vehicles.find((v) => v.id === selected)?.name : '行程'}
         </button>
 
         <HomeIndicator />

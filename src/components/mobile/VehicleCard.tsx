@@ -39,7 +39,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
         margin: '8px 20px 0',
         padding: '12px 16px',
         borderRadius: 14,
-        border: selected ? '2px solid #f0b429' : '1px solid #e8e8e8',
+        border: selected ? '2px solid var(--color-cta, #ca8a04)' : '1px solid #e8e8e8',
         background: selected ? '#fffbeb' : '#ffffff',
         cursor: onClick ? 'pointer' : 'default',
         display: 'flex',

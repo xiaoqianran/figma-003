@@ -45,7 +45,7 @@ const PaymentCard: React.FC<PaymentCardProps> = ({
       return <div style={{ background: '#143c8a', color: '#fff', padding: '2px 8px', borderRadius: 3, fontSize: 10, fontWeight: 700, letterSpacing: 0.5 }}>VISA</div>;
     }
     if (type === 'gody') {
-      return <div style={{ background: '#fecc2a', color: '#0A0908', padding: '2px 10px', borderRadius: 4, fontSize: 12, fontWeight: 700 }}>GODY</div>;
+      return <div style={{ background: '#ca8a04', color: '#0A0908', padding: '2px 10px', borderRadius: 4, fontSize: 12, fontWeight: 700 }}>GODY</div>;
     }
     if (type === 'alipay') {
       return <span style={{ fontSize: 18 }}>💰</span>;
@@ -64,7 +64,7 @@ const PaymentCard: React.FC<PaymentCardProps> = ({
       className={`payment-card ${selected ? 'selected' : ''} ${className}`}
       style={{
         margin: '12px 24px 0',
-        border: selected ? '2px solid #fecc2a' : '1px solid #e8e8e8',
+        border: selected ? '2px solid #ca8a04' : '1px solid #e8e8e8',
         background: '#fff',
         cursor: onClick ? 'pointer' : 'default',
         display: 'flex',

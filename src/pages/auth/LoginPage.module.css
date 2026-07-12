@@ -72,7 +72,7 @@
   width: 56px;
   height: 3px;
   border-radius: 999px;
-  background: linear-gradient(90deg, #f0b429, rgba(240, 180, 41, 0.2));
+  background: linear-gradient(90deg, #ca8a04, rgba(240, 180, 41, 0.2));
 }
 
 .illusCaption {
@@ -111,7 +111,7 @@
 }
 
 .phoneInput:focus-within {
-  border-color: #f0b429;
+  border-color: #ca8a04;
   box-shadow: 0 0 0 3px rgba(240, 180, 41, 0.16);
 }
 
@@ -159,21 +159,23 @@
   width: calc(100% - 48px);
   height: 52px;
   margin: 18px 24px 0;
-  background: linear-gradient(180deg, #ffc93c 0%, #f0b429 100%);
-  color: #14110a;
+  background: #ca8a04;
+  color: #ffffff;
   border: none;
   border-radius: 16px;
   font-size: 16px;
   font-weight: 650;
   cursor: pointer;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.35) inset, 0 8px 20px rgba(240, 180, 41, 0.28);
-  transition: transform 0.12s ease, filter 0.14s ease, box-shadow 0.14s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 200ms ease;
   outline: none;
 }
 
 .continueBtn:hover:not(:disabled) {
-  filter: brightness(1.04);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset, 0 10px 24px rgba(240, 180, 41, 0.34);
+  opacity: 0.9;
+  transform: translateY(-1px);
+  background: #b45309;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
 
 .continueBtn:active:not(:disabled) {
@@ -234,7 +236,7 @@
 }
 
 .socialButton:focus-visible {
-  outline: 2px solid #f0b429;
+  outline: 2px solid #ca8a04;
   outline-offset: 3px;
 }
 

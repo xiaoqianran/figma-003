@@ -39,55 +39,55 @@ interface FlowPreset {
 }
 
 // Static lists (module scope for stable refs, no per-render recreation, helps keyboard effect + exhaustive-deps)
-const CATEGORY_LIST = ['All', 'Auth', 'Core', 'Booking', 'Payment', 'Trips', 'Account', 'Map', 'Other'] as const
+const CATEGORY_LIST = ['全部', '认证', '核心', '预订', '支付', '行程', '账户', '地图', '其他'] as const
 
 // FLOW PRESETS defined at module scope (prevents stale closures in runFlowPreset useCallback + makes data stable for aggressive re-triggers)
 const FLOW_PRESETS_DATA: Record<'standard' | 'trip-mgmt' | 'account-payment' | 'full-e2e', FlowPreset> = {
   standard: {
-    name: 'Standard Booking Flow',
-    desc: 'Classic 5-step ride request — flagship demo journey',
+    name: '标准叫车流程',
+    desc: '经典 5 步叫车演示 — 旗舰演示旅程',
     steps: [
-      { id: 'core-home', title: 'Home', desc: 'User launches app — live map shows 14 nearby EVs ready' },
-      { id: 'core-search1', title: 'Search', desc: 'Enters destination “Lujiazui Tower”. Smart suggestions + price estimates' },
-      { id: 'booking-choose-car', title: 'Choose Vehicle', desc: 'Compares 3 options: XPeng P7 ¥78, NIO ¥92, Tesla ¥105. Selects premium' },
-      { id: 'booking-confirm-pickup1', title: 'Confirm Pickup', desc: 'Pins exact spot on map. Driver match in 8s. ETA locked' },
-      { id: 'booking-requesting', title: 'Requesting', desc: 'Broadcasting request. Real-time driver pings. Final confirmation step' },
+      { id: 'core-home', title: '首页', desc: '用户打开应用 — 地图显示附近 14 辆可用新能源车' },
+      { id: 'core-search1', title: '搜索', desc: '输入目的地「陆家嘴」。智能推荐与价格预估' },
+      { id: 'booking-choose-car', title: '选择车辆', desc: '对比车型：小鹏 P7 ¥78、蔚来 ¥92、特斯拉 ¥105，选择高端' },
+      { id: 'booking-confirm-pickup1', title: '确认上车点', desc: '在地图上钉选位置。约 8 秒匹配司机，锁定 ETA' },
+      { id: 'booking-requesting', title: '请求中', desc: '广播叫车请求，实时司机响应，最终确认步骤' },
     ]
   },
   'trip-mgmt': {
-    name: 'Trip Management Flow',
-    desc: 'Realistic upcoming trips → detail → status transitions',
+    name: '行程管理流程',
+    desc: '即将开始行程 → 详情 → 状态流转的真实演示',
     steps: [
-      { id: 'trips-hub', title: 'Trips Hub', desc: 'Opens full trip management dashboard with counts & filters' },
-      { id: 'trips-upcoming', title: 'Upcoming Trips', desc: 'Reviews 2 scheduled rides. Taps active card for details' },
-      { id: 'trip-upcoming', title: 'Trip Detail', desc: 'Inspects route, driver info, live tracking toggle. Powerful demo data', inject: { from: 'Hongqiao Airport T2', to: 'Puxi Riverside Promenade', driver: 'Wang Lei', vehicle: 'NIO ET7 • Obsidian', eta: '11 min', price: 118, status: 'upcoming' } },
-      { id: 'trips-detail-completed', title: 'Complete Ride', desc: 'Simulates ride finish. Auto-updates status + receipt available', inject: { from: 'Hongqiao Airport T2', to: 'Puxi Riverside Promenade', driver: 'Wang Lei', vehicle: 'NIO ET7 • Obsidian', eta: 'Arrived', price: 118, status: 'completed' } },
-      { id: 'trips-past', title: 'History', desc: 'Archives completed trip. Filters & export options shown for realism' },
+      { id: 'trips-hub', title: '行程中心', desc: '打开行程管理总览，含数量与筛选' },
+      { id: 'trips-upcoming', title: '进行中行程', desc: '查看 2 个已预约行程，点卡片看详情' },
+      { id: 'trip-upcoming', title: '行程详情', desc: '查看路线、司机信息与实时跟踪。丰富演示数据', inject: { from: 'Hongqiao Airport T2', to: 'Puxi Riverside Promenade', driver: 'Wang Lei', vehicle: 'NIO ET7 • Obsidian', eta: '11 min', price: 118, status: 'upcoming' } },
+      { id: 'trips-detail-completed', title: '完成行程', desc: '模拟行程结束，自动更新状态并生成收据', inject: { from: 'Hongqiao Airport T2', to: 'Puxi Riverside Promenade', driver: 'Wang Lei', vehicle: 'NIO ET7 • Obsidian', eta: 'Arrived', price: 118, status: 'completed' } },
+      { id: 'trips-past', title: '历史行程', desc: '归档已完成行程，展示筛选与导出等真实功能' },
     ]
   },
   'account-payment': {
-    name: 'Account + Payment Flow',
-    desc: 'Profile management → payment method selection & checkout',
+    name: '账户与支付流程',
+    desc: '资料管理 → 支付方式选择与结账',
     steps: [
-      { id: 'account-profile', title: 'My Profile', desc: 'Views loyalty tier, ride stats, quick edit access' },
-      { id: 'account-edit1', title: 'Edit Account', desc: 'Updates phone & notification prefs. Form validation demo' },
-      { id: 'payment-select', title: 'Payment Methods', desc: 'Manages Visa ••••4242, Alipay, WeChat. Sets default' },
-      { id: 'payment-confirm', title: 'Checkout', desc: 'Confirms ¥118 ride charge with selected method + receipt' },
+      { id: 'account-profile', title: '我的资料', desc: '查看会员等级、出行数据与快捷编辑' },
+      { id: 'account-edit1', title: '编辑账户', desc: '更新手机与通知偏好，表单校验演示' },
+      { id: 'payment-select', title: '支付方式', desc: '管理 Visa ••••4242、支付宝、微信并设置默认' },
+      { id: 'payment-confirm', title: '确认支付', desc: '使用所选方式确认 ¥118 行程费用并生成收据' },
     ]
   },
   'full-e2e': {
-    name: 'Full End-to-End',
-    desc: 'Comprehensive 9-step realistic user lifecycle (booking + pay + manage + account)',
+    name: '完整端到端流程',
+    desc: '完整 9 步用户生命周期（叫车 + 支付 + 管理 + 账户）',
     steps: [
-      { id: 'core-home', title: 'Home', desc: 'Start of day — map & quick book CTA' },
-      { id: 'core-search1', title: 'Search', desc: 'Plans commute to financial district' },
-      { id: 'booking-choose-car', title: 'Choose Vehicle', desc: 'Selects efficient EV for 45km journey' },
-      { id: 'booking-confirm-pickup1', title: 'Pickup', desc: 'Confirms location & driver assignment' },
-      { id: 'payment-confirm', title: 'Payment', desc: 'Pre-authorizes charge on saved card' },
-      { id: 'booking-requesting', title: 'Request Sent', desc: 'Awaits match — live status overlay' },
-      { id: 'trips-upcoming', title: 'My Trips', desc: 'Verifies booking appears in upcoming list' },
-      { id: 'trip-upcoming', title: 'Live Detail', desc: 'Monitors driver arrival countdown', inject: { from: 'Jing\'an Temple', to: 'Century Avenue Tower', driver: 'Chen Fang', vehicle: 'Li Auto L9 • Pearl', eta: '3 min', price: 64, status: 'in-progress' } },
-      { id: 'account-profile', title: 'Account Check', desc: 'Post-ride review of updated stats & loyalty points' },
+      { id: 'core-home', title: '首页', desc: '一天开始 — 地图与快捷叫车' },
+      { id: 'core-search1', title: '搜索', desc: '规划前往金融区的通勤' },
+      { id: 'booking-choose-car', title: '选择车辆', desc: '为 45 公里行程选择高效电动车' },
+      { id: 'booking-confirm-pickup1', title: '上车点', desc: '确认位置与司机分配' },
+      { id: 'payment-confirm', title: '支付', desc: '在已保存卡片上预授权扣款' },
+      { id: 'booking-requesting', title: '已发送请求', desc: '等待匹配 — 实时状态浮层' },
+      { id: 'trips-upcoming', title: '我的行程', desc: '确认预约已出现在进行中列表' },
+      { id: 'trip-upcoming', title: '实时详情', desc: '监控司机到达倒计时', inject: { from: 'Jing\'an Temple', to: 'Century Avenue Tower', driver: 'Chen Fang', vehicle: 'Li Auto L9 • Pearl', eta: '3 min', price: 64, status: 'in-progress' } },
+      { id: 'account-profile', title: '账户检查', desc: '行程后查看更新的数据与积分' },
     ]
   }
 }
@@ -97,18 +97,18 @@ function NotFoundInDevice({ pageId, onNavigateHome, onTryRandom }: { pageId: str
   return (
     <div className="h-full flex flex-col items-center justify-center px-6 text-center" style={{ background: 'var(--paper)', color: 'var(--ink)', fontFamily: 'Inter, system-ui, sans-serif' }}>
       <div style={{ width: 48, height: 48, borderRadius: 16, background: 'var(--gody-amber-soft)', display: 'grid', placeItems: 'center', marginBottom: 12, fontSize: 20 }}>?</div>
-      <div style={{ fontWeight: 650, fontSize: 15, letterSpacing: '-0.02em' }}>Prototype not found</div>
+      <div style={{ fontWeight: 650, fontSize: 15, letterSpacing: '-0.02em' }}>未找到原型</div>
       <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 6, marginBottom: 14, lineHeight: 1.4 }}>
-        “{pageId}” is not in the registry
+        「{pageId}」不在注册表中
       </div>
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
         {onTryRandom && (
           <button type="button" onClick={onTryRandom} className="lab-btn lab-btn--primary" style={{ fontSize: 12, color: '#14110a' }}>
-            Try random
+            随机试试
           </button>
         )}
         <button type="button" onClick={onNavigateHome} className="lab-btn" style={{ fontSize: 12, background: '#fff', color: 'var(--ink)', border: '1px solid var(--line-strong)' }}>
-          ← Lab home
+          ← 返回控制台
         </button>
       </div>
     </div>
@@ -139,7 +139,7 @@ function LabView() {
 
   // Core UI state
   const [searchTerm, setSearchTerm] = useState('')
-  const [activeCategory, setActiveCategory] = useState('All')
+  const [activeCategory, setActiveCategory] = useState('全部')
   const [zoom, setZoom] = useState(1)
   const [isRotated, setIsRotated] = useState(false)
   const [showFrame, setShowFrame] = useState(true)
@@ -237,7 +237,7 @@ function LabView() {
     setFavorites(prev => {
       const isFav = prev.includes(id)
       const next = isFav ? prev.filter(x => x !== id) : [...prev, id]
-      showToast({ type: 'success', title: isFav ? 'Removed from favorites' : 'Added to favorites', message: pageRegistry.find(p => p.id === id)?.title })
+      showToast({ type: 'success', title: isFav ? '已取消收藏' : '已加入收藏', message: pageRegistry.find(p => p.id === id)?.title })
       return next
     })
   }, [showToast])
@@ -245,9 +245,9 @@ function LabView() {
   const copyLinkFor = useCallback((page: PageDefinition) => {
     const url = `${window.location.origin}${window.location.pathname}#/prototype/${page.id}`
     navigator.clipboard.writeText(url).then(() => {
-      showToast({ type: 'success', title: 'Link copied', message: `${page.title} deep link` })
+      showToast({ type: 'success', title: '链接已复制', message: `${page.title} 深度链接` })
     }).catch(() => {
-      showToast({ type: 'warning', title: 'Clipboard unavailable', message: `Copy manually: ${url}`, duration: 7000 })
+      showToast({ type: 'warning', title: '无法使用剪贴板', message: `请手动复制： ${url}`, duration: 7000 })
       console.log('[Clipboard fallback] Copy link:', url)
     })
   }, [showToast])
@@ -256,10 +256,10 @@ function LabView() {
   const copyStandaloneLinkFor = useCallback((page: PageDefinition) => {
     const url = `${window.location.origin}${window.location.pathname}#/standalone/${page.id}`
     navigator.clipboard.writeText(url).then(() => {
-      showToast({ type: 'success', title: 'Standalone link copied', message: `${page.title} fullscreen preview` })
+      showToast({ type: 'success', title: '独立预览链接已复制', message: `${page.title} 全屏预览` })
     }).catch(() => {
-      showToast({ type: 'warning', title: 'Clipboard unavailable', message: `Copy manually: ${url}`, duration: 7000 })
-      console.log('[Clipboard fallback] Copy standalone link:', url)
+      showToast({ type: 'warning', title: '无法使用剪贴板', message: `请手动复制： ${url}`, duration: 7000 })
+      console.log('[Clipboard fallback] 复制独立预览链接:', url)
     })
   }, [showToast])
 
@@ -270,7 +270,7 @@ function LabView() {
     // Guard for rapid switching journey: abort active sim on manual sidebar/console selection to prevent nav fighting / confusing state
     if (isSimulating) {
       abortCurrentSimulation()
-      showToast({ type: 'info', title: 'Simulation aborted', message: 'Manual navigation takes over', duration: 900 })
+      showToast({ type: 'info', title: '模拟已中止', message: '已切换为手动导航', duration: 900 })
     }
     navigate(`/prototype/${page.id}`)
   }, [navigate, isSimulating, showToast])
@@ -281,7 +281,7 @@ function LabView() {
     if (target) {
       navigate(`/prototype/${targetId}`)
     } else {
-      showToast({ type: 'error', title: 'Navigation failed', message: `No prototype found for “${targetId}”` })
+      showToast({ type: 'error', title: '导航失败', message: `未找到原型「${targetId}」` })
     }
   }, [navigate, showToast])
 
@@ -289,18 +289,18 @@ function LabView() {
     // Guard for rapid switching / sim journeys: abort active sim on manual random to prevent conflicting navigation
     if (isSimulating) {
       abortCurrentSimulation()
-      showToast({ type: 'info', title: 'Simulation aborted', message: 'Random selection takes over', duration: 900 })
+      showToast({ type: 'info', title: '模拟已中止', message: '已切换为随机选择', duration: 900 })
     }
     const rand = pageRegistry[Math.floor(Math.random() * pageRegistry.length)]
     navigate(`/prototype/${rand.id}`)
-    showToast({ type: 'info', title: 'Random prototype', message: rand.title })
+    showToast({ type: 'info', title: '随机原型', message: rand.title })
   }, [navigate, showToast, isSimulating])
 
   const handleResetAll = useCallback(() => {
     ['gody-console-favorites','gody-console-recent','gody-console-flow','gody-console-frame','gody-console-zoom']
       .forEach(k => localStorage.removeItem(k))
     setFavorites([]); setRecentViewed([]); setFlowHistory([])
-    setShowFrame(true); setZoom(1); setSearchTerm(''); setActiveCategory('All')
+    setShowFrame(true); setZoom(1); setSearchTerm(''); setActiveCategory('全部')
     // Also clear any in-flight simulator UI state + abort controller
     setIsSimulating(false)
     setShowPostSimModal(false)
@@ -313,7 +313,7 @@ function LabView() {
     if (c.paused && c.resumeResolver) { c.resumeResolver(); c.resumeResolver = null }
     resetDemoState()
     navigate('/')
-    showToast({ type: 'success', title: 'All demo state reset', message: `Console + global demo cleared. ${pageRegistry.length} pages ready.` })
+    showToast({ type: 'success', title: '演示状态已全部重置', message: `控制台与全局演示已清空。${pageRegistry.length} 个页面就绪。` })
   }, [resetDemoState, navigate, showToast])
 
   const handleZoomChange = useCallback((z: number) => setZoom(z), [])
@@ -328,7 +328,7 @@ function LabView() {
     }
     const start = findPageById(flowMap[page.id] || page.id) || page
     navigate(`/prototype/${start.id}`)
-    showToast({ type: 'info', title: 'User flow started', message: `From ${start.title}` })
+    showToast({ type: 'info', title: '用户流程已开始', message: `从 ${start.title} 开始` })
   }, [navigate, showToast])
 
   // Premium lab features: Flow Simulator + Quick Actions helpers (integrate with DemoState + Toast)
@@ -343,13 +343,13 @@ function LabView() {
       eta: '7 min',
       price: 92,
     })
-    addRecentAction('Loaded realistic demo trip via Quick Actions (multi-trip)')
-    showToast({ type: 'success', title: 'Demo trip booked', message: 'Persisted to bookedTrips • visible in inspector + trips pages' })
+    addRecentAction('通过快捷操作加载真实演示行程（多行程）')
+    showToast({ type: 'success', title: '演示行程已创建', message: '已写入 bookedTrips，可在检查器与行程页查看' })
   }, [bookTrip, addRecentAction, showToast])
 
   const jumpToPopular = useCallback(() => {
     handleNavigate('booking-choose-car')
-    showToast({ type: 'info', title: 'Jumped to popular', message: 'Vehicle chooser — core high-traffic prototype' })
+    showToast({ type: 'info', title: '已跳转到热门页', message: '选车页 — 核心高流量原型' })
   }, [handleNavigate, showToast])
 
   // NEW: Seed multiple realistic trips for rich demo of the new bookedTrips system
@@ -358,8 +358,8 @@ function LabView() {
     bookTrip({ status: 'completed', from: 'Hongqiao Airport T2', to: 'Puxi Riverside', driver: 'Wang Lei', vehicle: 'NIO ET7', price: 118, eta: 'Arrived' })
     bookTrip({ status: 'upcoming', from: 'Jing\'an Temple', to: 'Century Avenue', driver: 'Chen Fang', vehicle: 'Li Auto L9', price: 64, eta: '14 min' })
     const t3 = bookTrip({ status: 'in-progress', from: 'The Bund', to: 'Zhangjiang Hi-Tech', driver: 'Zhao Min', vehicle: 'BYD Seal', price: 71, eta: '9 min' })
-    addRecentAction(`Seeded 3 sample trips (latest active: ${t3.to})`)
-    showToast({ type: 'success', title: '3 sample trips seeded', message: 'Upcoming + In-progress + Completed in bookedTrips' })
+    addRecentAction(`已填充 3 条示例行程（当前：${t3.to}）`)
+    showToast({ type: 'success', title: '已填充 3 条示例行程', message: '包含即将开始 / 进行中 / 已完成' })
     // Jump to trips hub to immediately see the result
     setTimeout(() => handleNavigate('trips-hub'), 650)
   }, [bookTrip, clearBookedTrips, addRecentAction, showToast, handleNavigate])
@@ -373,27 +373,27 @@ function LabView() {
       setSelectedPayment({ id: 'alipay-8888', type: 'alipay', label: '支付宝 ••••8888' });
       bookTrip({ status: 'completed', from: '静安寺', to: '陆家嘴金融中心', driver: '张师傅', vehicle: '小鹏P7', price: 68, eta: 'Arrived', paid: true });
       bookTrip({ status: 'in-progress', from: '静安寺', to: '陆家嘴金融中心', driver: '王师傅', vehicle: '小鹏G9', price: 72, eta: '6 min' });
-      addRecentAction('Loaded Business Commute scenario');
+      addRecentAction('已加载商务通勤场景');
     } else if (type === 'airport-family') {
       setUser({ name: 'Wang Family', phone: '+86 139 1234 5678', avatar: '👨‍👩‍👧' });
       setSelectedPayment({ id: 'visa-4242', type: 'visa', label: 'Visa •••• 4242' });
       bookTrip({ status: 'upcoming', from: '浦东机场 T2', to: '外滩', driver: '李师傅', vehicle: '理想L9', price: 145, eta: '25 min' });
       bookTrip({ status: 'completed', from: '虹桥机场 T1', to: '人民广场', driver: '赵师傅', vehicle: '特斯拉 Model Y', price: 98, eta: 'Arrived', paid: true });
-      addRecentAction('Loaded Airport Family scenario (with child seat note)');
+      addRecentAction('已加载机场家庭场景');
     } else if (type === 'night-party') {
       setUser({ name: 'Chen Xiaoyu', phone: '+86 177 7777 7777', avatar: '🕺' });
       setSelectedPayment({ id: 'wechat-6666', type: 'wechat', label: '微信支付 ••••6666' });
       bookTrip({ status: 'in-progress', from: '新天地', to: '徐汇滨江', driver: '孙师傅', vehicle: '比亚迪汉', price: 45, eta: '11 min' });
-      addRecentAction('Loaded Nightlife / Party scenario');
+      addRecentAction('已加载夜生活场景');
     } else if (type === 'multiple-trips') {
       setUser({ name: 'Demo Power User', phone: '+1 555 123 4567', avatar: '🚀' });
       bookTrip({ status: 'completed', from: 'Century Avenue', to: 'The Bund', price: 58, eta: 'Arrived', paid: true });
       bookTrip({ status: 'upcoming', from: 'Jingan Temple', to: 'Pudong Airport', price: 132, eta: 'Tomorrow 07:40' });
       bookTrip({ status: 'in-progress', from: 'Xintiandi', to: 'Zhangjiang', driver: 'Liu', vehicle: 'NIO ET5', price: 79, eta: '4 min' });
-      addRecentAction('Loaded Multi-trip power user scenario');
+      addRecentAction('已加载多行程用户场景');
     }
 
-    showToast({ type: 'success', title: 'Scenario loaded', message: `Rich demo state ready for ${type}` });
+    showToast({ type: 'success', title: '场景已加载', message: `完整演示状态已就绪：${type}` });
     setTimeout(() => handleNavigate('trips-hub'), 420);
   }, [clearBookedTrips, setUser, setSelectedPayment, bookTrip, addRecentAction, showToast, handleNavigate]);
 
@@ -429,15 +429,15 @@ function LabView() {
       document.body.removeChild(link)
       URL.revokeObjectURL(url)
 
-      addRecentAction(`Exported demo state (${bookedTrips.length} trips) → ${filename}`)
+      addRecentAction(`已导出演示状态（${bookedTrips.length} 条行程）→ ${filename}`)
       showToast({
         type: 'success',
-        title: 'Demo state exported',
-        message: `${filename} • ${bookedTrips.length} booked trips • ${recentActions.length} recent actions`,
+        title: '演示状态已导出',
+        message: `${filename} · ${bookedTrips.length} 条行程 · ${recentActions.length} 条最近操作`,
       })
     } catch (err) {
       console.error('[Export Demo State] failed', err)
-      showToast({ type: 'error', title: 'Export failed', message: 'Could not serialize current demo state (see console)' })
+      showToast({ type: 'error', title: '导出失败', message: '无法序列化当前演示状态（见控制台）' })
     }
   }, [user, selectedPayment, activeTrip, bookedTrips, recentActions, addRecentAction, showToast])
 
@@ -470,8 +470,8 @@ function LabView() {
         if (parsed.version != null && parsed.version !== 1) {
           showToast({
             type: 'warning',
-            title: 'Version note',
-            message: `Imported v${parsed.version} (current is 1). Core fields applied; extra data ignored.`,
+            title: '版本提示',
+            message: `已导入 v${parsed.version}（当前为 v1）。已应用核心字段，其余数据已忽略。`,
           })
         }
 
@@ -517,12 +517,12 @@ function LabView() {
 
         const restoredTrips = trips.length
         const restoredActions = rec.length
-        addRecentAction(`Imported demo state from “${file.name}” (${restoredTrips} trips)`)
+        addRecentAction(`已从「${file.name}」导入演示状态（${restoredTrips} 条行程）`)
         const userName = (s.user as { name?: string } | undefined)?.name || '?'
         showToast({
           type: 'success',
-          title: 'Demo state imported ✓',
-          message: `Restored user “${userName}”, ${restoredTrips} trips, ${restoredActions} actions. Ready to demo.`,
+          title: '演示状态已导入 ✓',
+          message: `已恢复用户「${userName}」、${restoredTrips} 条行程、${restoredActions} 条操作，可开始演示。`,
           duration: 5200,
         })
       } catch (err: unknown) {
@@ -530,8 +530,8 @@ function LabView() {
         const msg = err && typeof err === 'object' && 'message' in err ? String((err as { message?: unknown }).message) : ''
         showToast({
           type: 'error',
-          title: 'Import failed',
-          message: msg || 'Bad JSON or incompatible demo state file.',
+          title: '导入失败',
+          message: msg || 'JSON 无效或演示状态文件不兼容。',
           duration: 6500,
         })
       } finally {
@@ -540,7 +540,7 @@ function LabView() {
       }
     }
     reader.onerror = () => {
-      showToast({ type: 'error', title: 'Read error', message: 'Failed to read the selected file.' })
+      showToast({ type: 'error', title: '读取错误', message: '无法读取所选文件。' })
       ;(e.target as HTMLInputElement).value = ''
     }
     reader.readAsText(file)
@@ -619,7 +619,7 @@ function LabView() {
       message: `${preset.desc} — ${preset.steps.length} steps • Controllable demo`,
       duration: 1650,
     })
-    addRecentAction(`Flow Simulator started: ${preset.name}`)
+    addRecentAction(`流程模拟器已启动：${preset.name}`)
 
     for (let i = 0; i < preset.steps.length; i++) {
       const c = simCtrl.current
@@ -645,7 +645,7 @@ function LabView() {
       const liveSpeed = simCtrl.current.speed || 1
       showToast({
         type: 'info',
-        title: `Step ${i + 1}/${preset.steps.length} — ${step.title}`,
+        title: `第 ${i + 1}/${preset.steps.length} 步 — ${step.title}`,
         message: step.desc,
         duration: Math.max(980, Math.round(1480 / liveSpeed)),
       })
@@ -664,7 +664,7 @@ function LabView() {
           eta: inj.eta || '6 min',
           price: inj.price || 85,
         })
-        addRecentAction(`Simulator: ${step.title} → demo trip injected (booked)`)
+        addRecentAction(`模拟器：${step.title} → 已注入演示行程`)
       }
       // status-only transitions handled via inject in current presets for simplicity & reliability
       // (DemoState setter accepts value, not updater fn)
@@ -700,10 +700,10 @@ function LabView() {
           ...pick,
         })
       }
-      addRecentAction(`Completed Flow Simulator: ${preset.name}`)
+      addRecentAction(`流程模拟器已完成：${preset.name}`)
       setShowPostSimModal(true)
     } else {
-      addRecentAction('Flow Simulator interrupted by user')
+      addRecentAction('用户中断了流程模拟器')
     }
   }, [handleNavigate, showToast, addRecentAction, bookTrip, FLOW_PRESETS])
 
@@ -723,7 +723,7 @@ function LabView() {
     }
     showToast({
       type: 'info',
-      title: c.paused ? '⏸ Simulation Paused' : '▶ Simulation Resumed',
+      title: c.paused ? '⏸ 模拟已暂停' : '▶ 模拟已继续',
       message: simPreset || 'Flow',
       duration: 1100
     })
@@ -737,19 +737,19 @@ function LabView() {
       setSimPaused(false)
       if (c.resumeResolver) { c.resumeResolver(); c.resumeResolver = null }
     }
-    showToast({ type: 'info', title: '⏭ Step skipped', duration: 700 })
+    showToast({ type: 'info', title: '⏭ 已跳过本步', duration: 700 })
   }, [showToast])
 
   const setSimSpeedCtl = useCallback((newSpeed: number) => {
     const c = simCtrl.current
     c.speed = newSpeed
     setSimSpeed(newSpeed)
-    showToast({ type: 'info', title: `Speed set to ${newSpeed}×`, message: 'Delays adjusted live', duration: 850 })
+    showToast({ type: 'info', title: `速度设为 ${newSpeed}×`, message: '延迟已实时调整', duration: 850 })
   }, [showToast])
 
   const stopSimulation = useCallback(() => {
     abortCurrentSimulation()
-    showToast({ type: 'warning', title: '■ Simulation stopped', message: 'Demo flow interrupted — state preserved' })
+    showToast({ type: 'warning', title: '■ 模拟已停止', message: '演示流程已中断 — 状态已保留' })
   }, [showToast])
 
   // Keyboard shortcuts: / focus, Esc clear, numbers for cats, R random, F fav. (export/import via command palette in search input)
@@ -797,7 +797,7 @@ function LabView() {
       const matchesSearch = !searchTerm ||
         p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         p.description.toLowerCase().includes(searchTerm.toLowerCase())
-      const matchesCategory = activeCategory === 'All' || p.category === activeCategory
+      const matchesCategory = activeCategory === '全部' || p.category === activeCategory
       return matchesSearch && matchesCategory
     })
   }, [searchTerm, activeCategory])
@@ -808,11 +808,11 @@ function LabView() {
 
   const favPages = useMemo(() => pageRegistry.filter(p => favorites.includes(p.id)), [favorites])
   const recentPages = useMemo(() => recentViewed.map(id => pageRegistry.find(p => p.id === id)).filter(Boolean) as PageDefinition[], [recentViewed])
-  const categories = useMemo(() => ['All', ...Array.from(new Set(pageRegistry.map(p => p.category)))], [])
+  const categories = useMemo(() => ['全部', ...Array.from(new Set(pageRegistry.map(p => p.category)))], [])
 
   // Category counts for clearer UI (premium search feel)
   const categoryCounts = useMemo(() => {
-    const c: Record<string, number> = { All: total }
+    const c: Record<string, number> = { '全部': total }
     pageRegistry.forEach(p => {
       c[p.category] = (c[p.category] || 0) + 1
     })
@@ -828,8 +828,8 @@ function LabView() {
             <div className="lab-logo-mark" />
           </div>
           <div className="lab-brand-text">
-            <div className="lab-brand-title">GODY Studio</div>
-            <div className="lab-brand-sub">Prototype lab · React</div>
+            <div className="lab-brand-title">GODY 工作室</div>
+            <div className="lab-brand-sub">原型实验室 · React</div>
           </div>
         </div>
         <StatsBar
@@ -848,7 +848,7 @@ function LabView() {
             <input
               ref={searchInputRef}
               type="text"
-              placeholder="Search pages…  (/)"
+              placeholder="搜索页面…（/ 聚焦）"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => {
@@ -865,11 +865,11 @@ function LabView() {
                     setShowFlowPresets(true)
                     executed = true
                   } else if (cmd === 'home') {
-                    if (isSimulating) { abortCurrentSimulation(); showToast({ type: 'info', title: 'Simulation aborted', message: 'Command nav takes over', duration: 800 }) }
+                    if (isSimulating) { abortCurrentSimulation(); showToast({ type: 'info', title: '模拟已中止', message: '已切换为命令导航', duration: 800 }) }
                     handleNavigate('core-home')
                     executed = true
                   } else if (cmd === 'popular' || cmd === 'top') {
-                    if (isSimulating) { abortCurrentSimulation(); showToast({ type: 'info', title: 'Simulation aborted', message: 'Command nav takes over', duration: 800 }) }
+                    if (isSimulating) { abortCurrentSimulation(); showToast({ type: 'info', title: '模拟已中止', message: '已切换为命令导航', duration: 800 }) }
                     jumpToPopular()
                     executed = true
                   } else if (cmd === 'export' || cmd === 'export state' || cmd === 'save state') {
@@ -885,7 +885,7 @@ function LabView() {
                     const t = cmd.slice(3).trim()
                     const map: Record<string, string> = { home: 'core-home', search: 'core-search1', car: 'booking-choose-car', pickup: 'booking-confirm-pickup1', request: 'booking-requesting', trips: 'trips-hub', account: 'account-profile' }
                     if (map[t]) {
-                      if (isSimulating) { abortCurrentSimulation(); showToast({ type: 'info', title: 'Simulation aborted', message: 'Command nav takes over', duration: 800 }) }
+                      if (isSimulating) { abortCurrentSimulation(); showToast({ type: 'info', title: '模拟已中止', message: '已切换为命令导航', duration: 800 }) }
                       handleNavigate(map[t]); executed = true
                     }
                   }
@@ -898,7 +898,7 @@ function LabView() {
               className="console-search"
             />
             {searchTerm && (
-              <button type="button" onClick={() => setSearchTerm('')} className="clear-btn" title="Clear search">×</button>
+              <button type="button" onClick={() => setSearchTerm('')} className="clear-btn" title="清除搜索">×</button>
             )}
           </div>
 
@@ -918,7 +918,7 @@ function LabView() {
           {favPages.length > 0 && (
             <div className="lab-section">
               <div className="lab-section-head">
-                <span className="section-label" style={{ color: 'var(--gody-amber-bright)' }}>Favorites</span>
+                <span className="section-label" style={{ color: 'var(--gody-amber-bright)' }}>收藏</span>
                 <span className="section-label">{favPages.length}</span>
               </div>
               <div className="lab-list" style={{ maxHeight: 100 }}>
@@ -932,7 +932,7 @@ function LabView() {
           {recentPages.length > 0 && (
             <div className="lab-section">
               <div className="lab-section-head">
-                <span className="section-label">Recent</span>
+                <span className="section-label">最近浏览</span>
                 <span className="section-label">{recentPages.length}</span>
               </div>
               <div className="lab-list" style={{ maxHeight: 120 }}>
@@ -945,8 +945,8 @@ function LabView() {
 
           <div className="lab-section" style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
             <div className="lab-section-head">
-              <span className="section-label">Browse · {filteredPages.length}</span>
-              <span className="section-label">1–9 cats</span>
+              <span className="section-label">浏览 · {filteredPages.length}</span>
+              <span className="section-label">1–9 分类</span>
             </div>
             <div className="lab-list lab-list--tall">
               {filteredPages.length > 0 ? (
@@ -954,20 +954,20 @@ function LabView() {
                   <PageListItem key={page.id} page={page} isSelected={selectedPage?.id === page.id} isFavorite={favorites.includes(page.id)} isInFlow={flowHistory.includes(page.id)} onSelect={handleSelectPage} onToggleFavorite={toggleFavorite} onCopyLink={copyLinkFor} />
                 ))
               ) : (
-                <div className="lab-list-empty">No matches — press Esc to clear</div>
+                <div className="lab-list-empty">无匹配结果 — 按 Esc 清空</div>
               )}
             </div>
           </div>
 
           <div className="lab-nav-hint">
-            / focus · Esc clear · R random · F favorite · Enter on command
+            / 聚焦 · Esc 清空 · R 随机 · F 收藏 · Enter 执行命令
           </div>
         </aside>
 
         {/* CENTER: tools + device stage */}
         <main className="lab-stage">
           <div className="lab-stage-toolbar">
-            <span className="lab-stage-label">Canvas</span>
+            <span className="lab-stage-label">画布</span>
             <ConsoleToolbar
               onRandom={handleRandom}
               onReset={handleResetAll}
@@ -1001,7 +1001,7 @@ function LabView() {
 
           {!isSimulating && (
             <div className="lab-scenarios">
-              <span className="lab-scenarios-label">Scenarios</span>
+              <span className="lab-scenarios-label">演示场景</span>
               <button type="button" onClick={() => loadScenario('business-commute')} className="lab-btn" style={{ fontSize: 11, padding: '4px 10px' }}>商务通勤</button>
               <button type="button" onClick={() => loadScenario('airport-family')} className="lab-btn" style={{ fontSize: 11, padding: '4px 10px' }}>机场家庭</button>
               <button type="button" onClick={() => loadScenario('night-party')} className="lab-btn" style={{ fontSize: 11, padding: '4px 10px' }}>夜生活</button>
@@ -1011,15 +1011,15 @@ function LabView() {
 
           {isSimulating && (
             <div className="lab-sim-bar">
-              <div className="lab-sim-title">● Live demo</div>
+              <div className="lab-sim-title">● 实时演示</div>
               <div className="lab-sim-meta">
                 {simPreset} · Step <strong style={{ color: 'var(--gody-amber-bright)' }}>{simStep}</strong>/{simTotal}
               </div>
               <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                 <button type="button" onClick={toggleSimPause} className="lab-btn lab-btn--primary" style={{ padding: '5px 12px' }}>
-                  {simPaused ? '▶ Resume' : '⏸ Pause'}
+                  {simPaused ? '▶ 继续' : '⏸ 暂停'}
                 </button>
-                <button type="button" onClick={skipSimStep} className="lab-btn" style={{ padding: '5px 12px' }}>Skip</button>
+                <button type="button" onClick={skipSimStep} className="lab-btn" style={{ padding: '5px 12px' }}>跳过</button>
                 <div style={{ display: 'flex', gap: 4, marginLeft: 4, paddingLeft: 8, borderLeft: '1px solid var(--lab-border)' }}>
                   {[0.5, 1, 2].map((s) => (
                     <button
@@ -1064,7 +1064,7 @@ function LabView() {
                   </div>
                   <div className="prototype-screen">
                     <div className="screen-content" style={{ background: 'var(--paper)' }}>
-                      <PreviewErrorBoundary fallbackMessage="This prototype encountered a rendering error.">
+                      <PreviewErrorBoundary fallbackMessage="此原型渲染出错。">
                         {selectedPage ? (
                           <selectedPage.component onNavigate={handleNavigate} />
                         ) : pageId ? (
@@ -1078,9 +1078,9 @@ function LabView() {
                             <div className="mb-3 w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: 'var(--gody-amber-soft)', color: 'var(--gody-amber)' }}>
                               <span style={{ fontSize: 22 }}>◇</span>
                             </div>
-                            <div style={{ fontWeight: 650, fontSize: 15, letterSpacing: '-0.02em' }}>Pick a prototype</div>
+                            <div style={{ fontWeight: 650, fontSize: 15, letterSpacing: '-0.02em' }}>请选择原型</div>
                             <div style={{ marginTop: 6, fontSize: 12, color: 'var(--muted)', lineHeight: 1.45 }}>
-                              Browse the left panel — real React screens, live demo state, zero iframes.
+                              从左侧列表选择 — 真实 React 页面，实时演示状态，无 iframe。
                             </div>
                           </div>
                         )}
@@ -1092,7 +1092,7 @@ function LabView() {
               ) : (
                 <div className="prototype-screen" style={{ borderRadius: 22, overflow: 'hidden', position: 'relative', inset: 'auto', width: '100%', height: '100%' }}>
                   <div className="screen-content" style={{ background: 'var(--paper)', height: '100%' }}>
-                    <PreviewErrorBoundary fallbackMessage="This prototype encountered a rendering error.">
+                    <PreviewErrorBoundary fallbackMessage="此原型渲染出错。">
                       {selectedPage ? (
                         <selectedPage.component onNavigate={handleNavigate} />
                       ) : pageId ? (
@@ -1103,7 +1103,7 @@ function LabView() {
                         />
                       ) : (
                         <div className="h-full flex flex-col items-center justify-center text-[var(--ink)] text-sm px-6 text-center">
-                          <div style={{ fontWeight: 600 }}>Frameless — select a page</div>
+                          <div style={{ fontWeight: 600 }}>无边框模式 — 请选择页面</div>
                         </div>
                       )}
                     </PreviewErrorBoundary>
@@ -1113,7 +1113,7 @@ function LabView() {
             </div>
 
             <div className="lab-device-caption">
-              375 × 812 · {showFrame ? 'Device frame' : 'Frameless'} · Real React components
+              375 × 812 · {showFrame ? '设备边框' : '无边框'} · 真实 React 组件
               {selectedPage ? ` · ${selectedPage.title}` : ''}
             </div>
           </div>
@@ -1139,7 +1139,7 @@ function LabView() {
                 onClick={() => navigate(`/standalone/${selectedPage.id}`)}
                 className="lab-meta-link"
               >
-                Open fullscreen preview →
+                打开全屏预览 →
               </button>
               <button
                 type="button"
@@ -1147,7 +1147,7 @@ function LabView() {
                 className="lab-meta-link"
                 style={{ marginTop: 8 }}
               >
-                Copy standalone link
+                复制独立预览链接
               </button>
             </>
           )}
@@ -1157,11 +1157,11 @@ function LabView() {
       <Modal
         open={showFlowPresets}
         onClose={() => setShowFlowPresets(false)}
-        title="Flow simulator — presets"
+        title="流程模拟器 — 预设"
         width={440}
       >
         <div style={{ fontSize: 13, color: 'var(--lab-text-secondary)', marginBottom: 14, lineHeight: 1.45 }}>
-          Controllable demo journeys with DemoState + live toasts.
+          可控演示旅程，联动 DemoState 与实时提示。
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {(['standard', 'trip-mgmt', 'account-payment', 'full-e2e'] as const).map((key) => {
@@ -1187,8 +1187,8 @@ function LabView() {
                     <div style={{ fontSize: 12, opacity: 0.8, marginTop: 3 }}>{p.desc}</div>
                   </div>
                   <div style={{ fontSize: 11, color: 'var(--lab-text-muted)', textAlign: 'right', whiteSpace: 'nowrap' }}>
-                    {p.steps.length} steps
-                    <div style={{ color: 'var(--gody-amber)', marginTop: 2 }}>Run →</div>
+                    {p.steps.length} 步
+                    <div style={{ color: 'var(--gody-amber)', marginTop: 2 }}>运行 →</div>
                   </div>
                 </div>
               </button>
@@ -1200,37 +1200,37 @@ function LabView() {
       <Modal
         open={showPostSimModal}
         onClose={() => setShowPostSimModal(false)}
-        title="Simulation complete"
+        title="模拟完成"
         width={400}
       >
         <div style={{ fontSize: 13, lineHeight: 1.5 }}>
-          <div style={{ color: 'var(--gody-amber-bright)', fontWeight: 600, marginBottom: 8 }}>{simPreset || 'Demo flow'} finished.</div>
-          <div>A realistic demo trip is live in <strong>DemoState</strong>.</div>
-          <div style={{ marginTop: 10, opacity: 0.85 }}>Keep the injected data or reset for the next run?</div>
+          <div style={{ color: 'var(--gody-amber-bright)', fontWeight: 600, marginBottom: 8 }}>{simPreset || 'Demo flow'} 已完成。</div>
+          <div>一条真实演示行程已写入 <strong>DemoState</strong>。</div>
+          <div style={{ marginTop: 10, opacity: 0.85 }}>保留注入数据，还是重置以便下次演示？</div>
         </div>
         <div style={{ display: 'flex', gap: 8, marginTop: 18, flexWrap: 'wrap' }}>
           <button
             type="button"
             onClick={() => {
               setShowPostSimModal(false)
-              showToast({ type: 'success', title: 'Demo trip retained', message: 'Continue exploring with live state', duration: 2400 })
+              showToast({ type: 'success', title: '已保留演示行程', message: '可继续使用当前实时状态探索', duration: 2400 })
             }}
             className="lab-btn lab-btn--primary"
             style={{ flex: '1 1 140px', padding: '10px 14px' }}
           >
-            Keep demo trip
+            保留演示行程
           </button>
           <button
             type="button"
             onClick={() => {
               resetDemoState()
               setShowPostSimModal(false)
-              showToast({ type: 'info', title: 'Demo state reset', message: 'Clean slate for next run', duration: 2200 })
+              showToast({ type: 'info', title: '演示状态已重置', message: '已清空，可开始下次演示', duration: 2200 })
             }}
             className="lab-btn"
             style={{ flex: '1 1 140px', padding: '10px 14px' }}
           >
-            Reset after demo
+            演示后重置
           </button>
           <button type="button" onClick={() => setShowPostSimModal(false)} className="lab-btn" style={{ flex: '1 1 80px', padding: '10px 14px' }}>
             Close
@@ -1258,7 +1258,7 @@ function StandaloneView() {
     if (target) {
       navigate(`/standalone/${targetId}`)
     } else {
-      showToast({ type: 'error', title: 'Navigation failed', message: `No prototype “${targetId}”` })
+      showToast({ type: 'error', title: '导航失败', message: `未找到原型「${targetId}」` })
     }
   }
 
@@ -1266,7 +1266,7 @@ function StandaloneView() {
   const handleRandomStandalone = () => {
     const rand = pageRegistry[Math.floor(Math.random() * pageRegistry.length)]
     navigate(`/standalone/${rand.id}`)
-    showToast({ type: 'info', title: 'Random standalone', message: rand.title })
+    showToast({ type: 'info', title: '随机独立预览', message: rand.title })
   }
 
   // Standalone copy actions (use toast, access ensured via root providers)
@@ -1274,26 +1274,26 @@ function StandaloneView() {
     if (!selectedPage) return
     const url = `${window.location.origin}${window.location.pathname}#/prototype/${selectedPage.id}`
     navigator.clipboard.writeText(url).then(() => {
-      showToast({ type: 'success', title: 'Lab link copied', message: selectedPage.title })
+      showToast({ type: 'success', title: '实验室链接已复制', message: selectedPage.title })
     }).catch(() => {
-      showToast({ type: 'warning', title: 'Clipboard unavailable', message: `Copy manually: ${url}`, duration: 7000 })
-      console.log('[Clipboard fallback] Copy lab link:', url)
+      showToast({ type: 'warning', title: '无法使用剪贴板', message: `请手动复制： ${url}`, duration: 7000 })
+      console.log('[Clipboard fallback] 复制实验室链接 link:', url)
     })
   }
   const handleCopyStandaloneFromSA = () => {
     if (!selectedPage) return
     const url = `${window.location.origin}${window.location.pathname}#/standalone/${selectedPage.id}`
     navigator.clipboard.writeText(url).then(() => {
-      showToast({ type: 'success', title: 'Standalone link copied', message: `${selectedPage.title} fullscreen` })
+      showToast({ type: 'success', title: '独立预览链接已复制', message: `${selectedPage.title} fullscreen` })
     }).catch(() => {
-      showToast({ type: 'warning', title: 'Clipboard unavailable', message: `Copy manually: ${url}`, duration: 7000 })
-      console.log('[Clipboard fallback] Copy standalone link:', url)
+      showToast({ type: 'warning', title: '无法使用剪贴板', message: `请手动复制： ${url}`, duration: 7000 })
+      console.log('[Clipboard fallback] 复制独立预览链接:', url)
     })
   }
 
   const handleResetDemoFromSA = () => {
     resetDemoState()
-    showToast({ type: 'success', title: 'Demo state reset', message: 'Prototype data cleared for clean testing' })
+    showToast({ type: 'success', title: '演示状态已重置', message: '原型数据已清空，便于干净测试' })
   }
 
   return (
@@ -1305,7 +1305,7 @@ function StandaloneView() {
           </div>
           <div className="lab-brand-text">
             <div className="lab-brand-title" style={{ fontSize: 15 }}>GODY</div>
-            <div className="lab-brand-sub">Standalone preview</div>
+            <div className="lab-brand-sub">独立预览</div>
           </div>
           {pageId && (
             <span className="lab-stat-pill lab-stat-pill--accent" style={{ marginLeft: 8 }}>{pageId}</span>
@@ -1318,11 +1318,11 @@ function StandaloneView() {
               {selectedPage.title}
             </span>
           )}
-          <button type="button" onClick={() => navigate(selectedPage ? `/prototype/${selectedPage.id}` : '/')} className="lab-btn">← Lab</button>
+          <button type="button" onClick={() => navigate(selectedPage ? `/prototype/${selectedPage.id}` : '/')} className="lab-btn">← 实验室</button>
           {selectedPage && (
             <>
-              <button type="button" onClick={handleCopyLabFromSA} className="lab-btn">Copy lab</button>
-              <button type="button" onClick={handleCopyStandaloneFromSA} className="lab-btn">Copy standalone</button>
+              <button type="button" onClick={handleCopyLabFromSA} className="lab-btn">复制实验室链接</button>
+              <button type="button" onClick={handleCopyStandaloneFromSA} className="lab-btn">复制独立链接</button>
             </>
           )}
           <button
@@ -1333,9 +1333,9 @@ function StandaloneView() {
             }}
             className="lab-btn"
           >
-            New tab
+            新标签页
           </button>
-          <button type="button" onClick={handleResetDemoFromSA} className="lab-btn">Reset demo</button>
+          <button type="button" onClick={handleResetDemoFromSA} className="lab-btn">重置演示</button>
         </div>
       </div>
 
@@ -1345,7 +1345,7 @@ function StandaloneView() {
             <div className="device-bevel relative">
               <div className="prototype-screen">
                 <div className="screen-content" style={{ background: 'var(--paper)' }}>
-                  <PreviewErrorBoundary fallbackMessage="This prototype encountered a rendering error in standalone mode.">
+                  <PreviewErrorBoundary fallbackMessage="独立预览模式下此原型渲染出错。">
                     {selectedPage ? (
                       <selectedPage.component onNavigate={handleNavigate} />
                     ) : pageId ? (
@@ -1356,7 +1356,7 @@ function StandaloneView() {
                       />
                     ) : (
                       <div className="h-full flex flex-col items-center justify-center text-[var(--ink)] text-sm px-6 text-center">
-                        <div style={{ fontWeight: 600 }}>No page selected</div>
+                        <div style={{ fontWeight: 600 }}>未选择页面</div>
                       </div>
                     )}
                   </PreviewErrorBoundary>

@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+/** Tokens aligned with design-system/gody-studio/MASTER.md (ui-ux-pro-max) */
 export default {
   content: [
     "./index.html",
@@ -7,24 +8,37 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: '#111318',
-        paper: '#f7f6f3',
-        amber: '#f0b429',
-        'lab-bg': '#08090d',
-        'lab-surface': '#141722',
-        yellow: '#f0b429',
-        steel: '#a8a6b0',
-        'metal-dark': '#0e1016',
-        metal: '#141722',
-        'metal-light': '#1a1e2b',
+        primary: '#1C1917',
+        secondary: '#44403C',
+        cta: '#CA8A04',
+        background: '#FAFAF9',
+        ink: '#0C0A09',
+        paper: '#FAFAF9',
+        amber: '#CA8A04',
+        yellow: '#CA8A04',
+        'lab-bg': '#0C0A09',
+        'lab-surface': '#1C1917',
+        steel: '#A8A29E',
+        'metal-dark': '#1C1917',
+        metal: '#1C1917',
+        'metal-light': '#44403C',
       },
       fontFamily: {
+        sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+        display: ['"DM Sans"', 'system-ui', 'sans-serif'],
         console: ['"JetBrains Mono"', 'SF Mono', 'Menlo', 'monospace'],
-        display: ['Inter', 'system-ui', 'sans-serif'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
-        lab: '16px',
+        lab: '12px',
+      },
+      boxShadow: {
+        sm: '0 1px 2px rgba(0,0,0,0.05)',
+        md: '0 4px 6px rgba(0,0,0,0.1)',
+        lg: '0 10px 15px rgba(0,0,0,0.1)',
+        xl: '0 20px 25px rgba(0,0,0,0.15)',
+      },
+      transitionDuration: {
+        DEFAULT: '200ms',
       },
     },
   },

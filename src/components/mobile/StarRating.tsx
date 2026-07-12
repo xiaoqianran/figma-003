@@ -44,7 +44,7 @@ const StarRating: React.FC<StarRatingProps> = ({
           className={`star ${n <= current ? 'filled' : ''}`}
           style={{
             fontSize: size,
-            color: n <= current ? '#fecc2a' : '#e0e0e0',
+            color: n <= current ? '#ca8a04' : '#e0e0e0',
             cursor: readonly ? 'default' : 'pointer',
             transition: 'transform 0.1s, color 0.1s'
           }}

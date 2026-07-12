@@ -30,7 +30,7 @@ export const InfoPanel: React.FC<InfoPanelProps> = ({
     return (
       <div className="lab-meta-card">
         <div className="lab-meta-empty">
-          Select a prototype from the list to inspect details, copy links, or start a demo flow.
+          从列表选择原型，可查看详情、复制链接或启动演示流程。
         </div>
       </div>
     );
@@ -48,26 +48,26 @@ export const InfoPanel: React.FC<InfoPanelProps> = ({
           onClick={() => (onSelectPage ? onSelectPage(current) : onNavigate?.(current.id))}
           className="lab-btn lab-btn--primary"
         >
-          Open
+          打开
         </button>
         {onToggleFavorite && (
           <button type="button" onClick={() => onToggleFavorite(current.id)} className="lab-btn">
-            ★ Favorite
+            ★ 收藏
           </button>
         )}
         {onCopyLink && (
           <button type="button" onClick={() => onCopyLink(current)} className="lab-btn">
-            Copy link
+            复制链接
           </button>
         )}
         {onCopyStandaloneLink && (
           <button type="button" onClick={() => onCopyStandaloneLink(current)} className="lab-btn">
-            Standalone
+            独立预览
           </button>
         )}
         {onStartFlow && (
           <button type="button" onClick={() => onStartFlow(current)} className="lab-btn">
-            Start flow
+            启动流程
           </button>
         )}
       </div>
