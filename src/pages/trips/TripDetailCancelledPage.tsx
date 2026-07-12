@@ -66,7 +66,7 @@ const TripDetailCancelledPage: React.FC<Props> = ({ onNavigate }) => {
 
         {activeTrip && (
           <div style={{ margin: '8px 16px', fontSize: 11, color: '#6E6A61', background: '#f8f8f5', padding: '6px 10px', borderRadius: 6 }}>
-            Demo active: {activeTrip.from} → {activeTrip.to} ({activeTrip.status})
+            演示进行中：{activeTrip.from} → {activeTrip.to}（{activeTrip.status}）
           </div>
         )}
 

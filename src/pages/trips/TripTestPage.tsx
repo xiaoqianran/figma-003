@@ -25,8 +25,14 @@ const TripTestPage: React.FC<Props> = ({ onNavigate }) => {
   const runAllTests = () => {
     setResults([]);
     addResult('开始批量测试行程页面...');
-    const pages = ['trips-upcoming', 'trips-past', 'trips-detail-cancelled', 'trips-detail-completed', 'trips-detail-help'];
-    pages.forEach((p, i) => setTimeout(() => addResult(`✅ ${p} - 可访问`), i * 180));
+    const pages: { id: string; label: string }[] = [
+      { id: 'trips-upcoming', label: '即将开始' },
+      { id: 'trips-past', label: '历史行程' },
+      { id: 'trips-detail-cancelled', label: '详情·已取消' },
+      { id: 'trips-detail-completed', label: '详情·已完成' },
+      { id: 'trips-detail-help', label: '详情·帮助' },
+    ];
+    pages.forEach((p, i) => setTimeout(() => addResult(`✅ ${p.label} - 可访问`), i * 180));
   };
 
   return (
