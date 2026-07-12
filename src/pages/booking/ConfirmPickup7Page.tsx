@@ -101,7 +101,7 @@ const ConfirmPickup7Page: React.FC<ConfirmPickup7PageProps> = ({ onNavigate }) =
 
       <p style={{ margin: '16px 0 0 24px', fontSize: 12, color: '#959595' }}>保存此目的地</p>
       <p style={{ margin: '12px 0 0 24px', fontSize: 20, fontWeight: 500, color: '#49493d' }}>苹果联合广场</p>
-      <p style={{ margin: '8px 0 0 24px', fontSize: 12, color: '#959595', fontWeight: 500 }}>旧金山 Pos 街 300 号</p>
+      <p style={{ margin: '8px 0 0 24px', fontSize: 12, color: '#959595', fontWeight: 500 }}>旧金山波斯街 300 号</p>
       <p style={{ margin: '12px 0 0 24px', fontSize: 12, color: '#fecc2a', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleSave}>添加到收藏地点</p>
 
       <div style={{ margin: '24px 24px 0', background: '#fff', borderRadius: 12, padding: 16, boxShadow: '0 4px 40px rgba(0,0,0,0.05)' }}>

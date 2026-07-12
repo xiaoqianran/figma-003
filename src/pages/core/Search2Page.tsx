@@ -33,30 +33,30 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
       item.style.background = '#fff9e6';
       setTimeout(() => {
         item.style.background = orig || '#f8f9fa';
-        info('编辑位置', '编辑位置功能 (demo)');
+        info('编辑位置', '编辑位置功能 （演示）');
       }, 200);
     } else {
-      info('编辑位置', '编辑位置功能 (demo)');
+      info('编辑位置', '编辑位置功能 （演示）');
     }
   };
 
   const focusSearch = () => {
-    info('搜索', '聚焦搜索输入框 (demo)');
+    info('搜索', '聚焦搜索输入框 （演示）');
     // Keyboard is always visible; simulate focus by selecting last result row
   };
 
   const addHome = () => {
-    info('添加地址', '添加家庭地址 (demo)');
+    info('添加地址', '添加家庭地址 （演示）');
     onNavigate?.('booking-choose-car');
   };
 
   const addWork = () => {
-    info('添加地址', '添加工作地址 (demo)');
+    info('添加地址', '添加工作地址 （演示）');
     onNavigate?.('booking-choose-car');
   };
 
   const showSavedPlaces = () => {
-    info('保存地点', '显示保存的地点 (demo)');
+    info('保存地点', '显示保存的地点 （演示）');
     onNavigate?.('core-search1');
   };
 
@@ -106,7 +106,7 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
   };
 
   const switchToNumbers = () => {
-    info('键盘', '切换到数字键盘 (demo)');
+    info('键盘', '切换到数字键盘 （演示）');
   };
 
   const submitSearch = () => {
@@ -137,11 +137,11 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
   };
 
   const showEmoji = () => {
-    info('表情', '显示表情符号选择器 (demo)');
+    info('表情', '显示表情符号选择器 （演示）');
   };
 
   const startDictation = () => {
-    info('语音', '开始语音听写 (demo)');
+    info('语音', '开始语音听写 （演示）');
     setTimeout(() => {
       setSearchInput(prev => prev + '语音输入 ');
     }, 600);
@@ -219,7 +219,7 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
         <span className={styles.airportIcon}>🕐</span>
         <div className={styles.airportDetails}>
           <div className={styles.airportName}>旧金山国际机场</div>
-          <div className={styles.airportAddress}>旧金山 Mc Donnell 路 348 号</div>
+          <div className={styles.airportAddress}>旧金山麦克唐纳路 348 号</div>
         </div>
       </div>
 

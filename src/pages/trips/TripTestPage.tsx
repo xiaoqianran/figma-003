@@ -54,7 +54,7 @@ const TripTestPage: React.FC<Props> = ({ onNavigate }) => {
 
         {/* DemoState controls for connectivity testing */}
         <div style={{ marginTop: 16, padding: 12, background: '#fff', borderRadius: 8 }}>
-          <div style={{ fontWeight: 600, marginBottom: 6, fontSize: 13 }}>DemoState 控件（实时）</div>
+          <div style={{ fontWeight: 600, marginBottom: 6, fontSize: 13 }}>演示状态控件（实时）</div>
           <button onClick={() => {
             const t = { id: 'test-trip-' + Date.now(), status: 'upcoming' as const, from: '测试出发地', to: '测试目的地', price: 25, eta: '现在', vehicle: 'TestCar' };
             setActiveTrip(t);

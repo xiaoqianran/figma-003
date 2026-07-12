@@ -27,11 +27,11 @@ const ChooseTrip1Page: React.FC<ChooseTrip1PageProps> = ({ onNavigate }) => {
   };
 
   const handleSeeAllEconomy = () => {
-    info('车辆', '查看所有经济型车辆 (demo)');
+    info('车辆', '查看所有经济型车辆 （演示）');
   };
 
   const handleSeeAllPremium = () => {
-    info('车辆', '查看所有高级型车辆 (demo)');
+    info('车辆', '查看所有高级型车辆 （演示）');
   };
 
   const handlePayment = () => {

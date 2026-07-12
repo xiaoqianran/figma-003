@@ -21,7 +21,7 @@ const TripDetailCompletedPage: React.FC<Props> = ({ onNavigate }) => {
   const handlePayment = () => {
     addRecentAction('从行程详情切换支付');
     if (activeTrip?.id) updateTripStatus(activeTrip.id, 'completed', { paid: true });
-    info('支付', '打开支付方式编辑页面 (demo)');
+    info('支付', '打开支付方式编辑页面 （演示）');
     onNavigate?.('payment-select');
   };
 
@@ -133,7 +133,7 @@ const TripDetailCompletedPage: React.FC<Props> = ({ onNavigate }) => {
 
         {/* NEW: functional mutation action bar for Cancel / Complete / Rate (and paid) using DemoState APIs */}
         <div style={{ padding: '0 24px', marginTop: 16, marginBottom: 8 }}>
-          <div style={{ fontSize: 11, color: '#959595', marginBottom: 6 }}>演示操作（通过 API 更新状态）：</div>
+          <div style={{ fontSize: 11, color: '#959595', marginBottom: 6 }}>演示操作（通过接口更新状态）：</div>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <button onClick={handleMarkPaid} style={{ flex: 1, minWidth: 70, padding: '8px 10px', fontSize: 12, background: '#e3f2fd', border: 'none', borderRadius: 8, cursor: 'pointer' }}>标记已支付</button>
             <button onClick={handleCompleteAgain} style={{ flex: 1, minWidth: 70, padding: '8px 10px', fontSize: 12, background: '#e8f5e9', border: 'none', borderRadius: 8, cursor: 'pointer' }}>完成</button>

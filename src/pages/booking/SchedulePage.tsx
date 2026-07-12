@@ -84,7 +84,7 @@ const SchedulePage: React.FC<SchedulePageProps> = ({ onNavigate }) => {
 
   const handleCancel = () => {
     addRecentAction('已取消预约');
-    info('取消', '行程安排已取消 (demo)');
+    info('取消', '行程安排已取消 （演示）');
     onNavigate?.('core-home');
   };
 
@@ -182,7 +182,7 @@ const SchedulePage: React.FC<SchedulePageProps> = ({ onNavigate }) => {
         title="取消行程安排"
         destructive
         confirmText="确认取消"
-        onConfirm={() => { setShowCancelModal(false); info('行程已取消 (demo)'); }}
+        onConfirm={() => { setShowCancelModal(false); info('行程已取消 （演示）'); }}
       >
         <p style={{ margin: 0, fontSize: 14, color: '#C9C6BE' }}>
           确定要取消当前的行程安排吗？

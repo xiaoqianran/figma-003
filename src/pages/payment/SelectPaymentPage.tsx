@@ -55,7 +55,7 @@ const SelectPaymentPage: React.FC<SelectPaymentPageProps> = ({ onNavigate }) => 
           {isVisaSelected && <span className={styles.check}>✓</span>}
         </div>
 
-        <div className={styles.addCard} onClick={() => info('支付', '添加支付方式 (demo)')}>
+        <div className={styles.addCard} onClick={() => info('支付', '添加支付方式 （演示）')}>
           + 添加支付方式
         </div>
 
@@ -64,7 +64,7 @@ const SelectPaymentPage: React.FC<SelectPaymentPageProps> = ({ onNavigate }) => 
         </div>
 
         <div className={styles.promoTitle}>优惠码</div>
-        <div className={styles.addCard} onClick={() => info('促销', '添加促销码 (demo)')}>
+        <div className={styles.addCard} onClick={() => info('促销', '添加促销码 （演示）')}>
           + 添加优惠码
         </div>
 

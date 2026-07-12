@@ -27,7 +27,7 @@ const EditAccount1Page: React.FC<EditAccount1PageProps> = ({ onNavigate }) => {
   };
 
   const editAvatar = () => {
-    info('头像', '打开头像编辑 (demo)');
+    info('头像', '打开头像编辑 （演示）');
   };
 
   return (

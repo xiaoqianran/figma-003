@@ -36,14 +36,14 @@ const ConfirmPickup1Page: React.FC<ConfirmPickup1PageProps> = ({ onNavigate }) =
       const tripId = activeTrip?.id;
       if (tripId) {
         updateTripStatus(tripId, activeTrip?.status || 'upcoming', {
-          from: 'Sharon 街 51 号（已确认上车点）',
+          from: '莎伦街 51 号（已确认上车点）',
           eta: activeTrip?.eta ? `${activeTrip.eta} · 上车点已锁定` : '上车点已确认'
         });
         addRecentAction('已确认上车位置 — 状态已更新');
       } else {
         bookTrip({
           status: 'upcoming',
-          from: 'Sharon 街 51 号（已确认）',
+          from: '莎伦街 51 号（已确认）',
           to: '苹果联合广场',
           eta: '3:50 PM',
           price: 16
@@ -86,7 +86,7 @@ const ConfirmPickup1Page: React.FC<ConfirmPickup1PageProps> = ({ onNavigate }) =
         <div style={{ marginTop: 16, marginLeft: 24, background: '#bdbdbd', width: 327, height: 1 }} />
 
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginTop: 13, padding: '0 24px' }}>
-          <p style={{ margin: '3px 0 0 0', fontSize: 16, fontWeight: 500, color: '#49493d', opacity: addressOpacity }}>Sharon 街 51 号</p>
+          <p style={{ margin: '3px 0 0 0', fontSize: 16, fontWeight: 500, color: '#49493d', opacity: addressOpacity }}>莎伦街 51 号</p>
           <span style={{ width: 24, height: 24, cursor: 'pointer', fontSize: 18, color: '#49493d' }} onClick={handleSearch}>🔍</span>
         </div>
 

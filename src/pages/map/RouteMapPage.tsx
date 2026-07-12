@@ -24,10 +24,10 @@ const RouteMapPage: React.FC<RouteMapPageProps> = ({ onNavigate }) => {
         <div style={{ position: 'absolute', top: 255, left: 30, width: 268, height: 246, background: 'linear-gradient(45deg,transparent,#fecc2a,transparent)', opacity: 0.75, borderRadius: '50%' }} />
         
         {Array.from({length:6}).map((_,i) => (
-          <div key={i} style={{ position: 'absolute', fontSize: 15, top: 150 + (i*38), left: 40 + (i*35) + (i%2 ? 60 : 0), transform: `rotate(${i*20-40}deg)` }} onClick={() => { addRecentAction('在路线地图选择车辆'); info('车辆', '车辆已选 (demo)'); }}>🚕</div>
+          <div key={i} style={{ position: 'absolute', fontSize: 15, top: 150 + (i*38), left: 40 + (i*35) + (i%2 ? 60 : 0), transform: `rotate(${i*20-40}deg)` }} onClick={() => { addRecentAction('在路线地图选择车辆'); info('车辆', '车辆已选 （演示）'); }}>🚕</div>
         ))}
 
-        <div style={{ position: 'absolute', top: 340, left: 69, fontSize: 24 }} onClick={() => { addRecentAction('在路线上选择目的地'); success('目的地', '目的地已选 (demo)'); }}>📍</div>
+        <div style={{ position: 'absolute', top: 340, left: 69, fontSize: 24 }} onClick={() => { addRecentAction('在路线上选择目的地'); success('目的地', '目的地已选 （演示）'); }}>📍</div>
 
         <div onClick={() => { addRecentAction('从路线地图选车'); onNavigate?.('booking-choose-car'); }} style={{ position: 'absolute', top: 154, left: 76, background: '#fecc2a', borderRadius: 12, padding: '6px 12px', display: 'flex', alignItems: 'center', width: 110, cursor: 'pointer' }}>
           <div style={{ background: '#fff', padding: '4px 14px', borderRadius: '12px 0 0 12px' }}>🚗 GodyX</div>

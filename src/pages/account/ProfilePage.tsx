@@ -62,7 +62,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
   };
 
   const centerLocation = () => {
-    info('定位', '已定位到当前位置 (demo)');
+    info('定位', '已定位到当前位置 （演示）');
   };
 
   const openSchedule = () => {
@@ -322,7 +322,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
             关闭
           </button>
         </div>
-        <div style={{ fontSize: 10, opacity: 0.6, marginTop: 8, textAlign: 'center' }}>演示：从余额扣款 · 通过 DemoState 持久化</div>
+        <div style={{ fontSize: 10, opacity: 0.6, marginTop: 8, textAlign: 'center' }}>演示：从余额扣款 · 通过演示状态持久化</div>
       </Modal>
 
       {/* 赠送礼物小弹窗 - send to demo contacts, deducts balance */}

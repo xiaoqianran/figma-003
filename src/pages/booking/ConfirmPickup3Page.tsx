@@ -15,7 +15,7 @@ const ConfirmPickup3Page: React.FC<ConfirmPickup3PageProps> = ({ onNavigate }) =
     onNavigate?.('booking-confirm-pickup2');
   };
 
-  const handleEdit = () => { addRecentAction('编辑上车点'); info('上车点', '编辑上车点 (demo)'); };
+  const handleEdit = () => { addRecentAction('编辑上车点'); info('上车点', '编辑上车点 （演示）'); };
   const handleLocate = () => {
     addRecentAction('在确认上车页定位');
     // Mutate state on locate (confirm location action)
@@ -23,7 +23,7 @@ const ConfirmPickup3Page: React.FC<ConfirmPickup3PageProps> = ({ onNavigate }) =
       updateTripStatus(activeTrip.id, activeTrip.status || 'upcoming', { eta: '定位中 · ETA 已更新' });
       addRecentAction('通过定位确认上车位置');
     }
-    info('定位', '正在获取当前位置... (demo)');
+    info('定位', '正在获取当前位置... （演示）');
   };
   const handleCall = () => {
     addRecentAction('从上车页呼叫司机');
@@ -36,9 +36,9 @@ const ConfirmPickup3Page: React.FC<ConfirmPickup3PageProps> = ({ onNavigate }) =
       bookTrip({ status: 'in-progress', from: '旧金山国际机场', to: '苹果联合广场', driver: 'Jack', vehicle: '丰田凯美瑞', eta: '2 分钟' });
       addRecentAction('已呼叫司机 — 已创建行程');
     }
-    info('电话', '正在拨打司机电话... (demo)');
+    info('电话', '正在拨打司机电话... （演示）');
   };
-  const handleSun = () => info('模式', '切换日光模式 (demo)');
+  const handleSun = () => info('模式', '切换日光模式 （演示）');
 
   return (
     <div className="mobile-frame" style={{ height: 812, overflow: 'hidden' }}>

@@ -24,7 +24,7 @@ const RentalCostPage: React.FC<RentalCostPageProps> = ({ onNavigate }) => {
         <div style={{ position: 'absolute', top: 255, left: 30, width: 268, height: 246, background: 'linear-gradient(45deg,transparent,#fecc2a,transparent)', opacity: 0.7, borderRadius: '50%' }} />
 
         <div style={{ position: 'absolute', top: 287, right: 24, display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <div onClick={() => { addRecentAction('在租车费用页定位'); info('地图', '定位 (demo)'); }} style={{ background: '#fff', padding: 14, borderRadius: '50%', boxShadow: '0 4px 40px rgba(0,0,0,0.1)', cursor: 'pointer' }}>🎯</div>
+          <div onClick={() => { addRecentAction('在租车费用页定位'); info('地图', '定位 （演示）'); }} style={{ background: '#fff', padding: 14, borderRadius: '50%', boxShadow: '0 4px 40px rgba(0,0,0,0.1)', cursor: 'pointer' }}>🎯</div>
           <div onClick={() => { addRecentAction('从租车费用查看路线'); onNavigate?.('map-route'); }} style={{ background: '#fff', padding: 14, borderRadius: '50%', boxShadow: '0 4px 40px rgba(0,0,0,0.1)', cursor: 'pointer' }}>✅</div>
         </div>
 

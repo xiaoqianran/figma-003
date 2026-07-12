@@ -17,7 +17,7 @@ const UpcomingTripPage: React.FC<UpcomingTripPageProps> = ({ onNavigate }) => {
     id: 'fallback-static',
     status: 'upcoming',
     to: '苹果联合广场',
-    from: 'Sharon 街 51 号',
+    from: '莎伦街 51 号',
     eta: '3:50 PM',
     price: 16,
     vehicle: 'GodyX',
@@ -77,7 +77,7 @@ const UpcomingTripPage: React.FC<UpcomingTripPageProps> = ({ onNavigate }) => {
   };
 
   const showTerms = () => {
-    info('条款', '显示服务条款详情 (demo)');
+    info('条款', '显示服务条款详情 （演示）');
   };
 
   return (

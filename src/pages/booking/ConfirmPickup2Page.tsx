@@ -23,13 +23,13 @@ const ConfirmPickup2Page: React.FC<ConfirmPickup2PageProps> = ({ onNavigate }) =
       updateTripStatus(tripId, activeTrip.status || 'upcoming', { eta: type === 'ride-pack' ? '已选择行程包' : '$14 不叫车选项' });
       addRecentAction(`上车选项 2 — 已通过 updateTripStatus 更新（${type}）`);
     } else if (type === 'ride-pack') {
-      bookTrip({ status: 'upcoming', from: 'Sharon 街 51 号', to: '苹果联合广场', eta: '行程包', price: 13 });
+      bookTrip({ status: 'upcoming', from: '莎伦街 51 号', to: '苹果联合广场', eta: '行程包', price: 13 });
       addRecentAction('已选择行程包');
     }
     if (type === 'ride-pack') {
       onNavigate?.('booking-confirm-pickup3');
     } else {
-      info('选择', '已选择：不乘车，价格 $14 (demo)');
+      info('选择', '已选择：不乘车，价格 $14 （演示）');
     }
   };
 

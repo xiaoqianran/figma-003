@@ -20,12 +20,12 @@ const ConfirmPickup4Page: React.FC<ConfirmPickup4PageProps> = ({ onNavigate }) =
       updateTripStatus(activeTrip.id, activeTrip.status || 'upcoming', { from: '上车点已编辑' });
       addRecentAction('编辑上车点（4）— 已更新');
     }
-    info('上车点', '编辑上车点 (demo)');
+    info('上车点', '编辑上车点 （演示）');
   };
   const handleShare = () => {
     addRecentAction('共享实时位置（页4）');
     if (activeTrip?.id) updateTripStatus(activeTrip.id, 'in-progress', { eta: '位置已共享' });
-    info('分享', '分享实时位置给司机 (demo)');
+    info('分享', '分享实时位置给司机 （演示）');
   };
   const handleCall = () => {
     addRecentAction('呼叫司机（页4）');
@@ -37,9 +37,9 @@ const ConfirmPickup4Page: React.FC<ConfirmPickup4PageProps> = ({ onNavigate }) =
       bookTrip({ status: 'in-progress', from: 'SFO 上车点', to: '苹果联合广场', driver: '推送', eta: '前往中' });
       addRecentAction('呼叫（4）— 已预订');
     }
-    info('电话', '正在拨打司机电话... (demo)');
+    info('电话', '正在拨打司机电话... （演示）');
   };
-  const handleSun = () => info('模式', '切换日光模式 (demo)');
+  const handleSun = () => info('模式', '切换日光模式 （演示）');
 
   return (
     <div className="mobile-frame" style={{ height: 812, overflow: 'hidden' }}>

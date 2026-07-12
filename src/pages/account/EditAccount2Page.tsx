@@ -100,7 +100,7 @@ const EditAccount2Page: React.FC<EditAccount2PageProps> = ({ onNavigate }) => {
           </div>
 
           <div className={styles.specialRow}>
-            <div className={styles.specialKey} onClick={() => info('键盘', '数字键盘 (demo)')}>123</div>
+            <div className={styles.specialKey} onClick={() => info('键盘', '数字键盘 （演示）')}>123</div>
             <div className={`${styles.specialKey} ${styles.space}`} onClick={() => setFirstName(p => p + ' ')}>空格</div>
             <div className={`${styles.specialKey} ${styles.return}`} onClick={updateName}>回车</div>
           </div>
