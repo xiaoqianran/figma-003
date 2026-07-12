@@ -42,7 +42,7 @@ const ConfirmPickup6Page: React.FC<ConfirmPickup6PageProps> = ({ onNavigate }) =
     }
     info('安全', '打开安全功能（演示）');
   };
-  const handleLearn = () => { addRecentAction('已了解金牌司机'); info('详情', '打开Top Driver详情页面（演示）'); };
+  const handleLearn = () => { addRecentAction('已了解金牌司机'); info('详情', '打开顶级司机详情页面（演示）'); };
   const handleSave = () => { addRecentAction('已保存地点（上车 6）'); success('已保存', '已添加到我的保存地点'); };
   const handleTrusted = () => { addRecentAction('设置紧急联系人'); info('设置', '设置可信联系人（演示）'); };
 

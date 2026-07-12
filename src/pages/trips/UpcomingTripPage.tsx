@@ -50,7 +50,7 @@ const UpcomingTripPage: React.FC<UpcomingTripPageProps> = ({ onNavigate }) => {
           // fallback path
           setActiveTrip({ ...activeTrip, status: 'completed', paid: true, eta: '已到达' });
         }
-        success('行程完成', '行程已完成并记录到 Past (demo state via completeTrip)');
+        success('行程完成', '行程已完成并记录到历史（演示状态，通过 completeTrip）');
         // After complete, navigate to Past lists so it appears there
         onNavigate?.('trips-past');
       }, 800);
@@ -66,7 +66,7 @@ const UpcomingTripPage: React.FC<UpcomingTripPageProps> = ({ onNavigate }) => {
     } else if (activeTrip) {
       setActiveTrip({ ...activeTrip, status: 'completed' });
     }
-    success('已取消', '行程已取消 (将出现在 Past 列表中)');
+    success('已取消', '行程已取消（将出现在历史列表中）');
     onNavigate?.('trips-past');
   };
 

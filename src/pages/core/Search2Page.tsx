@@ -128,7 +128,7 @@ const Search2Page: React.FC<Search2PageProps> = ({ onNavigate }) => {
         eta: advEta,
       });
       addRecentAction(`Advanced search: ${to} (filters: $${advPriceMin}-${advPriceMax}, ${advVehicle}) — booked #${booked.id} via bookTrip`);
-      success('高级搜索完成', `已为 ${to} 创建真实预订 ($${booked.price} via ${booked.vehicle} — 高级筛选影响)`);
+      success('高级搜索完成', `已为 ${to} 创建真实预订（$${booked.price}，车型 ${booked.vehicle} — 高级筛选影响）`);
       console.log('搜索关键词:', searchInput, '已应用高级筛选，已预订：', booked);
       onNavigate?.('booking-choose-car');
     } else {

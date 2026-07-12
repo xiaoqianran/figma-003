@@ -31,7 +31,7 @@ const TripDetailCompletedPage: React.FC<Props> = ({ onNavigate }) => {
     if (activeTrip?.id) {
       updateTripStatus(activeTrip.id, 'completed', { paid: true });
     }
-    success('感谢', '评价已提交 (via updateTripStatus demo)');
+    success('感谢', '评价已提交（通过 updateTripStatus 演示）');
     onNavigate?.('other-evaluate1');
   };
 

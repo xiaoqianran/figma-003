@@ -21,7 +21,7 @@ const ConfirmPaymentPage: React.FC<ConfirmPaymentPageProps> = ({ onNavigate }) =
       // Allow standalone payment confirm to seed a demo trip (robustness)
       bookTrip({ status: 'in-progress', from: '演示上车点', to: '演示下车点', price: 18, paid: true, vehicle: 'GodyX' });
     }
-    success('支付成功', '支付确认成功！行程已预订 (multi-trip state + paid flag)');
+    success('支付成功', '支付确认成功！行程已预订（多行程状态 + 已支付标记）');
     onNavigate?.('trips-upcoming');
   };
 
