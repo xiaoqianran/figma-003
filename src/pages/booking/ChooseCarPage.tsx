@@ -10,29 +10,23 @@ interface ChooseCarPageProps {
 const ChooseCarPage: React.FC<ChooseCarPageProps> = ({ onNavigate }) => {
   const { activeTrip, addRecentAction, selectedPayment, bookTrip } = useDemoState();
   const { error, success, info } = useToast();
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>('godyx');
 
   const vehicles = [
-    { id: 'godyx', name: 'GodyX', desc: 'Affordable rides, all to yourself', price: 22.00, icon: '🚗' },
-    { id: 'suv', name: 'Black SUV', desc: 'Affordable rides, all to yourself', price: 17.00, icon: '🚙' },
+    { id: 'godyx', name: 'GodyX', desc: 'Affordable · 4 seats · quiet EV', price: 22.0, icon: '🚗' },
+    { id: 'suv', name: 'Black SUV', desc: 'Spacious · premium comfort', price: 17.0, icon: '🚙' },
   ];
-
-  const handleSelect = (id: string) => {
-    setSelected(id);
-  };
 
   const handleSchedule = () => {
     if (!selected) {
       error('请选择车辆', '请先选择您的出行方式');
       return;
     }
-    const v = vehicles.find(x => x.id === selected);
+    const v = vehicles.find((x) => x.id === selected);
     if (!v) return;
 
-    // Use activeTrip.to (prefilled/passed from Search1Page/Search2Page via prior bookTrip) so ChooseCar feels connected to searched destination
     const destTo = activeTrip?.to || 'Apple Union Square';
     const destFrom = activeTrip?.from || '51 Sharon St';
-    // Use new bookTrip for persistent multi-trip history + active focus
     const booked = bookTrip({
       status: 'upcoming',
       from: destFrom,
@@ -42,72 +36,101 @@ const ChooseCarPage: React.FC<ChooseCarPageProps> = ({ onNavigate }) => {
       eta: '3:50 PM',
     });
     addRecentAction(`Booked ${v.name} to ${booked.to} ($${v.price}) via ChooseCar`);
-
-    success('车辆已选择', `${v.name} • $${v.price}（演示）`);
+    success('车辆已选择', `${v.name} · $${v.price}（演示）`);
     onNavigate?.('booking-confirm-pickup1');
   };
 
+  // Layout fits entirely in 375×812 device screen — sheet bottom-anchored with compact rows
   return (
-    <div className="mobile-frame mobile-frame-tall" style={{ height: 858 }}>
-      <StatusBar dark />
-
-      {/* Map background */}
-      <div className="map-mock" style={{ position: 'absolute', top: 0, left: 0, width: 375, height: 858, zIndex: 0 }}>
+    <div className="mobile-frame" style={{ background: '#f7f6f3' }}>
+      <div className="map-mock" style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
         <div className="map-mock-grid" />
-        <div style={{ position: 'absolute', top: 180, left: 80, fontSize: 18, zIndex: 5 }}>📍</div>
-        <div style={{ position: 'absolute', top: 260, left: 240, fontSize: 18, zIndex: 5 }}>🛤️</div>
-        <div style={{
-          position: 'absolute', top: 190, left: 120, background: '#fff', padding: '4px 10px',
-          borderRadius: 999, fontSize: 11, boxShadow: '0 2px 8px rgba(0,0,0,0.1)', zIndex: 10,
-          border: '1px solid rgba(254,204,42,0.25)',
-        }}>
-          {(activeTrip?.to || 'Apple Union Square')} <span style={{ fontSize: 10 }}>🕐</span>
+        <div style={{ position: 'absolute', top: 150, left: 72, fontSize: 20, zIndex: 5 }}>📍</div>
+        <div
+          style={{
+            position: 'absolute',
+            top: 158,
+            left: 104,
+            background: '#fff',
+            padding: '6px 12px',
+            borderRadius: 999,
+            fontSize: 12,
+            fontWeight: 600,
+            boxShadow: '0 4px 14px rgba(17,19,24,0.1)',
+            zIndex: 10,
+            border: '1px solid #ebe9e4',
+            color: '#111318',
+          }}
+        >
+          {activeTrip?.to || 'Apple Union Square'}
         </div>
       </div>
 
-      <TopNav onBack={() => onNavigate?.('core-home')} />
+      <div style={{ position: 'relative', zIndex: 5 }}>
+        <StatusBar dark />
+        <TopNav onBack={() => onNavigate?.('core-home')} />
+      </div>
 
-      {/* 定位按钮 */}
       <button
         type="button"
         className="map-fab"
-        style={{ position: 'absolute', top: 220, right: 24, zIndex: 10 }}
+        style={{ position: 'absolute', top: 200, right: 20, zIndex: 10 }}
         aria-label="Relocate"
         onClick={() => info('重新定位', '当前位置已更新（演示）')}
       >
-        🎯
+        ◎
       </button>
 
-      {/* 底部车辆选择面板 */}
       <div
         className="bottom-sheet"
+        data-testid="choose-car-sheet"
         style={{
-          position: 'absolute', top: 396, left: 0, width: 375, height: 462,
-          paddingTop: 28, zIndex: 5,
-          display: 'flex', flexDirection: 'column',
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          top: 'auto',
+          width: 375,
+          height: 'auto',
+          maxHeight: 460,
+          paddingTop: 12,
+          paddingBottom: 0,
+          zIndex: 5,
+          display: 'flex',
+          flexDirection: 'column',
+          borderRadius: '28px 28px 0 0',
+          background: '#fff',
+          boxShadow: '0 -12px 40px rgba(17,19,24,0.12)',
         }}
       >
-        <div style={{ marginLeft: 24, color: '#49493d', fontSize: 14, fontWeight: 500, marginTop: 4 }}>
-          选择您的出行方式
+        <div style={{ width: 40, height: 4, borderRadius: 999, background: '#e4e2dc', margin: '0 auto 10px', flexShrink: 0 }} />
+        <div style={{ margin: '0 20px 2px', color: '#111318', fontSize: 16, fontWeight: 700, letterSpacing: '-0.02em', flexShrink: 0 }}>
+          Choose your ride
+        </div>
+        <div style={{ margin: '0 20px 8px', fontSize: 11, color: '#9b9aa3', flexShrink: 0 }}>
+          Prices include taxes · ETA from your pin
         </div>
 
-        {vehicles.map(v => (
-          <VehicleCard
-            key={v.id}
-            icon={v.icon}
-            name={v.name}
-            description={v.desc}
-            price={v.price}
-            selected={selected === v.id}
-            onClick={() => handleSelect(v.id)}
-          />
-        ))}
+        <div style={{ flex: '0 1 auto', overflow: 'hidden' }}>
+          {vehicles.map((v) => (
+            <VehicleCard
+              key={v.id}
+              icon={v.icon}
+              name={v.name}
+              description={v.desc}
+              price={v.price}
+              selected={selected === v.id}
+              onClick={() => setSelected(v.id)}
+              className="choose-car-vehicle"
+            />
+          ))}
+        </div>
 
-        {/* 支付卡片 — shared payment-card class for hover/focus */}
         <div
-          className={`payment-card${selectedPayment ? '' : ''}`}
+          className="payment-card"
           role="button"
           tabIndex={0}
+          data-testid="choose-car-payment"
           onClick={() => onNavigate?.('payment-select')}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
@@ -115,24 +138,29 @@ const ChooseCarPage: React.FC<ChooseCarPageProps> = ({ onNavigate }) => {
               onNavigate?.('payment-select');
             }
           }}
-          style={{ margin: '20px 24px 0' }}
+          style={{ margin: '8px 20px 0', padding: '12px 16px', flexShrink: 0 }}
         >
           {selectedPayment.type === 'visa' ? (
-            <div style={{ background: '#143c8a', color: '#fff', padding: '2px 6px', borderRadius: 3, fontSize: 10, fontWeight: 700 }}>VISA</div>
+            <div style={{ background: '#143c8a', color: '#fff', padding: '3px 7px', borderRadius: 5, fontSize: 10, fontWeight: 700 }}>
+              VISA
+            </div>
           ) : (
-            <div style={{ background: '#fecc2a', color: '#0A0908', padding: '2px 6px', borderRadius: 3, fontSize: 10, fontWeight: 700 }}>GODY</div>
+            <div style={{ background: '#f0b429', color: '#14110a', padding: '3px 7px', borderRadius: 5, fontSize: 10, fontWeight: 700 }}>
+              GODY
+            </div>
           )}
-          <div style={{ marginLeft: 12, fontSize: 13 }}>{selectedPayment.label}</div>
-          <div style={{ marginLeft: 'auto', color: '#6E6A61', fontSize: 12 }}>更改 →</div>
+          <div style={{ marginLeft: 12, fontSize: 13, fontWeight: 550 }}>{selectedPayment.label}</div>
+          <div style={{ marginLeft: 'auto', color: '#6b6a73', fontSize: 12, fontWeight: 500 }}>Change →</div>
         </div>
 
         <button
           type="button"
           className="primary-btn"
+          data-testid="choose-car-schedule"
           onClick={handleSchedule}
-          style={{ margin: '24px 24px 0', height: 48, width: 'calc(100% - 48px)' }}
+          style={{ margin: '12px 20px 0', height: 48, width: 'calc(100% - 40px)', flexShrink: 0 }}
         >
-          Schedule {selected ? vehicles.find(v => v.id === selected)?.name : 'Ride'}
+          Schedule {selected ? vehicles.find((v) => v.id === selected)?.name : 'Ride'}
         </button>
 
         <HomeIndicator />

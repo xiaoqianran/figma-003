@@ -95,23 +95,22 @@ const FLOW_PRESETS_DATA: Record<'standard' | 'trip-mgmt' | 'account-payment' | '
 // Graceful not-found rendered *inside* the device frame for bad deep links (both lab + standalone)
 function NotFoundInDevice({ pageId, onNavigateHome, onTryRandom }: { pageId: string; onNavigateHome: () => void; onTryRandom?: () => void }) {
   return (
-    <div className="h-full flex flex-col items-center justify-center text-[#0A0908] console-font px-5 text-center" style={{ background: '#F5F3ED' }}>
-      <div style={{ fontSize: 28, marginBottom: 4 }}>🔎</div>
-      <div style={{ fontWeight: 700, fontSize: 14, letterSpacing: '-0.2px' }}>Prototype not found</div>
-      <div style={{ fontSize: 11, color: '#6E6A61', marginTop: 2, marginBottom: 10 }}>
-        “{pageId}” does not exist in the registry
+    <div className="h-full flex flex-col items-center justify-center px-6 text-center" style={{ background: 'var(--paper)', color: 'var(--ink)', fontFamily: 'Inter, system-ui, sans-serif' }}>
+      <div style={{ width: 48, height: 48, borderRadius: 16, background: 'var(--gody-amber-soft)', display: 'grid', placeItems: 'center', marginBottom: 12, fontSize: 20 }}>?</div>
+      <div style={{ fontWeight: 650, fontSize: 15, letterSpacing: '-0.02em' }}>Prototype not found</div>
+      <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 6, marginBottom: 14, lineHeight: 1.4 }}>
+        “{pageId}” is not in the registry
       </div>
-      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'center' }}>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
         {onTryRandom && (
-          <button onClick={onTryRandom} className="tb-btn" style={{ fontSize: 10, padding: '3px 9px' }}>
-            🎲 Try Random
+          <button type="button" onClick={onTryRandom} className="lab-btn lab-btn--primary" style={{ fontSize: 12, color: '#14110a' }}>
+            Try random
           </button>
         )}
-        <button onClick={onNavigateHome} className="tb-btn" style={{ fontSize: 10, padding: '3px 9px' }}>
-          ← Console Home
+        <button type="button" onClick={onNavigateHome} className="lab-btn" style={{ fontSize: 12, background: '#fff', color: 'var(--ink)', border: '1px solid var(--line-strong)' }}>
+          ← Lab home
         </button>
       </div>
-      <div style={{ marginTop: 10, fontSize: 9, color: '#95928A' }}>Deep link preserved • Pick another from sidebar</div>
     </div>
   )
 }
@@ -821,29 +820,18 @@ function LabView() {
   }, [total])
 
   return (
-    <div className="lab-grid min-h-screen text-[#EDEBE5]">
-      <div className="max-w-[1340px] mx-auto px-8 pt-9">
-        {/* Premium Header */}
-        <div className="flex items-end justify-between mb-5">
-          <div>
-            <div className="flex items-center gap-x-3">
-              <div className="w-7 h-7 bg-[#fecc2a] flex items-center justify-center">
-                <div className="w-3.5 h-3.5 bg-[#0A0908]" />
-              </div>
-              <span className="display-font text-5xl font-bold tracking-[-1.5px]">GODY</span>
-            </div>
-            <div className="ml-11 -mt-1 flex items-center gap-x-2">
-              <span className="section-label tracking-[2.5px]">PROTOTYPE CONSOLE</span>
-              <span className="text-[#B8B5B0] text-xs console-font">REACT EDITION • PREMIUM</span>
-            </div>
+    <div className="lab-app">
+      {/* Redesigned sticky header — brand + stats hierarchy */}
+      <header className="lab-header">
+        <div className="lab-brand">
+          <div className="lab-logo" aria-hidden>
+            <div className="lab-logo-mark" />
           </div>
-
-          <div className="text-sm text-[#B8B5B0] console-font text-right">
-            {total} PROTOTYPES • {migrated}/{total} REAL COMPONENTS
+          <div className="lab-brand-text">
+            <div className="lab-brand-title">GODY Studio</div>
+            <div className="lab-brand-sub">Prototype lab · React</div>
           </div>
         </div>
-
-        {/* Stats bar + Top toolbar */}
         <StatsBar
           total={total}
           migrated={migrated}
@@ -851,282 +839,231 @@ function LabView() {
           recentCount={recentViewed.length}
           flowLength={flowHistory.length}
         />
-        <ConsoleToolbar
-          onRandom={handleRandom}
-          onReset={handleResetAll}
-          showFrame={showFrame}
-          onToggleFrame={handleToggleFrame}
-          zoom={zoom}
-          onZoomChange={handleZoomChange}
-          isRotated={isRotated}
-          onRotate={handleRotate}
-          onCopyCurrentLink={selectedPage ? handleCopyCurrent : undefined}
-          onCopyStandaloneLink={selectedPage ? handleCopyStandalone : undefined}
-          selectedTitle={selectedPage?.title}
-          // New premium lab actions
-          onSimulateFlow={simulateBookingFlow}
-          onLoadDemoTrip={loadDemoTrip}
-          onJumpPopular={jumpToPopular}
-          onOpenFlowPresets={() => setShowFlowPresets(true)}
-          onSeedMultiTrips={seedMultiTrips}
-          // Export / Import Demo State — new powerful DX tools
-          onExportDemoState={exportDemoState}
-          onImportDemoState={handleImportDemoState}
-        />
+      </header>
 
-        {/* Hidden file input for Import Demo State (triggered by button or command) */}
-        <input
-          ref={importFileRef}
-          type="file"
-          accept="application/json,.json"
-          onChange={handleImportFile}
-          style={{ display: 'none' }}
-          aria-hidden="true"
-        />
-
-        {/* Quick Demo Scenarios — high-value for stakeholders to instantly load rich realistic states */}
-        {!isSimulating && (
-          <div style={{
-            margin: '0 0 10px',
-            padding: '8px 12px',
-            background: 'linear-gradient(180deg, #1F1E1B 0%, #151410 100%)',
-            border: '1px solid #3A3935',
-            borderRadius: 8,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 8,
-            flexWrap: 'wrap'
-          }}>
-            <div style={{ color: '#fecc2a', fontSize: 11, fontWeight: 600, marginRight: 4 }}>QUICK SCENARIOS:</div>
-            <button onClick={() => loadScenario('business-commute')} className="tb-btn" style={{ fontSize: 10, padding: '2px 8px' }}>商务通勤</button>
-            <button onClick={() => loadScenario('airport-family')} className="tb-btn" style={{ fontSize: 10, padding: '2px 8px' }}>机场家庭</button>
-            <button onClick={() => loadScenario('night-party')} className="tb-btn" style={{ fontSize: 10, padding: '2px 8px' }}>夜生活</button>
-            <button onClick={() => loadScenario('multiple-trips')} className="tb-btn" style={{ fontSize: 10, padding: '2px 8px' }}>多行程混合</button>
-            <span style={{ fontSize: 9, color: '#6E6A61', marginLeft: 4 }}>一键加载完整演示状态</span>
-          </div>
-        )}
-
-        {/* LIVE SIMULATOR CONTROLS — only visible while a flow preset is running. Full pause/resume/skip/speed support */}
-        {isSimulating && (
-          <div
-            className="metal"
-            style={{
-              margin: '0 0 12px',
-              padding: '9px 14px',
-              borderRadius: 10,
-              display: 'flex',
-              alignItems: 'center',
-              gap: 12,
-              fontSize: 12,
-              border: '1px solid #3A3935',
-              background: 'linear-gradient(180deg, #1A1916 0%, #131210 100%)'
-            }}
-          >
-            <div style={{ color: '#fecc2a', fontWeight: 700, letterSpacing: '0.5px', display: 'flex', alignItems: 'center', gap: 6 }}>
-              ▶ LIVE DEMO
-            </div>
-            <div style={{ opacity: 0.85, fontFamily: 'IBM Plex Mono, monospace', fontSize: 11 }}>
-              {simPreset} • Step <span style={{ color: '#fecc2a', fontWeight: 600 }}>{simStep}</span>/{simTotal}
-            </div>
-
-            <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-              <button
-                onClick={toggleSimPause}
-                className="tb-btn"
-                style={{ padding: '3px 10px', fontSize: 11, fontWeight: 600 }}
-              >
-                {simPaused ? '▶ RESUME' : '⏸ PAUSE'}
-              </button>
-              <button
-                onClick={skipSimStep}
-                className="tb-btn"
-                style={{ padding: '3px 10px', fontSize: 11 }}
-              >
-                ⏭ SKIP STEP
-              </button>
-
-              {/* Speed controls */}
-              <div style={{ display: 'flex', gap: 3, marginLeft: 4, paddingLeft: 6, borderLeft: '1px solid #2A2926' }}>
-                {[0.5, 1, 2].map((s) => (
-                  <button
-                    key={s}
-                    onClick={() => setSimSpeedCtl(s)}
-                    className="tb-btn"
-                    style={{
-                      padding: '2px 8px',
-                      fontSize: 10,
-                      fontWeight: simSpeed === s ? 700 : 400,
-                      background: simSpeed === s ? '#fecc2a' : undefined,
-                      color: simSpeed === s ? '#0A0908' : undefined,
-                      borderColor: simSpeed === s ? '#fecc2a' : undefined
-                    }}
-                    title={`${s}× simulation speed`}
-                  >
-                    {s}×
-                  </button>
-                ))}
-              </div>
-
-              <button
-                onClick={stopSimulation}
-                className="tb-btn"
-                style={{ padding: '3px 10px', fontSize: 11, borderColor: '#C53D3D', color: '#C53D3D', marginLeft: 4 }}
-              >
-                ■ STOP
-              </button>
-            </div>
-          </div>
-        )}
-
-        <div className="flex gap-8">
-          {/* Left Sidebar — Favorites + Recently Viewed + Rich list with copy/fav/flow indicators */}
-          <div className="w-72 flex-shrink-0">
-            <div className="metal rounded-2xl p-3">
-              {/* Search (keyboard / support + clear) — now with command palette feel */}
-              <div className="px-2 pb-2 relative">
-                <input
-                  ref={searchInputRef}
-                  type="text"
-                  placeholder="Search... (/ focus) • cmds: random, reset, flow, scenario, export, import"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      const cmd = searchTerm.trim().toLowerCase()
-                      let executed = false
-                      if (cmd === 'random' || cmd === 'r') {
-                        handleRandom()
-                        executed = true
-                      } else if (cmd === 'reset' || cmd === 'clear all') {
-                        handleResetAll()
-                        executed = true
-                      } else if (cmd === 'flow' || cmd === 'simulate' || cmd === 'demo' || cmd === 'flows' || cmd === 'presets') {
-                        setShowFlowPresets(true)
-                        executed = true
-                      } else if (cmd === 'home') {
-                        if (isSimulating) { abortCurrentSimulation(); showToast({ type: 'info', title: 'Simulation aborted', message: 'Command nav takes over', duration: 800 }) }
-                        handleNavigate('core-home')
-                        executed = true
-                      } else if (cmd === 'popular' || cmd === 'top') {
-                        if (isSimulating) { abortCurrentSimulation(); showToast({ type: 'info', title: 'Simulation aborted', message: 'Command nav takes over', duration: 800 }) }
-                        jumpToPopular()
-                        executed = true
-                      } else if (cmd === 'export' || cmd === 'export state' || cmd === 'save state') {
-                        exportDemoState()
-                        executed = true
-                      } else if (cmd === 'import' || cmd === 'import state' || cmd === 'load state') {
-                        handleImportDemoState()
-                        executed = true
-                      } else if (cmd === 'scenario' || cmd === 'scenarios' || cmd === 'demo') {
-                        // Open scenarios hint or load default rich one
-                        loadScenario('multiple-trips');
-                        executed = true;
-                      } else if (cmd.startsWith('go ')) {
-                        const t = cmd.slice(3).trim()
-                        const map: Record<string, string> = { home: 'core-home', search: 'core-search1', car: 'booking-choose-car', pickup: 'booking-confirm-pickup1', request: 'booking-requesting', trips: 'trips-hub', account: 'account-profile' }
-                        if (map[t]) {
-                          if (isSimulating) { abortCurrentSimulation(); showToast({ type: 'info', title: 'Simulation aborted', message: 'Command nav takes over', duration: 800 }) }
-                          handleNavigate(map[t]); executed = true
-                        }
-                      }
-                      if (executed) {
-                        setSearchTerm('')
-                        e.preventDefault()
-                      }
+      <div className="lab-workspace">
+        {/* LEFT: browse / filters */}
+        <aside className="lab-nav">
+          <div className="lab-nav-search">
+            <input
+              ref={searchInputRef}
+              type="text"
+              placeholder="Search pages…  (/)"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  const cmd = searchTerm.trim().toLowerCase()
+                  let executed = false
+                  if (cmd === 'random' || cmd === 'r') {
+                    handleRandom()
+                    executed = true
+                  } else if (cmd === 'reset' || cmd === 'clear all') {
+                    handleResetAll()
+                    executed = true
+                  } else if (cmd === 'flow' || cmd === 'simulate' || cmd === 'demo' || cmd === 'flows' || cmd === 'presets') {
+                    setShowFlowPresets(true)
+                    executed = true
+                  } else if (cmd === 'home') {
+                    if (isSimulating) { abortCurrentSimulation(); showToast({ type: 'info', title: 'Simulation aborted', message: 'Command nav takes over', duration: 800 }) }
+                    handleNavigate('core-home')
+                    executed = true
+                  } else if (cmd === 'popular' || cmd === 'top') {
+                    if (isSimulating) { abortCurrentSimulation(); showToast({ type: 'info', title: 'Simulation aborted', message: 'Command nav takes over', duration: 800 }) }
+                    jumpToPopular()
+                    executed = true
+                  } else if (cmd === 'export' || cmd === 'export state' || cmd === 'save state') {
+                    exportDemoState()
+                    executed = true
+                  } else if (cmd === 'import' || cmd === 'import state' || cmd === 'load state') {
+                    handleImportDemoState()
+                    executed = true
+                  } else if (cmd === 'scenario' || cmd === 'scenarios') {
+                    loadScenario('multiple-trips');
+                    executed = true;
+                  } else if (cmd.startsWith('go ')) {
+                    const t = cmd.slice(3).trim()
+                    const map: Record<string, string> = { home: 'core-home', search: 'core-search1', car: 'booking-choose-car', pickup: 'booking-confirm-pickup1', request: 'booking-requesting', trips: 'trips-hub', account: 'account-profile' }
+                    if (map[t]) {
+                      if (isSimulating) { abortCurrentSimulation(); showToast({ type: 'info', title: 'Simulation aborted', message: 'Command nav takes over', duration: 800 }) }
+                      handleNavigate(map[t]); executed = true
                     }
-                  }}
-                  className="console-search w-full bg-[#0A0908] border border-[#2A2926] text-sm px-3 py-2 pr-8 rounded-lg console-font placeholder:text-[#6E6A61] focus:outline-none focus:border-[#fecc2a]/60"
-                />
-                {searchTerm && (
-                  <button onClick={() => setSearchTerm('')} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#6E6A61] hover:text-[#fecc2a] text-lg leading-none" title="Clear search">×</button>
-                )}
-              </div>
+                  }
+                  if (executed) {
+                    setSearchTerm('')
+                    e.preventDefault()
+                  }
+                }
+              }}
+              className="console-search"
+            />
+            {searchTerm && (
+              <button type="button" onClick={() => setSearchTerm('')} className="clear-btn" title="Clear search">×</button>
+            )}
+          </div>
 
-              {/* Category filters — cat-chip tokens for hover/active/focus */}
-              <div className="flex flex-wrap gap-1 px-2 pb-3">
-                {categories.map(cat => (
-                  <button
-                    key={cat}
-                    type="button"
-                    onClick={() => setActiveCategory(cat)}
-                    className={`cat-chip${activeCategory === cat ? ' active' : ''}`}
-                  >
-                    {cat} <span className="opacity-60">({categoryCounts[cat] || 0})</span>
-                  </button>
+          <div className="lab-chip-row">
+            {categories.map(cat => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setActiveCategory(cat)}
+                className={`lab-chip cat-chip${activeCategory === cat ? ' active lab-chip--active' : ''}`}
+              >
+                {cat} <span style={{ opacity: 0.65 }}>({categoryCounts[cat] || 0})</span>
+              </button>
+            ))}
+          </div>
+
+          {favPages.length > 0 && (
+            <div className="lab-section">
+              <div className="lab-section-head">
+                <span className="section-label" style={{ color: 'var(--gody-amber-bright)' }}>Favorites</span>
+                <span className="section-label">{favPages.length}</span>
+              </div>
+              <div className="lab-list" style={{ maxHeight: 100 }}>
+                {favPages.map(page => (
+                  <PageListItem key={page.id} page={page} isSelected={selectedPage?.id === page.id} isFavorite isInFlow={flowHistory.includes(page.id)} onSelect={handleSelectPage} onToggleFavorite={toggleFavorite} onCopyLink={copyLinkFor} />
                 ))}
               </div>
+            </div>
+          )}
 
-              {/* FAVORITES */}
-              {favPages.length > 0 && (
-                <div className="px-2 pt-1 pb-2">
-                  <div className="section-label text-[9px] pl-1 mb-1 text-[#fecc2a]">★ FAVORITES ({favPages.length})</div>
-                  <div className="space-y-0.5 max-h-[92px] overflow-y-auto pr-1">
-                    {favPages.map(page => (
-                      <PageListItem key={page.id} page={page} isSelected={selectedPage?.id === page.id} isFavorite isInFlow={flowHistory.includes(page.id)} onSelect={handleSelectPage} onToggleFavorite={toggleFavorite} onCopyLink={copyLinkFor} />
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* RECENTLY VIEWED + flow indicators */}
-              {recentPages.length > 0 && (
-                <div className="px-2 pt-1 pb-2 border-t border-[#22211D]">
-                  <div className="section-label text-[9px] pl-1 mb-1">RECENTLY VIEWED ({recentPages.length})</div>
-                  <div className="space-y-0.5 max-h-[108px] overflow-y-auto pr-1">
-                    {recentPages.map(page => (
-                      <PageListItem key={page.id} page={page} isSelected={selectedPage?.id === page.id} isFavorite={favorites.includes(page.id)} isInFlow={flowHistory.includes(page.id)} onSelect={handleSelectPage} onToggleFavorite={toggleFavorite} onCopyLink={copyLinkFor} />
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* BROWSE ALL (improved with per-item copy, star, flow dot) */}
-              <div className="px-2 pt-2 border-t border-[#22211D]">
-                <div className="section-label text-[9px] pl-1 mb-1 flex justify-between">
-                  <span>BROWSE ALL ({filteredPages.length})</span>
-                  <span className="text-[#6E6A61]">/ • 1-9</span>
-                </div>
-                <div className="max-h-[272px] overflow-y-auto pr-1 space-y-0.5 text-sm">
-                  {filteredPages.length > 0 ? (
-                    filteredPages.map(page => (
-                      <PageListItem key={page.id} page={page} isSelected={selectedPage?.id === page.id} isFavorite={favorites.includes(page.id)} isInFlow={flowHistory.includes(page.id)} onSelect={handleSelectPage} onToggleFavorite={toggleFavorite} onCopyLink={copyLinkFor} />
-                    ))
-                  ) : (
-                    <div className="px-3 py-4 text-[#6E6A61] text-xs">No matches — press Esc to clear</div>
-                  )}
-                </div>
+          {recentPages.length > 0 && (
+            <div className="lab-section">
+              <div className="lab-section-head">
+                <span className="section-label">Recent</span>
+                <span className="section-label">{recentPages.length}</span>
+              </div>
+              <div className="lab-list" style={{ maxHeight: 120 }}>
+                {recentPages.map(page => (
+                  <PageListItem key={page.id} page={page} isSelected={selectedPage?.id === page.id} isFavorite={favorites.includes(page.id)} isInFlow={flowHistory.includes(page.id)} onSelect={handleSelectPage} onToggleFavorite={toggleFavorite} onCopyLink={copyLinkFor} />
+                ))}
               </div>
             </div>
+          )}
 
-            <div className="mt-2 px-2 text-[9px] text-[#6E6A61] console-font tracking-[0.5px]">
-              KEYS: / focus • Esc clear • 1–9 cats • R random • F fav • Enter on cmd (random/reset/flow)
+          <div className="lab-section" style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+            <div className="lab-section-head">
+              <span className="section-label">Browse · {filteredPages.length}</span>
+              <span className="section-label">1–9 cats</span>
+            </div>
+            <div className="lab-list lab-list--tall">
+              {filteredPages.length > 0 ? (
+                filteredPages.map(page => (
+                  <PageListItem key={page.id} page={page} isSelected={selectedPage?.id === page.id} isFavorite={favorites.includes(page.id)} isInFlow={flowHistory.includes(page.id)} onSelect={handleSelectPage} onToggleFavorite={toggleFavorite} onCopyLink={copyLinkFor} />
+                ))
+              ) : (
+                <div className="lab-list-empty">No matches — press Esc to clear</div>
+              )}
             </div>
           </div>
 
-          {/* Center: Device + integrated controls via toolbar */}
-          <div className="flex-1 flex flex-col items-center">
-            <div className="flex items-center justify-center gap-3 mb-2 text-xs">
-              <span className="section-label">DEVICE LAB</span>
-              <span className="text-[#6E6A61]">•</span>
-              <span className="console-font text-[#B8B5B0]">{showFrame ? 'HARDWARE FRAME' : 'FRAMELESS'} • 375×812</span>
-            </div>
+          <div className="lab-nav-hint">
+            / focus · Esc clear · R random · F favorite · Enter on command
+          </div>
+        </aside>
 
-            {/* The Device (supports frame visibility toggle) */}
+        {/* CENTER: tools + device stage */}
+        <main className="lab-stage">
+          <div className="lab-stage-toolbar">
+            <span className="lab-stage-label">Canvas</span>
+            <ConsoleToolbar
+              onRandom={handleRandom}
+              onReset={handleResetAll}
+              showFrame={showFrame}
+              onToggleFrame={handleToggleFrame}
+              zoom={zoom}
+              onZoomChange={handleZoomChange}
+              isRotated={isRotated}
+              onRotate={handleRotate}
+              onCopyCurrentLink={selectedPage ? handleCopyCurrent : undefined}
+              onCopyStandaloneLink={selectedPage ? handleCopyStandalone : undefined}
+              selectedTitle={selectedPage?.title}
+              onSimulateFlow={simulateBookingFlow}
+              onLoadDemoTrip={loadDemoTrip}
+              onJumpPopular={jumpToPopular}
+              onOpenFlowPresets={() => setShowFlowPresets(true)}
+              onSeedMultiTrips={seedMultiTrips}
+              onExportDemoState={exportDemoState}
+              onImportDemoState={handleImportDemoState}
+            />
+          </div>
+
+          <input
+            ref={importFileRef}
+            type="file"
+            accept="application/json,.json"
+            onChange={handleImportFile}
+            style={{ display: 'none' }}
+            aria-hidden="true"
+          />
+
+          {!isSimulating && (
+            <div className="lab-scenarios">
+              <span className="lab-scenarios-label">Scenarios</span>
+              <button type="button" onClick={() => loadScenario('business-commute')} className="lab-btn" style={{ fontSize: 11, padding: '4px 10px' }}>商务通勤</button>
+              <button type="button" onClick={() => loadScenario('airport-family')} className="lab-btn" style={{ fontSize: 11, padding: '4px 10px' }}>机场家庭</button>
+              <button type="button" onClick={() => loadScenario('night-party')} className="lab-btn" style={{ fontSize: 11, padding: '4px 10px' }}>夜生活</button>
+              <button type="button" onClick={() => loadScenario('multiple-trips')} className="lab-btn" style={{ fontSize: 11, padding: '4px 10px' }}>多行程混合</button>
+            </div>
+          )}
+
+          {isSimulating && (
+            <div className="lab-sim-bar">
+              <div className="lab-sim-title">● Live demo</div>
+              <div className="lab-sim-meta">
+                {simPreset} · Step <strong style={{ color: 'var(--gody-amber-bright)' }}>{simStep}</strong>/{simTotal}
+              </div>
+              <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                <button type="button" onClick={toggleSimPause} className="lab-btn lab-btn--primary" style={{ padding: '5px 12px' }}>
+                  {simPaused ? '▶ Resume' : '⏸ Pause'}
+                </button>
+                <button type="button" onClick={skipSimStep} className="lab-btn" style={{ padding: '5px 12px' }}>Skip</button>
+                <div style={{ display: 'flex', gap: 4, marginLeft: 4, paddingLeft: 8, borderLeft: '1px solid var(--lab-border)' }}>
+                  {[0.5, 1, 2].map((s) => (
+                    <button
+                      key={s}
+                      type="button"
+                      onClick={() => setSimSpeedCtl(s)}
+                      className={`lab-btn${simSpeed === s ? ' lab-btn--active active' : ''}`}
+                      style={{ padding: '3px 8px', fontSize: 11 }}
+                      title={`${s}× speed`}
+                    >
+                      {s}×
+                    </button>
+                  ))}
+                </div>
+                <button type="button" onClick={stopSimulation} className="lab-btn lab-btn--danger" style={{ padding: '5px 12px' }}>
+                  Stop
+                </button>
+              </div>
+            </div>
+          )}
+
+          <div className="lab-device-wrap">
             <div
-              className={showFrame ? "hardware-frame mx-auto transition-transform duration-300" : "mx-auto transition-transform duration-300"}
+              className={showFrame ? 'hardware-frame transition-transform duration-300' : 'transition-transform duration-300'}
               style={{
                 transform: `scale(${zoom}) rotate(${isRotated ? 90 : 0}deg)`,
                 transformOrigin: 'center',
-                ...(!showFrame && { width: 375, height: 812, background: '#11110F', borderRadius: 28, padding: 6, boxShadow: '0 0 0 1px #22221F, 0 30px 60px -15px rgba(0,0,0,0.55), inset 0 0 0 1px #2A2926' })
+                ...(!showFrame && {
+                  width: 375,
+                  height: 812,
+                  background: '#0c0e14',
+                  borderRadius: 28,
+                  padding: 6,
+                  boxShadow: '0 0 0 1px rgba(255,255,255,0.08), 0 30px 60px -15px rgba(0,0,0,0.55)',
+                }),
               }}
             >
               {showFrame ? (
                 <div className="device-bevel relative">
-                  <div className="absolute top-0 left-0 right-0 h-9 bg-gradient-to-b from-[#1F1F1C] to-transparent z-20 flex items-center justify-center">
-                    <span className="text-[9px] text-[#B8B5B0] console-font tracking-[1.5px]">GODY LAB • REACT</span>
+                  <div className="absolute top-0 left-0 right-0 h-7 z-20 flex items-center justify-center pointer-events-none">
+                    <span className="text-[9px] text-white/30 tracking-[0.14em] uppercase font-medium">GODY</span>
                   </div>
                   <div className="prototype-screen">
-                    <div className="screen-content" style={{ background: '#F5F3ED' }}>
+                    <div className="screen-content" style={{ background: 'var(--paper)' }}>
                       <PreviewErrorBoundary fallbackMessage="This prototype encountered a rendering error.">
                         {selectedPage ? (
                           <selectedPage.component onNavigate={handleNavigate} />
@@ -1137,20 +1074,24 @@ function LabView() {
                             onTryRandom={handleRandom}
                           />
                         ) : (
-                          <div className="h-full flex flex-col items-center justify-center text-[#0A0908] console-font text-sm px-6 text-center">
-                            <div className="mb-3 text-2xl">📱</div>
-                            <div>SELECT PROTOTYPE FROM LEFT</div>
-                            <div className="mt-1 text-xs text-[#6E6A61]">Real React components • Zero iframes • Live flows</div>
+                          <div className="h-full flex flex-col items-center justify-center text-[var(--ink)] px-8 text-center" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
+                            <div className="mb-3 w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: 'var(--gody-amber-soft)', color: 'var(--gody-amber)' }}>
+                              <span style={{ fontSize: 22 }}>◇</span>
+                            </div>
+                            <div style={{ fontWeight: 650, fontSize: 15, letterSpacing: '-0.02em' }}>Pick a prototype</div>
+                            <div style={{ marginTop: 6, fontSize: 12, color: 'var(--muted)', lineHeight: 1.45 }}>
+                              Browse the left panel — real React screens, live demo state, zero iframes.
+                            </div>
                           </div>
                         )}
                       </PreviewErrorBoundary>
                     </div>
                   </div>
-                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 w-[108px] h-[5px] bg-[#2A2926] rounded-full z-30" />
+                  <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 w-[108px] h-[4px] bg-white/15 rounded-full z-30" />
                 </div>
               ) : (
-                <div className="prototype-screen border border-[#22221F]" style={{ borderRadius: 22, overflow: 'hidden' }}>
-                  <div className="screen-content" style={{ background: '#F5F3ED', height: '100%' }}>
+                <div className="prototype-screen" style={{ borderRadius: 22, overflow: 'hidden', position: 'relative', inset: 'auto', width: '100%', height: '100%' }}>
+                  <div className="screen-content" style={{ background: 'var(--paper)', height: '100%' }}>
                     <PreviewErrorBoundary fallbackMessage="This prototype encountered a rendering error.">
                       {selectedPage ? (
                         <selectedPage.component onNavigate={handleNavigate} />
@@ -1161,8 +1102,8 @@ function LabView() {
                           onTryRandom={handleRandom}
                         />
                       ) : (
-                        <div className="h-full flex flex-col items-center justify-center text-[#0A0908] console-font text-sm px-6 text-center">
-                          <div>FRAMELESS — SELECT PAGE</div>
+                        <div className="h-full flex flex-col items-center justify-center text-[var(--ink)] text-sm px-6 text-center">
+                          <div style={{ fontWeight: 600 }}>Frameless — select a page</div>
                         </div>
                       )}
                     </PreviewErrorBoundary>
@@ -1171,139 +1112,131 @@ function LabView() {
               )}
             </div>
 
-            <div className="mt-2 text-xs text-[#B8B5B0] console-font">
-              375 × 812 • iPhone 13 physical simulation • Real React components
-              {!showFrame && <span className="ml-1 text-[#fecc2a]">• FRAMELESS</span>}
+            <div className="lab-device-caption">
+              375 × 812 · {showFrame ? 'Device frame' : 'Frameless'} · Real React components
+              {selectedPage ? ` · ${selectedPage.title}` : ''}
             </div>
           </div>
+        </main>
 
-          {/* Right richer panel: related pages, start flow, meta, copy, fav */}
-          <div className="w-80 flex-shrink-0">
-            <InfoPanel
-              selectedPage={selectedPage}
-              favorites={favorites}
-              flowHistory={flowHistory}
-              onSelectPage={handleSelectPage}
-              onToggleFavorite={toggleFavorite}
-              onCopyLink={copyLinkFor}
-              onCopyStandaloneLink={copyStandaloneLinkFor}
-              onStartFlow={handleStartFlow}
-            />
+        {/* RIGHT: meta */}
+        <aside className="lab-aside">
+          <InfoPanel
+            selectedPage={selectedPage}
+            favorites={favorites}
+            flowHistory={flowHistory}
+            onSelectPage={handleSelectPage}
+            onToggleFavorite={toggleFavorite}
+            onCopyLink={copyLinkFor}
+            onCopyStandaloneLink={copyStandaloneLinkFor}
+            onStartFlow={handleStartFlow}
+          />
 
-            {selectedPage && (
-              <>
-                <button
-                  onClick={() => navigate(`/standalone/${selectedPage.id}`)}
-                  className="mt-3 w-full py-2 text-xs console-font rounded-xl border border-[#2A2926] text-[#B8B5B0] hover:border-[#fecc2a] hover:text-[#fecc2a] transition-colors"
-                >
-                  ↗ OPEN STANDALONE FULLSCREEN PREVIEW
-                </button>
-                <button
-                  onClick={handleCopyStandalone}
-                  className="mt-1.5 w-full py-1.5 text-[10px] console-font rounded-lg border border-[#2A2926] text-[#B8B5B0] hover:border-[#fecc2a] hover:text-[#fecc2a] transition-colors"
-                  title="Copy direct standalone deep link for sharing"
-                >
-                  📋 Copy Standalone Link
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-
-        {/* ========== FLOW SIMULATOR PRESETS MODAL (multi-flow powerhouse) ========== */}
-        <Modal
-          open={showFlowPresets}
-          onClose={() => setShowFlowPresets(false)}
-          title="FLOW SIMULATOR — DEMO PRESETS"
-          width={440}
-        >
-          <div style={{ fontSize: 12, color: '#C9C6BE', marginBottom: 12, lineHeight: 1.4 }}>
-            Powerful controllable journeys for stakeholder demos. All integrate deeply with DemoState + live toasts.
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {(['standard', 'trip-mgmt', 'account-payment', 'full-e2e'] as const).map((key) => {
-              const p = FLOW_PRESETS[key]
-              return (
-                <button
-                  key={key}
-                  onClick={() => runFlowPreset(key)}
-                  className="tb-btn"
-                  style={{
-                    textAlign: 'left',
-                    padding: '12px 14px',
-                    borderColor: '#3A3935',
-                    background: 'linear-gradient(#1F1E1B, #151410)',
-                    display: 'block',
-                    width: '100%'
-                  }}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                      <div style={{ color: '#fecc2a', fontWeight: 700, fontSize: 13, letterSpacing: '0.3px' }}>{p.name}</div>
-                      <div style={{ fontSize: 11, opacity: 0.8, marginTop: 2 }}>{p.desc}</div>
-                    </div>
-                    <div style={{ fontSize: 10, color: '#6E6A61', textAlign: 'right', whiteSpace: 'nowrap' }}>
-                      {p.steps.length} STEPS<br />
-                      <span style={{ color: '#fecc2a' }}>RUN →</span>
-                    </div>
-                  </div>
-                </button>
-              )
-            })}
-          </div>
-          <div style={{ marginTop: 14, fontSize: 10, color: '#6E6A61', textAlign: 'center' }}>
-            While running: use Pause / Skip / 0.5×–2× speed controls in the bar above
-          </div>
-        </Modal>
-
-        {/* ========== POST-SIMULATION CHOICE MODAL (Keep vs Reset) ========== */}
-        <Modal
-          open={showPostSimModal}
-          onClose={() => setShowPostSimModal(false)}
-          title="FLOW SIMULATION COMPLETE"
-          width={400}
-        >
-          <div style={{ fontSize: 13, lineHeight: 1.45 }}>
-            <div style={{ color: '#fecc2a', fontWeight: 600, marginBottom: 8 }}>{simPreset || 'Demo Flow'} finished successfully.</div>
-            <div>A rich, realistic demo trip is now live in <strong>DemoState</strong> (visible in the floating inspector).</div>
-            <div style={{ marginTop: 10, opacity: 0.85 }}>What would you like to do with the injected data?</div>
-          </div>
-
-          <div style={{ display: 'flex', gap: 8, marginTop: 18, flexWrap: 'wrap' }}>
-            <button
-              onClick={() => {
-                setShowPostSimModal(false)
-                showToast({ type: 'success', title: 'Demo trip retained', message: 'Continue exploring prototypes with live state', duration: 2400 })
-              }}
-              className="tb-btn"
-              style={{ flex: '1 1 140px', background: '#fecc2a', color: '#0A0908', fontWeight: 600, borderColor: '#fecc2a', padding: '10px 14px' }}
-            >
-              ✓ KEEP DEMO TRIP
-            </button>
-            <button
-              onClick={() => {
-                resetDemoState()
-                setShowPostSimModal(false)
-                showToast({ type: 'info', title: 'Demo state reset', message: 'Clean slate for next demo run', duration: 2200 })
-              }}
-              className="tb-btn"
-              style={{ flex: '1 1 140px', padding: '10px 14px' }}
-            >
-              RESET AFTER DEMO
-            </button>
-            <button
-              onClick={() => setShowPostSimModal(false)}
-              className="tb-btn"
-              style={{ flex: '1 1 80px', padding: '10px 14px' }}
-            >
-              CLOSE
-            </button>
-          </div>
-          <div style={{ marginTop: 10, fontSize: 10, color: '#6E6A61', textAlign: 'center' }}>
-            Inspector + recent actions log updated • Ready for manual interaction or rerun
-          </div>
-        </Modal>
+          {selectedPage && (
+            <>
+              <button
+                type="button"
+                onClick={() => navigate(`/standalone/${selectedPage.id}`)}
+                className="lab-meta-link"
+              >
+                Open fullscreen preview →
+              </button>
+              <button
+                type="button"
+                onClick={handleCopyStandalone}
+                className="lab-meta-link"
+                style={{ marginTop: 8 }}
+              >
+                Copy standalone link
+              </button>
+            </>
+          )}
+        </aside>
       </div>
+
+      <Modal
+        open={showFlowPresets}
+        onClose={() => setShowFlowPresets(false)}
+        title="Flow simulator — presets"
+        width={440}
+      >
+        <div style={{ fontSize: 13, color: 'var(--lab-text-secondary)', marginBottom: 14, lineHeight: 1.45 }}>
+          Controllable demo journeys with DemoState + live toasts.
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {(['standard', 'trip-mgmt', 'account-payment', 'full-e2e'] as const).map((key) => {
+            const p = FLOW_PRESETS[key]
+            return (
+              <button
+                key={key}
+                type="button"
+                onClick={() => runFlowPreset(key)}
+                className="lab-btn"
+                style={{
+                  textAlign: 'left',
+                  padding: '12px 14px',
+                  borderRadius: 14,
+                  display: 'block',
+                  width: '100%',
+                  whiteSpace: 'normal',
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
+                  <div>
+                    <div style={{ color: 'var(--gody-amber-bright)', fontWeight: 650, fontSize: 13 }}>{p.name}</div>
+                    <div style={{ fontSize: 12, opacity: 0.8, marginTop: 3 }}>{p.desc}</div>
+                  </div>
+                  <div style={{ fontSize: 11, color: 'var(--lab-text-muted)', textAlign: 'right', whiteSpace: 'nowrap' }}>
+                    {p.steps.length} steps
+                    <div style={{ color: 'var(--gody-amber)', marginTop: 2 }}>Run →</div>
+                  </div>
+                </div>
+              </button>
+            )
+          })}
+        </div>
+      </Modal>
+
+      <Modal
+        open={showPostSimModal}
+        onClose={() => setShowPostSimModal(false)}
+        title="Simulation complete"
+        width={400}
+      >
+        <div style={{ fontSize: 13, lineHeight: 1.5 }}>
+          <div style={{ color: 'var(--gody-amber-bright)', fontWeight: 600, marginBottom: 8 }}>{simPreset || 'Demo flow'} finished.</div>
+          <div>A realistic demo trip is live in <strong>DemoState</strong>.</div>
+          <div style={{ marginTop: 10, opacity: 0.85 }}>Keep the injected data or reset for the next run?</div>
+        </div>
+        <div style={{ display: 'flex', gap: 8, marginTop: 18, flexWrap: 'wrap' }}>
+          <button
+            type="button"
+            onClick={() => {
+              setShowPostSimModal(false)
+              showToast({ type: 'success', title: 'Demo trip retained', message: 'Continue exploring with live state', duration: 2400 })
+            }}
+            className="lab-btn lab-btn--primary"
+            style={{ flex: '1 1 140px', padding: '10px 14px' }}
+          >
+            Keep demo trip
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              resetDemoState()
+              setShowPostSimModal(false)
+              showToast({ type: 'info', title: 'Demo state reset', message: 'Clean slate for next run', duration: 2200 })
+            }}
+            className="lab-btn"
+            style={{ flex: '1 1 140px', padding: '10px 14px' }}
+          >
+            Reset after demo
+          </button>
+          <button type="button" onClick={() => setShowPostSimModal(false)} className="lab-btn" style={{ flex: '1 1 80px', padding: '10px 14px' }}>
+            Close
+          </button>
+        </div>
+      </Modal>
     </div>
   )
 }
@@ -1364,60 +1297,54 @@ function StandaloneView() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0908] text-[#EDEBE5] flex flex-col">
-      {/* Polished minimal standalone top bar with useful actions + toast feedback */}
-      <div className="flex items-center justify-between px-5 py-2.5 border-b border-[#2A2926] bg-[#11110F]">
-        <div className="flex items-center gap-x-3">
-          <div className="w-6 h-6 bg-[#fecc2a] flex items-center justify-center">
-            <div className="w-3 h-3 bg-[#0A0908]" />
+    <div className="standalone-app">
+      <div className="standalone-bar">
+        <div className="lab-brand">
+          <div className="lab-logo" style={{ width: 28, height: 28, borderRadius: 8 }}>
+            <div className="lab-logo-mark" style={{ width: 10, height: 10 }} />
           </div>
-          <span className="display-font text-xl font-bold tracking-[-1px]">GODY</span>
-          <span className="section-label text-[10px] ml-1 tracking-[2px] text-[#B8B5B0]">STANDALONE</span>
+          <div className="lab-brand-text">
+            <div className="lab-brand-title" style={{ fontSize: 15 }}>GODY</div>
+            <div className="lab-brand-sub">Standalone preview</div>
+          </div>
           {pageId && (
-            <span className="text-[10px] px-2 py-0.5 rounded bg-[#1F1E1B] text-[#fecc2a] console-font ml-1">{pageId}</span>
+            <span className="lab-stat-pill lab-stat-pill--accent" style={{ marginLeft: 8 }}>{pageId}</span>
           )}
         </div>
 
-        <div className="flex items-center gap-2 text-sm console-font flex-wrap">
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
           {selectedPage && (
-            <span className="text-[#fecc2a] text-xs mr-1 hidden md:inline max-w-[140px] truncate">{selectedPage.title}</span>
+            <span style={{ fontSize: 12, color: 'var(--gody-amber-bright)', maxWidth: 140, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {selectedPage.title}
+            </span>
           )}
-
-          {/* Core minimal actions */}
-          <button onClick={() => navigate(selectedPage ? `/prototype/${selectedPage.id}` : '/')} className="tb-btn">← Lab</button>
-
+          <button type="button" onClick={() => navigate(selectedPage ? `/prototype/${selectedPage.id}` : '/')} className="lab-btn">← Lab</button>
           {selectedPage && (
             <>
-              <button onClick={handleCopyLabFromSA} className="tb-btn" title="Copy lab deep link">Copy Lab</button>
-              <button onClick={handleCopyStandaloneFromSA} className="tb-btn" title="Copy standalone fullscreen link" style={{ borderColor: 'rgba(254,204,42,0.4)' }}>Copy Standalone</button>
+              <button type="button" onClick={handleCopyLabFromSA} className="lab-btn">Copy lab</button>
+              <button type="button" onClick={handleCopyStandaloneFromSA} className="lab-btn">Copy standalone</button>
             </>
           )}
-
           <button
+            type="button"
             onClick={() => {
               const url = `${window.location.origin}${window.location.pathname}#/standalone/${pageId || ''}`
               window.open(url, '_blank')
             }}
-            className="tb-btn"
+            className="lab-btn"
           >
             New tab
           </button>
-
-          <button onClick={handleResetDemoFromSA} className="tb-btn" title="Reset global demo state (user, trip, payment)">Reset Demo</button>
+          <button type="button" onClick={handleResetDemoFromSA} className="lab-btn">Reset demo</button>
         </div>
       </div>
 
-      {/* Always render inside a device frame for consistent delightful experience — not-found lives inside too */}
-      <div className="flex-1 flex items-center justify-center p-6 md:p-10">
-        <div className="flex flex-col items-center">
-          <div className="hardware-frame mx-auto transition-transform duration-300" style={{ transform: 'scale(1)', transformOrigin: 'center' }}>
+      <div className="standalone-stage">
+        <div className="lab-device-wrap">
+          <div className="hardware-frame" style={{ transform: 'scale(1)', transformOrigin: 'center' }}>
             <div className="device-bevel relative">
-              <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-[#1F1F1C] to-transparent z-20 flex items-center justify-center">
-                <span className="text-[9px] text-[#B8B5B0] console-font tracking-[1.5px]">GODY • STANDALONE PREVIEW</span>
-              </div>
-
               <div className="prototype-screen">
-                <div className="screen-content" style={{ background: '#F5F3ED' }}>
+                <div className="screen-content" style={{ background: 'var(--paper)' }}>
                   <PreviewErrorBoundary fallbackMessage="This prototype encountered a rendering error in standalone mode.">
                     {selectedPage ? (
                       <selectedPage.component onNavigate={handleNavigate} />
@@ -1428,31 +1355,25 @@ function StandaloneView() {
                         onTryRandom={handleRandomStandalone}
                       />
                     ) : (
-                      <div className="h-full flex flex-col items-center justify-center text-[#0A0908] console-font text-sm px-6 text-center">
-                        <div className="mb-2 text-xl">📱</div>
-                        <div>No page selected</div>
+                      <div className="h-full flex flex-col items-center justify-center text-[var(--ink)] text-sm px-6 text-center">
+                        <div style={{ fontWeight: 600 }}>No page selected</div>
                       </div>
                     )}
                   </PreviewErrorBoundary>
                 </div>
               </div>
-
-              <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 w-[108px] h-[5px] bg-[#2A2926] rounded-full z-30" />
+              <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 w-[108px] h-[4px] bg-white/15 rounded-full z-30" />
             </div>
           </div>
-
-          <div className="mt-3 text-[10px] text-[#6E6A61] console-font text-center">
-            375×812 • Deep link: /standalone/{pageId || '…'} • Toast + DemoState available to prototypes
+          <div className="lab-device-caption">
+            375×812 · /standalone/{pageId || '…'}
           </div>
         </div>
-      </div>
-
-      <div className="text-center py-3 text-[9px] text-[#6E6A61] console-font border-t border-[#2A2926]">
-        HashRouter deep-link safe • Full providers (Toast / DemoState) • Perfect for sharing or embedding
       </div>
     </div>
   )
 }
+
 
 // Router root — App now purely wires HashRouter child routes
 // Providers (ToastProvider + DemoStateProvider) are already at the root in main.tsx

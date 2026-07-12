@@ -14,13 +14,11 @@ interface Props {
   onCopyCurrentLink?: () => void;
   onCopyStandaloneLink?: () => void;
   selectedTitle?: string;
-  // Premium lab features
   onSimulateFlow?: () => void;
   onLoadDemoTrip?: () => void;
   onJumpPopular?: () => void;
   onOpenFlowPresets?: () => void;
   onSeedMultiTrips?: () => void;
-  // Export / Import Demo State (powerful DX feature for sharing scenarios)
   onExportDemoState?: () => void;
   onImportDemoState?: () => void;
 }
@@ -46,182 +44,122 @@ export const ConsoleToolbar: React.FC<Props> = ({
   isRotated,
   onRotate,
 }) => {
-  const [showQuick, setShowQuick] = React.useState(false)
+  const [showQuick, setShowQuick] = React.useState(false);
 
   const toggle = () => {
     if (onToggleFrame) onToggleFrame();
     else if (setShowFrame && typeof showFrame === 'boolean') setShowFrame(!showFrame);
   };
 
-  const closeQuick = () => setShowQuick(false)
+  const closeQuick = () => setShowQuick(false);
 
   const runQuick = (fn?: () => void) => {
-    fn?.()
-    setShowQuick(false)
-  }
+    fn?.();
+    setShowQuick(false);
+  };
 
   return (
-    <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', marginBottom: 4 }}>
-      {/* PROMINENT: Flow Simulator — high value standout demo tool for stakeholders */}
-      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
-        <button
-          onClick={onSimulateFlow}
-          className="tb-btn"
-          style={{
-            borderColor: '#fecc2a',
-            color: '#fecc2a',
-            padding: '5px 12px',
-            fontWeight: 600,
-            letterSpacing: '0.4px',
-            background: 'linear-gradient(180deg, #1F1E1B 0%, #151410 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 6
-          }}
-          title="Quick-start the flagship Standard Booking Flow — a standout feature for live stakeholder demos"
-        >
-          <span style={{
-            background: '#fecc2a',
-            color: '#0A0908',
-            fontSize: '8px',
-            fontWeight: 800,
-            padding: '1px 5px',
-            borderRadius: '3px',
-            letterSpacing: '0.6px',
-            lineHeight: 1
-          }}>DEMO</span>
-          <span>▶ SIMULATE REALISTIC BOOKING FLOW</span>
-        </button>
-        {onOpenFlowPresets && (
-          <button
-            onClick={onOpenFlowPresets}
-            className="tb-btn"
-            style={{ padding: '5px 9px', fontSize: '10px', letterSpacing: '0.3px' }}
-            title="Open Flow Simulator presets: Standard, Trip Mgmt, Account+Payment, Full E2E"
-          >
-            PRESETS
-          </button>
-        )}
-      </div>
+    <>
+      <button
+        type="button"
+        onClick={onSimulateFlow}
+        className="lab-btn lab-btn--primary"
+        title="Run the flagship Standard Booking Flow"
+      >
+        ▶ Simulate booking
+      </button>
 
-      {/* Global Quick Actions dropdown — premium lab power user tool */}
-      <div className="relative" style={{ fontFamily: 'IBM Plex Mono, monospace' }}>
+      {onOpenFlowPresets && (
+        <button type="button" onClick={onOpenFlowPresets} className="lab-btn" title="Open flow presets">
+          Presets
+        </button>
+      )}
+
+      <div className="relative">
         <button
-          onClick={() => setShowQuick(v => !v)}
-          className="tb-btn flex items-center gap-1"
-          title="Fast lab utilities: reset, demo data, jumps"
+          type="button"
+          onClick={() => setShowQuick((v) => !v)}
+          className="lab-btn"
+          title="Quick lab utilities"
         >
-          QUICK ACTIONS <span style={{ fontSize: '9px', opacity: 0.7 }}>{showQuick ? '▲' : '▼'}</span>
+          Actions {showQuick ? '▴' : '▾'}
         </button>
 
         {showQuick && (
           <div
-            className="metal absolute top-full left-0 mt-1 z-[999] rounded-xl p-1 text-xs min-w-[260px]"
+            className="absolute top-full left-0 mt-2 z-[999] rounded-2xl p-1.5 text-xs min-w-[260px]"
             style={{
-              border: '1px solid #2A2926',
-              boxShadow: '0 16px 40px -10px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.04)',
-              background: 'linear-gradient(#1A1916, #11110F)'
+              border: '1px solid var(--lab-border-strong)',
+              boxShadow: 'var(--shadow-lg)',
+              background: 'var(--lab-surface)',
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <button onClick={() => runQuick(onReset)} className="w-full text-left px-3 py-[7px] hover:bg-[#22211D] rounded-lg console-font text-[#EDEBE5] flex items-center gap-2">
-              <span>↺</span> <span>Reset everything (console prefs + demo state)</span>
-            </button>
-            <button onClick={() => runQuick(onLoadDemoTrip)} className="w-full text-left px-3 py-[7px] hover:bg-[#22211D] rounded-lg console-font text-[#EDEBE5] flex items-center gap-2">
-              <span>🚕</span> <span>Load demo trip (populate active state)</span>
-            </button>
-            <button onClick={() => runQuick(onSeedMultiTrips)} className="w-full text-left px-3 py-[7px] hover:bg-[#22211D] rounded-lg console-font text-[#EDEBE5] flex items-center gap-2" style={{ color: '#fecc2a' }}>
-              <span>📦</span> <span>Seed 3 sample trips (new multi-trip demo)</span>
-            </button>
-            {/* NEW: Powerful export/import for sharing exact realistic demo scenarios with stakeholders */}
-            <button onClick={() => runQuick(onExportDemoState)} className="w-full text-left px-3 py-[7px] hover:bg-[#22211D] rounded-lg console-font text-[#EDEBE5] flex items-center gap-2" title="Download full current demo state (user, payment, trips, actions) as JSON">
-              <span>⬇</span> <span>Export Demo State</span>
-            </button>
-            <button onClick={() => runQuick(onImportDemoState)} className="w-full text-left px-3 py-[7px] hover:bg-[#22211D] rounded-lg console-font text-[#EDEBE5] flex items-center gap-2" title="Load demo state from a previously exported JSON file (restores via setters)">
-              <span>⬆</span> <span>Import Demo State</span>
-            </button>
-            <button onClick={() => runQuick(onJumpPopular)} className="w-full text-left px-3 py-[7px] hover:bg-[#22211D] rounded-lg console-font text-[#EDEBE5] flex items-center gap-2">
-              <span>★</span> <span>Jump to most popular page (Choose Car)</span>
-            </button>
+            {[
+              { fn: onReset, label: 'Reset everything', icon: '↺' },
+              { fn: onLoadDemoTrip, label: 'Load demo trip', icon: '🚕' },
+              { fn: onSeedMultiTrips, label: 'Seed 3 sample trips', icon: '📦' },
+              { fn: onExportDemoState, label: 'Export demo state', icon: '↓' },
+              { fn: onImportDemoState, label: 'Import demo state', icon: '↑' },
+              { fn: onJumpPopular, label: 'Jump to Choose Car', icon: '★' },
+              { fn: onSimulateFlow, label: 'Simulate booking flow', icon: '▶' },
+              { fn: onOpenFlowPresets, label: 'Browse flow presets', icon: '☰' },
+              { fn: onRandom, label: 'Random prototype', icon: '🎲' },
+            ].map((item) => (
+              <button
+                key={item.label}
+                type="button"
+                onClick={() => runQuick(item.fn)}
+                className="w-full text-left px-3 py-2 rounded-xl hover:bg-white/5 text-[var(--lab-text)] flex items-center gap-2"
+              >
+                <span className="opacity-70 w-4 text-center">{item.icon}</span>
+                <span>{item.label}</span>
+              </button>
+            ))}
 
-            <div style={{ height: 1, background: '#2A2926', margin: '5px 8px' }} />
-
-            <button onClick={() => runQuick(onSimulateFlow)} className="w-full text-left px-3 py-[7px] hover:bg-[#22211D] rounded-lg console-font flex items-center gap-2" style={{ color: '#fecc2a' }}>
-              <span>▶</span> <span>Simulate Realistic Booking Flow (Standard)</span>
-            </button>
-            <button onClick={() => runQuick(onOpenFlowPresets)} className="w-full text-left px-3 py-[7px] hover:bg-[#22211D] rounded-lg console-font text-[#EDEBE5] flex items-center gap-2">
-              <span>📋</span> <span>Browse all Flow Simulator presets</span>
-            </button>
-            <button onClick={() => runQuick(onRandom)} className="w-full text-left px-3 py-[7px] hover:bg-[#22211D] rounded-lg console-font text-[#EDEBE5] flex items-center gap-2">
-              <span>🎲</span> <span>Random prototype</span>
-            </button>
-
-            <div style={{ height: 1, background: '#2A2926', margin: '5px 8px' }} />
-
-            {/* Simple zoom controls surfaced here too for completeness */}
             {onZoomChange && typeof zoom === 'number' && (
-              <div className="px-3 py-1 flex items-center gap-1 text-[#B8B5B0]">
-                <span className="console-font text-[10px] opacity-70 mr-1">ZOOM</span>
-                <button onClick={() => { onZoomChange(Math.max(0.55, zoom - 0.1)); closeQuick() }} className="tb-btn" style={{ padding: '1px 6px', fontSize: 10 }}>-</button>
-                <span className="console-font text-[10px] tabular-nums px-1">{zoom.toFixed(1)}×</span>
-                <button onClick={() => { onZoomChange(Math.min(1.9, zoom + 0.1)); closeQuick() }} className="tb-btn" style={{ padding: '1px 6px', fontSize: 10 }}>+</button>
+              <div className="px-3 py-2 flex items-center gap-2 text-[var(--lab-text-muted)] border-t border-white/5 mt-1">
+                <span className="text-[10px]">Zoom</span>
+                <button type="button" onClick={() => { onZoomChange(Math.max(0.55, zoom - 0.1)); closeQuick(); }} className="lab-btn" style={{ padding: '2px 8px' }}>−</button>
+                <span className="text-[11px] tabular-nums">{zoom.toFixed(1)}×</span>
+                <button type="button" onClick={() => { onZoomChange(Math.min(1.9, zoom + 0.1)); closeQuick(); }} className="lab-btn" style={{ padding: '2px 8px' }}>+</button>
               </div>
             )}
             {onRotate && (
-              <button onClick={() => runQuick(onRotate)} className="w-full text-left px-3 py-[7px] hover:bg-[#22211D] rounded-lg console-font text-[#EDEBE5]">
-                {isRotated ? '↩︎' : '⟲'} Toggle device rotation
+              <button type="button" onClick={() => runQuick(onRotate)} className="w-full text-left px-3 py-2 rounded-xl hover:bg-white/5">
+                {isRotated ? '↩︎' : '⟲'} Toggle rotation
               </button>
             )}
-
-            {/* Close hint */}
-            <div className="px-3 pt-2 pb-1 text-[9px] text-[#6E6A61] console-font border-t border-[#2A2926] mt-1">Export/Import Demo State: share exact scenarios • Click action or button to close</div>
           </div>
         )}
       </div>
 
-      {/* Core existing controls */}
-      <button onClick={onRandom} className="tb-btn">Random</button>
-      <button onClick={onReset} className="tb-btn">Reset State</button>
-      {/* Prominent direct access to new Export/Import (in addition to Quick Actions dropdown) */}
+      <button type="button" onClick={onRandom} className="lab-btn">Random</button>
+      <button type="button" onClick={onReset} className="lab-btn">Reset</button>
       {onExportDemoState && (
-        <button onClick={onExportDemoState} className="tb-btn" title="Export full Demo State (user + payment + trips + actions) as timestamped JSON">
-          Export State
-        </button>
+        <button type="button" onClick={onExportDemoState} className="lab-btn">Export</button>
       )}
       {onImportDemoState && (
-        <button onClick={onImportDemoState} className="tb-btn" title="Import Demo State from JSON file — restores via setters for realistic stakeholder scenarios">
-          Import State
-        </button>
+        <button type="button" onClick={onImportDemoState} className="lab-btn">Import</button>
       )}
-      <button onClick={toggle} className="tb-btn">
-        {showFrame ? 'Hide Frame' : 'Show Frame'}
+      <button type="button" onClick={toggle} className="lab-btn">
+        {showFrame ? 'Hide frame' : 'Show frame'}
       </button>
 
-      {/* Copy enhancements - Lab deep link + Standalone fullscreen link */}
       {onCopyCurrentLink && (
-        <button
-          onClick={onCopyCurrentLink}
-          className="tb-btn"
-          title={selectedTitle ? `Copy lab link for ${selectedTitle}` : 'Copy current deep link'}
-        >
-          Copy Link
+        <button type="button" onClick={onCopyCurrentLink} className="lab-btn" title={selectedTitle ? `Copy lab link for ${selectedTitle}` : 'Copy link'}>
+          Copy link
         </button>
       )}
       {onCopyStandaloneLink && (
-        <button
-          onClick={onCopyStandaloneLink}
-          className="tb-btn"
-          title={selectedTitle ? `Copy standalone link for ${selectedTitle}` : 'Copy standalone fullscreen link'}
-          style={{ borderColor: 'rgba(254,204,42,0.35)' }}
-        >
-          Copy Standalone
+        <button type="button" onClick={onCopyStandaloneLink} className="lab-btn" title="Copy standalone link">
+          Standalone
         </button>
       )}
 
-      {/* Fallback simple zoom if no dropdown used */}
       {onZoomChange && typeof zoom === 'number' && !showQuick && (
-        <span className="console-font text-[10px] text-[#6E6A61] ml-1 tabular-nums">{zoom.toFixed(1)}×</span>
+        <span className="text-[11px] text-[var(--lab-text-muted)] tabular-nums ml-1">{zoom.toFixed(1)}×</span>
       )}
-    </div>
+    </>
   );
 };

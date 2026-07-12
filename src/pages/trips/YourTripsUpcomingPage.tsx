@@ -12,44 +12,63 @@ const YourTripsUpcomingPage: React.FC<Props> = ({ onNavigate }) => {
   const goBack = () => onNavigate?.('trips-hub');
   const switchToPast = () => onNavigate?.('trips-past');
 
-  // NEW: Collect dynamic upcoming trips from persistent bookedTrips (status upcoming | in-progress)
-  const upcomingFromBooked = bookedTrips.filter(t => t.status === 'upcoming' || t.status === 'in-progress');
-  const hasUpcoming = activeTrip || upcomingFromBooked.length > 0;
+  const upcomingFromBooked = bookedTrips.filter((t) => t.status === 'upcoming' || t.status === 'in-progress');
+  const hasUpcoming = !!(activeTrip || upcomingFromBooked.length > 0);
+  const count = upcomingFromBooked.length + (activeTrip && (activeTrip.status === 'upcoming' || activeTrip.status === 'in-progress') ? 1 : 0);
 
   return (
-    <div className="mobile-frame" style={{ background: '#fff', overflow: 'hidden' }}>
+    <div className="mobile-frame" style={{ background: '#f7f6f3', overflow: 'hidden' }}>
       <StatusBar />
 
-      <div style={{ padding: '19px 24px 13px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ padding: '8px 16px 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-          <button type="button" className="icon-btn" aria-label="Back" onClick={goBack}>←</button>
-          <span style={{ fontSize: 20, fontWeight: 500, color: '#49493d' }}>Your trips</span>
+          <button type="button" className="icon-btn" aria-label="Back" onClick={goBack} style={{ background: '#fff', border: '1px solid #ebe9e4' }}>
+            ←
+          </button>
+          <div>
+            <div style={{ fontSize: 18, fontWeight: 700, color: '#111318', letterSpacing: '-0.02em' }}>Your trips</div>
+            <div style={{ fontSize: 11, color: '#9b9aa3', marginTop: 1 }}>Upcoming & in progress</div>
+          </div>
         </div>
         <button
           type="button"
           className="secondary-btn"
           onClick={switchToPast}
           style={{
-            display: 'flex', alignItems: 'center', gap: 6,
-            padding: '10px 16px', borderRadius: 20, fontSize: 12,
-            boxShadow: '0 4px 20px rgba(0,0,0,0.06)', border: '1px solid #eee',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            padding: '9px 14px',
+            borderRadius: 999,
+            fontSize: 12,
+            fontWeight: 600,
+            boxShadow: '0 2px 10px rgba(17,19,24,0.04)',
           }}
         >
-          <span>Upcoming</span> <span style={{ fontSize: 10, opacity: 0.7 }}>▼</span>
+          Upcoming <span style={{ fontSize: 10, opacity: 0.6 }}>▼</span>
         </button>
       </div>
 
       {hasUpcoming ? (
-        <div style={{ padding: '0 0 8px' }}>
-          <div style={{ margin: '8px 24px 12px', fontSize: 12, color: '#6E6A61', textAlign: 'center' }}>
-            Live from demo state — {upcomingFromBooked.length + (activeTrip ? 1 : 0)} upcoming/in-progress
+        <div className="page-scroll" style={{ paddingBottom: 8 }}>
+          <div style={{ margin: '4px 20px 12px', fontSize: 12, color: '#6b6a73' }}>
+            Live from demo state · <strong style={{ color: '#111318' }}>{count}</strong> active
           </div>
 
-          {/* Active focused trip first (if present) */}
           {activeTrip && (activeTrip.status === 'upcoming' || activeTrip.status === 'in-progress') && (
-            <div style={{ marginBottom: 4 }}>
-              <div style={{ fontSize: 10, color: '#c9a00e', marginBottom: 4, paddingLeft: 28, fontWeight: 600, letterSpacing: 0.4 }}>
-                CURRENT FOCUS
+            <div style={{ marginBottom: 6 }}>
+              <div
+                style={{
+                  fontSize: 10,
+                  color: '#8a6400',
+                  marginBottom: 6,
+                  paddingLeft: 24,
+                  fontWeight: 700,
+                  letterSpacing: '0.06em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                Current focus
               </div>
               <TripCard
                 status={activeTrip.status === 'in-progress' ? 'in-progress' : 'upcoming'}
@@ -65,9 +84,8 @@ const YourTripsUpcomingPage: React.FC<Props> = ({ onNavigate }) => {
             </div>
           )}
 
-          {/* All other booked upcoming */}
           {upcomingFromBooked
-            .filter(t => !activeTrip || t.id !== activeTrip.id)
+            .filter((t) => !activeTrip || t.id !== activeTrip.id)
             .map((trip) => (
               <div key={trip.id} style={{ marginBottom: 2 }}>
                 <TripCard
@@ -78,9 +96,7 @@ const YourTripsUpcomingPage: React.FC<Props> = ({ onNavigate }) => {
                   to={trip.to}
                   price={trip.price ? String(trip.price) : undefined}
                   driver={trip.driver}
-                  onClick={() => {
-                    onNavigate?.('trip-upcoming');
-                  }}
+                  onClick={() => onNavigate?.('trip-upcoming')}
                 />
               </div>
             ))}
@@ -92,33 +108,33 @@ const YourTripsUpcomingPage: React.FC<Props> = ({ onNavigate }) => {
               addRecentAction('Viewed upcoming trip details');
               onNavigate?.('trip-upcoming');
             }}
-            style={{ margin: '12px 24px 20px', width: 'calc(100% - 48px)', padding: '14px', height: 48 }}
+            style={{ margin: '14px 20px 20px', width: 'calc(100% - 40px)', height: 50 }}
           >
             View active trip details
           </button>
         </div>
       ) : (
-        <>
-          {/* Empty state — intentional map mock + CTAs */}
+        <div style={{ padding: '8px 20px 0', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div
             className="map-mock"
             style={{
-              margin: '24px auto 0', width: 327, height: 175, position: 'relative',
-              borderRadius: 16, overflow: 'hidden', border: '1px solid #eee',
+              width: '100%',
+              height: 180,
+              borderRadius: 20,
+              position: 'relative',
+              border: '1px solid #ebe9e4',
+              overflow: 'hidden',
             }}
           >
             <div className="map-mock-grid" />
-            <div style={{ position: 'absolute', top: 20, left: 20, fontSize: 60, opacity: 0.12 }}>🗺️</div>
-            <div style={{ position: 'absolute', top: 40, right: 40, fontSize: 42 }}>📱</div>
-            <div style={{ position: 'absolute', bottom: 30, left: '50%', transform: 'translateX(-50%)', fontSize: 28 }}>📍</div>
-            <div style={{ position: 'absolute', bottom: 50, right: 30, width: 60, height: 60, border: '2px solid #fecc2a', borderRadius: '50%', opacity: 0.55 }} />
+            <div style={{ position: 'absolute', inset: 0, display: 'grid', placeItems: 'center', fontSize: 42, opacity: 0.35 }}>🗺️</div>
           </div>
 
-          <p style={{ margin: '48px 24px 0', fontSize: 20, fontWeight: 500, color: '#49493d', textAlign: 'center' }}>
-            You have no upcoming trips!
+          <p style={{ margin: '28px 0 0', fontSize: 18, fontWeight: 700, color: '#111318', textAlign: 'center', letterSpacing: '-0.02em' }}>
+            No upcoming trips
           </p>
-          <p style={{ textAlign: 'center', fontSize: 12, color: '#959595', marginTop: 8, padding: '0 32px', lineHeight: 1.45 }}>
-            Book a ride from Home or Choose Car to see it here.
+          <p style={{ textAlign: 'center', fontSize: 13, color: '#9b9aa3', marginTop: 8, lineHeight: 1.45, maxWidth: 260 }}>
+            Book a ride from Home or Choose Car — it will show up here with live demo state.
           </p>
           <button
             type="button"
@@ -127,11 +143,11 @@ const YourTripsUpcomingPage: React.FC<Props> = ({ onNavigate }) => {
               addRecentAction('Book from empty upcoming trips');
               onNavigate?.('core-home');
             }}
-            style={{ margin: '28px 24px 0', width: 'calc(100% - 48px)', height: 48 }}
+            style={{ marginTop: 24, width: '100%', height: 50 }}
           >
             Book a ride
           </button>
-        </>
+        </div>
       )}
 
       <HomeIndicator />

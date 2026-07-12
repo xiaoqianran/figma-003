@@ -20,21 +20,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
     if (onNavigate) onNavigate('core-home');
   };
 
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhone(e.target.value);
-    console.log('手机号输入:', e.target.value);
-  };
-
-  const handlePhoneFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    const container = e.currentTarget.parentElement;
-    if (container) container.style.borderColor = '#fecc2a';
-  };
-
-  const handlePhoneBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    const container = e.currentTarget.parentElement;
-    if (container) container.style.borderColor = '#bdbdbd';
-  };
-
   const handlePhoneLogin = () => {
     if (!phone.trim() || !onNavigate) return;
     const formattedPhone = phone.startsWith('+') ? phone : `+44 ${phone}`;
@@ -44,97 +29,47 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
     onNavigate('core-home');
   };
 
-  // Demo: pressing Enter on phone simulates login success -> set user + go to home
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') handlePhoneLogin();
-  };
-
   return (
-    <div className="mobile-frame">
+    <div className={`mobile-frame ${styles.page}`}>
       <StatusBar />
 
-      {/* 欢迎标题 */}
-      <h1 className={styles.welcomeTitle}>WELCOME TO GODY!</h1>
+      <div className={styles.hero}>
+        <div className={styles.badge}>GODY</div>
+        <h1 className={styles.welcomeTitle}>Welcome back</h1>
+        <p className={styles.subtitle}>Sign in to request rides, manage trips, and pay seamlessly.</p>
+      </div>
 
-      {/* 插画区域 */}
       <div className={styles.illustration}>
-        <div className={styles.cityBackground}>
-          <div className={styles.locationPin}>
-            <div className={styles.pinIcon}>📍</div>
+        <div className={styles.cityCard}>
+          <div className={styles.pin}>📍</div>
+          <div className={styles.carRow}>
+            <span>🚗</span>
+            <span className={styles.routeLine} />
+            <span>🏢</span>
           </div>
-
-          <div className={styles.car}>
-            <div className={styles.carBody}>🚗</div>
-          </div>
-
-          <div className={styles.person}>
-            <div className={styles.personIcon}>👨‍💼</div>
-          </div>
-
-          <div className={styles.phoneMockup}>
-            <div className={styles.phoneScreen}>
-              <div className={styles.mapDisplay}>🗺️</div>
-              <div className={styles.listDisplay}>📋</div>
-            </div>
-          </div>
+          <div className={styles.illusCaption}>14 EVs nearby · avg 3 min</div>
         </div>
       </div>
 
-      {/* 手机号输入区域 */}
       <div className={styles.phoneInputSection}>
+        <label className={styles.fieldLabel}>Mobile number</label>
         <div className={styles.phoneInput}>
           <div className={styles.countrySelector}>
             <span className={styles.flag}>🇬🇧</span>
-            <span className={styles.arrow}>▼</span>
             <span className={styles.countryCode}>+44</span>
           </div>
           <div className={styles.divider} />
           <input
             type="tel"
             className={styles.phoneInputField}
-            placeholder="Enter your mobile number"
+            placeholder="7700 900123"
             value={phone}
-            onChange={handlePhoneChange}
-            onFocus={handlePhoneFocus}
-            onBlur={handlePhoneBlur}
-            onKeyDown={handleKeyDown}
+            onChange={(e) => setPhone(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handlePhoneLogin();
+            }}
           />
         </div>
-      </div>
-
-      {/* 社交媒体登录提示 */}
-      <p className={styles.socialPrompt}>
-        Or connect using to social media account
-      </p>
-
-      {/* 社交媒体登录按钮 */}
-      <div className={styles.socialButtons}>
-        <button
-          className={`${styles.socialButton} ${styles.facebook}`}
-          onClick={() => handleSocialLogin('Facebook')}
-          type="button"
-          aria-label="Continue with Facebook"
-        >
-          <span className={styles.socialIcon}>f</span>
-        </button>
-
-        <button
-          className={`${styles.socialButton} ${styles.twitter}`}
-          onClick={() => handleSocialLogin('Twitter')}
-          type="button"
-          aria-label="Continue with Twitter"
-        >
-          <span className={styles.socialIcon}>🐦</span>
-        </button>
-
-        <button
-          className={`${styles.socialButton} ${styles.google}`}
-          onClick={() => handleSocialLogin('Google')}
-          type="button"
-          aria-label="Continue with Google"
-        >
-          <span className={styles.socialIcon}>G+</span>
-        </button>
       </div>
 
       <button
@@ -144,6 +79,28 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
         disabled={!phone.trim()}
       >
         Continue
+      </button>
+
+      <p className={styles.socialPrompt}>Or continue with</p>
+
+      <div className={styles.socialButtons}>
+        <button type="button" className={`${styles.socialButton} ${styles.facebook}`} onClick={() => handleSocialLogin('Facebook')} aria-label="Facebook">
+          f
+        </button>
+        <button type="button" className={`${styles.socialButton} ${styles.twitter}`} onClick={() => handleSocialLogin('Twitter')} aria-label="Twitter">
+          𝕏
+        </button>
+        <button type="button" className={`${styles.socialButton} ${styles.google}`} onClick={() => handleSocialLogin('Google')} aria-label="Google">
+          G
+        </button>
+      </div>
+
+      <button
+        type="button"
+        className={styles.signupLink}
+        onClick={() => onNavigate?.('auth-signup')}
+      >
+        New here? <span>Create account</span>
       </button>
 
       <HomeIndicator />
