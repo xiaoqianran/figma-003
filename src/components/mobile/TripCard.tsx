@@ -35,7 +35,7 @@ const TripCard: React.FC<TripCardProps> = ({ status, title, time, from, to, pric
         padding: '14px 16px',
         background: selected ? '#fffdf5' : '#fff',
         borderRadius: 14,
-        border: selected ? '2px solid #fecc2a' : '1px solid #eee',
+        border: selected ? '2px solid var(--color-cta, #ca8a04)' : '1px solid #eee',
         boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
         cursor: onClick ? 'pointer' : 'default'
       }}
@@ -47,7 +47,7 @@ const TripCard: React.FC<TripCardProps> = ({ status, title, time, from, to, pric
       <div style={{ fontSize: 12, color: '#6E6A61', marginTop: 4 }}>{time}</div>
       <div style={{ marginTop: 8, fontSize: 13, display: 'flex', gap: 6, alignItems: 'center' }}>
         <span>{from}</span>
-        <span style={{ color: '#fecc2a' }}>→</span>
+        <span style={{ color: '#ca8a04' }}>→</span>
         <span>{to}</span>
       </div>
       {(price || driver) && (

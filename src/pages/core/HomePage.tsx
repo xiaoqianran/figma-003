@@ -35,16 +35,16 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           {user.avatar}
         </div>
         <div style={{ marginLeft: 10, minWidth: 0 }}>
-          <div style={{ fontSize: 11, color: '#9b9aa3', fontWeight: 500 }}>Good morning</div>
+          <div style={{ fontSize: 11, color: '#9b9aa3', fontWeight: 500 }}>早上好</div>
           <div style={{ fontSize: 16, fontWeight: 650, color: '#111318', letterSpacing: '-0.02em' }}>{firstName}</div>
         </div>
         <button
           type="button"
           className="icon-btn"
           style={{ marginLeft: 'auto', background: '#fff', border: '1px solid #ebe9e4', borderRadius: 12, width: 36, height: 36 }}
-          aria-label="Open account"
+          aria-label="打开账户"
           onClick={() => {
-            addRecentAction('Opened account from home');
+            addRecentAction('从首页打开账户');
             onNavigate?.('account-index');
           }}
         >
@@ -59,19 +59,19 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           tabIndex={0}
           style={{ margin: '8px 16px 0', padding: '10px 12px' }}
           onClick={() => {
-            addRecentAction('Viewed active from home');
+            addRecentAction('从首页查看进行中行程');
             onNavigate?.('trips-upcoming');
           }}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
-              addRecentAction('Viewed active from home');
+              addRecentAction('从首页查看进行中行程');
               onNavigate?.('trips-upcoming');
             }
           }}
         >
-          🚕 Active trip to <strong>{activeTrip.to}</strong>
-          <span style={{ opacity: 0.7 }}> · tap to view</span>
+          🚕 进行中行程：前往 <strong>{activeTrip.to}</strong>
+          <span style={{ opacity: 0.7 }}> · 点击查看</span>
         </div>
       )}
 
@@ -93,14 +93,14 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         <div className="map-mock-grid" />
         <div style={{ position: 'absolute', top: '26%', left: '20%', fontSize: 22, filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.12))' }}>🚗</div>
         <div style={{ position: 'absolute', top: '48%', left: '58%', fontSize: 22, filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.12))' }}>🚙</div>
-        <div style={{ position: 'absolute', top: '62%', left: '34%', width: 12, height: 12, borderRadius: '50%', background: '#f0b429', boxShadow: '0 0 0 5px rgba(240,180,41,0.25)' }} />
+        <div style={{ position: 'absolute', top: '62%', left: '34%', width: 12, height: 12, borderRadius: '50%', background: '#ca8a04', boxShadow: '0 0 0 5px rgba(202,138,4,0.25)' }} />
 
         <button
           type="button"
           className="map-fab"
           style={{ position: 'absolute', top: 12, right: 12, width: 42, height: 42 }}
-          aria-label="Locate me"
-          onClick={() => info('定位', '定位到当前位置 (demo)')}
+          aria-label="定位到当前位置"
+          onClick={() => info('定位', '已定位到当前位置（演示）')}
         >
           ◎
         </button>
@@ -128,25 +128,25 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           data-testid="home-search"
           style={{ margin: '0 16px', padding: '12px 14px' }}
           onClick={() => {
-            addRecentAction('Search from home');
+            addRecentAction('从首页进入搜索');
             onNavigate?.('core-search1');
           }}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
-              addRecentAction('Search from home');
+              addRecentAction('从首页进入搜索');
               onNavigate?.('core-search1');
             }
           }}
         >
           <span className="icon">⌕</span>
-          <span className="label">Where are you going?</span>
+          <span className="label">您要去哪里？</span>
         </div>
 
         <div style={{ margin: '12px 16px 0', display: 'flex', gap: 8 }}>
           {[
-            { label: 'Apple Store', sub: 'Union Square', icon: '🍎' },
-            { label: 'Starbucks', sub: 'Market St', icon: '☕' },
+            { label: '苹果专卖店', sub: '联合广场', icon: '🍎' },
+            { label: '星巴克', sub: '市场街', icon: '☕' },
           ].map((d) => (
             <div
               key={d.label}
@@ -155,13 +155,13 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               tabIndex={0}
               style={{ padding: '10px 12px' }}
               onClick={() => {
-                addRecentAction('Choose car from home');
+                addRecentAction('从首页选择车辆');
                 onNavigate?.('booking-choose-car');
               }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
-                  addRecentAction('Choose car from home');
+                  addRecentAction('从首页选择车辆');
                   onNavigate?.('booking-choose-car');
                 }
               }}
@@ -177,13 +177,13 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           data-testid="home-available-label"
           style={{ margin: '12px 16px 0', fontSize: 12, fontWeight: 650, color: '#3a3942', letterSpacing: '-0.01em' }}
         >
-          Available near you
+          附近可用车辆
         </div>
 
         <div data-testid="home-vehicles" style={{ display: 'flex', gap: 8, margin: '8px 16px 0' }}>
           {[
-            { name: 'GodyX', price: '$22', time: '2 min', icon: '🚗' },
-            { name: 'Black SUV', price: '$17', time: '4 min', icon: '🚙' },
+            { name: 'GodyX', price: '¥22', time: '2 分钟', icon: '🚗' },
+            { name: '黑金 SUV', price: '¥17', time: '4 分钟', icon: '🚙' },
           ].map((v) => (
             <div
               key={v.name}
@@ -193,13 +193,13 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               data-testid={`home-vehicle-${v.name}`}
               style={{ padding: '12px' }}
               onClick={() => {
-                addRecentAction('Choose car from home');
+                addRecentAction('从首页选择车辆');
                 onNavigate?.('booking-choose-car');
               }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
-                  addRecentAction('Choose car from home');
+                  addRecentAction('从首页选择车辆');
                   onNavigate?.('booking-choose-car');
                 }
               }}

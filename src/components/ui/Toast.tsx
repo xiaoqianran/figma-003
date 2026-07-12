@@ -33,12 +33,12 @@ export const useToast = () => {
   return ctx;
 };
 
-// Industrial Yellow/Metal aesthetic - heavy use of #fecc2a primary + metal darks + semantic red
+// Industrial Yellow/Metal aesthetic - heavy use of #ca8a04 primary + metal darks + semantic red
 const typeMeta: Record<ToastType, { icon: string; iconColor: string }> = {
-  success: { icon: '✓', iconColor: '#fecc2a' },
+  success: { icon: '✓', iconColor: '#ca8a04' },
   error:   { icon: '✕', iconColor: '#C53D3D' },
   info:    { icon: 'ℹ', iconColor: '#8BA4BE' },
-  warning: { icon: '⚠', iconColor: '#fecc2a' },
+  warning: { icon: '⚠', iconColor: '#ca8a04' },
 };
 
 export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) => {

@@ -40,7 +40,7 @@ export const PageListItem: React.FC<Props> = ({
         <span
           className="inline-block w-1.5 h-1.5 rounded-full flex-shrink-0"
           style={{ background: 'var(--gody-amber)' }}
-          title="In recent flow"
+          title="在最近流程中"
         />
       )}
       <span className="truncate flex-1 text-[13px] font-medium tracking-[-0.01em]">{page.title}</span>
@@ -53,7 +53,7 @@ export const PageListItem: React.FC<Props> = ({
               onCopyLink(page);
             }}
             className="px-1 py-0.5 text-[11px] hover:text-[var(--gody-amber-bright)] cursor-pointer select-none"
-            title="Copy deep link"
+            title="复制深度链接"
             role="button"
           >
             ⧉
@@ -66,7 +66,7 @@ export const PageListItem: React.FC<Props> = ({
               toggleFav(page.id);
             }}
             className="px-0.5 text-sm leading-none hover:text-[var(--gody-amber-bright)] cursor-pointer select-none"
-            title={favState ? 'Remove from favorites' : 'Add to favorites'}
+            title={favState ? '取消收藏' : '加入收藏'}
             role="button"
           >
             {favState ? '★' : '☆'}
